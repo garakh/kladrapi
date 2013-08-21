@@ -5,7 +5,7 @@
  */
 class QueryToApi {
     // Url сервиса
-    const Url = 'http://kladr/api.php';
+    const Url = 'http://kladr-api.ru/api.php';
     
     const RegionType = 'region';
     const DistrictType = 'district';
