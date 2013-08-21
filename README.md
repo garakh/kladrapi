@@ -15,6 +15,14 @@
 * */tests* - Функциональные тесты
 * */public*
 
+Технологии
+----------
+
+Проект реализован с использованием:
+* [Phalcon] [3]
+* [MongoDB] [4]
+* [Memcached] [5]
+
 Лицензия
 --------
 
@@ -45,3 +53,6 @@ Copyright (c) 2013 «Праймпикс»
 
 [1]: http://kladr-api.ru/         "КЛАДР в облаке"
 [2]: http://kladr-api.ru/api.php  "Сервис"
+[3]: http://phalconphp.com/       "Phalcon"
+[4]: http://www.mongodb.org/      "MongoDB"
+[5]: http://memcached.org/        "Memcached"
