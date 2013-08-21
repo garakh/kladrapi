@@ -3,7 +3,14 @@
 
 Исходный код сервиса ["КЛАДР в облаке"] [1]
 
-Структура
+Технологии
+----------
+
+* [Phalcon] [3]
+* [MongoDB] [4]
+* [Memcached] [5]
+
+Общая структуктура
 ---------
 
 * */apps/core* - Модуль сервиса [kladr-api.ru/api.php] [2]
@@ -15,12 +22,73 @@
 * */tests* - Функциональные тесты
 * */public*
 
-Технологии
-----------
+Структура сервиса
+-----------------
 
-* [Phalcon] [3]
-* [MongoDB] [4]
-* [Memcached] [5]
+* */apps/core/config/* - Файлы конфигурации сервиса
+* */apps/core/controllers/* - Контроллеры
+* */apps/core/models/* - Модели ODM
+* */apps/core/plugins/base/* - Базовые классы плагинов
+* */apps/core/plugins/general/* - Плагины
+* */apps/core/plugins/tools/* - Вспомогательные классы
+* */apps/core/services/* - Сервисы
+
+Архитектура
+-----------
+
+Архитектура сервиса построена на плагинах. Для того чтобы расширить функциональность
+надо всего-лишь реализовать плагин и подключить его в сервисе.
+
+Пример:
+Добавим плагин возвращающий количество объектов в результате.
+
+Добавил плагин CountPlugin.php в /apps/core/plugins/general/
+
+`````php
+<?php
+
+namespace Kladr\Core\Plugins\General {
+
+    use \Phalcon\Http\Request,
+        \Phalcon\Mvc\User\Plugin,
+        \Kladr\Core\Plugins\Base\IPlugin,
+        \Kladr\Core\Plugins\Base\PluginResult;
+
+    class CountPlugin extends Plugin implements IPlugin
+    {
+        public function process(Request $request, PluginResult $prevResult) 
+        {
+            if($prevResult->error){
+                return $prevResult;
+            }
+
+            $result = $prevResult;
+            $result->result = count($result->result);    
+            return $result;
+        }        
+    }
+}
+`````
+
+Подключим плагин в /apps/core/Module.php
+
+`````php
+// Register CountPlugin
+$di->set('count', function(){
+    return new \Kladr\Core\Plugins\General\CountPlugin();
+});
+
+// Setting api
+$di->setShared('api', function() use ($di) {
+    $api = new Services\ApiService();
+    $api->addPlugin($di->get('validate'));
+    $api->addPlugin($di->get('find'));   
+    $api->addPlugin($di->get('findParents'));
+    $api->addPlugin($di->get('count')); // add CountPlugin
+    return $api;
+});
+`````
+
 
 Лицензия
 --------
