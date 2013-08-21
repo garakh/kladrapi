@@ -1,0 +1,3 @@
+
+var ApiGen = ApiGen || {};
+ApiGen.elements = [["c","Kladr\\Core\\Controllers\\ApiController"],["c","Kladr\\Core\\Models\\Buildings"],["c","Kladr\\Core\\Models\\Cities"],["c","Kladr\\Core\\Models\\Districts"],["c","Kladr\\Core\\Models\\KladrFields"],["c","Kladr\\Core\\Models\\Regions"],["c","Kladr\\Core\\Models\\Streets"],["c","Kladr\\Core\\Module"],["c","Kladr\\Core\\Plugins\\Base\\IPlugin"],["c","Kladr\\Core\\Plugins\\Base\\PluginResult"],["c","Kladr\\Core\\Plugins\\General\\FindParentsPlugin"],["c","Kladr\\Core\\Plugins\\General\\FindPlugin"],["c","Kladr\\Core\\Plugins\\General\\ValidatePlugin"],["c","Kladr\\Core\\Plugins\\Tools\\Cache"],["c","Kladr\\Core\\Plugins\\Tools\\Tools"],["c","Kladr\\Core\\Services\\ApiService"]];

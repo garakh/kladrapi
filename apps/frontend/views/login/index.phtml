@@ -1,0 +1,22 @@
+<? use \Phalcon\Tag ?>
+
+<div class="otherheader">
+    <h1>Вход</h1>
+</div>
+	
+<div class="correctwidth">
+    <div class="content">
+        <div class="propose register">
+            <?php echo $this->getContent() ?>
+            <div class="reg login">
+                <?php echo Tag::form(array("login", "method" => "post")); ?>
+                    <p>Вход</p>
+                    <?php echo Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "ваш e-mail", "data-email" => "y")) ?>
+                    <?php echo Tag::passwordField(array("password", "id" => "inputPassword", "placeholder" => "пароль")) ?>
+                    <a href="/recovery/">Не помню пароль</a>
+                    <?php echo Tag::submitButton(array('Войти', "class" => "btn")) ?>
+                <?php echo Tag::endForm(); ?>
+            </div>
+        </div>
+    </div>
+</div>

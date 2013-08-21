@@ -1,0 +1,25 @@
+#example3 .address{
+    width: 340px;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 0.8em;
+    line-height: 25px;
+    border-radius: 10px;
+    border: 1px solid rgb(167, 167, 167);
+    background-color: rgb(236, 236, 236);
+}
+
+#example3 .field label{
+    display: block;
+    float: left;
+    width: 135px;
+    font-size: 14px;
+}
+
+#example3 .field input{
+    width: 200px;
+}
+
+#example3 .field:first-child{
+    margin-bottom: 5px;
+}

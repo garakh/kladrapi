@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Пример 3</title>
+
+        <link href="css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet">
+        <link href="css/examples.css" rel="stylesheet">
+        <link href="css/example3.css" rel="stylesheet">
+
+        <script src="js/lib/jquery-1.9.1.min.js"></script>
+        <script src="js/lib/jquery-ui-1.10.2.custom.min.js"></script>
+        <script src="js/lib/jquery.primepix.kladr.min.js"></script>
+        <script src="js/examples.js"></script>
+        <script src="js/example3.js"></script>
+    </head>
+    <body>
+        <div id="example3" class="tabs">
+            <ul>
+                <li><a href="#tabs-3-1">Просмотр</a></li>
+                <li><a href="#tabs-3-2">HTML</a></li>
+                <li><a href="#tabs-3-3">CSS</a></li>
+                <li><a href="#tabs-3-4">JS</a></li>
+            </ul>
+            <div id="tabs-3-1">
+                <div class ="address">
+                    <div class="field">
+                        <label>Населённый пункт:</label>
+                        <input name="location" type="text" value="">
+                    </div>
+                    <div class="field">
+                        <label>Улица:</label>
+                        <input name="street" type="text" value="">
+                    </div>
+                </div>
+            </div>
+            <div id="tabs-3-2">
+                <div class="scme">
+                    <a href="html/example3-source.html" target="_blank">Source</a>
+                    <ol><pre class="alt"><span class="lnum">   1:  </span><span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">html</span><span class="kwrd">&gt;</span></pre>
+                        <pre><span class="lnum">   2:  </span><span class="kwrd">&lt;</span><span class="html">html</span><span class="kwrd">&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">   3:  </span>    <span class="kwrd">&lt;</span><span class="html">head</span><span class="kwrd">&gt;</span></pre>
+                        <pre><span class="lnum">   4:  </span>        <span class="kwrd">&lt;</span><span class="html">meta</span> <span class="attr">http-equiv</span><span class="kwrd">="content-type"</span> <span class="attr">content</span><span class="kwrd">="text/html; charset=utf-8"&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">   5:  </span>        <span class="kwrd">&lt;</span><span class="html">title</span><span class="kwrd">&gt;</span>Пример 3<span class="kwrd">&lt;/</span><span class="html">title</span><span class="kwrd">&gt;</span></pre>
+                        <pre><span class="lnum">   6:  </span>&nbsp;</pre>
+                        <pre class="alt"><span class="lnum">   7:  </span>        <span class="kwrd">&lt;</span><span class="html">link</span> <span class="attr">href</span><span class="kwrd">="../css/ui-lightness/jquery-ui-1.10.2.custom.css"</span> <span class="attr">rel</span><span class="kwrd">="stylesheet"&gt;</span></pre>
+                        <pre><span class="lnum">   8:  </span>        <span class="kwrd">&lt;</span><span class="html">link</span> <span class="attr">href</span><span class="kwrd">="../css/example3.css"</span> <span class="attr">rel</span><span class="kwrd">="stylesheet"&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">   9:  </span>&nbsp;</pre>
+                        <pre><span class="lnum">  10:  </span>        <span class="kwrd">&lt;</span><span class="html">script</span> src=<font color="#A31515">"../js/lib/jquery-1.9.1.min.js"</font> type=<font color="#A31515">"text/javascript"</font>&gt;<span class="kwrd">&lt;/</span><span class="html">script</span><span class="kwrd">&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">  11:  </span>        <span class="kwrd">&lt;</span><span class="html">script</span> src=<font color="#A31515">"../js/lib/jquery-ui-1.10.2.custom.min.js"</font> type=<font color="#A31515">"text/javascript"</font>&gt;<span class="kwrd">&lt;/</span><span class="html">script</span><span class="kwrd">&gt;</span></pre>
+                        <pre><span class="lnum">  12:  </span>        <span class="kwrd">&lt;</span><span class="html">script</span> src=<font color="#A31515">"../../jquery.primepix.kladr.min.js"</font> type=<font color="#A31515">"text/javascript"</font>&gt;<span class="kwrd">&lt;/</span><span class="html">script</span><span class="kwrd">&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">  13:  </span>        <span class="kwrd">&lt;</span><span class="html">script</span> src=<font color="#A31515">"../js/example3.js"</font> type=<font color="#A31515">"text/javascript"</font>&gt;<span class="kwrd">&lt;/</span><span class="html">script</span><span class="kwrd">&gt;</span></pre>
+                        <pre><span class="lnum">  14:  </span>    <span class="kwrd">&lt;/</span><span class="html">head</span><span class="kwrd">&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">  15:  </span>    <span class="kwrd">&lt;</span><span class="html">body</span><span class="kwrd">&gt;</span></pre>
+                        <pre><span class="lnum">  16:  </span>        <span class="kwrd">&lt;</span><span class="html">div</span> <span class="attr">class</span> <span class="kwrd">="address"&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">  17:  </span>            <span class="kwrd">&lt;</span><span class="html">div</span> <span class="attr">class</span><span class="kwrd">="field"&gt;</span></pre>
+                        <pre><span class="lnum">  18:  </span>                <span class="kwrd">&lt;</span><span class="html">label</span><span class="kwrd">&gt;</span>Населённый пункт:<span class="kwrd">&lt;/</span><span class="html">label</span><span class="kwrd">&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">  19:  </span>                <span class="kwrd">&lt;</span><span class="html">input</span> <span class="attr">name</span><span class="kwrd">="location"</span> <span class="attr">type</span><span class="kwrd">="text"</span> <span class="attr">value</span><span class="kwrd">=""&gt;</span></pre>
+                        <pre><span class="lnum">  20:  </span>            <span class="kwrd">&lt;/</span><span class="html">div</span><span class="kwrd">&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">  21:  </span>            <span class="kwrd">&lt;</span><span class="html">div</span> <span class="attr">class</span><span class="kwrd">="field"&gt;</span></pre>
+                        <pre><span class="lnum">  22:  </span>                <span class="kwrd">&lt;</span><span class="html">label</span><span class="kwrd">&gt;</span>Улица:<span class="kwrd">&lt;/</span><span class="html">label</span><span class="kwrd">&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">  23:  </span>                <span class="kwrd">&lt;</span><span class="html">input</span> <span class="attr">name</span><span class="kwrd">="street"</span> <span class="attr">type</span><span class="kwrd">="text"</span> <span class="attr">value</span><span class="kwrd">=""&gt;</span></pre>
+                        <pre><span class="lnum">  24:  </span>            <span class="kwrd">&lt;/</span><span class="html">div</span><span class="kwrd">&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">  25:  </span>        <span class="kwrd">&lt;/</span><span class="html">div</span><span class="kwrd">&gt;</span></pre>
+                        <pre><span class="lnum">  26:  </span>    <span class="kwrd">&lt;/</span><span class="html">body</span><span class="kwrd">&gt;</span></pre>
+                        <pre class="alt"><span class="lnum">  27:  </span><span class="kwrd">&lt;/</span><span class="html">html</span><span class="kwrd">&gt;</span></pre>
+                        <pre><span class="lnum">  28:  </span>&nbsp;</pre>
+                    </ol>
+                </div>
+            </div>
+            <div id="tabs-3-3">
+                <div class="scme">
+                    <a href="css/example3.css" target="_blank">Source</a>
+                    <ol><pre class="alt"><span class="lnum">   1:  </span><span class="str">.address</span>{</pre>
+                        <pre><span class="lnum">   2:  </span>    <span class="attr">width</span>: <span class="kwrd">340px</span>;</pre>
+                        <pre class="alt"><span class="lnum">   3:  </span>    <span class="attr">margin</span>: <span class="kwrd">20px auto</span>;</pre>
+                        <pre><span class="lnum">   4:  </span>    <span class="attr">padding</span>: <span class="kwrd">10px</span>;</pre>
+                        <pre class="alt"><span class="lnum">   5:  </span>    <span class="attr">border</span>: <span class="kwrd">1px solid rgb</span>(<span class="rem">104,&nbsp;104,&nbsp;104</span>);</pre>
+                        <pre><span class="lnum">   6:  </span>    <span class="attr">border</span>-radius: <span class="kwrd">5px</span>;</pre>
+                        <pre class="alt"><span class="lnum">   7:  </span>    <span class="attr">font-size</span>: <span class="kwrd">0.8em</span>;</pre>
+                        <pre><span class="lnum">   8:  </span>    <span class="attr">line-height</span>: <span class="kwrd">25px</span>;</pre>
+                        <pre class="alt"><span class="lnum">   9:  </span>}</pre>
+                        <pre><span class="lnum">  10:  </span>&nbsp;</pre>
+                        <pre class="alt"><span class="lnum">  11:  </span><span class="str">.field label</span>{</pre>
+                        <pre><span class="lnum">  12:  </span>    <span class="attr">display</span>: <span class="kwrd">block</span>;</pre>
+                        <pre class="alt"><span class="lnum">  13:  </span>    <span class="attr">float</span>: <span class="kwrd">left</span>;</pre>
+                        <pre><span class="lnum">  14:  </span>    <span class="attr">width</span>: <span class="kwrd">135px</span>;</pre>
+                        <pre class="alt"><span class="lnum">  15:  </span>}</pre>
+                        <pre><span class="lnum">  16:  </span>&nbsp;</pre>
+                        <pre class="alt"><span class="lnum">  17:  </span><span class="str">.field input</span>{</pre>
+                        <pre><span class="lnum">  18:  </span>    <span class="attr">width</span>: <span class="kwrd">200px</span>;</pre>
+                        <pre class="alt"><span class="lnum">  19:  </span>} </pre>
+                    </ol>
+                </div>
+            </div>
+            <div id="tabs-3-4">
+                <div class="scme">
+                    <a href="js/example3.js" target="_blank">Source</a>
+                    <ol><pre class="alt"><span class="lnum">   1:  </span>(<span class="kwrd">function</span>($){</pre>
+                        <pre><span class="lnum">   2:  </span>    $(<span class="kwrd">function</span>() {</pre>
+                        <pre class="alt"><span class="lnum">   3:  </span>        $( <span class="str">'[name="location"]'</span> ).kladr({</pre>
+                        <pre><span class="lnum">   4:  </span>            token: <span class="str">'51dfe5d42fb2b43e3300006e'</span>,</pre>
+                        <pre class="alt"><span class="lnum">   5:  </span>            key: <span class="str">'86a2c2a06f1b2451a87d05512cc2c3edfdf41969'</span>,</pre>
+                        <pre><span class="lnum">   6:  </span>            type: $.ui.kladrObjectType.CITY,</pre>
+                        <pre class="alt"><span class="lnum">   7:  </span>            select: <span class="kwrd">function</span>( <span class="kwrd">event</span>, ui ) {</pre>
+                        <pre><span class="lnum">   8:  </span>                $( <span class="str">'[name="street"]'</span> ).kladr( <span class="str">'option'</span>, { parentType: $.ui.kladrObjectType.CITY, parentId: ui.item.obj.id } );</pre>
+                        <pre class="alt"><span class="lnum">   9:  </span>            }</pre>
+                        <pre><span class="lnum">  10:  </span>        });</pre>
+                        <pre class="alt"><span class="lnum">  11:  </span>&nbsp;</pre>
+                        <pre><span class="lnum">  12:  </span>        $( <span class="str">'[name="street"]'</span> ).kladr({</pre>
+                        <pre class="alt"><span class="lnum">  13:  </span>            token: <span class="str">'51dfe5d42fb2b43e3300006e'</span>,</pre>
+                        <pre><span class="lnum">  14:  </span>            key: <span class="str">'86a2c2a06f1b2451a87d05512cc2c3edfdf41969'</span>,</pre>
+                        <pre class="alt"><span class="lnum">  15:  </span>            type: $.ui.kladrObjectType.STREET</pre>
+                        <pre><span class="lnum">  16:  </span>        });</pre>
+                        <pre class="alt"><span class="lnum">  17:  </span>    });</pre>
+                        <pre><span class="lnum">  18:  </span>})(jQuery); </pre>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

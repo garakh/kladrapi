@@ -1,0 +1,475 @@
+<div class="otherheader">
+    <h1>Интеграция</h1>
+</div>
+
+<link type="text/css" rel="stylesheet" href="/js/highlight/styles/shCoreDefault.css"/>
+
+<script type="text/javascript" src="/js/highlight/scripts/shCore.js"></script>
+<script type="text/javascript" src="/js/highlight/scripts/shBrushJScript.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+	
+<div class="correctwidth">
+    <div class="content">
+        <div class="document">
+            <div class="table-contents">
+                <ul>
+                    <li><a href="#json">Документация API сервиса</a></li>
+                    <li><a href="#jquery">jQuery plugin</a></li>
+                    <li><a href="#net">.NET provider</a></li>
+                    <li><a href="#php">PHP API</a></li>
+                    <li><a href="#bitrix">Модуль для 1С-Битрикс</a></li>
+                </ul>
+            </div>
+            
+			<div>
+				<h2>Возможности</h2>
+				<p>Сервис предоставляет он-лайн интерфейс к базе адресов Российской Федерации(«ФИАС»). Обмен данными происходит в формате JSON, с поддержкой JSONP.</p>
+				<p>Для облегчнения интеграции разработаны плагины под разные плаформы, которые подробно описаны ниже на этой странице. Плагины распространяются бесплатно под лицензией «Public domain», без каких-либо ограничений на использование.
+				</p>
+				<p>
+					Основные возможности:
+				</p>
+				<ul>
+					<li>Искать регионы, нас. пункты, улицы, дома по подстроке и по коду</li>
+					<li>Фильтровать данные по регионам, нас. пунткам и улицам</li>
+					<li>Получать сведения о родительских элементах и почтовых индексах</li>
+				</ul>				
+				
+				<p>Например, можно попросить сервис вернуть все города на букву «А», или все улицы Москвы начинающиеся на «Лен».</p>
+				<h2>Исходные коды</h2>
+				<p>Все исходные коды сервиса доступны в <a href="https://github.com/garakh/kladrapi">открытом виде</a>. Вы можете <a href="https://trello.com/b/NlSSs2UV/-"> принять участие в разработке проекта.</a>
+				</p>
+			</div>
+			<hr class="delimiter"/>
+			
+            <div>
+                <a name="json"></a>
+                
+                <h2>Документация API сервиса</h2>
+
+				<p>Для работы с сервисом Вам понадобится один из ключей:</p>
+				<ul>
+					<li>Ключ с привязкой к домену</li>
+					<li>Ключ <i>без</i> привязки к домену</li>
+				</ul>
+				<p>Используйте ключ с привязкой к домену на Вашем сайте в формах ввода информации. Ключ без привязки к домену стоит использовать в Ваших серверных приложениях.
+				</p>
+				<p>Во всех примерах на этой странице используется <b>демонстрационный ключ</b>, который периодически меняется. Не используйте его в своих рабочих приложениях.</p>
+                <div>
+                    <h3>Параметры запроса</h3>
+                    <p>Адрес страницы для запроса: <noindex><a href="http://kladr-api.ru/api.php">http://kladr-api.ru/api.php</a></p></noindex>
+                    <h5>Список доступных параметров запроса:</h5>
+                    <ol>
+                        <li><code>token</code> – Токен для доступа к сервису</li>
+                        <li><code>key</code> – Ключ для доступа к сервису</li>
+                        <li><code>regionId</code> – Код региона (области)</li>
+                        <li><code>districtId</code> – Код района</li>
+                        <li><code>cityId</code> – Код города (населённого пункта)</li>
+                        <li><code>streetId</code> – Код улицы</li>
+                        <li><code>buildingId</code> – Код дома (строения)</li>
+                        <li><code>query</code> – Строка для поиска по названию</li>
+                        <li><code>contentType</code> – Тип возвращаемых объектов (region, district, city, street, building)</li>
+                        <li><code>withParent</code> – Если 1, сервис вернёт объекты вместе с родительскими (для района это регион, для населённого пункта район и регион и т.п.)</li>
+                        <li><code>limit</code> – Количество возвращаемых объектов</li>
+                        <li><code>callback</code> – JavaScript метод которому будет передан ответ базы</li>
+                    </ol>
+                </div>
+                
+                <div>
+                    <h3>Формат ответа сервиса</h3>
+                    <p>Пример ответа сервиса:</p>
+                    <p>Запрос: <noindex><a href="http://kladr-api.ru/api.php?query=%D0%90%D1%80%D1%85&contentType=city&withParent=1&limit=2&token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969" target="_blank">http://kladr-api.ru/api.php?query=Арх&contentType=city&withParent=1&limit=2&token=51dfe5d42fb2b43e3300006e &key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969</a></noindex></p>
+                    <p>Ответ:</p>
+                    <pre class="brush: js;">
+{
+    "searchContext": {                      // Объект с переданными серверу параметрами
+        "query": "Арх",
+        "contentType": "city",
+        "withParent": 1,
+        "limit": 2
+    },
+    "result": [                             // Массив полученных объектов заданного типа (населённые пункты)
+        {
+            "id": "2900000100000",          // Код объекта
+            "name": "Архангельск",          // Название объекта
+            "zip": null,                    // Почтовый индекс объекта
+            "type": "Город",                // Тип объекта полностью
+            "typeShort": "г",               // Тип объекта коротко
+            "parents": [                    // Массив родительских объектов (если был передан параметр withParent)
+                {
+                    "id": "2900000000000",
+                    "name": "Архангельская",
+                    "zip": null,
+                    "type": "Область",
+                    "typeShort": "обл"
+                }
+            ]
+        },
+        {
+            "id": "2800200000100",
+            "name": "Архара",
+            "zip": "676740",
+            "type": "Поселок городского типа",
+            "typeShort": "пгт",
+            "parents": [
+                {
+                    "id": "2800000000000",
+                    "name": "Амурская",
+                    "zip": "675000",
+                    "type": "Область",
+                    "typeShort": "обл"
+                },
+                {
+                    "id": "2800200000000",
+                    "name": "Архаринский",
+                    "zip": null,
+                    "type": "Район",
+                    "typeShort": "р-н"
+                }
+            ]
+        }
+    ]
+}   
+                    </pre>
+                </div>
+
+                <div>
+                    <h3>Особенности поиска объектов</h3>
+                    <p>
+                        Поиск объектов осуществляется либо по названию либо по коду связанного (родительского либо дочернего элемента). 
+                        Поиск объектов по названию осуществляется по шаблону /^название/ (т.е. выбираются объекты, название которых полностью 
+                        совпадает с поисковой строкой либо начинается на неё).
+                        <br><br>
+                        Для поиска улицы по названию необходимо обязательно указать код населённого пункта, например <noindex><a href="http://kladr-api.ru/api.php?token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969&cityId=7800000000000&query=3&contentType=street&limit=50" target="_blank">cityId=7800000000000&query=3&contentType=street</a></noindex>.
+                        <br>
+                        Для поиска строения по названию необходимо обязательно указать код улицы, например <noindex><a href="http://kladr-api.ru/api.php?&token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969&streetId=29000001000025800&query=1&contentType=building&limit=50" target="_blank">streetId=29000001000025800&query=1&contentType=building</a></noindex>.
+                    </p>
+                </div>
+            </div>
+			<hr class="delimiter"/>
+            
+            <div>
+                <a name="jquery"></a>
+                
+                <h2>
+                    jQuery plugin
+                    <noindex><a href="https://github.com/garakh/kladrapi-jquery/zipball/master">&#8595;ZIP</a></noindex>
+                    <noindex><a href="https://github.com/garakh/kladrapi-jquery/tarball/master">&#8595;TAR</a></noindex>
+                </h2>   
+                
+                <p>
+                    Представляет из себя виджет jQuery UI для автодополнения адреса при вводе. 
+                    Виджет унаследован от <code>$.ui.autocomplete</code>.
+                </p>
+                
+                <div>
+                    <h3>Опции виджета</h3>                    
+                    <ul>
+                        <li><code>token</code> – токен для доступа к сервису kladr-api.ru, по умолчанию равен null</li>
+                        <li><code>key</code> – ключ для доступа к сервису kladr-api.ru, по умолчанию равен null</li>
+                        <li><code>type</code> – тип объектов для подстановки, по умолчанию <code>$.ui.kladrObjectType.REGION</code></li>
+                        <li><code>parentType</code> – тип родительского объекта для ограничения области поиска, по умолчанию <code>$.ui.kladrObjectType.REGION</code></li>
+                        <li><code>parentId</code> - код родительского объекта для ограничения области поиска, по умолчанию равен <code>null</code> - область поиска не ограничивается</li>
+                        <li><code>withParents</code> – получить объект вместе с родителями, по умолчанию <code>false</code></li>
+                        <li><code>limit</code> – количество выводимых в выпадающем списке элементов</li>
+                        <li><code>label = function( obj, query) { return label; }</code> – функция для получения подписей, в качестве параметров принимает obj – объект базы, query – текущее значение поля ввода</li>
+                        <li><code>value = function( obj, query) { return label; }</code> – функция для получения подставляемых значений, в качестве параметров принимает obj – объект базы, query – текущее значение поля ввода</li>
+                        <li><code>select = function( event, ui ){}</code> – функция вызываемая при событии выбора пользователем значения для автодополнения, в поле ui.item.obj – передаётся выбранный пользователем объект базы</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3>Перечисление $.ui.kladrObjectType</h3>
+                    <ul>
+                        <li><code>$.ui.kladrObjectType.REGION</code> - область, регион</li>
+                        <li><code>$.ui.kladrObjectType.DISTRICT</code> - район</li>
+                        <li><code>$.ui.kladrObjectType.CITY</code> - населённый пункт</li>
+                        <li><code>$.ui.kladrObjectType.STREET</code> - улица</li>
+                        <li><code>$.ui.kladrObjectType.BUILDING</code> - дом, строение</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3>Формат объекта базы</h3>
+                    <pre class="brush: js;">
+{
+        id: "2900000100000",  // Код объекта
+        name: "Архангельск",  // Название объекта
+        zip: null,            // Почтовый индекс объекта
+        type: "Город",        // Тип объекта полностью
+        typeShort: "г",       // Тип объекта коротко
+        parents: [            // Массив родительских объектов
+                {
+                        id: "2900000000000",
+                        name: "Архангельская",
+                        zip: null,
+                        type: "Область",
+                        typeShort: "обл"
+                }
+        ]
+}
+                    </pre>
+                </div>
+                
+                <div>
+                    <h3>Служебная функция $.kladrCheck</h3>
+                    <p>Функция <code>$.kladrCheck( options, callback )</code> проверяет существование объекта с параметрами  options. Если объект существует, он возвращается в функцию <code>callback</code>. В качестве options принимает объект с параметрами запроса.</p>
+                    <h5>Список возможных параметров:</h5>
+                    <ul>
+                        <li><code>token</code> – токен для доступа к сервису</li>
+                        <li><code>key</code> – ключ для доступа к сервису</li>                        
+                        <li><code>parentType</code> – тип родительского объекта</li>
+                        <li><code>parentId</code> – код родительского объекта</li>                        
+                        <li><code>query</code> – строка для поиска по названию</li>
+                        <li><code>contentType</code> – тип объекта для поиска</li>
+                    </ul>
+                </div>                
+                
+                <div>
+                    <h3>Служебная функция $.kladrapi</h3>
+                    <p>Функция <code>$.kladrapi( options, callback )</code> делает запрос  к сервису, результат возвращает в функцию <code>callback</code>. В качестве options принимает объект с параметрами запроса.</p>
+                    <h5>Список возможных параметров:</h5>
+                    <ul>
+                        <li><code>token</code> – токен для доступа к сервису</li>
+                        <li><code>key</code> – ключ для доступа к сервису</li>
+                        <li><code>regionId</code> – код родительского региона</li>
+                        <li><code>districtId</code> – код района</li>
+                        <li><code>cityId</code> – код города</li>
+                        <li><code>streetId</code> – код улицы</li>
+                        <li><code>buildingId</code> – код строения</li>
+                        <li><code>query</code> – строка для поиска по названию</li>
+                        <li><code>contentType</code> – тип объекта для поиска</li>
+                        <li><code>withParent</code> – вернуть объекты вместе с родителями, если 1 то в каждый объект будет добавлено поле parents содержащее список объектов-родителей объекта</li>
+                        <li><code>limit</code> – ограничение количества возвращаемых объектов, по умолчанию = 2000</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3>Примеры</h3>
+                    
+                    <p>Простое автодополнение города</p>
+                    <pre class="brush: js;">
+$( "input" ).kladr({
+        token: '51dfe5d42fb2b43e3300006e',
+        key: '86a2c2a06f1b2451a87d05512cc2c3edfdf41969',
+        type: $.ui.kladrObjectType.CITY
+});
+                    </pre>
+                    
+                    <p>Автодополнение городами из Архангельской области (код объекта 2900000000000)</p>
+                    <pre class="brush: js;">
+$( "input" ).kladr({
+        token: '51dfe5d42fb2b43e3300006e',
+        key: '86a2c2a06f1b2451a87d05512cc2c3edfdf41969',
+        type: $.ui.kladrObjectType.CITY,
+        parentType: $.ui.kladrObjectType.REGION,
+        parentId: "2900000000000"
+});
+                    </pre>
+                    
+                    <p>Автодополнение городами России, со сменой подписи при выборе города</p>
+                    <pre class="brush: js;">
+$( "input" ).kladr({
+        token: '51dfe5d42fb2b43e3300006e',
+        key: '86a2c2a06f1b2451a87d05512cc2c3edfdf41969',
+        type: $.ui.kladrObjectType.CITY,
+        select: function( event, ui ) {
+                $( "label" ).text( ui.item.obj.type );
+        }
+});
+                    </pre>
+                </div>
+            </div>
+            <hr  class="delimiter"/>
+			
+
+            
+            <div>
+                <a name="php"></a>
+                
+                <h2>
+                    PHP API
+                    <noindex><a href="https://github.com/garakh/kladrapi-php/zipball/master">&#8595;ZIP</a></noindex>
+                    <noindex><a href="https://github.com/garakh/kladrapi-php/tarball/master">&#8595;TAR</a></noindex>
+                </h2>
+                
+               
+                <div>
+                    <h3>Описание API</h3>
+                    
+                    <div>
+                        <h4>Kladr\Api</h4>
+                        <p>Контроллер доступа к сервису</p>
+                        
+                        <h5>Функции</h5>
+                        <ul>
+                            <li><code>QueryToJson(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде объекта Json</li>
+                            <li><code>QueryToArray(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде ассоциативного массива</li>
+                            <li><code>QueryToObjects(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде массива объектов</li>
+                        </ul>
+                        
+                        <h5>Свойства</h5>
+                        <ul>
+                            <li><code>Error</code> - текст последней, возникшей при обращении к сервису, ошибки</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4>Kladr\Query</h4>
+                        <p>Объект запроса</p>
+                        
+                        <h5>Свойства</h5>
+                        <ul>
+                            <li><code>ParentType</code> - тип родительского объекта для ограничения области поиска (регион, район, город)</li>
+                            <li><code>ParentId</code> - идентификатор родительского объекта для ограничения области поиска</li>
+                            <li><code>ContentType</code> - тип искомого объекта (регион, район, город)</li>
+                            <li><code>ContentName</code> - название искомого объекта</li>
+                            <li><code>WithParent</code> - получить объекты вместе с родителями (если true у объекта заполняется свойство Parent)</li>
+                            <li><code>Limit</code> - ограничение количества возвращаемых объектов</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4>Kladr\Object</h4>
+                        <p>Объект базы</p>
+                        
+                        <h5>Свойства</h5>
+                        <ul>
+                            <li><code>Id</code> - идентификатор объекта</li>
+                            <li><code>Name</code> - название объекта</li>
+                            <li><code>Zip</code> - почтовый индекс объекта</li>
+                            <li><code>Type</code> - подпись объекта полностью (область, район)</li>
+                            <li><code>TypeShort</code> - подпись объекта коротко (обл, р-н)</li>
+                            <li><code>Parents</code> - массив родительских объектов (заполняется если в запросе был установлен флаг WithParent)</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4>Kladr\ObjectType</h4>
+                        <p>Перечисление типов  объектов, используемых в запросах к сервису</p>
+                        
+                        <h5>Константы</h5>
+                        <ul>
+                            <li><code>Region</code> - регион</li>
+                            <li><code>District</code> - район</li>
+                            <li><code>City</code> - населённый пункт</li>
+                            <li><code>Street</code> - улица</li>
+                            <li><code>Building</code> - строение</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Примеры</h3>
+                    
+                    <p>Получение списка всех населённый пунктов, название которых начинается на "Арх"</p>
+                    <pre class="brush: js;">
+// Инициализация api, в качестве параметров указываем токен и ключ для доступа к сервису
+$api = new Kladr\Api('51dfe5d42fb2b43e3300006e', '86a2c2a06f1b2451a87d05512cc2c3edfdf41969');
+
+// Формирование запроса
+$query = new Kladr\Query();
+$query->ContentName = 'Арх';
+$query->ContentType = Kladr\ObjectType::City;
+$query->WithParent = true;
+$query->Limit = 2;
+
+// Получение данных в виде ассоциативного массива
+$arResult = $api->QueryToArray($query);
+                    </pre>
+                </div>
+            </div>
+            <hr  class="delimiter"/>
+			
+            <div>
+                <a name="bitrix"></a>
+                
+                <h2>
+                    Модуль "КЛАДР в облаке" для 1С-Битрикс
+                    <noindex><a href="https://github.com/garakh/kladr-bitrix/zipball/master">&#8595;ZIP</a></noindex>
+                    <noindex><a href="https://github.com/garakh/kladr-bitrix/tarball/master">&#8595;TAR</a></noindex>
+                </h2>
+                
+                <p>Модуль 1С-Битрикс предоставляющий форму для ввода адреса с автодополнением. В качестве источника данных используется сервис «КЛАДР в облаке»</p>
+                <img src="/public/content/kladr-bitrix1.png">
+                
+                <div>
+                    <h3>Установка</h3>                    
+                    <ol>
+                        <li>Загрузите модуль</li>
+                        <li>Скопируйте в папку «/bitrix/modules»  вашего сайта</li>
+                        <li>Переименуйте модуль в primepixkladr</li>
+                        <li>Установите модуль <img src="/public/content/kladr-bitrix2.png"></li>
+                        <li>Разместите компонент «Форма для ввода адреса» на странице для ввода адреса <img src="/public/content/kladr-bitrix3.png"></li>
+                        <li>В настройках компонента укажите токен и ключ для подключения к сервису «КЛАДР в облаке» <img src="/public/content/kladr-bitrix4.png"></li>
+                        <li>Пользуйтесь =)</li>
+                    </ol>
+                </div>
+                
+                <div>
+                    <h3>Параметры компонента «Форма для ввода адреса»</h3>
+                    <ol>
+                        <li>
+                            Основные параметры
+                            <ol>
+                                <li><code>Токен для доступа к КЛАДР API</code> - токен для доступа к сервису</li>
+                                <li><code>Ключ для доступа к КЛАДР API</code> - ключ для доступа к сервису</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Выводить поля для ввода
+                            <ol>
+                                <li><code>Области</code> – Добавляет поле с именем «region» для ввода названия области</li>
+                                <li><code>Района</code> – Добавляет поле с именем «district» для ввода названия района</li>
+                                <li><code>Населённого пункта</code> – Добавляет поле c именем «location» для ввода названия населённого пункта</li>
+                                <li><code>Улицы</code> – Добавляет поле c именем «street» для ввода названия улицы</li>
+                                <li><code>Дома</code> – Добавляет поле с именем «building» для ввода номера дома</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Выводить скрытые поля
+                            <ol>
+                                <li><code>Код объекта</code> – добавляет скрытое поле с именем «kladr_id», в которое по окончанию ввода адреса будет записан его код</li>
+                                <li><code>Почтовый индекс</code> – добавляет скрытое поле с именем «zip_code» в которое по окончанию ввода адреса будет записан его почтовый индекс из КЛАДР</li>
+                                <li><code>Подписи</code> – добавляет скрытое поле с постфиксом «_label» к каждому полю ввода в которое будет записана подпись к введённому пользователем значению (например: город, посёлок, село)</li>
+                                <li><code>Сокращения подписей</code> – добавляет скрытое поле к постфиксом «_label_min» к каждому полю ввода, в которое будет записано сокращение подписи к введённому пользователем значению (г., пос., с.)</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Опции
+                            <ol>
+                                <li><code>Обновлять подписи при вводе</code> – Включает обновление подписей к полям ввода. Например, если пользователь в поле город введёт «Москва», то подпись «Населённый пункт» автоматически будет изменена на «Город»</li>
+                                <li><code>Удалять значения, которых нет в КЛАДР</code> – Включает проверку ввода в поля адреса и удаление ошибочно введённых значений. Например, если пользователь введёт в поле «Населённый пункт» значение «Мухосранск», то оно будет автоматически удалено, т.к. населённого пункта «Мухосранск» в России нет.</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Дополнительные параметры
+                            <ol>
+                                <li><code>Подключить jQuery</code> – Компонент использует библиотеку jQuery, поэтому если она не используется у вас на сайте включите данный пункт</li>
+                                <li><code>Подключить jQuery UI</code> – Компонент использует библиотеку jQuery UI, поэтому если она не используется у вас на сайте включите данный пункт</li>
+                                <li><code>Подключить тему jQuery UI</code> – Компонент использует тему jQuery UI для автодополнения адреса. Если она не используется у вас на сайте включите данный пункт</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div>
+                    <h3>Результат</h3>
+                    <p>
+                        Компонент выводит на сайт несколько текстовых и скрытых полей для ввода адреса. Компонент не генерирует формы (&lt;form&gt;&lt;/form&gt;) для отправки на сервер введённой пользователем информации! 
+                        Это сделано для того чтобы вы без проблем могли включить поля для ввода адреса в любую другую существующую форму на вашем сайте (к примеру форму оформления заказа). 
+                    </p>
+                </div>
+            </div>
+			<hr  class="delimiter"/>
+            <div>
+                <a name="net"></a>
+                
+                <h2>.NET provider</h2>
+                
+                <p>В разработке</p>
+            </div>	
+			<hr  class="delimiter"/>			
+        </div>        
+    </div>      
+</div>

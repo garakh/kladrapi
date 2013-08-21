@@ -1,0 +1,11 @@
+<? use \Phalcon\Tag; ?>
+
+<div id="recovery-popap" class="propose register" style="display: none;">
+    <div class="reg login">
+        <p>Смена пароля</p>
+        <?php echo Tag::passwordField(array("old_password", "id" => "inputOld", "placeholder" => "старый пароль")) ?>
+        <?php echo Tag::passwordField(array("new_password", "id" => "inputNew", "placeholder" => "новый пароль")) ?>
+        <?php echo Tag::passwordField(array("repeat_password", "id" => "inputRepeat", "placeholder" => "повтор нового пароля")) ?>
+        <?php echo Tag::submitButton(array('Сменить пароль', "class" => "btn")) ?>
+    </div>
+</div>

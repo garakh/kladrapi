@@ -1,0 +1,12 @@
+<? use \Phalcon\Tag ?>
+
+<?= Tag::javascriptInclude('js/personal.js'); ?>
+	
+<div class="correctwidth">
+    <div class="content">
+        <p>Ключи</p>
+        <p class="keys token">Токен: <span><?= $user->_id ?></span></p>        
+        <p class="keys permanent">Ключ: <span id="permanent-key"><?= $user->key ?></span> <a id="permanent-key-reload" href="">обновить</a></p>
+        <p class="keys domain">Домен: <input id="domain" type="text" value="<?= $user->domain ?>"> <a id="domain-reload" href="">обновить</a><br>Kлюч: <span id="domain-key"><?= $user->domainkey ?></span> <a id="domain-key-reload" href="">обновить</a></p>
+    </div>
+</div>

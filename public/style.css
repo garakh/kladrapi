@@ -1,0 +1,945 @@
+/* --------------------------------- CSS Reset --------------------------------*/
+
+* {
+	padding:0;
+	margin:0;
+	list-style: none;
+	border:none;
+}
+a {
+	text-decoration: none;
+}
+body {
+	font: 13px Tahoma;
+	background: url(images/background.png) repeat;
+        min-width: 1100px;
+}
+
+
+/* ----------------------------------- Fonts ----------------------------------*/
+
+	@font-face{ 
+	font-family: 'WebSymbolsLigaRegular';
+		src: url('fonts/WebSymbols/websymbolsligaregular.eot');
+		src: url('fonts/WebSymbols/websymbolsligaregular.eot?#iefix') format('embedded-opentype'),
+			url('fonts/WebSymbols/websymbolsligaregular.woff') format('woff'),
+			url('fonts/WebSymbols/websymbolsligaregular.ttf') format('truetype'),
+			url('fonts/WebSymbols/websymbolsligaregular.svg#WebSymbolsRegular') format('svg');
+	}
+	@font-face {
+		font-family: 'pfbulletinsanspro-regular';
+	    src: url('fonts/pfbulletinsanspro-regular/pfbulletinsanspro-regular-webfont.eot');
+	    src: url('fonts/pfbulletinsanspro-regular/pfbulletinsanspro-regular-webfont.eot?#iefix') format('embedded-opentype'),
+	         url('fonts/pfbulletinsanspro-regular/pfbulletinsanspro-regular-webfont.woff') format('woff'),
+	         url('fonts/pfbulletinsanspro-regular/pfbulletinsanspro-regular-webfont.ttf') format('truetype'),
+	         url('fontsfonts/pfbulletinsanspro-regular/pfbulletinsanspro-regular-webfont.svg#pf_bulletin_sans_proregular') format('svg');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	   
+	@font-face {
+    font-family: 'pfbulletinsanspro-medium';
+    src: url('fonts/pfbulletinsanspro-medium/pfbulletinsanspro-medium-webfont.eot');
+    src: url('fonts/pfbulletinsanspro-medium/pfbulletinsanspro-medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/pfbulletinsanspro-medium/pfbulletinsanspro-medium-webfont.woff') format('woff'),
+         url('fonts/pfbulletinsanspro-medium/pfbulletinsanspro-medium-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'pfbulletinsanspro-bold';
+    src: url('fonts/pfbulletinsanspro-bold/pfbulletinsanspro-bold-webfont.eot');
+    src: url('fonts/pfbulletinsanspro-bold/pfbulletinsanspro-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/pfbulletinsanspro-bold/pfbulletinsanspro-bold-webfont.woff') format('woff'),
+         url('fonts/pfbulletinsanspro-bold/pfbulletinsanspro-bold-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+/* --------------------------------  Header -----------------------------------*/
+
+.correctwidth {
+	width: 1000px;
+        margin: 0 auto;
+}
+
+
+.authline {
+	background: #f4f4f4;
+	height: 30px;
+	padding: 10px 0;
+
+}
+
+	.authline a {
+                margin-right: 10px;
+		padding: 6px 15px;
+		font: 13px Tahoma;
+		text-transform: uppercase;
+		color: white;
+		float: right;
+		border-radius: 10px;
+	}
+	.authline a.btn-enter {
+		background: #1f9ed8 url(images/btn-enter.png) no-repeat;
+		margin-right: 10px;
+
+	}
+	.authline a.btr-reg {
+		background: #787878;
+	}
+.controlline {
+	background: black;
+	height: 40px;
+	padding: 20px 0;
+
+}
+	.controlline .logo {
+		float: left;
+		margin-right: 85px;
+	}
+		.logo a
+		{
+			display: block;
+			background: url(images/logo.png);
+			width: 217px;
+			height:40px;
+		}
+	.controlline .menu {
+		float:  left;
+	}
+		.menu li {
+			float: left;
+			margin: 12px 10px 0 0;
+
+			
+		}
+		.menu li a {
+
+			font-size: 14px;
+			text-transform: uppercase;
+			color: #a7a7a7;
+			padding: 7px 10px;
+			border-radius: 3px;
+			background: none;
+			transition: background .4s, box-shadow .4s;
+			-webkit-transition: background .4s, box-shadow .4s; /* Safari */
+		}
+		.menu li a.selected {
+			background: #494949;
+			box-shadow: inset 0px 1px #6d6d6d;
+		}
+		.menu li a:hover {
+			background: #494949;
+			box-shadow: inset 0px 1px #6d6d6d;
+
+		}
+		
+	.controlline .social {
+		float: right;
+		font-family: WebSymbolsLigaRegular;
+		margin-top: 13px;
+                margin-right: 50px;
+		
+	}
+		.social a {
+			color: #757575;
+			margin-left: 7px;
+		}
+
+                
+/*---------------------------------- Main -------------------------------------*/
+
+.promoheader {	
+
+	background: url(images/promoheader.jpg) no-repeat center;
+	/*max-width: 1600px;*/
+	min-width: 1000px;
+	height: 555px;
+	margin: 0 auto;
+	
+}
+	.promoheader .promotext {
+		width: 460px;
+		color: white;		
+		text-shadow: #002232 0px 1px 2px;		
+		padding: 20px 0;
+	}
+		.promoheader .promotext p{
+			padding: 15px 0;
+			font: 20px 'pfbulletinsanspro-medium';
+			text-shadow: #002232 0px 1px 2px;	
+		}
+		.promoheader .promotext li {
+			font: 20px 'pfbulletinsanspro-medium';
+			margin: 8px 0;
+		}
+			.promoheader .promotext li:before {
+				content: 'ô';
+				font-family: WebSymbolsLigaRegular;
+				margin-right: 5px;
+			}
+		.promoheader .promotext a {
+
+			display: block;
+			width: 376px;
+			height: 59px;
+			color: white;
+			text-shadow:0px 1px 1px rgba(0,0,0,0.5);
+			text-align: center;
+			background: url(images/btn-start.png);
+			margin: 35px 0;
+		}	
+		.promoheader .promotext a:hover {
+			background: url(images/btn-start2.png);
+			text-decoration: none;
+		}
+			.promoheader .promotext a p {
+				padding: 16px;
+				font: 22px 'pfbulletinsanspro-regular';
+			} 
+                        
+                        
+/* ------------------------------- Other Pages --------------------------------*/
+
+.otherheader {
+	background: url(images/otherheader.jpg) no-repeat center;
+	max-width: 1600px;
+	min-width: 1000px;
+	height: 213px;
+	margin: 0 auto;
+}
+	.otherheader h1 {
+		color: white;
+		width: 840px;
+		padding-top: 40px;
+		margin: 0 auto;
+		text-align: left;
+	}
+
+.advers {
+	margin-top: -15px;
+}
+.advers ul {
+	width: 440px;
+	float: left;
+
+}
+ .advers li {
+
+ 	font: 18px 'pfbulletinsanspro-regular';
+ 	width: 430px;
+ 	float: left;
+ 	margin-bottom: 25px;
+ 	color: #535452;
+ 	line-height: 30px;
+ }
+	.advers .before {		
+		display: block; 
+		float: left;
+		width:4px;
+		height: 100px; /* js correct */
+		background: #3da8dc; /* Old browsers */
+		background: -moz-linear-gradient(top,  #3da8dc 0%, #028bcb 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3da8dc), color-stop(100%,#028bcb)); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top,  #3da8dc 0%,#028bcb 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top,  #3da8dc 0%,#028bcb 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top,  #3da8dc 0%,#028bcb 100%); /* IE10+ */
+		background: linear-gradient(to bottom,  #3da8dc 0%,#028bcb 100%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3da8dc', endColorstr='#028bcb',GradientType=0 ); /* IE6-9 */
+
+		margin-right: 5px;
+	}	
+h1 {
+	font: 40px 'pfbulletinsanspro-medium';
+	color: #0e8dc8;
+	clear: BOTH;
+	text-align: center;
+}
+.struct {
+	width: 988px;
+	height: 564px;
+	background: url(images/struct.jpg);
+	position: relative;
+}
+	.struct a {
+		background: url(images/btn-blue.png);
+		display: block;
+		width: 263px;
+		height:44px;
+		border-radius: 3px;
+		position: relative;
+		color: white;
+
+		font: 22px 'pfbulletinsanspro-bold';
+		text-shadow: 0px -1px 1px #004c71;
+	}
+	.struct a:hover {
+		background: url(images/btn-blue2.png);
+	}	
+		.struct a p {
+			padding: 10px;
+			text-align: center;
+		}
+		.struct a.btn-1 {
+			top: 432px;
+			left: 140px;
+		}
+		.struct a.btn-2 {
+			left: 140px;
+			top: 456px;
+		}
+		.struct a.btn-3 {
+			top: 344px;
+			left: 617px;
+		}
+		.struct a.btn-4 {
+			top: 368px;
+			left: 617px;
+		}
+
+.advantages {
+	background: url(images/hr.png) no-repeat;
+	padding-top: 70px;
+	overflow: hidden;
+}
+	.advantages .item {
+		width: 319px;
+		height: 280px;
+		float: left;
+		margin-right: 10px;
+		margin-left:100px;
+	}
+	.advantages .bottomleft {
+		width: 360px;
+		margin-left: 70px;
+		height: 210px;
+	}
+	.advantages .bottomright {
+		width: 400px;
+		margin-left: 40px;
+		height: 210px;
+	}
+		.item h2 {
+			font: 24px 'pfbulletinsanspro-regular';
+			margin: 25px 12px;
+			float: left;
+		}
+		.item p {
+			clear: both;
+			font: 18px 'pfbulletinsanspro-regular';
+			padding: 15px 0;
+			line-height: 30px;
+		}
+		.image-icon {		
+			height: 78px;
+			width: 77px;
+			float: left;
+		}
+		.icon-integr {
+			background: url(images/integr.png);
+		}
+		.icon-refresh {
+			background: url(images/refresh.png);
+		}
+		.icon-stability {
+			background: url(images/stability.png);
+		}
+		.icon-speed {
+			background: url(images/speed.png);
+		}
+		.icon-billing {
+			background: url(images/billing.png);
+		}
+.propose {
+	background: url(images/hr.png) no-repeat;
+	padding-top: 15px;
+	overflow: hidden;
+}
+.propose.register {
+	background: none;
+	padding-top: 0;
+}
+        .propose.register .reg {
+                float: left;
+                margin-left: 200px;
+        }
+	.propose .cash {
+		width: 375px;
+		height: 230px;
+		position: relative;
+		float: left;
+	}
+		.cash .img {
+			width: 132px;
+			height: 132px;
+			background: url(images/5cop.png );
+			position: absolute;
+			top: 30px;
+			right: 0px;
+		}
+		.cash h1 {
+			font-size: 48px;
+			width: 235px;
+			text-align: left;
+		}
+		.cash p {
+			font: 30px 'pfbulletinsanspro-regular';
+			line-height: 45px;
+		}
+
+	.propose .reg {
+		width: 570px;
+		height: 371px;
+		float: right;
+		background: url(images/invite.png);
+
+	}
+		.reg p {
+			font: 26px 'pfbulletinsanspro-regular';
+			text-align: center;
+			margin-top: 36px;
+			color: #FFF;
+			text-shadow: 0px 2px 1px #004565;
+
+		}
+		.reg input[type="text"], .reg input[type="password"], .reg textarea {
+			font: 24px 'pfbulletinsanspro-regular';
+			width: 450px;
+			color: black;
+			padding: 5px;
+			text-align: center;			
+			margin: 30px auto;
+			border-radius: 5px;
+			border: none;
+			box-shadow: inset 0px 3px 11px #808080, 0px 3px 1px rgba(255, 255, 255, 0.4),1px 2px 1px rgba(255, 255, 255, 0.4),-2px 2px 1px rgba(255, 255, 255, 0.4);
+			background: #fff;
+			background: -moz-linear-gradient(top, #FBFBFB, #E8E8E8);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FBFBFB), color-stop(100%, #E8E8E8));
+			background: -webkit-linear-gradient(top, #FBFBFB, #E8E8E8);
+			background: -o-linear-gradient(top, #FBFBFB, #E8E8E8);
+			background: -ms-linear-gradient(top,#FBFBFB, #E8E8E8);
+			background: linear-gradient(top, #FBFBFB, #E8E8E8);
+		}
+                .reg.login input[type="text"], .reg.login input[type="password"] {
+                        margin: 24px auto;
+                }
+		.reg input[type="text"]:focus {
+			font: 24px 'pfbulletinsanspro-regular';
+			width: 450px;
+			color: #000;
+			padding: 5px;
+			border: none;
+		}
+		.reg input {
+			display: block;
+		}
+		.reg .checkbox {
+			margin: 10px auto;
+			font: 18px 'pfbulletinsanspro-regular';
+			margin: 10px 110px;
+			color: #FFF;
+		}
+                .reg a {
+                        text-decoration: underline;
+                        color: white;
+                }
+                .reg.login a {
+                        margin-left: 222px;
+                }
+		.reg input[type="checkbox"] {
+			display:none;
+		}		
+		input[type="checkbox"] + label {		 
+		  cursor: pointer;
+		}
+		input[type="checkbox"] + label::before {
+		    content: "";
+		    display: inline-block;
+		    height: 21px;
+		    width: 21px;
+		    margin: 0 5px 0 0;
+		    background-image: url(images/checkbox-default.png);
+		    background-repeat: no-repeat;
+		    margin: -2px 5px 0 0;
+		    float: left;
+		}
+		input[type="checkbox"] + label::before {
+		    background-image: url(images/checkbox-default.png);
+		}
+		
+		input[type="checkbox"]:checked + label::before {
+		    background-image: url(images/checkbox-checked.png);
+		}		
+		input[type="checkbox"]:disabled + label::before {
+		    /*none*/
+		}
+		input[type="checkbox"]:checked:disabled + label::before {
+		    /*none*/
+		}
+		
+		.reg2{
+			text-align:center;
+		}
+		.reg2 input[type="submit"] {
+			font:24px 'pfbulletinsanspro-regular';
+			border: none;
+			margin: 0 auto;
+			background: url(images/btn-reg.png);
+			width: 433px;
+			height: 52px;
+			color: white;
+			margin: 24px auto;
+			text-shadow: 0px 1px 1px #3A3939;
+			cursor: pointer;
+		}
+		.reg input[type="submit"] {
+			font:24px 'pfbulletinsanspro-regular';
+			border: none;
+			margin: 0 auto;
+			background: url(images/btn-reg.png);
+			width: 433px;
+			height: 52px;
+			color: white;
+			margin: 24px auto;
+			text-shadow: 0px 1px 1px #3A3939;
+			cursor: pointer;
+		}
+		.reg input[type="submit"]:hover {
+			/*text-decoration: underline;*/
+		}
+
+.main .content {
+	font: 18px 'pfbulletinsanspro-regular';
+	line-height: 25px;
+}
+
+
+.main .content h2{
+	margin-bottom:30px;
+	padding-bottom:0px;
+}
+
+.main .content p{
+	margin: 0 0 20px;
+}
+.reg p{
+	margin-bottom: 0px !important;
+	margin-top: 36px !important;
+}
+.main .content a{
+	text-decoration: underline;
+}
+.main .content a:hover{
+	text-decoration: none;
+}
+
+.main .content hr{
+	 border-bottom-color:#dfdfdf;
+	 border-width:1px;
+	 border-bottom-style:solid;
+	 border-top-style:solid;
+	 border-top-color:#ffffff;
+}
+
+.main .content hr.delimiter{
+	margin-bottom:40px;
+}
+/*------------------------------------------------------------------
+[ Tables / .table ]
+*/
+
+.main .content .table.table-bordered{
+	margin-bottom:30px;
+}
+
+.main .content .table.table-bordered tbody tr td {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  height:30px;
+}
+.main .content .table-bordered thead tr {
+  background-color: #e6e6e6;
+  background-image: -moz-linear-gradient(top, #eeeeee, #dadada);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#eeeeee), to(#dadada));
+  background-image: -webkit-linear-gradient(top, #eeeeee, #dadada);
+  background-image: -o-linear-gradient(top, #eeeeee, #dadada);
+  background-image: linear-gradient(to bottom, #eeeeee, #dadada);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffeeeeee', endColorstr='#ffdadada', GradientType=0);
+}
+.main .content .table-bordered thead tr th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #444;
+  border-left: 1px solid #F1F1F1;
+  border-right: 1px solid #CCC;
+  -webkit-box-shadow: inset 0 1px 0 #ffffff;
+  -moz-box-shadow: inset 0 1px 0 #ffffff;
+  box-shadow: inset 0 1px 0 #ffffff;
+  text-align:center;
+}
+.main .content .table-bordered thead tr th:first-child {
+  border-left-color: #CCC;
+}
+.main .content .table-bordered thead tr th:last-child {
+  border-right: none;
+}
+.main .content .table-bordered tbody tr:first-child td {
+  border-top-color: #CCC;
+}
+.main .content .table-bordered tbody tr td {
+  border-left: 1px solid #FFF;
+  border-right: 1px solid #DDD;
+}
+.main .content .table-bordered tbody tr td:first-child {
+  border-left-color: #DDD;
+}
+.main .content .table-bordered tbody tr td:last-child {
+  border-right: none;
+}
+.main .content .table-bordered thead tr {
+  background: #EEE;
+  background: -moz-linear-gradient(top, #eeeeee 0%, #dadada 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eeeeee), color-stop(100%, #dadada));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(top, #eeeeee 0%, #dadada 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(top, #eeeeee 0%, #dadada 100%);
+  /* Opera11.10+ */
+
+  background: -ms-linear-gradient(top, #eeeeee 0%, #dadada 100%);
+  /* IE10+ */
+
+  background: linear-gradient(top, #eeeeee 0%, #dadada 100%);
+  /* W3C */
+
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#DADADA')";
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#DADADA');
+}
+.main .content .table-bordered thead th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: #444;
+  border-left: 1px solid #F1F1F1;
+  border-right: 1px solid #CCC;
+  -moz-box-shadow: inset 0 1px 0 #ffffff;
+  -webkit-box-shadow: inset 0 1px 0 #ffffff;
+  box-shadow: inset 0 1px 0 #ffffff;
+}
+.main .content .table-bordered thead th:first-child {
+  border-left-color: #CCC;
+}
+.main .content .table-bordered thead th:last-child {
+  border-right: none;
+}
+.main .content .table-bordered tbody td {
+  border-left: 1px solid #FFF;
+  border-right: 1px solid #DDD;
+}
+.main .content .table-bordered tbody tr td:first-child {
+  border-left-color: #DDD;
+}
+.main .content .table-bordered tbody tr td:last-child {
+  border-right: none;
+}
+.main .content .table-highlight.table-bordered thead tr {
+  background-color: #4b4b4b;
+  background-image: -moz-linear-gradient(top, #555555, #3b3b3b);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#555555), to(#3b3b3b));
+  background-image: -webkit-linear-gradient(top, #555555, #3b3b3b);
+  background-image: -o-linear-gradient(top, #555555, #3b3b3b);
+  background-image: linear-gradient(to bottom, #555555, #3b3b3b);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff555555', endColorstr='#ff3b3b3b', GradientType=0);
+}
+.main .content .table-highlight.table-bordered thead th {
+  color: #FFF;
+  border-right: 1px solid #2f2f2f;
+  border-left: 1px solid #6f6f6f;
+  -webkit-box-shadow: inset 0 1px 0 #888888;
+  -moz-box-shadow: inset 0 1px 0 #888888;
+  box-shadow: inset 0 1px 0 #888888;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+.main .content .table-highlight.table-bordered {
+  border-top: 1px solid #1C2B37;
+}
+
+
+
+/* ---------------------------------- Footer --------------------------------- */
+
+.footer {
+	background: url(images/backgroundfooter.png)
+}
+	.footermenu {
+		margin: 20px 0;
+	}
+
+	.footermenu li {
+		font:18px 'pfbulletinsanspro-regular';
+		float: left;		
+		margin: 35px 35px 35px 0	
+		
+	}	
+	.footermenu li:before {
+		content: '×';
+		font:18px 'WebSymbolsLigaRegular';
+		color: #0e8dc8;
+	}
+		.footermenu li a {
+			color: white;
+			text-decoration: underline;
+		}
+                .footermenu li a:hover {
+			color: #A0A0A0;
+		}
+.copyright {
+	font:18px 'pfbulletinsanspro-regular';
+	color: white;
+	height: 107px;
+	clear: both;
+	background: #484848;
+	border-top: 1px solid #6f6f6f;
+
+}
+.copyright a {
+	text-decoration: underline;
+	color: white;
+}
+.copyright a:hover {
+	color: #B0B0B0;
+}
+	.copyright .name {
+		float: left;
+		margin: 30px 0;
+	}
+		.copyright .name p {
+			margin-bottom: 5px;
+		}
+	.copyright .primepix {
+		float: right;
+		margin: 30px 0;
+	}
+ 
+        
+/* ------------------------------- Dialogs ----------------------------------- */
+
+.warningMessage {
+        color: red;
+        text-align: center;
+}
+
+.permanent-key a{
+    margin-left: 10px;
+}
+
+.domain-key input, .domain-key span, .domain-key a{
+    margin-left: 10px;
+}
+
+.domain-key input{
+    border: 1px solid black;
+}
+
+.simplemodal-overlay{
+    background-color: black;
+    opacity: 0.4;
+}
+
+.simplemodal-container .propose.register .reg{
+    margin: 0;
+}
+
+.simplemodal-container .close{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 0 3px;
+    cursor: pointer;
+    border-radius: 2px;
+	color:#ffffff;
+	font-size: 14px;
+}
+
+.simplemodal-container .close:hover{
+	color:#eeeeee;  
+}
+
+.simplemodal-container .correctwidth{
+    width: auto;
+    margin: 20px 40px;
+}
+
+.simplemodal-container .correctwidth .label{
+    margin-right: 5px;
+}
+
+.simplemodal-container .keys{
+    text-align: left;
+    font-size: 18px;
+    padding-left: 10px;
+    margin: 0 !important;
+    padding: 20px 0 20px 10px;
+    border-bottom: 1px white solid;
+    width: 100%;
+    line-height: 30px;
+}
+
+.simplemodal-container .keys input,
+.simplemodal-container .keys input:focus{
+    display: inline;
+    width: 150px;
+    margin: 0px;
+    padding: 0;
+    font-size: 18px;
+}
+
+.simplemodal-container .keys.domain{
+    border-bottom: none;
+}
+
+
+/* ------------------------------ Prices ------------------------------------- */
+
+.prices table{
+    margin: 20px auto;
+    width: 700px;
+    border: 1px solid rgb(146, 146, 146);
+    border-collapse: collapse;
+    border-spacing: 0px;    
+	margin-bottom:30px;
+}
+
+.prices table th,
+.prices table td{
+    border: 1px solid rgb(146, 146, 146);
+    padding: 3px;
+    text-align: center;
+}
+
+.prices table th:nth-child(1),
+.prices table td:nth-child(1){
+    padding-left: 5px;
+    text-align: left;
+}
+
+
+
+
+/* ----------------------------- Integration --------------------------------- */
+
+.document *{
+    font-size: 18px;
+}
+
+.document a{
+    text-decoration: underline;
+}
+
+.document h2{
+    font: 30px 'pfbulletinsanspro-medium';
+    text-align: center;
+    padding-bottom: 15px;
+    padding-top: 30px;
+}
+
+.document h2 a{
+    font: 25px 'pfbulletinsanspro-medium';
+    text-align: center;
+    background-color: silver;
+    padding-right: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.document h3{
+    font: 25px 'pfbulletinsanspro-medium';
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.document h4{
+    font: 20px 'pfbulletinsanspro-medium';
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.document h5{
+    font-weight: normal;
+    padding-top: 10px;
+}
+
+.document code{
+    font-family: Consolas, "Courier New", Courier, Monospace;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.document ol, .document ul{
+    margin: 10px 0 10px 20px;
+}
+
+.document ol li{
+    list-style-type: decimal;
+}
+
+.document ul li{
+    list-style-type: disc;
+}
+
+.document img{
+    display: block;
+    margin: 10px auto;
+}
+
+.document pre{
+    font-family: Consolas, "Courier New", Courier, Monospace;
+    font-size: 16px; 
+    margin-top: 10px;
+}
+
+
+/* ------------------------------- Contacts ---------------------------------- */
+
+.contacts a {
+    text-decoration: underline;
+}
+
+.contacts #map {
+    width:100%;
+    height:250px;
+}
+
+.contacts .propose.register .reg {
+    margin-left:0px;
+}
+
+.contacts #feedback input, .contacts #feedback button{
+    margin: 10px auto;
+}
+
+.contacts #feedback textarea{
+    margin-left: 55px;
+    margin-top: 0; 
+}
+
+.contacts #feedback input[type="submit"]{
+    margin-top: -27px;
+}
+
+
+

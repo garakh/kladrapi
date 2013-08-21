@@ -1,0 +1,80 @@
+<? use \Phalcon\Tag ?>
+
+<div class="promoheader">
+        <div class="correctwidth">
+                <div class="promotext">
+                        <p>Работа с базой адресов России всегда была головной<br>болью разработчиков</p>
+                        <p>Мы переработали базы адресов<br>и представляем простой и удобный сервис.</p>
+                        <ul>
+                                <li>Легкая интеграция</li>
+                                <li>Частые обновления базы</li>
+                                <li>Стабильность работы серверов</li>
+                                <li>Высокая скорость работы</li>
+                                
+                        </ul>
+                        <a <?= $authorized ? '' : 'id="start-use-service"' ?> href="<?= true ? '/integration/' : '/register/' ?>"><p>Начать пользоваться сервисом</p></a>
+                </div>
+        </div>
+
+</div>
+<div class="correctwidth">
+        <div class="advers">			
+                <ul style="margin-right: 100px;">
+                        <li>Не знаете как сделать быстрый поиск адресов по сотне тысяч улиц и городов?</li>
+                        <li>Устали от программирования сложных веб-форм с вводом адреса?</li>
+                        <li>Не хотите перерабатывать базу «КЛАДР» и хранить ее на своих серверах?</li>
+                </ul>
+                <ul>
+                        <li>Страшно думать о том моменте, когда придется обновлять копию базы «КЛАДР»?</li>
+                        <li>Не хотите нагружать свои решения и сервера дополнительным ненужным функционалом?</li>
+                        <li>Не знаете как сделать легкую и простую форму ввода любого адреса?</li>
+                </ul>
+        </div>
+
+        <h1>У нас есть решение!</h1>
+        <div class="struct">
+                <a href="/integration/#json" class="btn-1"><p>JSON service</p></a>
+                <a href="/integration/#net" class="btn-2"><p>.NET provider</p></a>
+                <a href="/integration/#jquery" class="btn-3"><p>jQuery plugin/widget</p></a>
+                <a href="/integration/#php" class="btn-4"><p>PHP API</p></a>
+        </div>
+        <div class="advantages">
+                <div class="item">
+                        <div class="image-icon icon-integr"></div>
+                        <h2>Легкая интеграция</h2>
+                        <p>Доступ к базе через JSON веб-сервис, .Net LINQ Provider, jQuery plugin, поддержка популярных CMS, и другие виды интеграции.</p>
+                </div>
+                <div class="item">
+                        <div class="image-icon icon-refresh"></div>
+                        <h2>Обновление базы</h2>
+                        <p>Мы следим за изменениями адресов, поэтому наши данные всегда актуальны.</p>
+                </div>
+                <div class="item">
+                        <div class="image-icon icon-stability"></div>
+                        <h2>Стабильность cерверов</h2>
+                        <p>Сервера с базой располагаются в облаке Amazon, с настроенной системой распределения нагрузки. Мы сами используем «КЛАДР в облаке» в своих проектах, поэтому хорошо позаботились об отказоустойчивости решения</p>
+                </div>
+                <div class="item">
+                        <div class="image-icon icon-stability"></div>
+                        <h2>Скорость работы</h2>
+                        <p>Мы провели ни один час оптимизируя базу данных, запросы и кеширование и добились отличных результатов по части скорости работы сервиса</p>
+                </div>
+                <?if(false):?>
+				<div class="item bottomright">
+                        <div class="image-icon icon-stability"></div>
+                        <h2>Гибкий биллинг</h2>
+                        <p>Вы платите только за те запросы, что были сделаны с Вашего ключа. Возможность возврата остатков со счета. Легкое пополнение счета и статистика запросов</p>
+                </div>
+				<?endif?>
+        </div>
+        
+    <? if(!$authorized && false): ?>
+        <br /><br />
+        <h1>Зарегистрируйтесь сейчас <br /> и получите 500 рублей на свой счет</h1>
+        <div class="propose">			
+                <div class="reg2"> 
+                    <input type="submit" class="btn" value="Регистрация" id="bt-reg"/>
+                </div>				
+        </div>
+    <? endif ?>
+</div>
