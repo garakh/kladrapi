@@ -6,8 +6,8 @@
 Структура
 ---------
 
-* */apps/core* - Модуль сервиса ["kladr-api.ru/api.php"] [2]
-* */apps/frontend* - Модуль сайта ["kladr-api.ru"] [1]
+* */apps/core* - Модуль сервиса [kladr-api.ru/api.php] [2]
+* */apps/frontend* - Модуль сайта [kladr-api.ru] [1]
 * */docs* – PHPDoc документация сервиса
 * */examples* – Примеры
 * */files* – Файлы КЛАДР для загрузки в БД (урезанные варианты)
