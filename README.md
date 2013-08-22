@@ -43,7 +43,7 @@
 **Пример:**
 Добавим плагин возвращающий количество объектов в результате.
 
-*Добавил плагин CountPlugin.php в /apps/core/plugins/general/*
+*Добавим плагин CountPlugin.php в /apps/core/plugins/general/*
 
 `````php
 <?php
