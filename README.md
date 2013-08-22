@@ -59,10 +59,6 @@ namespace Kladr\Core\Plugins\General {
     {
         public function process(Request $request, PluginResult $prevResult) 
         {
-            if($prevResult->error){
-                return $prevResult;
-            }
-
             $result = $prevResult;
             $result->result = count($result->result);    
             return $result;
