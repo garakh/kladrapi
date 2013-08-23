@@ -141,7 +141,7 @@ namespace Kladr\Core\Plugins\General {
                     }
                 }
 
-                $this->cache->set('FindPlugin', $request, $objects);
+                $this->cache->set('FindParentsPlugin', $request, $objects);
             }
 
             $result->result = $objects;        
