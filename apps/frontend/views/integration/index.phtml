@@ -297,7 +297,81 @@ $( "input" ).kladr({
                     <noindex><a href="https://github.com/garakh/kladrapi-dotnet/tarball/master">&#8595;TAR</a></noindex>
                 </h2>
                 
-                <p>Автор: Антон Губаренко (<a href="https://github.com/lanserxt">github</a>)</p>
+                <div>
+                    <h3>Автор</h3>
+                    <p>Антон Губаренко (<a href="https://github.com/lanserxt">github</a>)</p>
+                </div>
+                
+                <div>
+                    <h3>Описание</h3>
+                    <p>Представляет собой DLL, которую можно подключить в References для осуществления поиска aдреса в Кладр.</p>
+                </div>
+                
+                <div>
+                    <h3>Использование</h3>
+                    <ol>
+                        <li>Скопировать <code>KladrApiClient.dll</code> и <code>Newtonsoft.Json.Net20.dll</code> в папку с Вашим проектом (или сделать свою сборку с помощью исходниклв в папке Sources)</li>
+                        <li>Добавить их в <code>References</code></li>
+                        <li>Указать <code>using KladrApiClient;</code> в классе</li>
+                        <li>Создать объект класса <code>KladrClient</code></li>
+                        <li>Осуществить поиск с помощью метода <code>FindAddress</code>, которые принимает параметры запроса в формате <code>Dictionary</code></li>
+                    </ol>
+                    <h5>Список возможных параметров:</h5>
+                    <ul>
+                        <li><code>token</code> – токен для доступа к сервису</li>
+                        <li><code>key</code> – ключ для доступа к сервису</li>
+                        <li><code>regionId</code> – код родительского региона</li>
+                        <li><code>districtId</code> – код района</li>
+                        <li><code>cityId</code> – код города</li>
+                        <li><code>streetId</code> – код улицы</li>
+                        <li><code>buildingId</code> – код строения</li>
+                        <li><code>query</code> – строка для поиска по названию</li>
+                        <li><code>contentType</code> – тип объекта для поиска</li>
+                        <li><code>withParent</code> – вернуть объекты вместе с родителями, если 1 то в каждый объект будет добавлено поле parents содержащее список объектов-родителей объекта</li>
+                        <li><code>limit</code> – ограничение количества возвращаемых объектов, по умолчанию = 2000</li>
+                    </ul>                    
+                </div>
+                
+                <div>
+                    <h3>Пример</h3>
+                    
+                    <pre class="brush: js;">
+using KladrApiClient; 
+using System; 
+using System.Collections.Generic; 
+using System.Windows;
+
+public partial class MainWindow : Window
+{
+    private KladrClient kladrClient;
+    public MainWindow()
+    {
+        InitializeComponent();
+        kladrClient = new KladrClient("some_token", "some_key");
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        kladrClient.FindAddress(new Dictionary&lt;string, string&gt;
+                                    {
+                                        {"query", "Арх"},
+                                        {"contentType", "city"},
+                                        {"withParent", "1"},
+                                        {"limit", "2"}
+                                    }, fetchedAddress);
+    }
+
+    private void fetchedAddress(KladrResponse response)
+    {
+        if(response!=null)
+        {
+            if (response.result != null && response.InfoMessage.Equals("OK"))
+                MessageBox.Show(string.Format("Found {0} results", response.result.Length));
+        }
+    }
+}
+                    </pre>
+                </div>
             </div>	
             
             <hr  class="delimiter"/>
