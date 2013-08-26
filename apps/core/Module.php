@@ -122,7 +122,7 @@ namespace Kladr\Core {
                 $api = new Services\ApiService();
                 $api->addPlugin($di->get('validate'));
                 $api->addPlugin($di->get('sphinx'));   
-                $api->addPlugin($di->get('findParents'));
+                //$api->addPlugin($di->get('findParents'));
                 return $api;
             });
 

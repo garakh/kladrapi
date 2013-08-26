@@ -6,7 +6,6 @@ try {
     $collection = $db->selectCollection($argv[1]);
 
     $cursor = $collection->find();
-    $cursor->limit(500);
 
     print('<?xml version="1.0" encoding="utf-8"?>' . "\r");
     print('<sphinx:docset xmlns:sphinx="http://sphinxsearch.com/">' . "\r");
@@ -18,7 +17,7 @@ try {
     print("\r");
 
     foreach($cursor as $document){
-        print('  <sphinx:document id="' . $document['Id'] . '">' . "\r");
+        print('  <sphinx:document id="' . $document['SphinxId'] . '">' . "\r");
         print('    <name>' . $document['Name'] . '</name>' . "\r");
         print('  </sphinx:document>' . "\r");
     }

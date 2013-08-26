@@ -53,7 +53,7 @@ namespace Kladr\Core\Plugins\General {
             $cl->SetServer( "localhost", 9312 );
             
             // search settings
-            $cl->SetMatchMode ( SPH_MATCH_EXTENDED2 );
+            $cl->SetMatchMode ( SPH_MATCH_ANY );
             $cl->SetRankingMode ( SPH_SORT_RELEVANCE );
             
             // limit
@@ -65,29 +65,29 @@ namespace Kladr\Core\Plugins\General {
             // query
             $query = $request->getQuery('query');
             $query = Tools::Key($query);  
-            $result = $cl->Query('*'.$query.'*', 'regions');
+            $objects = $cl->Query('*'.$query.'*', 'regions');
 
             switch ($request->getQuery('contentType')) {
                 case 'region':
-                    $result = $cl->Query('*'.$query.'*', 'regions');
+                    $objects = $cl->Query('*'.$query.'*', 'regions');
                     break;
                 case 'district':
-                    $result = $cl->Query('*'.$query.'*', 'districts');
+                    $objects = $cl->Query('*'.$query.'*', 'districts');
                     break;
                 case 'city':
-                    $result = $cl->Query('*'.$query.'*', 'cities');
+                    $objects = $cl->Query('*'.$query.'*', 'cities');
                     break;
                 case 'street':
-                    $result = $cl->Query('*'.$query.'*', 'streets');
+                    $objects = $cl->Query('*'.$query.'*', 'streets');
                     break;
                 case 'building':
-                    $result = $cl->Query('*'.$query.'*', 'buildings');
+                    $objects = $cl->Query('*'.$query.'*', 'buildings');
                     break;
             }
 
 
             $result = $prevResult;
-            $result->result = $objects;        
+            $result->result = $objects["matches"];    
             return $result;
         }
         
