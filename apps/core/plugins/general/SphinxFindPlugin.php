@@ -1,6 +1,8 @@
 <?php
 
 namespace Kladr\Core\Plugins\General {
+    
+    require $_SERVER["DOCUMENT_ROOT"].'/sphinx/api/sphinxapi.php';
 
     use \Phalcon\Http\Request,
         \Phalcon\Mvc\User\Plugin,
@@ -11,7 +13,8 @@ namespace Kladr\Core\Plugins\General {
         \Kladr\Core\Models\Districts,
         \Kladr\Core\Models\Cities,
         \Kladr\Core\Models\Streets,
-        \Kladr\Core\Models\Buildings;
+        \Kladr\Core\Models\Buildings,
+        \SphinxClient;
 
     /**
      * Kladr\Core\Plugins\General\FindPlugin
@@ -20,7 +23,7 @@ namespace Kladr\Core\Plugins\General {
      * 
      * @author A. Yakovlev. Primepix (http://primepix.ru/)
      */
-    class FindPlugin extends Plugin implements IPlugin
+    class SphinxFindPlugin extends Plugin implements IPlugin
     {
 
         /**
@@ -43,75 +46,45 @@ namespace Kladr\Core\Plugins\General {
                 return $prevResult;
             }
 
-            $objects = $this->cache->get('FindPlugin', $request);
+            $objects = array();
+            
+            // sphinx client
+            $cl = new SphinxClient();
+            $cl->SetServer( "localhost", 9312 );
+            
+            // search settings
+            $cl->SetMatchMode ( SPH_MATCH_EXTENDED2 );
+            $cl->SetRankingMode ( SPH_SORT_RELEVANCE );
+            
+            // limit
+            $limit = $request->getQuery('limit');
+            $limit = intval($limit);
+            $limit = $limit ? $limit : 5000;
+            $cl->SetLimits(0, $limit);
 
-            if($objects === null)
-            {
-                $objects = array();
+            // query
+            $query = $request->getQuery('query');
+            $query = Tools::Key($query);  
+            $result = $cl->Query('*'.$query.'*', 'regions');
 
-                // query
-                $query = $request->getQuery('query');
-                $query = Tools::Key($query);
-                $query = Tools::Normalize($query);       
-
-
-                $arCodes = array();
-
-                // regionId
-                $regionId = $request->getQuery('regionId');
-                if ($regionId) {
-                    $arCodes = Regions::getCodes($regionId);
-                }
-
-                // districtId
-                $districtId = $request->getQuery('districtId');
-                if ($districtId) {
-                    $arCodes = Districts::getCodes($districtId);
-                }
-
-                // cityId
-                $cityId = $request->getQuery('cityId');
-                if ($cityId) {
-                    $arCodes = Cities::getCodes($cityId);
-                }
-
-                // streetId
-                $streetId = $request->getQuery('streetId');
-                if ($streetId) {
-                    $arCodes = Streets::getCodes($streetId);
-                }
-
-                // buildingId
-                $buildingId = $request->getQuery('buildingId');
-                if ($buildingId) {
-                    $arCodes = Buildings::getCodes($buildingId);
-                }
-
-                // limit
-                $limit = $request->getQuery('limit');
-                $limit = intval($limit);
-                $limit = $limit ? $limit : 5000;
-
-                switch ($request->getQuery('contentType')) {
-                    case 'region':
-                        $objects = Regions::findByQuery($query, $arCodes, $limit);
-                        break;
-                    case 'district':
-                        $objects = Districts::findByQuery($query, $arCodes, $limit);
-                        break;
-                    case 'city':
-                        $objects = Cities::findByQuery($query, $arCodes, $limit);
-                        break;
-                    case 'street':
-                        $objects = Streets::findByQuery($query, $arCodes, $limit);
-                        break;
-                    case 'building':
-                        $objects = Buildings::findByQuery($query, $arCodes, $limit);
-                        break;
-                }
-
-                $this->cache->set('FindPlugin', $request, $objects);
+            switch ($request->getQuery('contentType')) {
+                case 'region':
+                    $result = $cl->Query('*'.$query.'*', 'regions');
+                    break;
+                case 'district':
+                    $result = $cl->Query('*'.$query.'*', 'districts');
+                    break;
+                case 'city':
+                    $result = $cl->Query('*'.$query.'*', 'cities');
+                    break;
+                case 'street':
+                    $result = $cl->Query('*'.$query.'*', 'streets');
+                    break;
+                case 'building':
+                    $result = $cl->Query('*'.$query.'*', 'buildings');
+                    break;
             }
+
 
             $result = $prevResult;
             $result->result = $objects;        
