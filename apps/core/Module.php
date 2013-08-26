@@ -100,6 +100,11 @@ namespace Kladr\Core {
                     )
                 )
             ));
+            
+            // Register validate plugin
+            $di->set('sphinx', function(){
+                return new \Kladr\Core\Plugins\General\SphinxFindPlugin();
+            });
 
             // Register find parents plugin
             $di->set('findParents', array(
@@ -116,8 +121,8 @@ namespace Kladr\Core {
             $di->setShared('api', function() use ($di) {
                 $api = new Services\ApiService();
                 $api->addPlugin($di->get('validate'));
-                $api->addPlugin($di->get('find'));   
-                $api->addPlugin($di->get('findParents'));
+                $api->addPlugin($di->get('sphinx'));   
+                //$api->addPlugin($di->get('findParents'));
                 return $api;
             });
 

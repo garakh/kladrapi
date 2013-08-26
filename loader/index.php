@@ -21,6 +21,9 @@ function LoadFile($db, $arLoaders, $file){
     }
 }
 
+// Глобальный идентификатор для Sphinx
+$GLOBALS[Loader::SphinxIdField] = 400000;
+
 // Соотношение загрузчика имени файла
 $arLoaders = array(
     'ALTNAMES' => 'AltnamesLoader',

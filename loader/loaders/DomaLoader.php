@@ -73,6 +73,11 @@ class DomaLoader extends Loader {
             foreach($this->arFieldConformity as $key => $conform){
                 $arData[$key] = $data[$conform] ? $data[$conform] : null;
                 
+                if($key == Loader::IdField){
+                    $GLOBALS[Loader::SphinxIdField]++;
+                    $arData[Loader::SphinxIdField] = $GLOBALS[Loader::SphinxIdField];
+                }
+                
                 if($key == Loader::NameField){
                     $arData[Loader::NormalizedNameField] = __normalize($arData[$key]);
                 }
