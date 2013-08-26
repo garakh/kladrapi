@@ -211,7 +211,7 @@ class StreetsTest extends PHPUnit_Framework_TestCase {
         $query->contentType = QueryToApi::StreetType;
         
         $res = $query->send();
-        $res = $res->result[0];
+        $res = $res->result;
         
         $this->assertEquals(count($res), 0);
     }

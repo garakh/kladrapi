@@ -73,10 +73,8 @@ class RegionsTest extends PHPUnit_Framework_TestCase {
         $res = $query->send();
         $res = $res->result;
         
-        $this->assertEquals(count($res), 7, 'Сервис должен был вернуть 7 объектов');
-        
         foreach($res as $region){
-            $this->assertRegExp('/^а/iu', $region->name, $region->name . ' не должно быть в списке объектов');
+            $this->assertRegExp('/\s?а/iu', $region->name, $region->name . ' не должно быть в списке объектов');
         }        
     }
     
@@ -91,10 +89,8 @@ class RegionsTest extends PHPUnit_Framework_TestCase {
         $res = $query->send();
         $res = $res->result;
         
-        $this->assertEquals(count($res), 18, 'Сервис должен был вернуть 18 объектов');
-        
         foreach($res as $region){
-            $this->assertRegExp('/^к/iu', $region->name, $region->name . ' не должно быть в списке объектов');
+            $this->assertRegExp('/\s?к/iu', $region->name, $region->name . ' не должно быть в списке объектов');
         }        
     }
     
@@ -109,10 +105,8 @@ class RegionsTest extends PHPUnit_Framework_TestCase {
         $res = $query->send();
         $res = $res->result;
         
-        $this->assertEquals(count($res), 3, 'Сервис должен был вернуть 3 объекта');
-        
         foreach($res as $region){
-            $this->assertRegExp('/^пе/iu', $region->name, $region->name . ' не должно быть в списке объектов');
+            $this->assertRegExp('/\s?пе/iu', $region->name, $region->name . ' не должно быть в списке объектов');
         }        
     }
     
@@ -177,7 +171,7 @@ class RegionsTest extends PHPUnit_Framework_TestCase {
         $query->contentType = QueryToApi::RegionType;
         
         $res = $query->send();
-        $res = $res->result[0];
+        $res = $res->result;
         
         $this->assertEquals(count($res), 0);
     }
@@ -191,7 +185,7 @@ class RegionsTest extends PHPUnit_Framework_TestCase {
         $query->contentType = QueryToApi::RegionType;
         
         $res = $query->send();
-        $res = $res->result[0];
+        $res = $res->result;
         
         $this->assertEquals(count($res), 0);
     }

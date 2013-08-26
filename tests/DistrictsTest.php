@@ -76,7 +76,7 @@ class DistrictsTest extends PHPUnit_Framework_TestCase {
         $this->assertLessThan(count($res), 0);
         
         foreach($res as $district){
-            $this->assertRegExp('/^о/iu', $district->name, $district->name . ' не должно быть в списке объектов');
+            $this->assertRegExp('/\s?о/iu', $district->name, $district->name . ' не должно быть в списке объектов');
         }        
     }
     
@@ -94,7 +94,7 @@ class DistrictsTest extends PHPUnit_Framework_TestCase {
         $this->assertLessThan(count($res), 0);
         
         foreach($res as $district){
-            $this->assertRegExp('/^ра/iu', $district->name, $district->name . ' не должно быть в списке объектов');
+            $this->assertRegExp('/\s?ра/iu', $district->name, $district->name . ' не должно быть в списке объектов');
         }        
     }
     
@@ -112,7 +112,7 @@ class DistrictsTest extends PHPUnit_Framework_TestCase {
         $this->assertLessThan(count($res), 0);
         
         foreach($res as $district){
-            $this->assertRegExp('/^пуш/iu', $district->name, $district->name . ' не должно быть в списке объектов');
+            $this->assertRegExp('/\s?пуш/iu', $district->name, $district->name . ' не должно быть в списке объектов');
         }        
     }
     
@@ -298,7 +298,7 @@ class DistrictsTest extends PHPUnit_Framework_TestCase {
         $query->contentType = QueryToApi::DistrictType;
         
         $res = $query->send();
-        $res = $res->result[0];
+        $res = $res->result;
         
         $this->assertEquals(count($res), 0);
     }
@@ -312,7 +312,7 @@ class DistrictsTest extends PHPUnit_Framework_TestCase {
         $query->contentType = QueryToApi::DistrictType;
         
         $res = $query->send();
-        $res = $res->result[0];
+        $res = $res->result;
         
         $this->assertEquals(count($res), 0);
     }

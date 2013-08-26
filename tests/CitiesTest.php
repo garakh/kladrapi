@@ -109,7 +109,7 @@ class CitiesTest extends PHPUnit_Framework_TestCase {
         $this->assertLessThan(count($res), 0);
         
         foreach($res as $city){
-            $this->assertRegExp('/^мим/iu', $city->name, $city->name . ' не должно быть в списке объектов');
+            $this->assertRegExp('/\s?мим/iu', $city->name, $city->name . ' не должно быть в списке объектов');
         }        
     }
     
@@ -127,7 +127,7 @@ class CitiesTest extends PHPUnit_Framework_TestCase {
         $this->assertLessThan(count($res), 0);
         
         foreach($res as $city){
-            $this->assertRegExp('/^ар/iu', $city->name, $city->name . ' не должно быть в списке объектов');
+            $this->assertRegExp('/\s?ар/iu', $city->name, $city->name . ' не должно быть в списке объектов');
         }        
     }
     
@@ -145,7 +145,7 @@ class CitiesTest extends PHPUnit_Framework_TestCase {
         $this->assertLessThan(count($res), 0);
         
         foreach($res as $city){
-            $this->assertRegExp('/^тор/iu', $city->name, $city->name . ' не должно быть в списке объектов');
+            $this->assertRegExp('/\s?тор/iu', $city->name, $city->name . ' не должно быть в списке объектов');
         }        
     }
     
@@ -405,7 +405,7 @@ class CitiesTest extends PHPUnit_Framework_TestCase {
         $query->contentType = QueryToApi::CityType;
         
         $res = $query->send();
-        $res = $res->result[0];
+        $res = $res->result;
         
         $this->assertEquals(count($res), 0);
     }
@@ -419,7 +419,7 @@ class CitiesTest extends PHPUnit_Framework_TestCase {
         $query->contentType = QueryToApi::CityType;
         
         $res = $query->send();
-        $res = $res->result[0];
+        $res = $res->result;
         
         $this->assertEquals(count($res), 0);
     }

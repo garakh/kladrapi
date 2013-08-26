@@ -3,11 +3,14 @@
 function __normalize($str){
     $str = preg_replace('/[^а-яА-Я0-9, ]+/u', '', $str);
     $str = mb_strtolower($str);
-    $arStr = explode(',', $str);
+
     $arRes = array();
+    $arStr = explode(',', $str);    
     foreach($arStr as $str){
         $arRes = array_merge($arRes, explode(' ', $str));
     }
+    
+    $arRes[0] = preg_replace('/[^а-яА-Я0-9]+/u', '', $str);    
     return $arRes;
 }
 
