@@ -1,5 +1,5 @@
 <?
-exit(); // Деактивация
+//exit(); // Деактивация
 
 // Папка с файлами БД КЛАДР сконвертированными в формат csv
 define('UPLOAD_DIR', $_SERVER["DOCUMENT_ROOT"].'/files/');
@@ -21,14 +21,17 @@ function LoadFile($db, $arLoaders, $file){
     }
 }
 
+// Глобальный идентификатор для Sphinx
+$GLOBALS[Loader::SphinxIdField] = 400000;
+
 // Соотношение загрузчика имени файла
 $arLoaders = array(
-    'ALTNAMES' => 'AltnamesLoader',
-    'SOCRBASE' => 'SocrbaseLoader',    
-    'KLADR' => 'KladrLoader',    
-    'STREET' => 'StreetLoader',
+    //'ALTNAMES' => 'AltnamesLoader',
+    //'SOCRBASE' => 'SocrbaseLoader',    
+    //'KLADR' => 'KladrLoader',    
+    //'STREET' => 'StreetLoader',
     'DOMA' => 'DomaLoader',
-    'FLAT' => 'FlatLoader',
+    //'FLAT' => 'FlatLoader',
 );
 
 $file_list = glob(UPLOAD_DIR . "*.csv");
@@ -36,7 +39,7 @@ $file_list = glob(UPLOAD_DIR . "*.csv");
 try {
     $conn = new MongoClient();
     $db = $conn->kladr;
-    $db->drop();
+    //$db->drop();
 
     foreach($file_list as $key => $file){
         $info = pathinfo($file);
@@ -60,8 +63,8 @@ try {
         LoadFile($db, $arLoaders, $file);
     }
 
-    $db->altnames->drop();
-    $db->socrbase->drop();
+    //$db->altnames->drop();
+    //$db->socrbase->drop();
 
     $conn->close();
 } catch (MongoConnectionException $e) {

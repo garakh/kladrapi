@@ -72,6 +72,12 @@ class StreetLoader extends Loader {
 
             foreach($this->arFieldConformity as $key => $conform){
                 $arData[$key] = $data[$conform] ? $data[$conform] : null;
+                
+                if($key == Loader::IdField){
+                    $GLOBALS[Loader::SphinxIdField]++;
+                    $arData[Loader::SphinxIdField] = $GLOBALS[Loader::SphinxIdField];
+                }
+                
                 if($key == Loader::NameField){
                     $arData[Loader::NormalizedNameField] = __normalize($arData[$key]);
                 }
@@ -93,7 +99,7 @@ class StreetLoader extends Loader {
                 $arData[$field] = $value;
             }
 
-            $arData = array_slice($arData, 0, 11);
+            $arData = array_slice($arData, 0, 12);
             $streets->insert($arData);
         }
 

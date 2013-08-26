@@ -11,6 +11,7 @@ class Loader {
 
     // Поля объектов
     const IdField = 'Id';
+    const SphinxIdField = 'SphinxId';
     const NameField = 'Name';
     const NormalizedNameField = 'NormalizedName';
     const TypeField = 'Type';
