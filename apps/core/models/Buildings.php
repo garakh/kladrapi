@@ -80,7 +80,7 @@ namespace Kladr\Core\Models {
             }
 
             if($name){
-                $regexObj = new \MongoRegex('/.*'.$name.'.*/');
+                $regexObj = new \MongoRegex('/^'.$name.'/');
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
