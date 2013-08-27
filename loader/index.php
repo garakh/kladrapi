@@ -34,7 +34,7 @@ $arLoaders = array(
 $file_list = glob(UPLOAD_DIR . "*.csv");
 
 try {
-    $conn = new MongoClient();
+    $conn = new MongoClient('mongodb://10.62.206.183:27017');
     $db = $conn->kladr;
     $db->drop();
 
