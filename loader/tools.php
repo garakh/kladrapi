@@ -1,16 +1,16 @@
 <?
 
 function __normalize($str){
-    $str = preg_replace('/[^а-яА-Я0-9, ]+/u', '', $str);
+    $str = preg_replace('/[^а-яА-Я0-9,\s]+/u', '', $str);
     $str = mb_strtolower($str);
-
+    
     $arRes = array();
-    $arStr = explode(',', $str);    
-    foreach($arStr as $str){
-        $arRes = array_merge($arRes, explode(' ', $str));
+    $arStr = explode(',', $str);       
+    foreach($arStr as $el){
+        $arRes = array_merge($arRes, explode(' ', $el));
     }
     
-    $arRes[0] = preg_replace('/[^а-яА-Я0-9]+/u', '', $str);    
+    $arRes[0] = preg_replace('/\s+/u', '', $str);    
     return $arRes;
 }
 
