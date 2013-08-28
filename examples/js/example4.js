@@ -22,10 +22,16 @@
                 if(obj.typeShort){
                     label += '<span class="ac-s2">' + obj.typeShort + '. ' + '</span>';
                 }
+                
+                query = query.toLowerCase();
+                var name = obj.name.toLowerCase();
+                var start = name.indexOf(query);
+                start = start < 0 ? 0 : start;
 
                 if(query.length < obj.name.length){
-                    label += '<span class="ac-s">' + obj.name.substr(0, query.length) + '</span>';
-                    label += '<span class="ac-s2">' + obj.name.substr(query.length, obj.name.length - query.length) + '</span>';
+                    label += '<span class="ac-s2">' + obj.name.substr(0, start) + '</span>';
+                    label += '<span class="ac-s">' + obj.name.substr(start, query.length) + '</span>';
+                    label += '<span class="ac-s2">' + obj.name.substr(query.length, obj.name.length - query.length - start) + '</span>';
                 } else {
                     label += '<span class="ac-s">' + obj.name + '</span>';
                 }
