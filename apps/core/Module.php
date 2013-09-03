@@ -65,7 +65,7 @@ namespace Kladr\Core {
             // Setting memcache
             $di->set('memcache', function() use ($config) {
                 $frontCache = new \Phalcon\Cache\Frontend\Data(array(
-                    "lifetime" => 2592000
+                    "lifetime" => 86400
                 ));
                 $cache = new \Phalcon\Cache\Backend\Memcache($frontCache, array(
                     "host" => $config->memcache->host,
