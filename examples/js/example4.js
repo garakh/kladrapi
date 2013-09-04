@@ -3,12 +3,10 @@
         var token = '51dfe5d42fb2b43e3300006e';
         var key = '86a2c2a06f1b2451a87d05512cc2c3edfdf41969';        
         
-        var container = $( '#example4' );
-        
-        var city = container.find( '[name="city"]' );
-        var street = container.find( '[name="street"]' );
-        var building = container.find( '[name="building"]' );
-        var buildingAdd = container.find( '[name="building-add"]' );
+        var city = $( '[name="city"]' );
+        var street = $( '[name="street"]' );
+        var building = $( '[name="building"]' );
+        var buildingAdd = $( '[name="building-add"]' );
 
         var map = null;
         var placemark = null;
@@ -17,18 +15,23 @@
         // Формирует подписи в autocomplete
         var Label = function( obj, query ){
             var label = '';
+            
+            var name = obj.name.toLowerCase();
+            query = query.toLowerCase();
+            
+            var start = name.indexOf(query);
+            start = start > 0 ? start : 0;
 
-            if(obj.name){
-                if(obj.typeShort){
-                    label += '<span class="ac-s2">' + obj.typeShort + '. ' + '</span>';
-                }
+            if(obj.typeShort){
+                label += '<span class="ac-s2">' + obj.typeShort + '. ' + '</span>';
+            }
 
-                if(query.length < obj.name.length){
-                    label += '<span class="ac-s">' + obj.name.substr(0, query.length) + '</span>';
-                    label += '<span class="ac-s2">' + obj.name.substr(query.length, obj.name.length - query.length) + '</span>';
-                } else {
-                    label += '<span class="ac-s">' + obj.name + '</span>';
-                }
+            if(query.length < obj.name.length){
+                label += '<span class="ac-s2">' + obj.name.substr(0, start) + '</span>';
+                label += '<span class="ac-s">' + obj.name.substr(start, query.length) + '</span>';
+                label += '<span class="ac-s2">' + obj.name.substr(start+query.length, obj.name.length-query.length-start) + '</span>';
+            } else {
+                label += '<span class="ac-s">' + obj.name + '</span>';
             }
 
             if(obj.parents){
