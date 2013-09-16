@@ -1,50 +1,5 @@
-.ui-tabs,
-.ui-tabs .ui-tabs-nav,
-.ui-state-default a,
-.ui-state-default a:focus{
-    border: none;
-    outline: none;
-    background: none;
-}
-.ui-tabs{
-    width: 1000px;
-    margin: 30px auto;
-}
-.ui-tabs .ui-tabs-panel{
-    background: none;
-    padding: 10px;
-    overflow: auto;
-}
-.ui-tabs-nav li{
+.main .content .title{
     text-align: center;
-    width: 100px;
-    float: left;
+    margin-top: 40px;
+    margin-bottom: 20px;
 }
-
-/* Source Code */
-.scme, .scme pre
-{
-	font-size: small;
-	color: black;
-	font-family: Consolas, "Courier New", Courier, Monospace;
-	background-color: #ffffff;
-	/*white-space: pre;*/
-}
-.scme pre { margin: 0em; }
-.scme .rem { color: #008000; }
-.scme .rem2 { color: #696969; }/* grey */
-.scme .kwrd { color: #0000ff; }
-.scme .str { color: #A31515; }
-.scme .op { color: #0000c0; }
-.scme .preproc { color: #cc6633; }
-.scme .darkblue { color: #00007f; }
-.scme .asp { background-color: #ffff00; }
-.scme .html { color: #800000; }
-.scme .attr { color: #ff0000; }
-.scme .obj { color: #2b91af; }
-.scme .alt 
-{
-	background-color: #f4f4f4;
-	margin: 0em;
-}
-.scme .lnum { color: #606060; }

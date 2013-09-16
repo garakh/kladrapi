@@ -1,4 +1,4 @@
-#example4 .add-panel {
+#example4 ﻿.add-panel {
     position: relative;
     z-index: 100;
     margin: 20px;
@@ -8,11 +8,10 @@
     width: 680px;
     margin: 0 auto;
     position: relative;
-    border-radius: 10px;
-    border: 1px solid rgb(167, 167, 167);
+    border: 1px solid rgb(104, 104, 104);
     background-color: rgb(236, 236, 236);
-    padding-top: 10px;
-    height: 490px;
+    border-radius: 5px;
+    padding-top: 15px;
 }
 
 #example4 .add-panel__map {
@@ -27,13 +26,14 @@
     box-shadow: 0px 1px 0px rgb(255, 255, 255), inset 0px 1px 3px rgba(0, 0, 0, 0.25);
 }
 
-#example4 ﻿#map {
+#example4 #map {
     background: #F2F2F2;
     background-size: 473px 147px;
     cursor: move;
 }
 
-#example4 .add-panel__request-ui input[type="text"]{
+#example4 .add-panel__request-ui input[type="text"]
+{
     width: 240px;
 }
 
@@ -59,10 +59,6 @@
     top: 4px;
     right: 21px;
     display: none;
-}
-
-#example4 .regular__ctrls .spinner2 {
-    left: 300px;
 }
 
 #example4 .regular__ctrls .ffield__lbl {
@@ -100,7 +96,7 @@
     outline: none;
 }
 
-#example4 ﻿.regular__ctrls input[type="text"].small {
+#example4 .regular__ctrls input[type="text"].small {
     width: 150px;
 }
 
@@ -123,6 +119,11 @@
     border-radius: 10px;
     margin-bottom: 20px;
     background-color: rgba(0, 0, 0, 0.06);
+}
+
+#example4 .addition .clear{
+    clear: both;
+    float: none;
 }
 
 #example4 .addition .block:nth-child(1){
@@ -157,7 +158,12 @@
 
 
 /* Custom Autocomplete */
-.ui-autocomplete {
+#kladr_autocomplete {
+    font-family: 'Trebuchet MS', Tahoma, Verdana, Arial, sans-serif;
+    font-size: 13px;
+}
+
+#kladr_autocomplete ul {
     background: #ffffff;
     border: 1px solid #B1B1B1;
     overflow-y: auto;
@@ -165,42 +171,36 @@
     max-width: 490px;
 }
 
-.ui-autocomplete li {
+#kladr_autocomplete li {
     font-size: 13px;
-
     border-top: 1px solid #E2E2E2;
-
 }
 
-.ui-autocomplete li:first-child {
-    border: none;
-}
-
-.ui-autocomplete li a {
+#kladr_autocomplete li a {
     display: block;
     padding: 0 10px;
     line-height: 23px;
 }
 
-.ui-autocomplete li:hover a,
-.ui-autocomplete li a:hover {
+#kladr_autocomplete li:hover a,
+#kladr_autocomplete li a:hover {
     font-weight: normal;
     color: #333333;
 }
 
-.ui-autocomplete li .ac-s {
+#kladr_autocomplete li .ac-s {
     color: #52A3B6;
 }
 
-.ui-autocomplete li .ac-s2 {
+#kladr_autocomplete li .ac-s2 {
     color: #333333;
 }
 
-.ui-autocomplete li .ac-s,
-.ui-autocomplete li .ac-s2 {
+#kladr_autocomplete li .ac-s,
+#kladr_autocomplete li .ac-s2 {
     font-weight: bold;
 }
 
-.ui-autocomplete li .ac-st {
+#kladr_autocomplete li .ac-st {
     color: #AAAAAA;
 }

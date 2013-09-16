@@ -1,19 +1,21 @@
 (function($){
     $(function() {
+        var container = $('#example4');
+        
         var token = '51dfe5d42fb2b43e3300006e';
         var key = '86a2c2a06f1b2451a87d05512cc2c3edfdf41969';        
         
-        var city = $( '[name="city"]' );
-        var street = $( '[name="street"]' );
-        var building = $( '[name="building"]' );
-        var buildingAdd = $( '[name="building-add"]' );
+        var city = container.find( '[name="city"]' );
+        var street = container.find( '[name="street"]' );
+        var building = container.find( '[name="building"]' );
+        var buildingAdd = container.find( '[name="building-add"]' );
 
         var map = null;
         var placemark = null;
         var map_created = false;
 
         // Формирует подписи в autocomplete
-        var Label = function( obj, query ){
+        var LabelFormat = function( obj, query ){
             var label = '';
             
             var name = obj.name.toLowerCase();
@@ -51,15 +53,30 @@
         city.kladr({
             token: token,
             key: key,
-            type: $.ui.kladrObjectType.CITY,
+            type: $.kladr.type.city,
             withParents: true,
-            label: Label,
-            select: function( event, ui ) {
-                city.data( "kladr-obj", ui.item.obj );
-                city.parent().find( 'label' ).text( ui.item.obj.type );
-                street.kladr( 'option', { parentType: $.ui.kladrObjectType.CITY, parentId: ui.item.obj.id } );
-                building.kladr( 'option', { parentType: $.ui.kladrObjectType.CITY, parentId: ui.item.obj.id } );
-                Log(ui.item.obj);
+            labelFormat: LabelFormat,
+            verify: true,
+            select: function( obj ) {
+                city.parent().find( 'label' ).text( obj.type );
+                street.kladr( 'parentType', $.kladr.type.city );
+                street.kladr( 'parentId', obj.id );
+                building.kladr( 'parentType', $.kladr.type.city );
+                building.kladr( 'parentId', obj.id );
+                Log(obj);
+                AddressUpdate();
+                MapUpdate();                
+            },
+            check: function( obj ) {
+                if(obj) {
+                    city.parent().find( 'label' ).text( obj.type );
+                    street.kladr( 'parentType', $.kladr.type.city );
+                    street.kladr( 'parentId', obj.id );
+                    building.kladr( 'parentType', $.kladr.type.city );
+                    building.kladr( 'parentId', obj.id );
+                } 
+                
+                Log(obj);
                 AddressUpdate();
                 MapUpdate();                
             }
@@ -69,15 +86,27 @@
         street.kladr({
             token: token,
             key: key,
-            type: $.ui.kladrObjectType.STREET,
-            label: Label,
-            select: function( event, ui ) {
-                street.data( "kladr-obj", ui.item.obj );
-                street.parent().find( 'label' ).text( ui.item.obj.type );
-                building.kladr( 'option', { parentType: $.ui.kladrObjectType.STREET, parentId: ui.item.obj.id } );
-                Log(ui.item.obj);
+            type: $.kladr.type.street,
+            labelFormat: LabelFormat,
+            verify: true,
+            select: function( obj ) {
+                street.parent().find( 'label' ).text( obj.type );
+                building.kladr( 'parentType', $.kladr.type.street );
+                building.kladr( 'parentId', obj.id );
+                Log(obj);
                 AddressUpdate();
                 MapUpdate();
+            },
+            check: function( obj ) {
+                if(obj) {
+                    street.parent().find( 'label' ).text( obj.type );
+                    building.kladr( 'parentType', $.kladr.type.street );
+                    building.kladr( 'parentId', obj.id );
+                }
+                
+                Log(obj);
+                AddressUpdate();
+                MapUpdate();                 
             }
         });
 
@@ -85,108 +114,19 @@
         building.kladr({
             token: token,
             key: key,
-            type: $.ui.kladrObjectType.BUILDING,
-            label: Label,
-            select: function( event, ui ) {
-                building.data( "kladr-obj", ui.item.obj );
-                Log(ui.item.obj);
+            type: $.kladr.type.building,
+            labelFormat: LabelFormat,
+            verify: true,
+            select: function( obj ) {
+                Log(obj);
                 AddressUpdate();
                 MapUpdate();
+            },
+            check: function( obj ) {
+                Log(obj);
+                AddressUpdate();
+                MapUpdate();                
             }
-        });
-        
-        // Проверка корректности названия города (если пользователь ввёл сам, а не выбрал в списке)
-        city.change(function(){
-            $.kladrCheck({
-                token: token,
-                key: key,
-                value: city.val(),
-                type: $.ui.kladrObjectType.CITY,
-            }, function(obj){
-                if(obj) {
-                    city.val(obj.name);
-                    city.data( "kladr-obj", obj );
-                    city.parent().find( 'label' ).text( obj.type );
-                    street.kladr( 'option', { parentType: $.ui.kladrObjectType.CITY, parentId: obj.id } );
-                    building.kladr( 'option', { parentType: $.ui.kladrObjectType.CITY, parentId: obj.id } );
-                    Log(obj);
-                } else {
-                    city.data( "kladr-obj", null );
-                    city.css('color', 'red');
-                    Log(null);
-                }   
-                
-                AddressUpdate();
-                MapUpdate(); 
-            });
-        });
-        
-        // Проверка корректности названия улицы (если пользователь ввёл сам, а не выбрал в списке)
-        street.change(function(){
-            var query = {
-                token: token,
-                key: key,
-                value: street.val(),
-                type: $.ui.kladrObjectType.STREET,
-            };
-            
-            var cityObj = city.data( "kladr-obj" );
-            if(cityObj){
-                query['parentType'] = $.ui.kladrObjectType.CITY;
-                query['parentId'] = cityObj.id;
-            }            
-            
-            $.kladrCheck(query, function(obj){
-                if(obj) {
-                    street.val(obj.name);
-                    street.data( "kladr-obj", obj );
-                    street.parent().find( 'label' ).text( obj.type );
-                    building.kladr( 'option', { parentType: $.ui.kladrObjectType.STREET, parentId:  obj.id } );
-                    Log(obj);
-                } else {
-                    street.data( "kladr-obj", null );
-                    street.css('color', 'red');
-                    Log(null);
-                }  
-                
-                AddressUpdate();
-                MapUpdate(); 
-            });
-        });
-        
-        // Проверка названия строения
-        building.change(function(){
-            var query = {
-                token: token,
-                key: key,
-                value: building.val(),
-                type: $.ui.kladrObjectType.BUILDING,
-            };
-            
-            var cityObj = city.data( "kladr-obj" );
-            if(cityObj){
-                query['parentType'] = $.ui.kladrObjectType.CITY;
-                query['parentId'] = cityObj.id;
-            } 
-            
-            var streetObj = street.data( "kladr-obj" );
-            if(streetObj){
-                query['parentType'] = $.ui.kladrObjectType.STREET;
-                query['parentId'] = streetObj.id;
-            }            
-            
-            $.kladrCheck(query, function(obj){
-                if(obj && (obj.name == building.val())){
-                    building.val(obj.name);
-                    building.data( "kladr-obj", obj );
-                    Log(obj);
-                } else {
-                    Log(null);
-                } 
-                
-                AddressUpdate();
-                MapUpdate();
-            });
         });
         
         // Проверка названия корпуса
@@ -195,36 +135,20 @@
             AddressUpdate();
             MapUpdate(); 
         });
-
-        var fields = city.add(street);
-        
-        // Отображение крутилки при отправке запроса к сервису
-        fields.bind('downloadStart', function(){
-            $(this).parent().find('.spinner').show();
-        });
-        
-        // Скрытие крутилки по получении ответа от сервиса
-        fields.bind('downloadStop', function(){
-            $(this).parent().find('.spinner').hide();
-        });
-        
-        fields.keydown(function(){
-            $(this).css('color', 'black');
-        });
         
         // Обновляет карту
         var MapUpdate = function(){
             var zoom = 12;
             var address = '';
 
-            var cityObj = city.data( "kladr-obj" );
+            var cityObj = city.kladr('current');
             if(cityObj){
                 if(address) address += ', ';
                 address += cityObj.typeShort + ' ' + cityObj.name;
                 zoom = 12;
             }
 
-            var streetObj = street.data( "kladr-obj" );
+            var streetObj = street.kladr('current');
             if(streetObj){
                 if(address) address += ', ';
                 address += streetObj.typeShort + ' ' + streetObj.name;
@@ -267,7 +191,7 @@
             var address = '';
             var zip = '';
 
-            var cityObj = city.data( "kladr-obj" );
+            var cityObj = city.kladr('current');
             if(cityObj){
                 if(address) address += ', ';
                 address += cityObj.typeShort + '. ' + cityObj.name;
@@ -275,7 +199,7 @@
                 if(cityObj.zip) zip = cityObj.zip;
             }
 
-            var streetObj = street.data( "kladr-obj" );
+            var streetObj = street.kladr('current');
             if(streetObj){
                 if(address) address += ', ';
                 address += streetObj.typeShort + '. ' + streetObj.name;
@@ -285,7 +209,7 @@
 
             var buildingVal = $.trim(building.val());
             if(buildingVal){
-                var buildingObj = building.data( "kladr-obj" );
+                var buildingObj = building.kladr('current');
                 
                 if(address) address += ', ';
                 address += 'д. ' + buildingVal;
@@ -300,12 +224,12 @@
             }
             
             address = (zip ? zip + ', ' : '') + address;
-            $('#address').text(address);
+            container.find('#address').text(address);
         }
         
         // Обновляет лог текущего выбранного объекта
         var Log = function(obj){
-            var logId = $('#id');
+            var logId = container.find('#id');
             if(obj && obj.id){
                 logId.find('.value').text(obj.id);
                 logId.show();
@@ -313,7 +237,7 @@
                 logId.hide();
             }
             
-            var logName = $('#name');
+            var logName = container.find('#name');
             if(obj && obj.name){
                 logName.find('.value').text(obj.name);
                 logName.show();
@@ -321,7 +245,7 @@
                 logName.hide();
             }
             
-            var logZip = $('#zip');
+            var logZip = container.find('#zip');
             if(obj && obj.zip){
                 logZip.find('.value').text(obj.zip);
                 logZip.show();
@@ -329,7 +253,7 @@
                 logZip.hide();
             }
             
-            var logType = $('#type');
+            var logType = container.find('#type');
             if(obj && obj.type){
                 logType.find('.value').text(obj.type);
                 logType.show();
@@ -337,7 +261,7 @@
                 logType.hide();
             }
             
-            var logTypeShort = $('#type_short');
+            var logTypeShort = container.find('#type_short');
             if(obj && obj.typeShort){
                 logTypeShort.find('.value').text(obj.typeShort);
                 logTypeShort.show();
