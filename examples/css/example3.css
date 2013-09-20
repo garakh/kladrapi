@@ -1,5 +1,5 @@
 #example3 .address{
-    width: 340px;
+    width: 455px;
     margin: 20px auto;
     padding: 10px;
     border: 1px solid rgb(104, 104, 104);
@@ -9,13 +9,48 @@
     line-height: 25px;
 }
 
-#example3 .field label{
-    display: block;
-    float: left;
-    width: 135px;
+#example3 .address .field {
+    position: relative;
+    padding-top: 2px;
+    padding-bottom: 11px;
+    overflow: hidden;
+    width: 100%;
 }
 
-#example3 .field input{
-    width: 200px;
-    height: 20px;
+#example3 .address .field-end {
+    padding-bottom: 2px;
+}
+
+#example3 .address label {
+    font-size: 100%;
+    font: inherit;
+    font-weight: normal;
+    font-style: normal;
+    vertical-align: baseline;
+    font-family: Helvetica, Arial;
+    display: block;
+    width: 150px;
+    height: 100%;
+    float: left;
+    font-size: 14px;
+    color: #333333;
+}
+
+#example3 .address input,
+#example3 .address select{
+    width: 300px;
+    display: inline-block;
+    height: 23px;
+    float: none;
+    padding: 0;
+    margin: 0;
+    font-family: Helvetica, Arial;
+    font-size: 13px !important;
+    text-indent: 8px;
+    line-height: 15px;
+    border: 1px solid #C2C2C2;
+    border-top: 1px solid #919292;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px #e5e5e5 inset;
+    outline: none;
 }

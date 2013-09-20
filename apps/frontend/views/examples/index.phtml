@@ -2,117 +2,116 @@
     <h1>Примеры</h1>
 </div>
 
-<link href="css/lib/jquery.kladr.min.css?v=1" rel="stylesheet">
-<link href="css/examples.css?v=1" rel="stylesheet">
-<link href="css/example1.css?v=1" rel="stylesheet">
-<link href="css/example2.css?v=1" rel="stylesheet">
-<link href="css/example3.css?v=1" rel="stylesheet">
-<link href="css/example4.css?v=1" rel="stylesheet">
+<link href="css/lib/jquery.kladr.min.css?v=2" rel="stylesheet">
+<link href="css/examples.css?v=2" rel="stylesheet">
+<link href="css/example1.css?v=2" rel="stylesheet">
+<link href="css/example2.css?v=2" rel="stylesheet">
+<link href="css/example3.css?v=2" rel="stylesheet">
+<link href="css/example4.css?v=2" rel="stylesheet">
 
-<script src="js/lib/jquery-1.10.2.min.js?v=1" type="text/javascript"></script>
-<script src="js/lib/jquery.kladr.min.js?v=1" type="text/javascript"></script>
-<script src="js/example1.js?v=1"></script>
-<script src="js/example2.js?v=1"></script>
-<script src="js/example3.js?v=1"></script>
-<script src="js/example4.js?v=1"></script>
+<script src="js/lib/jquery-1.10.2.min.js?v=2" type="text/javascript"></script>
+<script src="js/lib/jquery.kladr.min.js?v=2" type="text/javascript"></script>
+<script src="js/example1.js?v=2"></script>
+<script src="js/example2.js?v=2"></script>
+<script src="js/example3.js?v=2"></script>
+<script src="js/example4.js?v=2"></script>
 
 <script src="http://api-maps.yandex.ru/2.0.18/?load=package.standard&mode=release&lang=ru-RU" type="text/javascript"></script>
 
 <div class="correctwidth">
     <div class="content">
-        <p class="title" style="margin-top: 0px;">Поиск улицы в г. Москва</p>        
+        <p class="title" style="margin-top: 0px;">Поиск улицы в г. Москва (<a href="/examples/example1.html">исходный код</a>)</p>
         <div id="example1">
             <div class ="address">
-                    <h1>Поиск улицы по Москве</h1>
-                    <div class="field">
-                        <input name="street" type="text" value="">
-                    </div>
+                <div class="ffield">
+                    <input name="street" type="text">
                 </div>
+            </div>
         </div>
-        
-        <p class="title">Поиск улиц в определённых городах</p> 
+
+        <p class="title">Поиск улиц в определённых городах (<a href="/examples/example2.html">исходный код</a>)</p>
         <div id="example2">
             <div class ="address">
-                    <div class="field">
-                        <label>Населённый пункт:</label>
-                        <select name="city">
-                            <option value="7700000000000" selected="selected">Москва</option>
-                            <option value="7800000000000">Санкт-Петербург</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label>Улица:</label>
-                        <input name="street" type="text" value="">
-                    </div>
+                <div class="field">
+                    <label>Населённый пункт:</label>
+                    <select name="city">
+                        <option value="7700000000000" selected="selected">Москва</option>
+                        <option value="7800000000000">Санкт-Петербург</option>
+                    </select>
                 </div>
+                <div class="field field-end">
+                    <label>Улица:</label>
+                    <input name="street" type="text">
+                </div>
+            </div>
         </div>
-        
-        <p class="title">Автодополнение городов и улиц</p>
+
+        <p class="title">Автодополнение городов и улиц (<a href="/examples/example3.html">исходный код</a>)</p>
         <div id="example3">
             <div class ="address">
-                    <div class="field">
-                        <label>Населённый пункт:</label>
-                        <input name="location" type="text" value="">
-                    </div>
-                    <div class="field">
-                        <label>Улица:</label>
-                        <input name="street" type="text" value="">
-                    </div>
+                <div class="field">
+                    <label>Населённый пункт:</label>
+                    <input name="location" type="text" value="">
                 </div>
+                <div class="field field-end">
+                    <label>Улица:</label>
+                    <input name="street" type="text">
+                </div>
+            </div>
         </div>
-        
-        <p class="title">Расширенный пример</p>
+
+        <p class="title">Расширенный пример  (<a href="/examples/example4.html">исходный код</a>)</p>
         <div id="example4">
             <div class="add-panel">
-                    <div class="wrp">
-                        <form class="add-panel__request regular__ctrls">
-                            <div class="ffield">
-                                <label class="ffield__lbl">
-                                    Город
-                                </label>
-                                <input name="city" type="text" class="long">
-                            </div>
-                            <div class="ffield">
-                                <label class="ffield__lbl">
-                                    Улица
-                                </label>
-                                <input name="street" type="text" class="long">
-                            </div>
-                            <div class="ffield">
-                                <label class="ffield__lbl">
-                                    Номер дома
-                                </label>
-                                <input name="building" type="text" class="small">
-
-                                <label class="ffield__lbl2">
-                                    Корпус/строение
-                                </label>
-                                <input name="building-add" type="text" class="small">
-                            </div>
-                            <div class="ffield">
-                                <label class="ffield__lbl ltooltip"></label>
-                                <div id="map" class="add-panel__map"></div>
-                            </div>
-                        </form>
-                        <div class="addition">
-                            <div class="block">
-                                <p class="title">Выбранный объект</p>
-                                <ul>
-                                    <li id="id" style="display: none;"><span class="name">Код:</span> <span class="value"></span></li>
-                                    <li id="zip" style="display: none;"><span class="name">Почтовый индекс:</span> <span class="value"></span></li>
-                                    <li id="name" style="display: none;"><span class="name">Название:</span> <span class="value"></span></li>                        
-                                    <li id="type" style="display: none;"><span class="name">Тип:</span> <span class="value"></span></li>
-                                    <li id="type_short" style="display: none;"><span class="name">Тип коротко:</span> <span class="value"></span></li>
-                                </ul>
-                            </div>
-                            <div class="block">
-                                <p class="title">Текстовое представление адреса</p>
-                                <p id="address" class="value"></p>                    
-                            </div>
-                            <div class="clear"></div>
+                <div class="wrp">
+                    <form class="add-panel__request regular__ctrls">
+                        <div class="ffield">
+                            <label class="ffield__lbl">
+                                Город
+                            </label>
+                            <input name="city" type="text" class="long">
                         </div>
+                        <div class="ffield">
+                            <label class="ffield__lbl">
+                                Улица
+                            </label>
+                            <input name="street" type="text" class="long">
+                        </div>
+                        <div class="ffield">
+                            <label class="ffield__lbl">
+                                Номер дома
+                            </label>
+                            <input name="building" type="text" class="small">
+
+                            <label class="ffield__lbl2">
+                                Корпус/строение
+                            </label>
+                            <input name="building-add" type="text" class="small">
+                        </div>
+                        <div class="ffield">
+                            <label class="ffield__lbl ltooltip"></label>
+                            <div id="map" class="add-panel__map"></div>
+                        </div>
+                    </form>
+                    <div class="addition">
+                        <div class="block">
+                            <p class="title">Выбранный объект</p>
+                            <ul>
+                                <li id="id" style="display: none;"><span class="name">Код:</span> <span class="value"></span></li>
+                                <li id="zip" style="display: none;"><span class="name">Почтовый индекс:</span> <span class="value"></span></li>
+                                <li id="name" style="display: none;"><span class="name">Название:</span> <span class="value"></span></li>
+                                <li id="type" style="display: none;"><span class="name">Тип:</span> <span class="value"></span></li>
+                                <li id="type_short" style="display: none;"><span class="name">Тип коротко:</span> <span class="value"></span></li>
+                            </ul>
+                        </div>
+                        <div class="block">
+                            <p class="title">Текстовое представление адреса</p>
+                            <p id="address" class="value"></p>
+                        </div>
+                        <div class="clear"></div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>

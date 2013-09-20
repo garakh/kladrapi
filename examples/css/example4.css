@@ -173,6 +173,7 @@
 
 #kladr_autocomplete li {
     font-size: 13px;
+    padding: 2px 2px;
     border-top: 1px solid #E2E2E2;
 }
 
