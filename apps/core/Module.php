@@ -61,7 +61,7 @@ namespace Kladr\Core {
                 $dispatcher->setDefaultNamespace('Kladr\Core\Controllers');
                 return $dispatcher;
             });
-
+            
             // Setting memcache
             $di->set('memcache', function() use ($config) {
                 $frontCache = new \Phalcon\Cache\Frontend\Data(array(
@@ -70,7 +70,20 @@ namespace Kladr\Core {
                 $cache = new \Phalcon\Cache\Backend\Memcache($frontCache, array(
                     "host" => $config->memcache->host,
                     "port" => $config->memcache->port,
+                ));                
+                return $cache;
+            });
+            
+            // Settings mongocache
+            $di->set('mongocache', function() use ($config) {
+                $frontCache = new \Phalcon\Cache\Frontend\Data(array(
+                    "lifetime" => 86400
                 ));
+                $cache = new \Phalcon\Cache\Backend\Mongo($frontCache, array(
+                    'server'     => 'mongodb://' . $config->mongocache->host,
+                    'db'         => $config->mongocache->db,
+                    'collection' => $config->mongocache->collection,
+                ));                
                 return $cache;
             });
 
@@ -80,7 +93,7 @@ namespace Kladr\Core {
                 'properties' => array(
                     array(
                         'name' => 'cache',
-                        'value' => array('type' => 'service', 'name' => 'memcache')
+                        'value' => array('type' => 'service', 'name' => 'mongocache')
                     )
                 )
             ));
