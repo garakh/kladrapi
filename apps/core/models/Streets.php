@@ -82,7 +82,7 @@ namespace Kladr\Core\Models {
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
-            $arQuery['sort'] = array(KladrFields::Sort => 1, KladrFields::Name => 1);
+            $arQuery['sort'] = array(KladrFields::Name => 1);
             $arQuery['limit'] = $limit;
 
             $regions = self::find($arQuery);
