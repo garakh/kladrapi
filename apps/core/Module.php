@@ -113,6 +113,17 @@ namespace Kladr\Core {
                     )
                 )
             ));
+            
+            // Register special cases plugin
+            $di->set('specialCases', array(
+                'className' => '\Kladr\Core\Plugins\General\SpecialCasesPlugin',
+                'properties' => array(
+                    array(
+                        'name' => 'cache',
+                        'value' => array('type' => 'service', 'name' => 'cache')
+                    )
+                )
+            ));
 
             // Register find parents plugin
             $di->set('findParents', array(
@@ -130,6 +141,7 @@ namespace Kladr\Core {
                 $api = new Services\ApiService();
                 $api->addPlugin($di->get('validate'));
                 $api->addPlugin($di->get('find'));   
+                $api->addPlugin($di->get('specialCases')); 
                 $api->addPlugin($di->get('findParents'));
                 return $api;
             });
