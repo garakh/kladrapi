@@ -101,44 +101,26 @@ namespace Kladr\Core\Models {
             }
 
             $arReturnBuilding = array();
-            $count = 0;
             foreach($arReturn as $item){
                 $arNames = explode(',', $item['name']);
                 foreach($arNames as $buildingName){
                     if($name){
                         if(preg_match('/^'.$name.'/iu', $buildingName)){
-                            $count++;
                             $item['name'] = $buildingName;
                             $arReturnBuilding[$buildingName] = $item;
                         }
                     } else {
-                        $count++;
                         $item['name'] = $buildingName;
                         $arReturnBuilding[$buildingName] = $item;
-                    }
-
-                    if($count >= $limit){
-                        return self::Sort($arReturnBuilding);
                     }
                 }
             }
             
-            
-
-            return self::Sort($arReturnBuilding);
-        }
-        
-        /**
-         * Сортирует массив объектов по ключу
-         * 
-         * @param array $arObjects Массив объектов
-         */
-        private static function Sort($arObjects)
-        {
-            ksort($arObjects);
+            ksort($arReturnBuilding);
+            $arReturnBuilding = array_slice($arReturnBuilding, 0, $limit);
             
             $arResult = array();
-            foreach($arObjects as $item){
+            foreach($arReturnBuilding as $item){
                 $arResult[] = $item;
             }
             
