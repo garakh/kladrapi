@@ -118,14 +118,14 @@ namespace Kladr\Core\Models {
                     }
 
                     if($count >= $limit){
-                        return Sort($arReturnBuilding);
+                        return self::Sort($arReturnBuilding);
                     }
                 }
             }
             
             
 
-            return Sort($arReturnBuilding);
+            return self::Sort($arReturnBuilding);
         }
         
         /**
