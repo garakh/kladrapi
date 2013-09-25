@@ -102,6 +102,10 @@ namespace Kladr\Core\Plugins\General {
             if($prevResult->error){
                 return $prevResult;
             }
+            
+            if(!$request->getQuery('withParent')){
+                return $prevResult;
+            }
 
             $objects = $this->cache->get('FindParentsPlugin', $request);
 
@@ -111,34 +115,32 @@ namespace Kladr\Core\Plugins\General {
             {
                 $objects = $result->result;
 
-                if($request->getQuery('withParent')){
-                    switch ($request->getQuery('contentType')) {
-                        case 'region':
-                            foreach($objects as $key => $object){
-                                $objects[$key]['parents'] = $this->findParents(Regions::getCodes($object['id']));
-                            }
-                            break;
-                        case 'district':
-                            foreach($objects as $key => $object){
-                                $objects[$key]['parents'] = $this->findParents(Districts::getCodes($object['id']));
-                            }
-                            break;
-                        case 'city':
-                            foreach($objects as $key => $object){
-                                $objects[$key]['parents'] = $this->findParents(Cities::getCodes($object['id']));
-                            }
-                            break;
-                        case 'street':
-                            foreach($objects as $key => $object){
-                                $objects[$key]['parents'] = $this->findParents(Streets::getCodes($object['id']));
-                            }
-                            break;
-                        case 'building':
-                            foreach($objects as $key => $object){
-                                $objects[$key]['parents'] = $this->findParents(Buildings::getCodes($object['id']));
-                            }
-                            break;
-                    }
+                switch ($request->getQuery('contentType')) {
+                    case 'region':
+                        foreach($objects as $key => $object){
+                            $objects[$key]['parents'] = $this->findParents(Regions::getCodes($object['id']));
+                        }
+                        break;
+                    case 'district':
+                        foreach($objects as $key => $object){
+                            $objects[$key]['parents'] = $this->findParents(Districts::getCodes($object['id']));
+                        }
+                        break;
+                    case 'city':
+                        foreach($objects as $key => $object){
+                            $objects[$key]['parents'] = $this->findParents(Cities::getCodes($object['id']));
+                        }
+                        break;
+                    case 'street':
+                        foreach($objects as $key => $object){
+                            $objects[$key]['parents'] = $this->findParents(Streets::getCodes($object['id']));
+                        }
+                        break;
+                    case 'building':
+                        foreach($objects as $key => $object){
+                            $objects[$key]['parents'] = $this->findParents(Buildings::getCodes($object['id']));
+                        }
+                        break;
                 }
 
                 $this->cache->set('FindParentsPlugin', $request, $objects);
