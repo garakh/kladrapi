@@ -109,21 +109,40 @@ namespace Kladr\Core\Models {
                         if(preg_match('/^'.$name.'/iu', $buildingName)){
                             $count++;
                             $item['name'] = $buildingName;
-                            $arReturnBuilding[] = $item;
+                            $arReturnBuilding[$buildingName] = $item;
                         }
                     } else {
                         $count++;
                         $item['name'] = $buildingName;
-                        $arReturnBuilding[] = $item;
+                        $arReturnBuilding[$buildingName] = $item;
                     }
 
                     if($count >= $limit){
-                        return $arReturnBuilding;
+                        return Sort($arReturnBuilding);
                     }
                 }
             }
+            
+            
 
-            return $arReturnBuilding;
+            return Sort($arReturnBuilding);
+        }
+        
+        /**
+         * Сортирует массив объектов по ключу
+         * 
+         * @param array $arObjects Массив объектов
+         */
+        private static function Sort($arObjects)
+        {
+            ksort($arObjects);
+            
+            $arResult = array();
+            foreach($arObjects as $item){
+                $arResult[] = $item;
+            }
+            
+            return $arResult;
         }
 
     }
