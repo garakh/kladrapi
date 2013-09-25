@@ -117,6 +117,7 @@
             type: $.kladr.type.building,
             labelFormat: LabelFormat,
             verify: true,
+            limit: 30,
             select: function( obj ) {
                 Log(obj);
                 AddressUpdate();
