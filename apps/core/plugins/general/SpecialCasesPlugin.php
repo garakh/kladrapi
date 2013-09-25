@@ -38,7 +38,7 @@ namespace Kladr\Core\Plugins\General {
          * @return \Kladr\Core\Plugins\Base\PluginResult
          */
         public function process(Request $request, PluginResult $prevResult) 
-        {    
+        { 
             if($prevResult->error){
                 return $prevResult;
             }
@@ -58,7 +58,7 @@ namespace Kladr\Core\Plugins\General {
                 $value = $request->getQuery($param);
                 if($cases[$value]){
                     $paramName = $param;
-                    $paramValue = $value;
+                    $paramValue = $cases[$value];
                 }
             }
             
@@ -124,7 +124,7 @@ namespace Kladr\Core\Plugins\General {
             }
 
             $result = $prevResult;
-            $result->result = array_merge($result->result, $objects); 
+            $result->result = array_merge($prevResult->result, $objects); 
             return $result;
         }
         
