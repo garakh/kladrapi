@@ -54,12 +54,17 @@ namespace Kladr\Core\Plugins\General {
                 '9900000000000'
             );
             
-            $result = $prevResult;            
-            foreach($result->result as $key => $obj){
+            $objects = array();
+            $result = $prevResult; 
+            foreach($prevResult->result as $key => $obj){
                 if(in_array($obj['id'], $arSpecialCases)){
-                    $result->result[$key]['parents'] = array();
+                    $obj['parents'] = array();
                 }
+                $objects[] = $obj;
             }
+            
+            $result = $prevResult; 
+            $result->result = $objects;
             return $result;
         }
         
