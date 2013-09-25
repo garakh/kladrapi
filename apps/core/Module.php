@@ -135,6 +135,17 @@ namespace Kladr\Core {
                     )
                 )
             ));
+            
+            // Register find parents plugin
+            $di->set('parentsSpecialCases', array(
+                'className' => '\Kladr\Core\Plugins\General\ParentsSpecialCasesPlugin',
+                'properties' => array(
+                    array(
+                        'name' => 'cache',
+                        'value' => array('type' => 'service', 'name' => 'cache')
+                    )
+                )
+            ));
 
             // Setting api
             $di->setShared('api', function() use ($di) {
@@ -143,6 +154,7 @@ namespace Kladr\Core {
                 $api->addPlugin($di->get('find'));   
                 $api->addPlugin($di->get('specialCases')); 
                 $api->addPlugin($di->get('findParents'));
+                $api->addPlugin($di->get('parentsSpecialCases'));
                 return $api;
             });
 
