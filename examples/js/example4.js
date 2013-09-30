@@ -140,32 +140,80 @@
         var MapUpdate = function(){
             var zoom = 12;
             var address = '';
-
-            var cityObj = city.kladr('current');
-            if(cityObj){
+            
+            // Город
+            var name = null;
+            var type = null;            
+            var obj = city.kladr('current');
+            var value = $.trim(city.val());
+            
+            if(obj){
+                name = obj.name;
+                type = obj.type + '.';
+            } else if(value){
+                name = value;
+                type = 'город';
+            }
+            
+            if(name){
                 if(address) address += ', ';
-                address += cityObj.typeShort + ' ' + cityObj.name;
+                address += type + ' ' + name;
                 zoom = 12;
             }
-
-            var streetObj = street.kladr('current');
-            if(streetObj){
+            
+            // Улица
+            name = null;
+            type = null;            
+            obj = street.kladr('current');
+            value = $.trim(street.val());
+            
+            if(obj){
+                name = obj.name;
+                type = obj.type + '.';
+            } else if(value){
+                name = value;
+                type = 'улица';
+            }
+            
+            if(name){
                 if(address) address += ', ';
-                address += streetObj.typeShort + ' ' + streetObj.name;
+                address += type + ' ' + name;
                 zoom = 14;
             }
-
-            var buildingVal = $.trim(building.val());
-            if(buildingVal){
+            
+            // Дом
+            name = null;
+            type = null;            
+            obj = building.kladr('current');
+            value = $.trim(building.val());
+            
+            if(obj){
+                name = obj.name;
+                type = 'дом';
+            } else if(value){
+                name = value;
+                type = 'дом';
+            }
+            
+            if(name){
                 if(address) address += ', ';
-                address += 'д. ' + buildingVal;
+                address += type + ' ' + name;
                 zoom = 16;
             }
-
-            var buildingAddVal = $.trim(buildingAdd.val());
-            if(buildingAddVal){
+            
+            // Корпус
+            name = null;
+            type = null;            
+            value = $.trim(buildingAdd.val());
+            
+            if(value){
+                name = value;
+                type = 'корпус';
+            }
+            
+            if(name){
                 if(address) address += ', ';
-                address += buildingAddVal;
+                address += type + ' ' + name;
                 zoom = 16;
             }
 
@@ -190,41 +238,84 @@
         var AddressUpdate = function(){
             var address = '';
             var zip = '';
-
-            var cityObj = city.kladr('current');
-            if(cityObj){
-                if(address) address += ', ';
-                address += cityObj.typeShort + '. ' + cityObj.name;
-
-                if(cityObj.zip) zip = cityObj.zip;
+            
+            // Город
+            var name = null;
+            var type = null;            
+            var obj = city.kladr('current');
+            var value = $.trim(city.val());
+            
+            if(obj){
+                name = obj.name;
+                type = obj.typeShort + '.';
+                if(obj.zip) zip = obj.zip;
+            } else if(value){
+                name = value;
+                type = 'г.';
             }
-
-            var streetObj = street.kladr('current');
-            if(streetObj){
+            
+            if(name){
                 if(address) address += ', ';
-                address += streetObj.typeShort + '. ' + streetObj.name;
-
-                if(streetObj.zip) zip = streetObj.zip;
+                address += type + ' ' + name;
             }
-
-            var buildingVal = $.trim(building.val());
-            if(buildingVal){
-                var buildingObj = building.kladr('current');
-                
-                if(address) address += ', ';
-                address += 'д. ' + buildingVal;
-                
-                if(buildingObj && buildingObj.zip) zip = buildingObj.zip;
+            
+            // Улица
+            name = null;
+            type = null;            
+            obj = street.kladr('current');
+            value = $.trim(street.val());
+            
+            if(obj){
+                name = obj.name;
+                type = obj.typeShort + '.';
+                if(obj.zip) zip = obj.zip;
+            } else if(value){
+                name = value;
+                type = 'ул.';
             }
-
-            var buildingAddVal = $.trim(buildingAdd.val());
-            if(buildingAddVal){
+            
+            if(name){
                 if(address) address += ', ';
-                address += 'к. ' + buildingAddVal;
+                address += type + ' ' + name;
+            }
+            
+            // Дом
+            name = null;
+            type = null;            
+            obj = building.kladr('current');
+            value = $.trim(building.val());
+            
+            if(obj){
+                name = obj.name;
+                type = 'д.';
+                if(obj.zip) zip = obj.zip;
+            } else if(value){
+                name = value;
+                type = 'д.';
+            }
+            
+            if(name){
+                if(address) address += ', ';
+                address += type + ' ' + name;
+            }
+            
+            // Корпус
+            name = null;
+            type = null;            
+            value = $.trim(buildingAdd.val());
+            
+            if(value){
+                name = value;
+                type = 'к.';
+            }
+            
+            if(name){
+                if(address) address += ', ';
+                address += type + ' ' + name;
             }
             
             address = (zip ? zip + ', ' : '') + address;
-            container.find('#address').text(address);
+            $('#address').text(address);
         }
         
         // Обновляет лог текущего выбранного объекта
