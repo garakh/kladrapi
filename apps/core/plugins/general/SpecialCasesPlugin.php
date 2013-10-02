@@ -7,6 +7,7 @@ namespace Kladr\Core\Plugins\General {
         \Kladr\Core\Plugins\Base\IPlugin,
         \Kladr\Core\Plugins\Base\PluginResult,
         \Kladr\Core\Plugins\Tools\Tools,
+        \Kladr\Core\Models\KladrFields,
         \Kladr\Core\Models\Regions,
         \Kladr\Core\Models\Districts,
         \Kladr\Core\Models\Cities,
@@ -87,8 +88,8 @@ namespace Kladr\Core\Plugins\General {
                     $arCodes = Buildings::getCodes($buildingId);
                 }
                 
-                if(!$arRegionCodeSpecialCases[$arCodes[0]]) return $prevResult;
-                $arCodes[0] = $arRegionCodeSpecialCases[$arCodes[0]];
+                if(!$arRegionCodeSpecialCases[$arCodes[KladrFields::CodeRegion]]) return $prevResult;
+                $arCodes[KladrFields::CodeRegion] = $arRegionCodeSpecialCases[$arCodes[KladrFields::CodeRegion]];
                 
                 // query
                 $query = $request->getQuery('query');
