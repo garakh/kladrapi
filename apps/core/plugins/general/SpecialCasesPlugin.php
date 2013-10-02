@@ -43,61 +43,57 @@ namespace Kladr\Core\Plugins\General {
                 return $prevResult;
             }
             
-            $arSpecialCases = array(
-                'regionId' => array(
-                    '7700000000000' => '5000000000000',
-                    '5000000000000' => '7700000000000',
-                    '7800000000000' => '4700000000000',
-                    '7800000000001' => '4700000000000',
-                    '4700000000000' => '7800000000000'
-                )
+            $arRegionCodeSpecialCases = array(
+                77 => 50, // Москва => Московская область
+                50 => 77, // Московская область => Москва
+                78 => 47, // Санкт-Петербург => Ленинградская область
+                47 => 78  // Ленинградская область => Санкт-Петербург
             );
-            
-            $paramName = null;
-            $paramValue = null;
-            
-            foreach($arSpecialCases as $param => $cases){
-                $value = $request->getQuery($param);
-                if($cases[$value]){
-                    $paramName = $param;
-                    $paramValue = $cases[$value];
-                }
-            }
-            
-            if(!$paramName || !$paramValue){
-                return $prevResult;
-            }
 
             $objects = $this->cache->get('SpecialCasesPlugin', $request);
 
             if($objects === null)
             {
                 $objects = array();
+                $arCodes = array();
 
+                // regionId
+                $regionId = $request->getQuery('regionId');
+                if ($regionId) {
+                    $arCodes = Regions::getCodes($regionId);
+                }
+
+                // districtId
+                $districtId = $request->getQuery('districtId');
+                if ($districtId) {
+                    $arCodes = Districts::getCodes($districtId);
+                }
+
+                // cityId
+                $cityId = $request->getQuery('cityId');
+                if ($cityId) {
+                    $arCodes = Cities::getCodes($cityId);
+                }
+
+                // streetId
+                $streetId = $request->getQuery('streetId');
+                if ($streetId) {
+                    $arCodes = Streets::getCodes($streetId);
+                }
+
+                // buildingId
+                $buildingId = $request->getQuery('buildingId');
+                if ($buildingId) {
+                    $arCodes = Buildings::getCodes($buildingId);
+                }
+                
+                if(!$arRegionCodeSpecialCases[$arCodes[0]]) return $prevResult;
+                $arCodes[0] = $arRegionCodeSpecialCases[$arCodes[0]];
+                
                 // query
                 $query = $request->getQuery('query');
                 $query = Tools::Key($query);
-                $query = Tools::Normalize($query);       
-
-                $arCodes = array();                
-                switch($paramName)
-                {
-                    case 'regionId':
-                        $arCodes = Regions::getCodes($paramValue);
-                        break;
-                    case 'districtId':
-                        $arCodes = Districts::getCodes($paramValue);
-                        break;
-                    case 'cityId':
-                        $arCodes = Cities::getCodes($paramValue);
-                        break;
-                    case 'streetId':
-                        $arCodes = Streets::getCodes($paramValue);
-                        break;
-                    case 'buildingId':
-                        $arCodes = Buildings::getCodes($paramValue);
-                        break;
-                }
+                $query = Tools::Normalize($query);  
 
                 // limit
                 $limit = $request->getQuery('limit');
