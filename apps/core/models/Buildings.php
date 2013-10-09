@@ -121,14 +121,18 @@ namespace Kladr\Core\Models {
                 }
             }
             
-            ksort($arReturnBuilding, SORT_NATURAL | SORT_FLAG_CASE);
-            $arReturnBuilding = array_slice($arReturnBuilding, 0, $limit);
+            ksort($arReturnBuilding);
             
             $arResult = array();
-            foreach($arReturnBuilding as $item){
-                $arResult[] = $item;
+            for($i=1; $i<10; $i++){
+                foreach($arReturnBuilding as $item){
+                    if(strlen($item['name']) == $i){
+                        $arResult[] = $item;
+                    }
+                }
             }
             
+            $arResult = array_slice($arResult, 0, $limit);            
             return $arResult;
         }
 
