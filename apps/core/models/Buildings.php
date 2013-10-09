@@ -84,7 +84,7 @@ namespace Kladr\Core\Models {
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
-            $arQuery['limit'] = $limit;
+            $arQuery['limit'] = $limit * 3;
 
             $regions = self::find($arQuery);
 
