@@ -84,7 +84,7 @@ namespace Kladr\Core\Models {
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
-            $arQuery['limit'] = $limit * 2;
+            $arQuery['limit'] = $limit;
 
             $regions = self::find($arQuery);
 
@@ -121,7 +121,7 @@ namespace Kladr\Core\Models {
                 }
             }
             
-            ksort($arReturnBuilding);
+            ksort($arReturnBuilding, SORT_NATURAL | SORT_FLAG_CASE);
             $arReturnBuilding = array_slice($arReturnBuilding, 0, $limit);
             
             $arResult = array();
