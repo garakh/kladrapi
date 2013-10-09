@@ -84,7 +84,7 @@ namespace Kladr\Core\Models {
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
-            $arQuery['limit'] = $limit;
+            $arQuery['limit'] = $limit * 2;
 
             $regions = self::find($arQuery);
 
@@ -99,17 +99,22 @@ namespace Kladr\Core\Models {
                     'okato'     => $region->readAttribute(KladrFields::Okato),
                 );
             }
-
+            
             $arReturnBuilding = array();
-            foreach($arReturn as $item){
-                $arNames = explode(',', $item['name']);
-                foreach($arNames as $buildingName){
-                    if($name){
+            if($name){
+                foreach($arReturn as $item){
+                    $arNames = explode(',', $item['name']);
+                    foreach($arNames as $buildingName){
                         if(preg_match('/^'.$name.'/iu', $buildingName)){
                             $item['name'] = $buildingName;
                             $arReturnBuilding[$buildingName] = $item;
                         }
-                    } else {
+                    }
+                }
+            } else {
+                foreach($arReturn as $item){
+                    $arNames = explode(',', $item['name']);
+                    foreach($arNames as $buildingName){
                         $item['name'] = $buildingName;
                         $arReturnBuilding[$buildingName] = $item;
                     }
