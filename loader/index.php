@@ -3,6 +3,7 @@ exit(); // Деактивация
 
 // Папка с файлами БД КЛАДР сконвертированными в формат csv
 define('UPLOAD_DIR', $_SERVER["DOCUMENT_ROOT"].'/files/');
+define('CONNECT',  'mongodb://127.0.0.1:27017');
 
 require $_SERVER["DOCUMENT_ROOT"] . '/loader/tools.php';
 require $_SERVER["DOCUMENT_ROOT"] . '/loader/include.php';
@@ -34,7 +35,7 @@ $arLoaders = array(
 $file_list = glob(UPLOAD_DIR . "*.csv");
 
 try {
-    $conn = new MongoClient('mongodb://10.62.206.183:27017');
+    $conn = new MongoClient(CONNECT);
     $db = $conn->kladr;
     $db->drop();
 
