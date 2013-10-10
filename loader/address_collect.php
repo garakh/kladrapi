@@ -1,4 +1,5 @@
 <?php
+exit(); // Деактивация
 
 $connectString = 'mongodb://127.0.0.1:27017';
 
@@ -68,6 +69,11 @@ function AddressCollect(MongoDB $db) {
             )
         ));
     }
+    
+    $streets->ensureIndex(
+        array('Address' => 1),
+        array('background' => true)
+    );
 }
 
 print 'Скрипт успешно выполнил свою работу';
