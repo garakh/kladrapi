@@ -15,7 +15,7 @@ namespace Kladr\Core\Plugins\General {
         \Kladr\Core\Models\Buildings;
 
     /**
-     * Kladr\Core\Plugins\General\FindPlugin
+     * Kladr\Core\Plugins\General\SpecialCasesPlugin
      * 
      * Плагин для поиска объектов
      * 

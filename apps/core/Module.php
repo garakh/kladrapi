@@ -124,6 +124,17 @@ namespace Kladr\Core {
                     )
                 )
             ));
+            
+            // Register duplicate plugin
+            $di->set('duplicate', array(
+                'className' => '\Kladr\Core\Plugins\General\DuplicatePlugin',
+                'properties' => array(
+                    array(
+                        'name' => 'cache',
+                        'value' => array('type' => 'service', 'name' => 'cache')
+                    )
+                )
+            ));
 
             // Register find parents plugin
             $di->set('findParents', array(
@@ -153,6 +164,7 @@ namespace Kladr\Core {
                 $api->addPlugin($di->get('validate'));
                 $api->addPlugin($di->get('find'));   
                 $api->addPlugin($di->get('specialCases')); 
+                $api->addPlugin($di->get('duplicate')); 
                 $api->addPlugin($di->get('findParents'));
                 $api->addPlugin($di->get('parentsSpecialCases'));
                 return $api;
