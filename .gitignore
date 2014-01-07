@@ -1,3 +1,5 @@
 /nbproject
 /.idea
 /tmp
+/apps/core/config/config.ini
+/apps/frontend/config/config.ini
