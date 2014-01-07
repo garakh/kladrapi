@@ -10,11 +10,6 @@ class AltnamesLoader extends Loader {
 
         $altnames = $this->db->altnames;
 
-        $altnames->ensureIndex(
-            array(Loader::OldIdField => 1),
-            array('background' => true)
-        );
-
         $first = true;
         while (($data = $this->ReadLine()) !== FALSE) {
             if($first){
@@ -29,6 +24,11 @@ class AltnamesLoader extends Loader {
 
             $altnames->insert($item);
         }
+		
+        $altnames->ensureIndex(
+            array(Loader::OldIdField => 1),
+            array('background' => true, 'unique' => true, 'dropDups' => true)
+        );		
 
         $this->Close();
         return true;

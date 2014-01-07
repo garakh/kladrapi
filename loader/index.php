@@ -1,8 +1,10 @@
-<?
-exit(); // Деактивация
+﻿<?
+//CLI Mode
+$_SERVER["DOCUMENT_ROOT"] = 'F:/open_server/OpenServer/domains/kladr';
 
 // Папка с файлами БД КЛАДР сконвертированными в формат csv
-define('UPLOAD_DIR', $_SERVER["DOCUMENT_ROOT"].'/files/');
+//define('UPLOAD_DIR', $_SERVER["DOCUMENT_ROOT"].'/files/');
+define('UPLOAD_DIR', $_SERVER["DOCUMENT_ROOT"].'/files_local/');
 define('CONNECT',  'mongodb://127.0.0.1:27017');
 
 require $_SERVER["DOCUMENT_ROOT"] . '/loader/tools.php';
@@ -14,11 +16,11 @@ function LoadFile($db, $arLoaders, $file){
     $loader = $arLoaders[$info['filename']];
 
     if($loader){
-        print $info['basename'] . ': ';
+        print basename($file) . ': ';
         $loader = new $loader($db, $file);
-        if($loader->Load()) print 'Файл загружен успешно';
+        if($loader->Load()) print 'Loaded';
         else print $loader->Error;
-        print '<br/>';
+        print "\n";
     }
 }
 

@@ -35,46 +35,8 @@ class KladrLoader extends Loader{
         $district = $this->db->district;
         $cities = $this->db->cities;
 
-        $regions->ensureIndex(
-            array(Loader::IdField => 1),
-            array('background' => true)
-        );
-        $regions->ensureIndex(
-            array(Loader::NormalizedNameField => 1),
-            array('background' => true)
-        );
-
-        $district->ensureIndex(
-            array(Loader::IdField => 1),
-            array('background' => true)
-        );
-        $district->ensureIndex(
-            array(Loader::NormalizedNameField => 1),
-            array('background' => true)
-        );
-        $district->ensureIndex(
-            array(Loader::CodeRegionField => 1),
-            array('background' => true)
-        );
-
-        $cities->ensureIndex(
-            array(Loader::IdField => 1),
-            array('background' => true)
-        );
-        $cities->ensureIndex(
-            array(Loader::NormalizedNameField => 1),
-            array('background' => true)
-        );
-        $cities->ensureIndex(
-            array(Loader::CodeRegionField => 1),
-            array('background' => true)
-        );
-        $cities->ensureIndex(
-            array(Loader::CodeDistrictField => 1),
-            array('background' => true)
-        );
-
         $first = true;
+        $i = 0;
         while (($data = $this->ReadLine()) !== FALSE) {
             if($first){
                 $first = false;
@@ -82,6 +44,9 @@ class KladrLoader extends Loader{
             }
 
             $arData = array();
+
+            if($i++ % 10000 == 0)
+                echo $i.'; ';
 
             $id_key = $this->arFieldConformity[Loader::IdField];
             $cursor = $altnames->find(array(Loader::OldIdField => $data[$id_key]));
@@ -151,6 +116,7 @@ class KladrLoader extends Loader{
                     break;
             }
 
+            $arData[Loader::SortField] = $sort;
             $type = $this->GetType($arCode);
 
             switch($type)
@@ -197,6 +163,58 @@ class KladrLoader extends Loader{
             }
         }
 
+        echo " creating indecies ";
+
+        $regions->ensureIndex(
+            array(Loader::IdField => 1),
+            array('background' => true)
+        );
+        $regions->ensureIndex(
+            array(Loader::NormalizedNameField => 1),
+            array('background' => true)
+        );
+
+        $district->ensureIndex(
+            array(Loader::IdField => 1),
+            array('background' => true)
+        );
+        $district->ensureIndex(
+            array(Loader::NormalizedNameField => 1),
+            array('background' => true)
+        );
+        $district->ensureIndex(
+            array(Loader::CodeRegionField => 1),
+            array('background' => true)
+        );
+        $district->ensureIndex(
+            array(Loader::SortField => 1),
+            array('background' => true)
+        );
+
+        $cities->ensureIndex(
+            array(Loader::IdField => 1),
+            array('background' => true)
+        );
+        $cities->ensureIndex(
+            array(Loader::NormalizedNameField => 1),
+            array('background' => true)
+        );
+        $cities->ensureIndex(
+            array(Loader::CodeRegionField => 1),
+            array('background' => true)
+        );
+        $cities->ensureIndex(
+            array(Loader::CodeDistrictField => 1),
+            array('background' => true)
+        );
+        $cities->ensureIndex(
+            array(Loader::SortField => 1),
+            array('background' => true)
+        );
+        $cities->ensureIndex(
+            array(Loader::NameField => 1),
+            array('background' => true)
+        );
         $this->Close();
         return true;
     }

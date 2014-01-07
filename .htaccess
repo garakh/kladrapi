@@ -1,7 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
     RewriteRule  ^$ public/    [L]
-    RewriteRule  ^loader/(.*) loader/$1  [L]
     RewriteRule  (^examples/.+) $1  [L]
     RewriteRule  ^sitemap\.xml public/sitemap.xml  [L]
     RewriteRule  ^yandex_7f80228c7e860a62\.html public/yandex_7f80228c7e860a62.html  [L]

@@ -32,29 +32,11 @@ class StreetLoader extends Loader {
         $socrbase = $this->db->socrbase;
 
         $streets = $this->db->streets;
+/*
 
-        $streets->ensureIndex(
-            array(Loader::IdField => 1),
-            array('background' => true)
-        );
-        $streets->ensureIndex(
-            array(Loader::NormalizedNameField => 1),
-            array('background' => true)
-        );
-        $streets->ensureIndex(
-            array(Loader::CodeRegionField => 1),
-            array('background' => true)
-        );
-        $streets->ensureIndex(
-            array(Loader::CodeDistrictField => 1),
-            array('background' => true)
-        );
-        $streets->ensureIndex(
-            array(Loader::CodeLocalityField => 1),
-            array('background' => true)
-        );
-
+*/
         $first = true;
+        $i = 0;
         while (($data = $this->ReadLine()) !== FALSE) {
             if($first){
                 $first = false;
@@ -62,6 +44,9 @@ class StreetLoader extends Loader {
             }
 
             $arData = array();
+
+            if($i++ % 10000 == 0)
+                echo $i.'; ';
 
             $id_key = $this->arFieldConformity[Loader::IdField];
             $cursor = $altnames->find(array(Loader::OldIdField => $data[$id_key]));
@@ -96,6 +81,37 @@ class StreetLoader extends Loader {
             $arData = array_slice($arData, 0, 11);
             $streets->insert($arData);
         }
+
+        echo " creating indecies ";
+
+        $streets->ensureIndex(
+            array(Loader::IdField => 1),
+            array('background' => true)
+        );
+        $streets->ensureIndex(
+            array(Loader::NormalizedNameField => 1),
+            array('background' => true)
+        );
+        $streets->ensureIndex(
+            array(Loader::CodeRegionField => 1),
+            array('background' => true)
+        );
+        $streets->ensureIndex(
+            array(Loader::CodeDistrictField => 1),
+            array('background' => true)
+        );
+        $streets->ensureIndex(
+            array(Loader::CodeLocalityField => 1),
+            array('background' => true)
+        );
+        $streets->ensureIndex(
+            array(Loader::SortField => 1),
+            array('background' => true)
+        );
+        $streets->ensureIndex(
+            array(Loader::NameField => 1),
+            array('background' => true)
+        );
 
         $this->Close();
         return true;

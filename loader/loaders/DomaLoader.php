@@ -33,35 +33,18 @@ class DomaLoader extends Loader {
         $altnames = $this->db->altnames;
         $buildings = $this->db->buildings;
 
-        $buildings->ensureIndex(
-            array(Loader::NormalizedNameField => 1),
-            array('background' => true)
-        );
-        $buildings->ensureIndex(
-            array(Loader::CodeRegionField => 1),
-            array('background' => true)
-        );
-        $buildings->ensureIndex(
-            array(Loader::CodeDistrictField => 1),
-            array('background' => true)
-        );
-        $buildings->ensureIndex(
-            array(Loader::CodeLocalityField => 1),
-            array('background' => true)
-        );
-        $buildings->ensureIndex(
-            array(Loader::CodeStreetField => 1),
-            array('background' => true)
-        );
-
         $first = true;
+        $i = 0;
         while (($data = $this->ReadLine()) !== FALSE) {
             if($first){
                 $first = false;
                 continue;
             }
-
+			
             $arData = array();
+
+            if($i++ % 10000 == 0)
+                echo $i.'; ';
 
             $id_key = $this->arFieldConformity[Loader::IdField];
             $cursor = $altnames->find(array(Loader::OldIdField => $data[$id_key]));
@@ -94,11 +77,97 @@ class DomaLoader extends Loader {
                 $arData[$field] = $value;
             }
 
+			$arData = $this->fixData($arData);
             $buildings->insert($arData);
         }
+
+        echo " Creating indecies ";
+
+        $buildings->ensureIndex(
+            array(Loader::NormalizedNameField => 1),
+            array('background' => true)
+        );
+        $buildings->ensureIndex(
+            array(Loader::CodeRegionField => 1),
+            array('background' => true)
+        );
+        $buildings->ensureIndex(
+            array(Loader::CodeDistrictField => 1),
+            array('background' => true)
+        );
+        $buildings->ensureIndex(
+            array(Loader::CodeLocalityField => 1),
+            array('background' => true)
+        );
+        $buildings->ensureIndex(
+            array(Loader::CodeStreetField => 1),
+            array('background' => true)
+        );
+        $buildings->ensureIndex(
+            array(Loader::SortField => 1),
+            array('background' => true)
+        );
+
 
         $this->Close();
         return true;
     }
+	
+	private function checkLetter($arData, $letter)
+	{
+		foreach($arData as $item)
+		{
+			if(substr($item, 0, 2) == $letter)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	private function fixLetter($arData, $l1, $l2)
+	{
+		if($this->checkLetter($arData['NormalizedName'], $l1))
+		{
+			$name = $arData['Name'];
+			$parts = explode(",", $name);
+			$arNum = array();
+		
+			$addName = $name;
+			foreach($parts as $n)
+			{
+				if(substr($n, 0, 2) == $l2)
+				{
+					$n2 = preg_replace("/[^0-9-]/msi", '', $n);
+					list($i1, $i2) = explode("-", $n2, 2);
+					for($i = (int)$i1; $i <= (int)$i2; $i+=2)
+					{
+						$arNum[]= $i.' ';
+						$addName.=",".$i;
+					}
+				}
+			}
+		
+			$arNumCur = $arData['NormalizedName'];
+			foreach($arNumCur as $k => $v)
+			{
+				$arNumCur[$k] = (string)$v;
+			}
+		
+		
+			$arNumCur = array_unique(array_merge($arNumCur, $arNum));
+			$arData['NormalizedName'] = $arNumCur;
+			$arData['Name'] = $addName;		
+		}
+		
+		return $arData;
+	}
+	
+	private function fixData($arData)
+	{
+		$arData = $this->fixLetter($arData, 'ч', 'Ч');
+		$arData = $this->fixLetter($arData, 'н', 'Н');
+		
+		return $arData;
+	}
 
 }

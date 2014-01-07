@@ -88,7 +88,7 @@ class Loader {
      * @return type
      */
     protected function ReadLine() {
-        return fgetcsv($this->file, 500, ';');
+        return fgetcsv($this->file, 0, ';');
     }
 
     /**
