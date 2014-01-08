@@ -1,4 +1,7 @@
 ﻿<?
+
+error_reporting(0);
+
 //CLI Mode
 $_SERVER["DOCUMENT_ROOT"] = dirname(dirname(__FILE__));
 
