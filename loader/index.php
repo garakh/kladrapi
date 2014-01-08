@@ -10,6 +10,8 @@ define('CONNECT',  'mongodb://127.0.0.1:27017');
 require $_SERVER["DOCUMENT_ROOT"] . '/loader/tools.php';
 require $_SERVER["DOCUMENT_ROOT"] . '/loader/include.php';
 
+MongoCursor::$timeout = -1;
+
 // Фунцкия для запуска загрузчика файла
 function LoadFile($db, $arLoaders, $file){
     $info = pathinfo($file);
