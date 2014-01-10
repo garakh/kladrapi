@@ -1,7 +1,9 @@
 <?php
-exit(); // Деактивация
+//exit(); // Деактивация
 
 $connectString = 'mongodb://127.0.0.1:27017';
+
+MongoCursor::$timeout = -1;
 
 try {
     $conn = new MongoClient($connectString);
@@ -28,8 +30,13 @@ function AddressCollect(MongoDB $db) {
         'CodeDistrict' => 1,
         'CodeCity' => 1
     ));
-    
+
+    $i = 0;
     foreach ($allStreets as $arStreet){
+
+        if($i++ % 10000 == 0)
+            echo $i.'; ';
+
         $arAddress = array();
         
         $arRegion = $regions->findOne(array(

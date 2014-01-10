@@ -167,19 +167,32 @@ class KladrLoader extends Loader{
 
         $regions->ensureIndex(
             array(Loader::IdField => 1),
-            array('background' => true)
+            array('background' => true, "unique" => true, "dropDups" => true)
         );
         $regions->ensureIndex(
             array(Loader::NormalizedNameField => 1),
             array('background' => true)
         );
+        $regions->ensureIndex(
+            array(Loader::NameField => 1),
+            array('background' => true)
+        );
+        $regions->ensureIndex(
+            array(Loader::CodeRegionField => 1),
+            array('background' => true)
+        );
+
 
         $district->ensureIndex(
-            array(Loader::IdField => 1),
+            array(Loader::IdField => 1, "unique" => true, "dropDups" => true),
             array('background' => true)
         );
         $district->ensureIndex(
             array(Loader::NormalizedNameField => 1),
+            array('background' => true)
+        );
+        $district->ensureIndex(
+            array(Loader::NameField => 1),
             array('background' => true)
         );
         $district->ensureIndex(
@@ -190,9 +203,13 @@ class KladrLoader extends Loader{
             array(Loader::SortField => 1),
             array('background' => true)
         );
+        $district->ensureIndex(
+            array(Loader::CodeRegionField => 1, Loader::CodeDistrictField => 1),
+            array('background' => true)
+        );
 
         $cities->ensureIndex(
-            array(Loader::IdField => 1),
+            array(Loader::IdField => 1, "unique" => true, "dropDups" => true),
             array('background' => true)
         );
         $cities->ensureIndex(
@@ -213,6 +230,10 @@ class KladrLoader extends Loader{
         );
         $cities->ensureIndex(
             array(Loader::NameField => 1),
+            array('background' => true)
+        );
+        $cities->ensureIndex(
+            array(Loader::CodeDistrictField => 1, Loader::CodeRegionField => 1, Loader::CodeLocalityField => 1),
             array('background' => true)
         );
         $this->Close();

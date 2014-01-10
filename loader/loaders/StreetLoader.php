@@ -85,7 +85,7 @@ class StreetLoader extends Loader {
         echo " creating indecies ";
 
         $streets->ensureIndex(
-            array(Loader::IdField => 1),
+            array(Loader::IdField => 1, "unique" => true, "dropDups" => true),
             array('background' => true)
         );
         $streets->ensureIndex(
@@ -112,7 +112,10 @@ class StreetLoader extends Loader {
             array(Loader::NameField => 1),
             array('background' => true)
         );
-
+        $streets->ensureIndex(
+            array(Loader::CodeLocalityField => 1, Loader::CodeRegionField => 1, Loader::CodeDistrictField => 1, Loader::CodeStreetField => 1),
+            array('background' => true)
+        );
         $this->Close();
         return true;
     }

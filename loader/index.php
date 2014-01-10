@@ -7,7 +7,7 @@ $_SERVER["DOCUMENT_ROOT"] = dirname(dirname(__FILE__));
 
 // Папка с файлами БД КЛАДР сконвертированными в формат csv
 //define('UPLOAD_DIR', $_SERVER["DOCUMENT_ROOT"].'/files/');
-define('UPLOAD_DIR', $_SERVER["DOCUMENT_ROOT"].'/files/');
+define('UPLOAD_DIR', $_SERVER["DOCUMENT_ROOT"].'/files_local/');
 define('CONNECT',  'mongodb://127.0.0.1:27017');
 
 require $_SERVER["DOCUMENT_ROOT"] . '/loader/tools.php';
