@@ -19,6 +19,8 @@ namespace Kladr\Core\Controllers {
             $api = $this->di->get('api');
             $this->response = $api->process($this->request);
             $this->response->send();
+
+            $api->log($this->request);
         }
 
     }

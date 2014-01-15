@@ -2,6 +2,9 @@
 
 namespace Kladr\Core {
 
+    require_once( dirname(__FILE__) . '/vendor/Racecore/GATracking/Autoloader.php');
+    \Racecore\GATracking\Autoloader::register(dirname(__FILE__).'/vendor/');
+
     /**
      * Kladr\Core\Module
      * 
@@ -158,9 +161,13 @@ namespace Kladr\Core {
                 )
             ));
 
+            $di->set('apiTracker', function() use($config){
+                return new \Racecore\GATracking\GATracking($config->ga->code);
+            });
+
             // Setting api
             $di->setShared('api', function() use ($di) {
-                $api = new Services\ApiService();
+                $api = new Services\ApiService($di->get('apiTracker'));
                 $api->addPlugin($di->get('validate'));
                 $api->addPlugin($di->get('find'));   
                 $api->addPlugin($di->get('specialCases')); 
@@ -177,7 +184,6 @@ namespace Kladr\Core {
                 return $view;
             });
         }
-
     }
 
 }

@@ -2,6 +2,8 @@
 
 namespace Kladr\Core\Services {
 
+
+
     use \Kladr\Core\Plugins\Base\IPlugin,
         \Kladr\Core\Plugins\Base\PluginResult,
         \Phalcon\Http\Request,
@@ -12,17 +14,25 @@ namespace Kladr\Core\Services {
      * 
      * Сервис для работы с api
      * 
-     * @author A. Yakovlev. Primepix (http://primepix.ru/)
+     * @author A. Yakovlev / I. Garakh Primepix (http://primepix.ru/)
      */
     class ApiService
     {
         private $_arPlugins;
 
         /**
-         * Kladr\Core\Services\ApiService construct
+         * Трекер гугло аналитики
+         * @var \Racecore\GATracking\GATracking
          */
-        public function __construct() {
+        protected $googleTracker;
+
+        /**
+         * Kladr\Core\Services\ApiService construct
+         * @param \Racecore\GATracking\GATracking $googleTracker Трекер
+         */
+        public function __construct($googleTracker) {
             $this->_arPlugins = array();
+            $this->googleTracker = $googleTracker;
         }
 
         /**
@@ -78,10 +88,33 @@ namespace Kladr\Core\Services {
                 $result .= ');';
             }
 
-            $response->setContent($result);        
+            $response->setContent($result);
             return $response;
         }
 
+        /**
+         * Логирует запрос
+         * @param \Phalcon\Http\Request $request
+         */
+        public function log(Request $request)
+        {
+            $this->googleTracker->setClientID($request->get('token'));
+
+            $page = new \Racecore\GATracking\Tracking\Page();
+            $page->setDocumentPath($_SERVER['HTTP_REFERER'] != '' ? $_SERVER['HTTP_REFERER'] : '/');
+            $page->setDocumentTitle($_SERVER['HTTP_REFERER']!= '' ? $_SERVER['HTTP_REFERER'] : 'Direct');
+
+            $this->googleTracker->addTracking($page);
+
+            try {
+                $this->googleTracker->send();
+
+            } catch (Exception $e) {
+                //echo 'Error: ' . $e->getMessage() . '<br />' . "\r\n";
+                //echo 'Type: ' . get_class($e);
+
+            }
+        }
     }
 
 }
