@@ -236,6 +236,33 @@ class KladrLoader extends Loader{
             array(Loader::CodeDistrictField => 1, Loader::CodeRegionField => 1, Loader::CodeLocalityField => 1),
             array('background' => true)
         );
+		
+		
+		// Фиксы странных вещей
+		
+		//Убираем левую Чувашию
+		
+		$regions->update(
+			array('Id' => '2100000000000'),
+			array('$set' => 
+				array(
+					'CodeRegion' => 100021,
+				)
+			)
+		);		
+		
+		// Правим названия у верной Чувашии
+		$regions->update(
+			array('Id' => '2100000000000'),
+			array('$set' => 
+				array(
+					'Name' => 'Чувашская Республика',
+					'TypeShort' => 'Респ',
+					'Type' => 'Республика'
+				)
+			)
+		);
+		
         $this->Close();
         return true;
     }
