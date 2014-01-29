@@ -8,6 +8,7 @@
 <link href="css/example2.css?v=4" rel="stylesheet">
 <link href="css/example3.css?v=4" rel="stylesheet">
 <link href="css/example4.css?v=4" rel="stylesheet">
+<link href="css/example5.css?v=4" rel="stylesheet">
 
 <script src="js/lib/jquery-1.10.2.min.js?v=4" type="text/javascript"></script>
 <script src="js/lib/jquery.kladr.min.js?v=4" type="text/javascript"></script>
@@ -15,6 +16,7 @@
 <script src="js/example2.js?v=4"></script>
 <script src="js/example3.js?v=4"></script>
 <script src="js/example4.js?v=4"></script>
+<script src="js/example5.js?v=4"></script>
 
 <script src="http://api-maps.yandex.ru/2.0.18/?load=package.standard&mode=release&lang=ru-RU" type="text/javascript"></script>
 
@@ -113,5 +115,69 @@
                 </div>
             </div>
         </div>
+
+        <p class="title">API тестер</p>
+        <div id="example5">
+            <div class ="address">
+
+                <div class="field">
+                    <label>Запрос (query):</label>
+                    <input class="query" type="text" value="">
+                </div>
+
+                <div class="field">
+                    <label>Код региона (regionId):</label>
+                    <input class="regionId" type="text" value="">
+                </div>
+
+                <div class="field">
+                    <label>Код района (districtId):</label>
+                    <input class="districtId" type="text" value="">
+                </div>
+
+                <div class="field">
+                    <label>Код города (cityId):</label>
+                    <input class="cityId" type="text" value="">
+                </div>
+
+                <div class="field">
+                    <label>Код улицы (streetId):</label>
+                    <input class="streetId" type="text" value="">
+                </div>
+
+                <div class="field">
+                    <label>Код строения (buildingId):</label>
+                    <input class="buildingId" type="text" value="">
+                </div>
+
+                <div class="field">
+                    <label>Тип (contentType):</label>
+                    <select class="contentType">
+                        <option value="region">Область (region)</option>
+                        <option value="district">Район (district)</option>
+                        <option value="city">Город (city)</option>
+                        <option value="street">Улица (street)</option>
+                        <option value="building">Строение (building)</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Родители (withParent):</label>
+                    <input class="withParent" type="checkbox">
+                </div>
+
+                <div class="field">
+                    <label>Количество для вывода (limit):</label>
+                    <input class="limit" type="text" value="5">
+                </div>
+
+
+                    <button class="show">Показать</button>
+
+                <pre class="result">
+                </pre>
+            </div>
+        </div>
+
     </div>
 </div>
