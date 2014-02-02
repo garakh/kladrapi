@@ -127,6 +127,8 @@ class KladrLoader extends Loader{
                         case '7800000000000': // Санкт-Петербург                        
                         case '9900000000000': // Байконур    
                             $arData = array_slice($arData, 0, 8);
+                            $regions->insert($arData);
+
                             $arData[Loader::CodeDistrictField] = null;
                             $arData[Loader::CodeLocalityField] = null;                            
                             $arData[Loader::SortField] = 100;
@@ -134,6 +136,8 @@ class KladrLoader extends Loader{
                             break;
                         case '7800000000001': // Ленинград
                             $arData = array_slice($arData, 0, 8);
+                            $regions->insert($arData);
+
                             $arData[Loader::CodeDistrictField] = null;
                             $arData[Loader::CodeLocalityField] = null;                            
                             $arData[Loader::SortField] = 500;
@@ -262,7 +266,8 @@ class KladrLoader extends Loader{
 				)
 			)
 		);
-		
+
+
         $this->Close();
         return true;
     }

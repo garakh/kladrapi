@@ -1,0 +1,70 @@
+#example5 .address{
+    width: 655px;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid rgb(104, 104, 104);
+    background-color: rgb(236, 236, 236);
+    border-radius: 5px;
+    font-size: 0.8em;
+    line-height: 25px;
+}
+
+#example5 .address .field {
+    position: relative;
+    padding-top: 2px;
+    padding-bottom: 11px;
+    overflow: hidden;
+    width: 100%;
+}
+
+#example5 .address .field-end {
+    padding-bottom: 2px;
+}
+
+#example5 .address label {
+    font-size: 100%;
+    font: inherit;
+    font-weight: normal;
+    font-style: normal;
+    vertical-align: baseline;
+    font-family: Helvetica, Arial;
+    display: block;
+    width: 250px;
+    height: 100%;
+    float: left;
+    font-size: 14px;
+    color: #333333;
+}
+
+#example5 .address input,
+#example5 .address select{
+    width: 300px;
+    display: inline-block;
+    height: 23px;
+    float: none;
+    padding: 0;
+    margin: 0;
+    font-family: Helvetica, Arial;
+    font-size: 13px !important;
+    text-indent: 8px;
+    line-height: 15px;
+    border: 1px solid #C2C2C2;
+    border-top: 1px solid #919292;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px #e5e5e5 inset;
+    outline: none;
+}
+
+#example5 .show{
+    padding: 10px;
+    border-radius: 2px;
+    border-color: #999999;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    width: 150px;
+    margin-left: 250px;
+}
+#example5 .show:hover{
+    background-color: #eeeeee;
+}
