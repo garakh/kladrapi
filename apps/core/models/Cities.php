@@ -25,6 +25,7 @@ namespace Kladr\Core\Models {
      */
     class Cities extends Collection
     {
+    	const ContentType = "city";
 
         public function getSource()
         {
@@ -94,12 +95,13 @@ namespace Kladr\Core\Models {
             $arReturn = array();
             foreach($regions as $region){
                 $arReturn[] = array(
-                    'id'        => $region->readAttribute(KladrFields::Id),
-                    'name'      => $region->readAttribute(KladrFields::Name),
-                    'zip'       => $region->readAttribute(KladrFields::ZipCode),
-                    'type'      => $region->readAttribute(KladrFields::Type),
-                    'typeShort' => $region->readAttribute(KladrFields::TypeShort),
-                    'okato'     => $region->readAttribute(KladrFields::Okato),
+                    'id'          => $region->readAttribute(KladrFields::Id),
+                    'name'        => $region->readAttribute(KladrFields::Name),
+                    'zip'         => $region->readAttribute(KladrFields::ZipCode),
+                    'type'        => $region->readAttribute(KladrFields::Type),
+                    'typeShort'   => $region->readAttribute(KladrFields::TypeShort),
+                    'okato'       => $region->readAttribute(KladrFields::Okato),
+                	'contentType' => Cities::ContentType,
                 );
             }
 

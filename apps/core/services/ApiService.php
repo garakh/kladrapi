@@ -30,10 +30,10 @@ namespace Kladr\Core\Services {
          * Kladr\Core\Services\ApiService construct
          * @param \Racecore\GATracking\GATracking $googleTracker Трекер
          */
-        public function __construct($googleTracker) {
-            $this->_arPlugins = array();
-            $this->googleTracker = $googleTracker;
-        }
+      	public function __construct($googleTracker) {
+          	$this->_arPlugins = array();
+          	 $this->googleTracker = $googleTracker;
+       	}
 
         /**
          * Добавляет плагин в цепочку плагинов

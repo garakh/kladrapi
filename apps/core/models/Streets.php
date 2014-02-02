@@ -25,6 +25,7 @@ namespace Kladr\Core\Models {
      */
     class Streets extends Collection
     {
+    	const ContentType = "street";   	
 
         public function getSource()
         {
@@ -96,6 +97,7 @@ namespace Kladr\Core\Models {
                     'type'      => $region->readAttribute(KladrFields::Type),
                     'typeShort' => $region->readAttribute(KladrFields::TypeShort),
                     'okato'     => $region->readAttribute(KladrFields::Okato),
+                	'contentType' => Streets::ContentType,
                 );
             }
 
