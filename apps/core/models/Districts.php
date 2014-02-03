@@ -23,6 +23,9 @@ namespace Kladr\Core\Models {
      */
     class Districts extends Collection
     {
+    	/**
+    	 * @var string Тип объекта
+    	 */
 		const ContentType = "district";
     	
         public function getSource()

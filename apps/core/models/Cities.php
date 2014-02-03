@@ -25,6 +25,9 @@ namespace Kladr\Core\Models {
      */
     class Cities extends Collection
     {
+    	/**
+    	 * @var string Тип объекта
+    	 */
     	const ContentType = "city";
 
         public function getSource()
