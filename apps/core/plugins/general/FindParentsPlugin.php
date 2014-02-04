@@ -116,27 +116,27 @@ namespace Kladr\Core\Plugins\General {
                 $objects = $result->result;
 
                 switch ($request->getQuery('contentType')) {
-                    case 'region':
+                    case Regions::ContentType: 
                         foreach($objects as $key => $object){
                             $objects[$key]['parents'] = $this->findParents(Regions::getCodes($object['id']));
                         }
                         break;
-                    case 'district':
+                    case Districts::ContentType:
                         foreach($objects as $key => $object){
                             $objects[$key]['parents'] = $this->findParents(Districts::getCodes($object['id']));
                         }
                         break;
-                    case 'city':
+                    case Cities::ContentType:
                         foreach($objects as $key => $object){
                             $objects[$key]['parents'] = $this->findParents(Cities::getCodes($object['id']));
                         }
                         break;
-                    case 'street':
+                    case Streets::ContentType:
                         foreach($objects as $key => $object){
                             $objects[$key]['parents'] = $this->findParents(Streets::getCodes($object['id']));
                         }
                         break;
-                    case 'building':
+                    case Buildings::ContentType:
                         foreach($objects as $key => $object){
                             $objects[$key]['parents'] = $this->findParents(Buildings::getCodes($object['id']));
                         }

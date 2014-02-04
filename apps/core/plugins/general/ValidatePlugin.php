@@ -6,7 +6,12 @@ namespace Kladr\Core\Plugins\General {
         \Phalcon\Mvc\User\Plugin,
         \Kladr\Core\Plugins\Base\IPlugin,
         \Kladr\Core\Plugins\Base\PluginResult;
-
+	use Kladr\Core\Models\Regions;
+	use Kladr\Core\Models\Districts;
+	use Kladr\Core\Models\Cities;
+	use Kladr\Core\Models\Streets;
+	use Kladr\Core\Models\Buildings;
+																				
     /**
      * Kladr\Core\Plugins\General\ValidatePlugin
      * 
@@ -34,11 +39,11 @@ namespace Kladr\Core\Plugins\General {
                 $arSearchContext['contentType'] = $request->getQuery('contentType');
 
                 if(!in_array($arSearchContext['contentType'], array(
-                    'region',
-                    'district',
-                    'city',
-                    'street',
-                    'building'
+                    Regions::ContentType,
+                    Districts::ContentType,
+                    Cities::ContentType,
+                    Streets::ContentType,
+                    Buildings::ContentType
                 ))){
                     $errorMessage = 'contentType incorrect';
                 }
