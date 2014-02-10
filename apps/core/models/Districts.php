@@ -23,7 +23,11 @@ namespace Kladr\Core\Models {
      */
     class Districts extends Collection
     {
-
+    	/**
+    	 * @var string Тип объекта
+    	 */
+		const ContentType = "district";
+    	
         public function getSource()
         {
             return "district";
@@ -91,12 +95,13 @@ namespace Kladr\Core\Models {
             $arReturn = array();
             foreach($regions as $region){
                 $arReturn[] = array(
-                    'id'        => $region->readAttribute(KladrFields::Id),
-                    'name'      => $region->readAttribute(KladrFields::Name),
-                    'zip'       => $region->readAttribute(KladrFields::ZipCode),
-                    'type'      => $region->readAttribute(KladrFields::Type),
-                    'typeShort' => $region->readAttribute(KladrFields::TypeShort),
-                    'okato'     => $region->readAttribute(KladrFields::Okato),
+                    'id'          => $region->readAttribute(KladrFields::Id),
+                    'name'        => $region->readAttribute(KladrFields::Name),
+                    'zip'         => $region->readAttribute(KladrFields::ZipCode),
+                    'type'        => $region->readAttribute(KladrFields::Type),
+                    'typeShort'   => $region->readAttribute(KladrFields::TypeShort),
+                    'okato'       => $region->readAttribute(KladrFields::Okato),
+                	'contentType' => Districts::ContentType,
                 );
             }
 

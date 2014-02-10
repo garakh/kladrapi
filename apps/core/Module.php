@@ -1,7 +1,10 @@
 <?php
 
 namespace Kladr\Core {
-
+	
+	use Phalcon\DI\Service;
+	
+	//GA
     require_once( dirname(__FILE__) . '/vendor/Racecore/GATracking/Autoloader.php');
     \Racecore\GATracking\Autoloader::register(dirname(__FILE__).'/vendor/');
 
@@ -161,6 +164,7 @@ namespace Kladr\Core {
                 )
             ));
 
+            // Register GA
             $di->set('apiTracker', function() use($config){
                 return new \Racecore\GATracking\GATracking($config->ga->code);
             });
