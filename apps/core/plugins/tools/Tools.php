@@ -44,7 +44,7 @@ namespace Kladr\Core\Plugins\Tools {
             $strNew = '';
             for($i = 0; $i < strlen($strMessage); $i++)
             {
-                $char = substr($strMessage, $i, 1);
+                $char = mb_substr($strMessage, $i, 1, mb_detect_encoding($strMessage));
                 if(strpos($s2, $char) !== false)
                 {
                     $strNew .= $char;
@@ -60,14 +60,14 @@ namespace Kladr\Core\Plugins\Tools {
                 if(strpos($s1, $char) !== false)
                 {
                     $p = strpos($s1, $char);
-                    $strNew .= substr($s2, $p, 1);
+                    $strNew .= mb_substr($s2, $p, 1,mb_detect_encoding($s2));
                     continue;
                 }
 
                 if(strpos($s12, $char) !== false)
                 {
                     $p = strpos($s12, $char);
-                    $strNew .= substr($s22, $p, 1);
+                    $strNew .= mb_substr($s22, $p, 1, mb_detect_encoding($s22));
                     continue;
                 }
 

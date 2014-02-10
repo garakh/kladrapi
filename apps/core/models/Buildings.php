@@ -131,7 +131,7 @@ namespace Kladr\Core\Models {
             $arResult = array();
             for($i=1; $i<10; $i++){
                 foreach($arReturnBuilding as $item){
-                    if(strlen($item['name']) == $i){
+                    if(mb_strlen($item['name'],mb_detect_encoding($item['name'])) == $i){
                         $arResult[] = $item;
                     }
                 }
