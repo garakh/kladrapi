@@ -26,6 +26,12 @@ namespace Kladr\Core\Models {
     class Cities extends Collection
     {
 
+        /**
+         * Кеш, чтоб снизить запросы к базе
+         * @var array
+         */
+        private static $Cache = array();
+
         public function getSource()
         {
             return "cities";
@@ -38,17 +44,23 @@ namespace Kladr\Core\Models {
          * @return array
          */
         public static function getCodes($id) {
+
+            if(isset(self::$Cache[$id]))
+                return self::$Cache[$id];
+
             $object = self::findFirst(array(
                 array(KladrFields::Id => $id)
             ));
 
             if(!$object) return array();
 
-            return array(
+            self::$Cache[$id] = array(
                 KladrFields::CodeRegion => $object->readAttribute(KladrFields::CodeRegion),
                 KladrFields::CodeDistrict => $object->readAttribute(KladrFields::CodeDistrict),
                 KladrFields::CodeLocality => $object->readAttribute(KladrFields::CodeLocality),
             );
+
+            return self::$Cache[$id];
         }
 
         /**

@@ -43,7 +43,17 @@ namespace Kladr\Core\Plugins\General {
             if($prevResult->error){
                 return $prevResult;
             }
-            
+
+            // Проверяем, что ищем город
+            // с принадлежностью региону
+
+            if($request->getQuery('contentType') != 'city')
+                return $prevResult;
+
+            if(!$request->getQuery('regionId'))
+                return $prevResult;
+
+            // добавляем к результату поиск в другом регионе
             $arRegionCodeSpecialCases = array(
                 77 => 50, // Москва => Московская область
                 50 => 77, // Московская область => Москва

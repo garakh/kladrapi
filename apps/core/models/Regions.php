@@ -23,6 +23,12 @@ namespace Kladr\Core\Models {
     class Regions extends Collection
     {
 
+        /**
+         * Кеш, чтоб снизить запросы к базе
+         * @var array
+         */
+        private static $Cache = array();
+
         public function getSource()
         {
             return "regions";
@@ -35,15 +41,21 @@ namespace Kladr\Core\Models {
          * @return array
          */
         public static function getCodes($id) {
+
+            if(isset(self::$Cache[$id]))
+                return self::$Cache[$id];
+
             $object = self::findFirst(array(
                 array(KladrFields::Id => $id)
             ));
 
             if(!$object) return array();
 
-            return array(
+            self::$Cache[$id] = array(
                 KladrFields::CodeRegion => $object->readAttribute(KladrFields::CodeRegion)
             );
+
+            return self::$Cache[$id];
         }
 
         /**
