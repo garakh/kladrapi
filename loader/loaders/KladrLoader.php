@@ -119,6 +119,10 @@ class KladrLoader extends Loader{
             $arData[Loader::SortField] = $sort;
             $type = $this->GetType($arCode);
 
+            // поднимаем выше те города, у которых есть ссылка на район
+            if($arData[Loader::CodeDistrictField])
+                $arData[Loader::SortField] = $arData[Loader::SortField] - 10;
+
             switch($type)
             {
                 case 1:
