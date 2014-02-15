@@ -20,7 +20,7 @@ namespace Kladr\Core\Models {
      * @property int $CodeDistrict Код района
      * @property int $CodeCity Код населённого пункта
      * @property int $CodeStreet Код улицы
-     * @property int $CodeStreet Код строения
+     * @property int $CodeBuilding Код строения
      * 
      * @author A. Yakovlev. Primepix (http://primepix.ru/)
      */
