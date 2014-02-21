@@ -79,49 +79,64 @@ class KladrLoader extends Loader{
             }
             
             $sort = 100000;
+            $typeCode = 0;
             switch($arData[Loader::TypeShortField])
             {
                 case 'г':
                     $sort = 1000;
+                    $typeCode = 1;
                     break;
                 case 'городок':
                     $sort = 2000;
+                    $typeCode = 1;
                     break;
                 case 'пгт':
                     $sort = 3000;
+                    $typeCode = 2;
                     break;
                 case 'п':
                     $sort = 4000;
+                    $typeCode = 2;
                     break;
                 case 'дп':
                     $sort = 5000;
+                    $typeCode = 2;
                     break;
                 case 'кп':
                     $sort = 6000;
+                    $typeCode = 2;
                     break;
                 case 'рп':
                     $sort = 7000;
+                    $typeCode = 2;
                     break;
                 case 'с':
                     $sort = 8000;
+                    $typeCode = 4;
                     break;
                 case 'д':
                     $sort = 9000;
+                    $typeCode = 4;
                     break;
                 case 'ст':
                     $sort = 10000;
+                    $typeCode = 4;
                     break;
                 default:
                     $sort = 100000;
+                    $typeCode = 4;
                     break;
             }
 
             $arData[Loader::SortField] = $sort;
+            $arData[Loader::TypeCode] = $typeCode;
             $type = $this->GetType($arCode);
 
             // поднимаем выше те города, у которых есть ссылка на район
             if($arData[Loader::CodeDistrictField])
                 $arData[Loader::SortField] = $arData[Loader::SortField] - 10;
+
+            $arData[Loader::Bad] = substr($arData[Loader::IdField], -2) != '00';
 
             switch($type)
             {
@@ -240,6 +255,17 @@ class KladrLoader extends Loader{
             array(Loader::NameField => 1),
             array('background' => true)
         );
+
+        $cities->ensureIndex(
+            array(Loader::TypeCode => 1),
+            array('background' => true)
+        );
+
+        $cities->ensureIndex(
+            array(Loader::Bad => 1),
+            array('background' => true)
+        );
+
         $cities->ensureIndex(
             array(Loader::CodeDistrictField => 1, Loader::CodeRegionField => 1, Loader::CodeLocalityField => 1),
             array('background' => true)

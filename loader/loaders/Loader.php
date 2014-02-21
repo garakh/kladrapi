@@ -17,6 +17,8 @@ class Loader {
     const TypeShortField = 'TypeShort';
     const ZipCodeField = 'ZipCode';
     const OkatoCodeField = 'Okato';
+    const Bad = "Bad";
+    const TypeCode = "TypeCode";
 
     // Коды объектов
     const CodeRegionField = 'CodeRegion';

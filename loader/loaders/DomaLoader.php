@@ -108,6 +108,11 @@ class DomaLoader extends Loader {
             array('background' => true)
         );
         $buildings->ensureIndex(
+            array(Loader::ZipCodeField => 1),
+            array('background' => true)
+        );
+
+        $buildings->ensureIndex(
             array(Loader::IdField => 1),
             array('background' => true, "unique" => true, "dropDups" => true)
         );
