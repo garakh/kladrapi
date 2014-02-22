@@ -41,6 +41,7 @@ function AddressCollect(MongoDB $db) {
         
         $arRegion = $regions->findOne(array(
             'CodeRegion' => $arStreet['CodeRegion'],
+            'Bad' => false
         ), array(
             'NormalizedName' => 1,
         ));
@@ -50,6 +51,7 @@ function AddressCollect(MongoDB $db) {
         $arDistrict = $districts->findOne(array(
             'CodeRegion' => $arStreet['CodeRegion'],
             'CodeDistrict' => $arStreet['CodeDistrict'],
+            'Bad' => false
         ), array(
             'NormalizedName' => 1,
         ));
@@ -60,6 +62,7 @@ function AddressCollect(MongoDB $db) {
             'CodeRegion' => $arStreet['CodeRegion'],
             'CodeDistrict' => $arStreet['CodeDistrict'],
             'CodeCity' => $arStreet['CodeCity'],
+            'Bad' => false
         ), array(
             'NormalizedName' => 1,
         ));
@@ -67,6 +70,8 @@ function AddressCollect(MongoDB $db) {
         if($arCities )$arAddress = array_merge($arAddress, $arCities['NormalizedName']);
         
         $arAddress = array_merge($arAddress, $arStreet['NormalizedName']);
+
+        $arAddress = array_unique($arAddress);
 
         $streets->update(array(
             '_id' => $arStreet['_id']

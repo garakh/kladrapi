@@ -205,6 +205,11 @@ class KladrLoader extends Loader{
             array('background' => true)
         );
 
+        $regions->ensureIndex(
+            array(Loader::Bad => 1),
+            array('background' => true)
+        );
+
 
         $district->ensureIndex(
             array(Loader::IdField => 1, "unique" => true, "dropDups" => true),
@@ -228,6 +233,11 @@ class KladrLoader extends Loader{
         );
         $district->ensureIndex(
             array(Loader::CodeRegionField => 1, Loader::CodeDistrictField => 1),
+            array('background' => true)
+        );
+
+        $district->ensureIndex(
+            array(Loader::Bad => 1),
             array('background' => true)
         );
 
