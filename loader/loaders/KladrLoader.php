@@ -145,7 +145,7 @@ class KladrLoader extends Loader{
                         case '7700000000000': // Москва
                         case '7800000000000': // Санкт-Петербург                        
                         case '9900000000000': // Байконур    
-                            $arData = array_slice($arData, 0, 8);
+                            //$arData = array_slice($arData, 0, 8);
                             $regions->insert($arData);
 
                             $arData[Loader::CodeDistrictField] = null;
@@ -154,7 +154,7 @@ class KladrLoader extends Loader{
                             $cities->insert($arData);
                             break;
                         case '7800000000001': // Ленинград
-                            $arData = array_slice($arData, 0, 8);
+                            //$arData = array_slice($arData, 0, 8);
                             $regions->insert($arData);
 
                             $arData[Loader::CodeDistrictField] = null;
@@ -163,13 +163,13 @@ class KladrLoader extends Loader{
                             $cities->insert($arData);
                             break;
                         default:
-                            $arData = array_slice($arData, 0, 8);
+                            //$arData = array_slice($arData, 0, 8);
                             $regions->insert($arData);
                             break; 
                     }
                     break;
                 case 2:
-                    $arData = array_slice($arData, 0, 9);
+                    //$arData = array_slice($arData, 0, 9);
                     $district->insert($arData);
                     break;
                 default: 
@@ -177,7 +177,7 @@ class KladrLoader extends Loader{
                         case '3403100100051': // Урюпинск (копия)
                             break;
                         default:
-                            $arData = array_slice($arData, 0, 10);
+                            //$arData = array_slice($arData, 0, 10);
                             $arData[Loader::SortField] = $sort;
                             $cities->insert($arData);
                         break; 
