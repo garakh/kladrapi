@@ -74,11 +74,13 @@ class StreetLoader extends Loader {
             $arCode = $this->ReadCode($code);
             $arCodeField = $this->GetCodeField($arCode);
 
+            $arData[Loader::Bad] = substr($arData[Loader::IdField], -2) != '00';
+
             foreach($arCodeField as $field => $value){
                 $arData[$field] = $value;
             }
 
-            $arData = array_slice($arData, 0, 11);
+            //$arData = array_slice($arData, 0, 11);
             $streets->insert($arData);
         }
 
@@ -106,6 +108,10 @@ class StreetLoader extends Loader {
         );
         $streets->ensureIndex(
             array(Loader::SortField => 1),
+            array('background' => true)
+        );
+        $streets->ensureIndex(
+            array(Loader::Bad => 1),
             array('background' => true)
         );
         $streets->ensureIndex(

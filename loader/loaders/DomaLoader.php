@@ -77,6 +77,8 @@ class DomaLoader extends Loader {
                 $arData[$field] = $value;
             }
 
+            $arData[Loader::ZipCodeField] = intval($arData[Loader::ZipCodeField]);
+
 			$arData = $this->fixData($arData);
             $buildings->insert($arData);
         }
