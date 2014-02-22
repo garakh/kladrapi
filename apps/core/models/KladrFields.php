@@ -18,6 +18,9 @@ namespace Kladr\Core\Models {
         const TypeShort = 'TypeShort';
         const ZipCode = 'ZipCode';
         const Okato = 'Okato';
+        const Bad = 'Bad';
+        const TypeCode = 'TypeCode';
+        const Address = 'Address';
 
         const CodeRegion = 'CodeRegion';
         const CodeDistrict = 'CodeDistrict';

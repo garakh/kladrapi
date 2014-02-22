@@ -74,9 +74,11 @@ namespace Kladr\Core\Models {
          */
         public static function findByQuery($name = null, $codes = array(), $limit = 5000)
         {
-            $arQuery = array();       
+            $arQuery = array();
 
-            if ($codes){
+            $searchById = $codes && !is_array($codes);
+
+            if (is_array($codes)){
                 $codes = array_splice($codes, 0, 4);
                 foreach($codes as $field => $code){
                     if($code){
@@ -85,8 +87,14 @@ namespace Kladr\Core\Models {
                         $arQuery['conditions'][$field] = null;
                     }
                 }
+            }elseif($searchById){
+                $arQuery['conditions'][KladrFields::Id] = $codes;
             } else {
                 return array();
+            }
+
+            if(!$searchById){
+                $arQuery['conditions'][KladrFields::Bad] = false;
             }
 
             if($name){

@@ -97,6 +97,10 @@ namespace Kladr\Core {
                     array(
                         'name' => 'cache',
                         'value' => array('type' => 'service', 'name' => 'mongocache')
+                    ),
+                    array(
+                        'name' => 'config',
+                        'value' => array('type' => 'service', 'name' => 'config')
                     )
                 )
             ));

@@ -54,31 +54,34 @@ namespace Kladr\Core\Plugins\General {
                 $query = Tools::Key($query);
                 $query = Tools::Normalize($query);       
 
-
                 $arCodes = array();
 
                 // regionId
                 $regionId = $request->getQuery('regionId');
                 if ($regionId) {
-                    $arCodes = Regions::getCodes($regionId);
+                    $arCodes = $request->getQuery('contentType') == 'region' ?
+                        $regionId : Regions::getCodes($regionId);
                 }
 
                 // districtId
                 $districtId = $request->getQuery('districtId');
                 if ($districtId) {
-                    $arCodes = Districts::getCodes($districtId);
+                    $arCodes = $request->getQuery('contentType') == 'district' ?
+                        $districtId : Districts::getCodes($districtId);
                 }
 
                 // cityId
                 $cityId = $request->getQuery('cityId');
                 if ($cityId) {
-                    $arCodes = Cities::getCodes($cityId);
+                    $arCodes = $request->getQuery('contentType') == 'city' ?
+                        $cityId : Cities::getCodes($cityId);
                 }
 
                 // streetId
                 $streetId = $request->getQuery('streetId');
                 if ($streetId) {
-                    $arCodes = Streets::getCodes($streetId);
+                    $arCodes = $request->getQuery('contentType') == 'street' ?
+                        $streetId : Streets::getCodes($streetId);
                 }
 
                 // buildingId

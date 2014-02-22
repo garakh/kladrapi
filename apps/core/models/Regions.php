@@ -77,7 +77,9 @@ namespace Kladr\Core\Models {
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
-            if ($codes){
+            $searchById = $codes && !is_array($codes);
+
+            if (is_array($codes)){
                 $isEmptyQuery = false;
                 $codes = array_splice($codes, 0, 1);
                 foreach($codes as $field => $code){
@@ -87,10 +89,18 @@ namespace Kladr\Core\Models {
                         $arQuery['conditions'][$field] = null;
                     }
                 }
+            }elseif($searchById)
+            {
+                $isEmptyQuery = false;
+                $arQuery['conditions'][KladrFields::Id] = $codes;
             }
 
             if($isEmptyQuery){
                 return array();
+            }
+
+            if(!$searchById){
+                $arQuery['conditions'][KladrFields::Bad] = false;
             }
 
             $arQuery['sort'] = array(KladrFields::Name => 1);

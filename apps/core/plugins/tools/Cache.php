@@ -21,6 +21,12 @@ namespace Kladr\Core\Plugins\Tools {
         public $cache;
 
         /**
+         * Конфиги
+         * @var \Phalcon\Config\Adapter\Ini
+         */
+        public $config;
+
+        /**
          * Возвращает ключ кэша для плагина
          * 
          * @param string $plugin Имя плагина
@@ -58,6 +64,10 @@ namespace Kladr\Core\Plugins\Tools {
          * @return array|null
          */
         public function get($plugin, Request $request){
+
+            if(!$this->useCache())
+                return null;
+
             $key = $this->getCacheKey($plugin, $request);
             return $this->cache->get($key);
         }
@@ -73,7 +83,12 @@ namespace Kladr\Core\Plugins\Tools {
             $key = $this->getCacheKey($plugin, $request);
             return $this->cache->save($key, $result);
         }
-        
+
+
+        private function useCache()
+        {
+            return $this->config->mongocache->enabled == 'true';
+        }
     }
 
 }
