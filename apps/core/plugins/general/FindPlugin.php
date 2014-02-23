@@ -54,7 +54,7 @@ namespace Kladr\Core\Plugins\General {
                 $query = Tools::Key($query);
                 $query = Tools::Normalize($query);       
 
-                $arCodes = array();
+                $arCodes = null;
 
                 // regionId
                 $regionId = $request->getQuery('regionId');
