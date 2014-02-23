@@ -6,21 +6,21 @@
 
 <script type="text/javascript" src="/js/highlight/scripts/shCore.js"></script>
 <script type="text/javascript" src="/js/highlight/scripts/shBrushJScript.js"></script>
-<script type="text/javascript">SyntaxHighlighter.all();</script>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+    $(function(){
+        $('.blocktoggle').click(function(){
+            var el = '.' + $(this).data('block');
+            $(el).toggle();
+        });
+    })
+
+</script>
 	
 <div class="correctwidth">
     <div class="content">
         <div class="document">
-            <div class="table-contents">
-                <ul>
-                    <li><a href="#json">Документация API сервиса</a></li>
-                    <li><a href="#jquery">jQuery plugin</a></li>
-                    <li><a href="#net">.NET provider</a></li>
-                    <li><a href="#php">PHP API</a></li>
-                    <li><a href="#bitrix">Модуль для 1С-Битрикс</a></li>
-                </ul>
-            </div>
-            
+
 			<div>
 				<h2>Возможности</h2>
 				<p>Сервис предоставляет он-лайн интерфейс к базе адресов Российской Федерации(«ФИАС»). Обмен данными происходит в формате JSON, с поддержкой JSONP.</p>
@@ -41,11 +41,12 @@
 				</p>
 			</div>
 			<hr class="delimiter"/>
-			
-            <div>
+
+            <h2 class="blocktoggle apidoc dotted" data-block="apidoc">Документация API сервиса</h2>
+            <div class="apidoc docblock" style="display:none">
                 <a name="json"></a>
                 
-                <h2>Документация API сервиса</h2>
+                <h2 class="blocktoggle dotted" data-block="apidoc">Документация API сервиса</h2>
 
 				<p>Для работы с сервисом Вам понадобится один из ключей:</p>
 				<ul>
@@ -150,18 +151,22 @@
                         Для поиска строения по названию необходимо обязательно указать код улицы, например <noindex><a href="http://kladr-api.ru/api.php?&token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969&streetId=29000001000025800&query=1&contentType=building&limit=50" target="_blank">streetId=29000001000025800&query=1&contentType=building</a></noindex>.
                     </p>
                 </div>
+                <hr class="delimiter"/>
             </div>
-			<hr class="delimiter"/>
-            
-            <div>
+
+            <br />
+            <h2 class="blocktoggle jquerydoc dotted" data-block="jquerydoc">jQuery plugin</h2>
+            <div class="jquerydoc docblock" style="display: none;">
                 <a name="jquery"></a>
                 
-                <h2>
+                <h2 class="blocktoggle dotted" data-block="jquerydoc">
                     jQuery plugin
+                </h2>
+                <span>
                     <noindex><a href="https://github.com/garakh/kladrapi-jsclient/zipball/master">&#8595;ZIP</a></noindex>
                     <noindex><a href="https://github.com/garakh/kladrapi-jsclient/tarball/master">&#8595;TAR</a></noindex>
-                </h2>   
-                
+                </span>
+                <h3><noindex><a href="https://github.com/garakh/kladrapi-jsclient">https://github.com/garakh/kladrapi-jsclient</a></noindex></h3>
                 <div>
                     <h3>Архитектура</h3>                    
                     <ul>
@@ -275,18 +280,24 @@ $( 'input' ).kladr({
 });
                     </pre>
                 </div>
+                <hr  class="delimiter"/>
+
             </div>
                         
-            <hr  class="delimiter"/>
-			
-            <div>
+
+
+            <br />
+            <h2 class="blocktoggle dotnetdoc dotted" data-block="dotnetdoc">.NET provider</h2>
+            <div class="dotnetdoc docblock" style="display: none;">
                 <a name="net"></a>
                 
-                <h2>
+                <h2 class="blocktoggle dotted" data-block="dotnetdoc">
                     .NET provider
+                    </h2>
+                <span>
                     <noindex><a href="https://github.com/garakh/kladrapi-dotnet/zipball/master">&#8595;ZIP</a></noindex>
                     <noindex><a href="https://github.com/garakh/kladrapi-dotnet/tarball/master">&#8595;TAR</a></noindex>
-                </h2>
+                </span>
                 
                 <div>
                     <h3>Автор</h3>
@@ -363,20 +374,25 @@ public partial class MainWindow : Window
 }
                     </pre>
                 </div>
+                <hr  class="delimiter"/>
             </div>	
             
-            <hr  class="delimiter"/>
-            
-            <div>
+
+
+            <br />
+            <h2 class="blocktoggle phpdoc dotted" data-block="phpdoc">PHP API</h2>
+            <div class="phpdoc docblock" style="display: none;">
                 <a name="php"></a>
                 
-                <h2>
+                <h2 class="blocktoggle dotted" data-block="phpdoc">
                     PHP API
+                    </h2>
+                <span>
                     <noindex><a href="https://github.com/garakh/kladrapi-php/zipball/master">&#8595;ZIP</a></noindex>
                     <noindex><a href="https://github.com/garakh/kladrapi-php/tarball/master">&#8595;TAR</a></noindex>
-                </h2>
-                
-               
+                </span>
+
+                <h3><noindex><a href="https://github.com/garakh/kladrapi-php">https://github.com/garakh/kladrapi-php</a></noindex></h3>
                 <div>
                     <h3>Описание API</h3>
                     
@@ -461,17 +477,23 @@ $query->Limit = 2;
 $arResult = $api->QueryToArray($query);
                     </pre>
                 </div>
+                <hr  class="delimiter"/>
             </div>
-            <hr  class="delimiter"/>
-			
-            <div>
+
+
+
+            <br />
+            <h2 class="blocktoggle bitrixdoc dotted" data-block="bitrixdoc">Модуль "КЛАДР в облаке" для 1С-Битрикс</h2>
+            <div class="bitrixdoc docblock" style="display: none;">
                 <a name="bitrix"></a>
                 
-                <h2>
+                <h2 class="blocktoggle dotted" data-block="bitrixdoc">
                     Модуль "КЛАДР в облаке" для 1С-Битрикс
+                    </h2>
+                <span>
                     <noindex><a href="https://github.com/garakh/kladr-bitrix/zipball/master">&#8595;ZIP</a></noindex>
                     <noindex><a href="https://github.com/garakh/kladr-bitrix/tarball/master">&#8595;TAR</a></noindex>
-                </h2>
+                </span>
                 
                 <p>Модуль 1С-Битрикс предоставляющий форму для ввода адреса с автодополнением. В качестве источника данных используется сервис «КЛАДР в облаке»</p>
                 <img src="/public/content/kladr-bitrix1.png">
@@ -543,8 +565,51 @@ $arResult = $api->QueryToArray($query);
                         Это сделано для того чтобы вы без проблем могли включить поля для ввода адреса в любую другую существующую форму на вашем сайте (к примеру форму оформления заказа). 
                     </p>
                 </div>
+                <hr  class="delimiter"/>
+
             </div>
-			<hr  class="delimiter"/>			
+
+
+            <br />
+            <h2 class="blocktoggle nodejsdoc dotted" data-block="nodejsdoc">Node.js</h2>
+            <div class="nodejsdoc docblock" style="display: none;">
+
+                <h2 class="blocktoggle dotted" data-block="nodejsdoc">
+                    Node.js
+                </h2>
+
+                <div>
+                    <h3>Автор</h3>
+                    <p><a href="https://github.com/toporchillo">https://github.com/toporchillo</a></p>
+                </div>
+
+                <h3>
+                    <noindex>
+                        <a href="https://github.com/toporchillo/kladrapi-nodejs">https://github.com/toporchillo/kladrapi-nodejs</a>
+                    </noindex>
+                </h3>
+            </div>
+
+            <br />
+            <h2 class="blocktoggle javadoc dotted" data-block="javadoc">Java</h2>
+            <div class="javadoc docblock" style="display: none;">
+
+                <h2 class="blocktoggle dotted" data-block="javadoc">
+                    Java
+                </h2>
+
+                <div>
+                    <h3>Автор</h3>
+                    <p>
+                        <noindex><a href="https://github.com/ILyaCyclone">https://github.com/ILyaCyclone</a></noindex></p>
+                </div>
+
+                <h3>
+                    <noindex>
+                        <a href="https://github.com/ILyaCyclone/kladrapi-java">https://github.com/ILyaCyclone/kladrapi-java</a>
+                    </noindex>
+                </h3>
+            </div>
         </div>        
     </div>      
 </div>

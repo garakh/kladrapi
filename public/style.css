@@ -678,8 +678,20 @@ h1 {
   border-top: 1px solid #1C2B37;
 }
 
-
-
+.dotted{
+    border-bottom: dashed 1px;
+    cursor: pointer;
+    display: inline-block;
+}
+.dotted:hover{
+    border-bottom: none;
+}
+.docblock{
+    border-radius: 5px;
+    background-color: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 /* ---------------------------------- Footer --------------------------------- */
 
 .footer {
@@ -852,7 +864,6 @@ h1 {
 
 .document h2{
     font: 30px 'pfbulletinsanspro-medium';
-    text-align: center;
     padding-bottom: 15px;
     padding-top: 30px;
 }
