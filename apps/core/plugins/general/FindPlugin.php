@@ -93,9 +93,9 @@ namespace Kladr\Core\Plugins\General {
                 // limit
                 $limit = $request->getQuery('limit');
                 $limit = intval($limit);
-                $limit = $limit ? $limit : 1000;
-                if($limit > 1000)
-                    $limit = 1000;
+                $limit = $limit ? $limit : 400;
+                if($limit > 400)
+                    $limit = 400;
 
                 switch ($request->getQuery('contentType')) {
                     case 'region':

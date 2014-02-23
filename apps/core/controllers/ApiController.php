@@ -20,6 +20,7 @@ namespace Kladr\Core\Controllers {
             $this->response = $api->process($this->request);
             $this->response->send();
 
+            //$this->mongo->close();
             $api->log($this->request);
         }
 

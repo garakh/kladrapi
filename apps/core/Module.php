@@ -48,7 +48,9 @@ namespace Kladr\Core {
 
             // Setting up mongo
             $di->set('mongo', function() use ($config) {
-                $mongo = new \Mongo($config->database->host);
+                $mongo = new \MongoClient($config->database->host, array(
+                    'connectTimeoutMS' => intval($config->database->timeout),
+                ));
                 return $mongo->selectDb($config->database->name);
             }, true);
 
@@ -86,6 +88,7 @@ namespace Kladr\Core {
                     'server'     => 'mongodb://' . $config->mongocache->host,
                     'db'         => $config->mongocache->db,
                     'collection' => $config->mongocache->collection,
+                    'connectTimeoutMS' => intval($config->mongocache->timeout),
                 ));                
                 return $cache;
             });
