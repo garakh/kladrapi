@@ -87,7 +87,7 @@ namespace Kladr\Core\Plugins\Tools {
 
         private function useCache()
         {
-            return $this->config->mongocache->enabled == 'true';
+            return $this->config->mongocache->enabled;
         }
     }
 
