@@ -26,6 +26,10 @@ namespace Kladr\Core\Models {
      */
     class Buildings extends Collection
     {
+    	/**
+    	 * @var string Тип объекта
+    	 */
+    	const ContentType = "building";
 
         /**
          * Кеш, чтоб снизить запросы к базе
@@ -103,12 +107,13 @@ namespace Kladr\Core\Models {
             $arReturn = array();
             foreach($regions as $region){
                 $arReturn[] = array(
-                    'id'        => $region->readAttribute(KladrFields::Id),
-                    'name'      => $region->readAttribute(KladrFields::Name),
-                    'zip'       => $region->readAttribute(KladrFields::ZipCode),
-                    'type'      => $region->readAttribute(KladrFields::Type),
-                    'typeShort' => $region->readAttribute(KladrFields::TypeShort),
-                    'okato'     => $region->readAttribute(KladrFields::Okato),
+                    'id'          => $region->readAttribute(KladrFields::Id),
+                    'name'        => $region->readAttribute(KladrFields::Name),
+                    'zip'         => $region->readAttribute(KladrFields::ZipCode),
+                    'type'        => $region->readAttribute(KladrFields::Type),
+                    'typeShort'   => $region->readAttribute(KladrFields::TypeShort),
+                    'okato'       => $region->readAttribute(KladrFields::Okato),
+                	'contentType' => Buildings::ContentType,
                 );
             }
             
@@ -138,7 +143,7 @@ namespace Kladr\Core\Models {
             $arResult = array();
             for($i=1; $i<10; $i++){
                 foreach($arReturnBuilding as $item){
-                    if(strlen($item['name']) == $i){
+                    if(mb_strlen($item['name'],mb_detect_encoding($item['name'])) == $i){
                         $arResult[] = $item;
                     }
                 }
