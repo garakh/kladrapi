@@ -1,21 +1,17 @@
 <?php
 
-use Kladr\Core\Models\Regions;
-use Kladr\Core\Models\Districts;
-use Kladr\Core\Models\Cities;
-use Kladr\Core\Models\Streets;
-use Kladr\Core\Models\Buildings;
+//use Kladr\Core\Models\Regions;
+//use Kladr\Core\Models\Districts;
+//use Kladr\Core\Models\Cities;
+//use Kladr\Core\Models\Streets;
+//use Kladr\Core\Models\Buildings;
+//
+//include '../apps/core/models/Cities.php';
+//include '../apps/core/models/Buildings.php';
+//include '../apps/core/models/Regions.php';
+//include '../apps/core/models/Districts.php';
+//include '../apps/core/models/Streets.php';
 
-//mytest
-//const URL = "http://kladr-api.local:81/api.php?";
-//require_once 'QueryToApi.php';
-//end of mytest
-
-include '/../apps/core/models/Cities.php';
-include '/../apps/core/models/Buildings.php';
-include '/../apps/core/models/Regions.php';
-include '/../apps/core/models/Districts.php';
-include '/../apps/core/models/Streets.php';
 
 /**
  * Тесты api, привязанные к типу объекта
@@ -33,7 +29,7 @@ class ContentTest extends PHPUnit_Framework_TestCase  {
         
         $res = $query->send();
 	$res = $res->result[0];
-        $this->assertEquals($res->contentType,Cities::ContentType );
+        $this->assertEquals($res->contentType,"city" );
 	}
 	
 /**
@@ -49,7 +45,7 @@ class ContentTest extends PHPUnit_Framework_TestCase  {
         $res = $query->send();
 	$res = $res->result[0];
 			
-        $this->assertEquals($res->contentType,Buildings::ContentType );	
+        $this->assertEquals($res->contentType,"building" );	
 	}
 
 /**
@@ -63,7 +59,7 @@ class ContentTest extends PHPUnit_Framework_TestCase  {
         $res = $query->send();
 	$res = $res->result[0];
 			
-        $this->assertEquals($res->contentType,Districts::ContentType );		
+        $this->assertEquals($res->contentType, "district" );		
 	}
 
 /**
@@ -77,7 +73,7 @@ class ContentTest extends PHPUnit_Framework_TestCase  {
         $res = $query->send();
 	$res = $res->result[0];
 			
-        $this->assertEquals($res->contentType,Regions::ContentType );	
+        $this->assertEquals($res->contentType,"region" );	
 	}
 
 /**
@@ -92,7 +88,7 @@ class ContentTest extends PHPUnit_Framework_TestCase  {
         $res = $query->send();
 	$res = $res->result[0];
 			
-        $this->assertEquals($res->contentType,Streets::ContentType );		
+        $this->assertEquals($res->contentType,"street" );		
 	}
 }
 

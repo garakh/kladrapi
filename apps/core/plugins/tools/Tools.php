@@ -42,9 +42,10 @@ namespace Kladr\Core\Plugins\Tools {
 
 
             $strNew = '';
-            for($i = 0; $i < strlen($strMessage); $i++)
+            for($i = 0; $i < mb_strlen($strMessage, mb_detect_encoding($strMessage)); $i++)
             {
                 $char = mb_substr($strMessage, $i, 1, mb_detect_encoding($strMessage));
+                
                 if(strpos($s2, $char) !== false)
                 {
                     $strNew .= $char;

@@ -139,7 +139,7 @@ namespace Kladr\Core\Plugins\General {
                         case Buildings::ContentType:
                             $objects = Buildings::findByQuery($query, $arCodes, $limit);
                             break;
-                    }
+                    }   
                 }
 
                 $this->cache->set('DuplicatePlugin', $request, $objects);
