@@ -25,6 +25,10 @@ namespace Kladr\Core\Models {
      */
     class Streets extends Collection
     {
+    	/**
+    	 * @var string Тип объекта
+    	 */
+    	const ContentType = "street";   	
 
         /**
          * Кеш, чтоб снизить запросы к базе
@@ -116,6 +120,7 @@ namespace Kladr\Core\Models {
                     'type'      => $region->readAttribute(KladrFields::Type),
                     'typeShort' => $region->readAttribute(KladrFields::TypeShort),
                     'okato'     => $region->readAttribute(KladrFields::Okato),
+                	'contentType' => Streets::ContentType,
                 );
             }
 

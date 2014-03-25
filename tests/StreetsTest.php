@@ -1,5 +1,5 @@
 <?php
-
+//require_once 'QueryToApi.php';
 /**
  * Тест api при работе с улицами
  */

@@ -23,6 +23,7 @@ class CitiesTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res->zip, null);
         $this->assertEquals($res->type, 'Город');
         $this->assertEquals($res->typeShort, 'г');
+        
     }
     
     /**

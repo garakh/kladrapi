@@ -3,3 +3,7 @@
 /tmp
 /apps/core/config/config.ini
 /apps/frontend/config/config.ini
+/.buildpath
+/.project
+/.settings/org.eclipse.php.core.prefs
+/tests/bootstrap.php

@@ -75,7 +75,7 @@ class QueryToApi {
             $url .= 'limit=' . $this->limit;
         }
         
-        return self::Url . '?' . $url;
+        return self::GetURL() . '?' . $url;
     }
     
     /**
@@ -87,4 +87,16 @@ class QueryToApi {
         $result = file_get_contents($url);
         return json_decode($result);
     }
+    
+        /**
+     * Проверяет, определена ли константа URL
+     */
+	 private function GetURL(){
+		if( defined("URL") ){
+			return URL; 
+		}
+		else{
+			return self::Url;
+		}
+        }
 }
