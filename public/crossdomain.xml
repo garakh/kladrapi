@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<cross-domain-policy>
+<site-control permitted-cross-domain-policies="master-only"/>
+<allow-http-request-headers-from domain="*" headers="*"/>
+<allow-access-from domain="*" to-ports="80"/>
+<allow-access-from domain="*" to-ports="443"/>
+</cross-domain-policy>
