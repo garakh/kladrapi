@@ -38,7 +38,8 @@ namespace Kladr\Core\Plugins\General {
          * @return \Kladr\Core\Plugins\Base\PluginResult
          */
         public function process(Request $request, PluginResult $prevResult) 
-        {    
+        {   
+            
             if($prevResult->error){
                 return $prevResult;
             }
@@ -97,18 +98,24 @@ namespace Kladr\Core\Plugins\General {
                 if($limit > 400)
                     $limit = 400;
 
+                //offset
+                $offset = $request->getQuery('offset');
+                $offset = intval($offset);
+                
+                
+                
                 switch ($request->getQuery('contentType')) {
                     case Regions::ContentType:
-                        $objects = Regions::findByQuery($query, $arCodes, $limit);
+                        $objects = Regions::findByQuery($query, $arCodes, $limit, $offset);
                         break;
                     case Districts::ContentType:
-                        $objects = Districts::findByQuery($query, $arCodes, $limit);
+                        $objects = Districts::findByQuery($query, $arCodes, $limit, $offset);
                         break;
                     case Cities::ContentType:
-                        $objects = Cities::findByQuery($query, $arCodes, $limit);
+                        $objects = Cities::findByQuery($query, $arCodes, $limit, $offset);
                         break;
                     case Streets::ContentType:
-                        $objects = Streets::findByQuery($query, $arCodes, $limit);
+                        $objects = Streets::findByQuery($query, $arCodes, $limit, $offset);
                         break;
                     case Buildings::ContentType:
                         $objects = Buildings::findByQuery($query, $arCodes, $limit);
@@ -119,7 +126,8 @@ namespace Kladr\Core\Plugins\General {
             }
 
             $result = $prevResult;
-            $result->result = $objects;        
+            $result->result = $objects;
+            //$result->searchContext=$request; //test
             return $result;
         }
         

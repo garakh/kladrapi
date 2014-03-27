@@ -22,6 +22,7 @@ class QueryToApi {
     public $contentType = null;
     public $withParent = null;
     public $limit = null;
+    public $offset = null;
     
     /**
      * Формирует строку запроса
@@ -73,6 +74,12 @@ class QueryToApi {
         if(isset($this->limit)){
             if($url) $url .= '&';
             $url .= 'limit=' . $this->limit;
+        }
+        
+        if(isset($this->offset)){
+            if($url) $url .= '&';
+            $url .= 'offset=' . $this->offset;
+            
         }
         
         return self::GetURL() . '?' . $url;

@@ -122,7 +122,18 @@ namespace Kladr\Core\Plugins\General {
                 } else {
                     $arSearchContext['limit'] = intval($arSearchContext['limit']);
                 }
-            }   
+            } 
+            
+            //offset
+            if ($request->getQuery('offset')){
+                $arSearchContext['offset'] = $request->getQuery('offset');
+                if(preg_match('/[^0-9]+/u', $arSearchContext['limit'])){
+                    $errorMessage = 'offset incorrect';
+                }
+                else{
+                    $arSearchContext['offset'] = intval($arSearchContext['offset']);
+                }
+            }
 
             // callback
             if ($request->getQuery('callback')) {

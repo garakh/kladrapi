@@ -80,6 +80,7 @@ namespace Kladr\Core\Models {
          */
         public static function findByQuery($name = null, $codes = array(), $limit = 5000)
         {
+            //насчет оффсета: как вариант делать выборку по всем домам вплоть до лимита,а после отбрасывать первую часть в нижнем array splice
             $arQuery = array();       
 
             if ($codes){
@@ -100,7 +101,7 @@ namespace Kladr\Core\Models {
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
-            $arQuery['limit'] = $limit * 3;
+            $arQuery['limit'] = $limit * 3; //почему *3?
 
             $regions = self::find($arQuery);
 
@@ -113,7 +114,7 @@ namespace Kladr\Core\Models {
                     'type'        => $region->readAttribute(KladrFields::Type),
                     'typeShort'   => $region->readAttribute(KladrFields::TypeShort),
                     'okato'       => $region->readAttribute(KladrFields::Okato),
-                	'contentType' => Buildings::ContentType,
+                    'contentType' => Buildings::ContentType,
                 );
             }
             
