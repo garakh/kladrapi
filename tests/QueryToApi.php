@@ -22,6 +22,7 @@ class QueryToApi {
     public $contentType = null;
     public $withParent = null;
     public $limit = null;
+    public $offset = null;
     
     /**
      * Формирует строку запроса
@@ -75,7 +76,13 @@ class QueryToApi {
             $url .= 'limit=' . $this->limit;
         }
         
-        return self::Url . '?' . $url;
+        if(isset($this->offset)){
+            if($url) $url .= '&';
+            $url .= 'offset=' . $this->offset;
+            
+        }
+        
+        return self::GetURL() . '?' . $url;
     }
     
     /**
@@ -87,4 +94,16 @@ class QueryToApi {
         $result = file_get_contents($url);
         return json_decode($result);
     }
+    
+        /**
+     * Проверяет, определена ли константа URL
+     */
+	 private function GetURL(){
+		if( defined("URL") ){
+			return URL; 
+		}
+		else{
+			return self::Url;
+		}
+        }
 }

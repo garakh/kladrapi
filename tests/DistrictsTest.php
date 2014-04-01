@@ -316,4 +316,21 @@ class DistrictsTest extends PHPUnit_Framework_TestCase {
         
         $this->assertEquals(count($res), 0);
     }
+    
+    /*
+    * Тестирование установки смещения выборки результатов.
+    */
+    public function testOffset1(){
+        $query = new QueryToApi();
+        $query->query = 'уст';
+        $query->contentType = QueryToApi::DistrictType;
+        $query->limit = 1;
+        $query->offset = 3;
+        
+        $res = $query->send();
+        $res = $res->result[0];
+        
+        $this->assertEquals($res->id, 1101700000000);
+    }
+
 }

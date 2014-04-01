@@ -1,5 +1,5 @@
 <?php
-
+//require_once 'QueryToApi.php';
 /**
  * Тест api при работе с улицами
  */
@@ -232,5 +232,22 @@ class StreetsTest extends PHPUnit_Framework_TestCase {
         }
 
         $this->assertTrue(false, 'Сервис должен был вернуть ошибку');
+    }
+    
+    /*
+    * Тестирование установки смещения выборки результатов.
+    */
+    public function testOffset1(){
+        $query = new QueryToApi();
+        $query->cityId = 7700000000000;
+        $query->query = "московск";
+        $query->contentType = QueryToApi::StreetType;      
+        $query->limit = 1;
+        $query->offset = 2;
+        
+        $res = $query->send();
+        $res = $res->result[0];
+        
+        $this->assertEquals($res->id, 77000000000190600);
     }
 }
