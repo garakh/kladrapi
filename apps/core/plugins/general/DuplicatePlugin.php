@@ -124,22 +124,22 @@ namespace Kladr\Core\Plugins\General {
                     $limit = $limit ? $limit : 5000;
 
                     switch ($request->getQuery('contentType')) {
-                        case 'region':
+                        case Regions::ContentType:
                             $objects = Regions::findByQuery($query, $arCodes, $limit);
                             break;
-                        case 'district':
+                        case Districts::ContentType:
                             $objects = Districts::findByQuery($query, $arCodes, $limit);
                             break;
-                        case 'city':
+                        case Cities::ContentType:
                             $objects = Cities::findByQuery($query, $arCodes, $limit);
                             break;
-                        case 'street':
+                        case Streets::ContentType:
                             $objects = Streets::findByQuery($query, $arCodes, $limit);
                             break;
-                        case 'building':
+                        case Buildings::ContentType:
                             $objects = Buildings::findByQuery($query, $arCodes, $limit);
                             break;
-                    }
+                    }   
                 }
 
                 $this->cache->set('DuplicatePlugin', $request, $objects);
