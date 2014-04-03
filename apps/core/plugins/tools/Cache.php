@@ -52,6 +52,7 @@ namespace Kladr\Core\Plugins\Tools {
 
             $key .= 'withParent='.$request->getQuery('withParent');
             $key .= 'limit='.$request->getQuery('limit');
+            $key .= 'offset='.$request->getQuery('offset');
 
             return sha1($key);
         }
@@ -84,7 +85,9 @@ namespace Kladr\Core\Plugins\Tools {
             return $this->cache->save($key, $result);
         }
 
-
+        /*
+         * Определет, используется ли кэш.
+         */
         private function useCache()
         {
             return $this->config->mongocache->enabled;

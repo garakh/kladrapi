@@ -6,7 +6,12 @@ namespace Kladr\Core\Plugins\General {
         \Phalcon\Mvc\User\Plugin,
         \Kladr\Core\Plugins\Base\IPlugin,
         \Kladr\Core\Plugins\Base\PluginResult;
-
+	use Kladr\Core\Models\Regions;
+	use Kladr\Core\Models\Districts;
+	use Kladr\Core\Models\Cities;
+	use Kladr\Core\Models\Streets;
+	use Kladr\Core\Models\Buildings;
+																				
     /**
      * Kladr\Core\Plugins\General\ValidatePlugin
      * 
@@ -34,11 +39,11 @@ namespace Kladr\Core\Plugins\General {
                 $arSearchContext['contentType'] = $request->getQuery('contentType');
 
                 if(!in_array($arSearchContext['contentType'], array(
-                    'region',
-                    'district',
-                    'city',
-                    'street',
-                    'building'
+                    Regions::ContentType,
+                    Districts::ContentType,
+                    Cities::ContentType,
+                    Streets::ContentType,
+                    Buildings::ContentType
                 ))){
                     $errorMessage = 'contentType incorrect';
                 }
@@ -117,7 +122,18 @@ namespace Kladr\Core\Plugins\General {
                 } else {
                     $arSearchContext['limit'] = intval($arSearchContext['limit']);
                 }
-            }   
+            } 
+            
+            //offset
+            if ($request->getQuery('offset')){
+                $arSearchContext['offset'] = $request->getQuery('offset');
+                if(preg_match('/[^0-9]+/u', $arSearchContext['limit'])){
+                    $errorMessage = 'offset incorrect';
+                }
+                else{
+                    $arSearchContext['offset'] = intval($arSearchContext['offset']);
+                }
+            }
 
             // callback
             if ($request->getQuery('callback')) {

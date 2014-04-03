@@ -189,4 +189,28 @@ class RegionsTest extends PHPUnit_Framework_TestCase {
         
         $this->assertEquals(count($res), 0);
     }
+    
+    /* -------------------- Проверка работы смещения ------------------- */
+    
+    /*
+    * Тестирование установки смещения выборки результатов.
+    */
+    public function testOffset1(){
+        $query= new QueryToApi();
+        $query = new QueryToApi();
+        $query->query = 'и';
+        $query->contentType = QueryToApi::RegionType;
+        $query->limit=3;
+        
+        $res = $query->send();
+        $res = $res->result[2];
+        
+        $query->offset = 2;
+        $query->limit = 1;
+        
+        $resOffset = $query->send();
+        $resOffset = $resOffset->result[0];
+     
+        $this->assertEquals($res, $resOffset);       
+    }
 }

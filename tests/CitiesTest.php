@@ -23,6 +23,7 @@ class CitiesTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($res->zip, null);
         $this->assertEquals($res->type, 'Город');
         $this->assertEquals($res->typeShort, 'г');
+        
     }
     
     /**
@@ -422,5 +423,31 @@ class CitiesTest extends PHPUnit_Framework_TestCase {
         $res = $res->result;
         
         $this->assertEquals(count($res), 0);
+    }  
+    
+    /* -------------------- Проверка работы смещения ------------------- */
+    
+    /*
+    * Тестирование установки смещения выборки результатов.
+    */
+    public function testOffset1(){
+        //выборка из двух элементов
+        $query = new QueryToApi();
+        $query->query="Архангельск";
+        $query->contentType = QueryToApi::CityType;
+        $query->limit=2;
+        
+        $res = $query->send();
+        $res = $res->result[1];
+        
+        //запрос на выдачу второго элемента
+        $query->offset=1;
+        $query->limit=1;
+        
+        $resOffset = $queryOffset->send();
+        $resOffset = $resOffset->result[0];
+        
+        $this->assertEquals($res->id, $resOffset->id);
+    }   
+    
     }
-}

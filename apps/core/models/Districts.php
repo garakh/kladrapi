@@ -23,7 +23,11 @@ namespace Kladr\Core\Models {
      */
     class Districts extends Collection
     {
-
+    	/**
+    	 * @var string Тип объекта
+    	 */
+		const ContentType = "district";
+    	
         /**
          * Кеш, чтоб снизить запросы к базе
          * @var array
@@ -68,7 +72,7 @@ namespace Kladr\Core\Models {
          * @param int $limit Максимальное количество возвращаемых объектов
          * @return array
          */
-        public static function findByQuery($name = null, $codes = array(), $limit = 5000)
+        public static function findByQuery($name = null, $codes = array(), $limit = 5000, $offset = 0)
         {
             $arQuery = array();       
             $isEmptyQuery = true;
@@ -106,19 +110,22 @@ namespace Kladr\Core\Models {
             }
 
             $arQuery['sort'] = array(KladrFields::Name => 1);
+            $arQuery['skip'] = $offset;
             $arQuery['limit'] = $limit;
+            
 
             $regions = self::find($arQuery);
 
             $arReturn = array();
             foreach($regions as $region){
                 $arReturn[] = array(
-                    'id'        => $region->readAttribute(KladrFields::Id),
-                    'name'      => $region->readAttribute(KladrFields::Name),
-                    'zip'       => $region->readAttribute(KladrFields::ZipCode),
-                    'type'      => $region->readAttribute(KladrFields::Type),
-                    'typeShort' => $region->readAttribute(KladrFields::TypeShort),
-                    'okato'     => $region->readAttribute(KladrFields::Okato),
+                    'id'          => $region->readAttribute(KladrFields::Id),
+                    'name'        => $region->readAttribute(KladrFields::Name),
+                    'zip'         => $region->readAttribute(KladrFields::ZipCode),
+                    'type'        => $region->readAttribute(KladrFields::Type),
+                    'typeShort'   => $region->readAttribute(KladrFields::TypeShort),
+                    'okato'       => $region->readAttribute(KladrFields::Okato),
+                    'contentType' => Districts::ContentType,
                 );
             }
 
