@@ -1,7 +1,7 @@
 <?php
 
 namespace Kladr\Core\Controllers {
-    
+
     use \Phalcon\Mvc\Controller;
 
     /**
@@ -11,19 +11,17 @@ namespace Kladr\Core\Controllers {
      * 
      * @author A. Yakovlev. Primepix (http://primepix.ru/)
      */
-    class ApiController extends Controller
-    {
+    class ApiController extends Controller {
 
-        public function indexAction()
-        {
+        public function indexAction() {
             $api = $this->di->get('api');
             $this->response = $api->process($this->request);
             $this->response->send();
-
+            
             //$this->mongo->close();
             $api->log($this->request);
         }
 
     }
-    
+
 }
