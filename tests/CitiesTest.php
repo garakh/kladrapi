@@ -186,34 +186,26 @@ class CitiesTest extends PHPUnit_Framework_TestCase {
     /* ------------------- Поиск по названию и региону ----------------------- */
 
     /**
-     * Тест поиска населённых пунктов с названием начинающимся на "Голден" в Московской области
+     * Тест поиска населённых пунктов с названием начинающимся на "вер" в Московской области
      */
     public function testSearchByNameFromRegion1() {
         $query = new QueryToApi();
-        $query->regionId = '5000000000000';
-        $query->query = 'голдЕН';
+        $query->regionId = '2800000000000';
+        $query->query = 'вер';
         $query->contentType = QueryToApi::CityType;
 
         $res = $query->send();
         $res = $res->result;
 
-        $this->assertEquals(count($res), 3, 'Сервис должен был вернуть 3 объекта');
+        $this->assertEquals(count($res), 9, 'Сервис должен был вернуть 9 объектов');
 
         $city = $res[0];
 
-        $this->assertEquals($city->id, '5000000110851');
-        $this->assertEquals($city->name, 'Голден Лайн');
-        $this->assertEquals($city->zip, '142000');
-        $this->assertEquals($city->type, 'Территория');
-        $this->assertEquals($city->typeShort, 'тер');
-
-        $city = $res[1];
-
-        $this->assertEquals($city->id, '5000600018651');
-        $this->assertEquals($city->name, 'Голден Лайн');
-        $this->assertEquals($city->zip, '142030');
-        $this->assertEquals($city->type, 'Территория');
-        $this->assertEquals($city->typeShort, 'тер');
+        $this->assertEquals($city->id, '2800600000900');
+        $this->assertEquals($city->name, 'Верхнезейск');
+        $this->assertEquals($city->zip, '676239');
+        $this->assertEquals($city->type, 'Поселок');
+        $this->assertEquals($city->typeShort, 'п');
     }
 
     /**

@@ -180,7 +180,7 @@ class DistrictsTest extends PHPUnit_Framework_TestCase {
     public function testSearchByNameFromRegion2() {
         $query = new QueryToApi();
         $query->regionId = '4300000000000';
-        $query->query = 'хал';
+        $query->query = 'леб';
         $query->contentType = QueryToApi::DistrictType;
 
         $res = $query->send();
@@ -190,9 +190,9 @@ class DistrictsTest extends PHPUnit_Framework_TestCase {
 
         $res = $res[0];
 
-        $this->assertEquals($res->id, '4302600000001');
-        $this->assertEquals($res->name, 'Халтуринский');
-        $this->assertEquals($res->zip, '612275');
+        $this->assertEquals($res->id, '4301600000000');
+        $this->assertEquals($res->name, 'Лебяжский');
+        $this->assertEquals($res->zip, '613500');
         $this->assertEquals($res->type, 'Район');
         $this->assertEquals($res->typeShort, 'р-н');
     }
