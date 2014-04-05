@@ -122,6 +122,8 @@ namespace Kladr\Core\Plugins\General {
                     $limit = $request->getQuery('limit');
                     $limit = intval($limit);
                     $limit = $limit ? $limit : 5000;
+                    if($limit > 400)
+                        $limit = 400;
 
                     switch ($request->getQuery('contentType')) {
                         case 'region':
@@ -151,7 +153,7 @@ namespace Kladr\Core\Plugins\General {
             $arResult = array();
             $arIgnore = array();
             foreach($objects as $object){
-                $ignoreId = $this->arDuplicates[$object['id']];
+                $ignoreId = isset($this->arDuplicates[$object['id']]) ? $this->arDuplicates[$object['id']] : false;
                 
                 if($ignoreId){
                     $arIgnore[] = $ignoreId;
