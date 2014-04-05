@@ -101,8 +101,9 @@ namespace Kladr\Core\Services {
             $this->googleTracker->setClientID($request->get('token'));
 
             $page = new \Racecore\GATracking\Tracking\Page();
-            $page->setDocumentPath($_SERVER['HTTP_REFERER'] != '' ? $_SERVER['HTTP_REFERER'] : '/');
-            $page->setDocumentTitle($_SERVER['HTTP_REFERER']!= '' ? $_SERVER['HTTP_REFERER'] : 'Direct');
+            $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+            $page->setDocumentPath($referer != '' ? $referer : '/');
+            $page->setDocumentTitle($referer != '' ? $referer : 'Direct');
 
             $this->googleTracker->addTracking($page);
 
