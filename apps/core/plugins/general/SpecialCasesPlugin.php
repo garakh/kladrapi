@@ -98,7 +98,8 @@ namespace Kladr\Core\Plugins\General {
                     $arCodes = Buildings::getCodes($buildingId);
                 }
                 
-                if(!$arRegionCodeSpecialCases[$arCodes[KladrFields::CodeRegion]]) return $prevResult;
+                if(!isset($arCodes[KladrFields::CodeRegion]) && 
+					!isset($arRegionCodeSpecialCases[$arCodes[KladrFields::CodeRegion]])) return $prevResult;
                 $arCodes[KladrFields::CodeRegion] = $arRegionCodeSpecialCases[$arCodes[KladrFields::CodeRegion]];
                 
                 // query
@@ -110,6 +111,8 @@ namespace Kladr\Core\Plugins\General {
                 $limit = $request->getQuery('limit');
                 $limit = intval($limit);
                 $limit = $limit ? $limit : 5000;
+				if($limit > 400)
+					$limit = 400;
 
                 switch ($request->getQuery('contentType')) {
                     case 'region':
