@@ -18,6 +18,7 @@ namespace Kladr\Core\Services {
      */
     class ApiService
     {
+
         private $_arPlugins;
 
         /**
@@ -30,7 +31,8 @@ namespace Kladr\Core\Services {
          * Kladr\Core\Services\ApiService construct
          * @param \Racecore\GATracking\GATracking $googleTracker Трекер
          */
-        public function __construct($googleTracker) {
+        public function __construct($googleTracker)
+        {
             $this->_arPlugins = array();
             $this->googleTracker = $googleTracker;
         }
@@ -56,26 +58,36 @@ namespace Kladr\Core\Services {
             $response = new Response();
             $pluginResult = new PluginResult();
 
-            foreach($this->_arPlugins as $plugin){
+            foreach ($this->_arPlugins as $plugin)
+            {
                 $pluginResult = $plugin->process($request, $pluginResult);
-                if($pluginResult->terminate){
+                if ($pluginResult->terminate)
+                {
                     break;
                 }
             }
 
-            if($pluginResult->error){
+            if ($pluginResult->error)
+            {
                 $response->setStatusCode($pluginResult->errorCode, $pluginResult->errorMessage);
-            } else {
+                $response->setContent($pluginResult->errorMessage);
+                return $response;
+            }
+            else
+            {
                 $response->setStatusCode(200, "OK");
             }
 
             $callback = $request->getQuery('callback');
             $result = '';
 
-            if($callback){
+            if ($callback)
+            {
                 $response->setHeader('Content-Type', 'application/javascript');
                 $result .= $callback . '(';
-            } else {
+            }
+            else
+            {
                 $response->setHeader('Content-Type', 'application/json');
             }
 
@@ -84,11 +96,19 @@ namespace Kladr\Core\Services {
                 'result' => $pluginResult->result
             ));
 
-            if($callback){
+            if ($callback)
+            {
                 $result .= ');';
             }
 
-            $response->setContent($result);
+            if ($pluginResult->fileToSend)
+            {
+                $response->setFileToSend($pluginResult->fileToSend, 'data.txt');
+            }
+            else
+            {
+                $response->setContent($result);
+            }
             return $response;
         }
 
@@ -107,15 +127,16 @@ namespace Kladr\Core\Services {
 
             $this->googleTracker->addTracking($page);
 
-            try {
+            try
+            {
                 $this->googleTracker->send();
-
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 //echo 'Error: ' . $e->getMessage() . '<br />' . "\r\n";
                 //echo 'Type: ' . get_class($e);
-
             }
         }
+
     }
 
 }

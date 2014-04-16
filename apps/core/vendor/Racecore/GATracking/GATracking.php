@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking;
 
 use Racecore\GATracking\Exception\EndpointServerException;
@@ -23,6 +24,7 @@ use Racecore\GATracking\Tracking\AbstractTracking;
  */
 class GATracking
 {
+
     /**
      * Google Analytics Account ID UA-...
      *
@@ -102,7 +104,8 @@ class GATracking
      */
     public function getClientID()
     {
-        if (!$this->clientID) {
+        if (!$this->clientID)
+        {
             $this->clientID = $this->createClientID();
         }
 
@@ -134,9 +137,9 @@ class GATracking
      *
      * @param string $accountID
      */
-    public function __construct( $accountID = null )
+    public function __construct($accountID = null)
     {
-        $this->setAccountID( $accountID );
+        $this->setAccountID($accountID);
 
         return $this;
     }
@@ -149,18 +152,19 @@ class GATracking
     private function createClientID()
     {
         // collect user specific data
-        if (isset($_COOKIE['_ga'])) {
+        if (isset($_COOKIE['_ga']))
+        {
 
             $gaCookie = explode('.', $_COOKIE['_ga']);
-            if( isset($gaCookie[2] ) )
+            if (isset($gaCookie[2]))
             {
                 // check if uuid
-                if( $this->checkUUID( $gaCookie[2] ) )
+                if ($this->checkUUID($gaCookie[2]))
                 {
                     // uuid set in cookie
                     return $gaCookie[2];
                 }
-                elseif( isset($gaCookie[2]) && isset($gaCookie[3]) )
+                elseif (isset($gaCookie[2]) && isset($gaCookie[3]))
                 {
                     // google default client id
                     return $gaCookie[2] . '.' . $gaCookie[3];
@@ -178,9 +182,9 @@ class GATracking
      * @param $uuid
      * @return int
      */
-    private function checkUUID( $uuid )
+    private function checkUUID($uuid)
     {
-        return preg_match('#^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$#i', $uuid );
+        return preg_match('#^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$#i', $uuid);
     }
 
     /**
@@ -189,25 +193,22 @@ class GATracking
      * @author Andrew Moore http://www.php.net/manual/en/function.uniqid.php#94959
      * @return string
      */
-    private function generateUUID() {
-        return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            // 32 bits for "time_low"
-            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-
-            // 16 bits for "time_mid"
-            mt_rand( 0, 0xffff ),
-
-            // 16 bits for "time_hi_and_version",
-            // four most significant bits holds version number 4
-            mt_rand( 0, 0x0fff ) | 0x4000,
-
-            // 16 bits, 8 bits for "clk_seq_hi_res",
-            // 8 bits for "clk_seq_low",
-            // two most significant bits holds zero and one for variant DCE1.1
-            mt_rand( 0, 0x3fff ) | 0x8000,
-
-            // 48 bits for "node"
-            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+    private function generateUUID()
+    {
+        return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                // 32 bits for "time_low"
+                mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+                // 16 bits for "time_mid"
+                mt_rand(0, 0xffff),
+                // 16 bits for "time_hi_and_version",
+                // four most significant bits holds version number 4
+                mt_rand(0, 0x0fff) | 0x4000,
+                // 16 bits, 8 bits for "clk_seq_hi_res",
+                // 8 bits for "clk_seq_low",
+                // two most significant bits holds zero and one for variant DCE1.1
+                mt_rand(0, 0x3fff) | 0x8000,
+                // 48 bits for "node"
+                mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
         );
     }
 
@@ -224,7 +225,8 @@ class GATracking
         $this->last_response = null;
 
         /** @var AbstractTracking $event */
-        foreach ($this->tracking_holder as $tracking) {
+        foreach ($this->tracking_holder as $tracking)
+        {
             $this->sendTracking($tracking);
         }
 
@@ -241,18 +243,21 @@ class GATracking
     function getClientIP($address = '')
     {
 
-        if (!$address) {
+        if (!$address)
+        {
             $address = $_SERVER['REMOTE_ADDR'];
         }
 
-        if (!$address) {
+        if (!$address)
+        {
             return '';
         }
 
         // Capture the first three octects of the IP address and replace the forth
         // with 0, e.g. 124.455.3.123 becomes 124.455.3.0
         $regex = "/^([^.]+\.[^.]+\.[^.]+\.).*/";
-        if (preg_match($regex, $address, $matches)) {
+        if (preg_match($regex, $address, $matches))
+        {
             return $matches[1] . '0';
         }
 
@@ -266,12 +271,12 @@ class GATracking
      * @return string
      * @throws Exception\MissingConfigurationException
      */
-    private function buildPacket( AbstractTracking $event )
+    private function buildPacket(AbstractTracking $event)
     {
         // get packet
         $eventPacket = $event->getPaket();
 
-        if( ! $this->getAccountID() )
+        if (!$this->getAccountID())
         {
             throw new MissingConfigurationException('Google Account ID is missing');
         }
@@ -311,7 +316,7 @@ class GATracking
     public function sendTracking(AbstractTracking $event)
     {
         // get packet
-        $eventPacket = $this->buildPacket( $event );
+        $eventPacket = $this->buildPacket($event);
 
         // get endpoint
         $endpoint = parse_url($this->analytics_endpoint);
@@ -322,16 +327,17 @@ class GATracking
         // connect
         $connection = @fsockopen($endpoint['scheme'] == 'https' ? 'ssl://' : $endpoint['host'], $port, $error, $errorstr, 10);
 
-        if (!$connection) {
+        if (!$connection)
+        {
             throw new EndpointServerException('Analytics Host not reachable!');
         }
 
-        $header =   'POST ' . $endpoint['path'] . ' HTTP/1.1' . "\r\n" .
-                    'Host: ' . $endpoint['host'] . "\r\n" .
-                    'User-Agent: Google-Measurement-PHP-Client' . "\r\n" .
-                    'Content-Type: application/x-www-form-urlencoded' . "\r\n" .
-                    'Content-Length: ' . strlen($eventPacket) . "\r\n" .
-                    'Connection: Close' . "\r\n\r\n";
+        $header = 'POST ' . $endpoint['path'] . ' HTTP/1.1' . "\r\n" .
+                'Host: ' . $endpoint['host'] . "\r\n" .
+                'User-Agent: Google-Measurement-PHP-Client' . "\r\n" .
+                'Content-Type: application/x-www-form-urlencoded' . "\r\n" .
+                'Content-Length: ' . strlen($eventPacket) . "\r\n" .
+                'Connection: Close' . "\r\n\r\n";
 
         $this->last_response = '';
 
@@ -343,7 +349,8 @@ class GATracking
         $response = '';
 
         // receive response
-        while (!feof($connection)) {
+        while (!feof($connection))
+        {
             $response .= fgets($connection, 1024);
         }
 
@@ -352,7 +359,7 @@ class GATracking
         $responseContainer[0] = explode("\r\n", $responseContainer[0]);
 
         // save last response
-        $this->addResponse( $responseContainer );
+        $this->addResponse($responseContainer);
 
         // connection close
         fclose($connection);
@@ -366,7 +373,7 @@ class GATracking
      * @param $response
      * @return bool
      */
-    public function addResponse( $response )
+    public function addResponse($response)
     {
         $this->last_response_stack[] = $response;
         $this->last_response = $response;
@@ -406,4 +413,5 @@ class GATracking
 
         return $this;
     }
+
 }

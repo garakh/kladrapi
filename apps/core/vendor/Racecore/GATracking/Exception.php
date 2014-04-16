@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking;
 
 /**
@@ -19,4 +20,5 @@ namespace Racecore\GATracking;
  */
 class Exception extends \UnexpectedValueException
 {
+    
 }

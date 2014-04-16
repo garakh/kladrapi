@@ -3,20 +3,20 @@
 <div class="otherheader">
     <h1>Регистрация</h1>
 </div>
-	
+
 <div class="correctwidth">
     <div class="content">
         <div class="propose register">
             <?= $this->getContent() ?>
             <div class="reg">
                 <?= Tag::form(array("register", "method" => "post")); ?>
-                    <p>Регистрация</p>
-                    <?= Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "ваш e-mail", "data-email" => "y")) ?>
-                    <div class="checkbox">
-                            <?= Tag::checkField(array("accept", "id" => "accept", "value" => "y")) ?>
-                            <label for="accept">Согласен с <a href="/prices/#conditions" target="_blank">условиями использования сервиса</a></label> 
-                    </div>
-                    <?= Tag::submitButton(array('Регистрация', "class" => "btn")) ?>
+                <p>Регистрация</p>
+                <?= Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "ваш e-mail", "data-email" => "y")) ?>
+                <div class="checkbox">
+                    <?= Tag::checkField(array("accept", "id" => "accept", "value" => "y")) ?>
+                    <label for="accept">Согласен с <a href="/prices/#conditions" target="_blank">условиями использования сервиса</a></label> 
+                </div>
+                <?= Tag::submitButton(array('Регистрация', "class" => "btn")) ?>
                 <?= Tag::endForm(); ?>
             </div>
         </div>

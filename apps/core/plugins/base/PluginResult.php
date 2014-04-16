@@ -13,31 +13,38 @@ namespace Kladr\Core\Plugins\Base {
      * @property bool $terminate Был выполнен завершающий плагин, дальнейшая обработка не требуется
      * @property array $searchContext Параметры запроса
      * @property array $result Результат
+     * @property string $fileToSend Файл, который надо отправить
+     * @property \Kladr\Core\Models\Users $user Пользователь
      * 
-     * @author A. Yakovlev. Primepix (http://primepix.ru/)
+     * @author Primepix (http://primepix.ru/)
      */
-    class PluginResult 
+    class PluginResult
     {
 
-        private $_error;    
+        private $_error;
         private $_errorMessage;
         private $_errorCode;
         private $_terminate;
         private $_searchContext;
         private $_result;
+        private $_user;
+        private $_fileToSend;
 
-        public function __construct() {
+        public function __construct()
+        {
             $this->_error = false;
             $this->_errorMessage = '';
             $this->_errorCode = '200';
             $this->_terminate = false;
             $this->_searchContext = array();
             $this->_result = array();
+            $this->_user = null;
+            $this->_fileToSend = null;
         }
 
-        public function __get($name) 
+        public function __get($name)
         {
-            switch($name)
+            switch ($name)
             {
                 case 'error': return $this->_error;
                 case 'errorMessage': return $this->_errorMessage;
@@ -45,13 +52,15 @@ namespace Kladr\Core\Plugins\Base {
                 case 'terminate': return $this->_terminate;
                 case 'searchContext': return $this->_searchContext;
                 case 'result': return $this->_result;
+                case 'user': return $this->_user;
+                case 'fileToSend': return $this->_fileToSend;
                 default: return null;
             }
         }
 
-        public function __set($name, $value) 
+        public function __set($name, $value)
         {
-            switch($name)
+            switch ($name)
             {
                 case 'error':
                     $this->_error = $value;
@@ -70,6 +79,12 @@ namespace Kladr\Core\Plugins\Base {
                     break;
                 case 'result':
                     $this->_result = $value;
+                    break;
+                case 'user':
+                    $this->_user = $value;
+                    break;
+                case 'fileToSend':
+                    $this->_fileToSend = $value;
                     break;
             }
         }

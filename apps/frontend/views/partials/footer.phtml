@@ -1,14 +1,14 @@
 <? use \Phalcon\Tag; ?>
 
 <div class="footer">
+    <div class="correctwidth">
+        <div class="footermenu"><?= $this->elements->getBottomMenu() ?></div> 
+    </div>		
+    <div class="copyright">
         <div class="correctwidth">
-                <div class="footermenu"><?=  $this->elements->getBottomMenu() ?></div> 
-        </div>		
-        <div class="copyright">
-                <div class="correctwidth">
-                        <div class="name"><p>© 2013 — Сервис «КЛАДР в облаке»</p><a href="/prices/#conditions" target="_blank">Условия использования сервиса</a></div>
-                        <div class="primepix">Разработка —<noindex><a href="http://primepix.ru/" target="_blank"><?= Tag::image(array('images/primepix.png', 'alt' => 'Primepix', 'align' => 'top', 'style' => 'margin: 0 30px 0 7px;')) ?></a></noindex></div>
-                </div>
+            <div class="name"><p>© 2013 — Сервис «КЛАДР в облаке»</p><a href="/prices/#conditions" target="_blank">Условия использования сервиса</a></div>
+            <div class="primepix">Разработка —<noindex><a href="http://primepix.ru/" target="_blank"><?= Tag::image(array('images/primepix.png', 'alt' => 'Primepix', 'align' => 'top', 'style' => 'margin: 0 30px 0 7px;')) ?></a></noindex></div>
         </div>
+    </div>
 
 </div>

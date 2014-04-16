@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking\Tracking;
 
 use Racecore\GATracking\Exception\MissingTrackingParameterException;
@@ -207,15 +208,18 @@ class Campaign extends Page
 
         $packet = parent::getPaket();
 
-        if (!$this->getCampaignName()) {
+        if (!$this->getCampaignName())
+        {
             throw new MissingTrackingParameterException('Campaign Name musst be set');
         }
 
-        if (!$this->getCampaignMedium()) {
+        if (!$this->getCampaignMedium())
+        {
             throw new MissingTrackingParameterException('Campaign Medium musst be set');
         }
 
-        if (!$this->getCampaignSource()) {
+        if (!$this->getCampaignSource())
+        {
             throw new MissingTrackingParameterException('Campaign Source musst be set');
         }
 
@@ -228,6 +232,5 @@ class Campaign extends Page
             'ci' => $this->getCampaignID()
         ));
     }
-
 
 }

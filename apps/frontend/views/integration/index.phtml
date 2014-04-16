@@ -8,54 +8,54 @@
 <script type="text/javascript" src="/js/highlight/scripts/shBrushJScript.js"></script>
 <script type="text/javascript">
     SyntaxHighlighter.all();
-    $(function(){
-        $('.blocktoggle').click(function(){
+    $(function() {
+        $('.blocktoggle').click(function() {
             var el = '.' + $(this).data('block');
             $(el).toggle();
         });
     })
 
 </script>
-	
+
 <div class="correctwidth">
     <div class="content">
         <div class="document">
 
-			<div>
-				<h2>Возможности</h2>
-				<p>Сервис предоставляет он-лайн интерфейс к базе адресов Российской Федерации(«ФИАС»). Обмен данными происходит в формате JSON, с поддержкой JSONP.</p>
-				<p>Для облегчнения интеграции разработаны плагины под разные плаформы, которые подробно описаны ниже на этой странице. Плагины распространяются бесплатно под лицензией «Public domain», без каких-либо ограничений на использование.
-				</p>
-				<p>
-					Основные возможности:
-				</p>
-				<ul>
-					<li>Искать регионы, нас. пункты, улицы, дома по подстроке и по коду</li>
-					<li>Фильтровать данные по регионам, нас. пунткам и улицам</li>
-					<li>Получать сведения о родительских элементах и почтовых индексах</li>
-				</ul>				
-				
-				<p>Например, можно попросить сервис вернуть все города на букву «А», или все улицы Москвы начинающиеся на «Лен».</p>
-				<h2>Исходные коды</h2>
-				<p>Все исходные коды сервиса доступны в <a href="https://github.com/garakh/kladrapi">открытом виде</a>. Вы можете <a href="https://trello.com/b/NlSSs2UV/-"> принять участие в разработке проекта.</a>
-				</p>
-			</div>
-			<hr class="delimiter"/>
+            <div>
+                <h2>Возможности</h2>
+                <p>Сервис предоставляет он-лайн интерфейс к базе адресов Российской Федерации(«ФИАС»). Обмен данными происходит в формате JSON, с поддержкой JSONP.</p>
+                <p>Для облегчнения интеграции разработаны плагины под разные плаформы, которые подробно описаны ниже на этой странице. Плагины распространяются бесплатно под лицензией «Public domain», без каких-либо ограничений на использование.
+                </p>
+                <p>
+                    Основные возможности:
+                </p>
+                <ul>
+                    <li>Искать регионы, нас. пункты, улицы, дома по подстроке и по коду</li>
+                    <li>Фильтровать данные по регионам, нас. пунткам и улицам</li>
+                    <li>Получать сведения о родительских элементах и почтовых индексах</li>
+                </ul>				
+
+                <p>Например, можно попросить сервис вернуть все города на букву «А», или все улицы Москвы начинающиеся на «Лен».</p>
+                <h2>Исходные коды</h2>
+                <p>Все исходные коды сервиса доступны в <a href="https://github.com/garakh/kladrapi">открытом виде</a>. Вы можете <a href="https://trello.com/b/NlSSs2UV/-"> принять участие в разработке проекта.</a>
+                </p>
+            </div>
+            <hr class="delimiter"/>
 
             <h2 class="blocktoggle apidoc dotted" data-block="apidoc">Документация API сервиса</h2>
             <div class="apidoc docblock" style="display:none">
                 <a name="json"></a>
-                
+
                 <h2 class="blocktoggle dotted" data-block="apidoc">Документация API сервиса</h2>
 
-				<p>Для работы с сервисом Вам понадобится один из ключей:</p>
-				<ul>
-					<li>Ключ с привязкой к домену</li>
-					<li>Ключ <i>без</i> привязки к домену</li>
-				</ul>
-				<p>Используйте ключ с привязкой к домену на Вашем сайте в формах ввода информации. Ключ без привязки к домену стоит использовать в Ваших серверных приложениях.
-				</p>
-				<p>Во всех примерах на этой странице используется <b>демонстрационный ключ</b>, который периодически меняется. Не используйте его в своих рабочих приложениях.</p>
+                <p>Для работы с сервисом Вам понадобится один из ключей:</p>
+                <ul>
+                    <li>Ключ с привязкой к домену</li>
+                    <li>Ключ <i>без</i> привязки к домену</li>
+                </ul>
+                <p>Используйте ключ с привязкой к домену на Вашем сайте в формах ввода информации. Ключ без привязки к домену стоит использовать в Ваших серверных приложениях.
+                </p>
+                <p>Во всех примерах на этой странице используется <b>демонстрационный ключ</b>, который периодически меняется. Не используйте его в своих рабочих приложениях.</p>
                 <div>
                     <h3>Параметры запроса</h3>
                     <p>Адрес страницы для запроса: <noindex><a href="http://kladr-api.ru/api.php">http://kladr-api.ru/api.php</a></p></noindex>
@@ -75,7 +75,7 @@
                         <li><code>callback</code> – JavaScript метод которому будет передан ответ базы</li>
                     </ol>
                 </div>
-                
+
                 <div>
                     <h3>Формат ответа сервиса</h3>
                     <p>Пример ответа сервиса:</p>
@@ -147,8 +147,8 @@
                         совпадает с поисковой строкой либо начинается на неё).
                         <br><br>
                         Для поиска улицы по названию необходимо обязательно указать код населённого пункта, например <noindex><a href="http://kladr-api.ru/api.php?token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969&cityId=7800000000000&query=3&contentType=street&limit=50" target="_blank">cityId=7800000000000&query=3&contentType=street</a></noindex>.
-                        <br>
-                        Для поиска строения по названию необходимо обязательно указать код улицы, например <noindex><a href="http://kladr-api.ru/api.php?&token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969&streetId=29000001000025800&query=1&contentType=building&limit=50" target="_blank">streetId=29000001000025800&query=1&contentType=building</a></noindex>.
+                    <br>
+                    Для поиска строения по названию необходимо обязательно указать код улицы, например <noindex><a href="http://kladr-api.ru/api.php?&token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969&streetId=29000001000025800&query=1&contentType=building&limit=50" target="_blank">streetId=29000001000025800&query=1&contentType=building</a></noindex>.
                     </p>
                 </div>
                 <hr class="delimiter"/>
@@ -158,7 +158,7 @@
             <h2 class="blocktoggle jquerydoc dotted" data-block="jquerydoc">jQuery plugin</h2>
             <div class="jquerydoc docblock" style="display: none;">
                 <a name="jquery"></a>
-                
+
                 <h2 class="blocktoggle dotted" data-block="jquerydoc">
                     jQuery plugin
                 </h2>
@@ -173,7 +173,7 @@
                         <li><code>$.kladr</code> - (статичный объект) предоставляет методы и свойства для работы с сервисом</li>
                         <li><code>$( "selector" ).kladr</code> - (плагин jQuery) плагин для автодополнения адреса</li>
                     </ul>
-                    
+
                     <p>Подключение</p>
                     <pre class="brush: js;">
 $( 'input' ).kladr({
@@ -181,18 +181,18 @@ $( 'input' ).kladr({
     option2: 'value2'
 });
                     </pre>
-                    
+
                     <p>Чтение опции, свойства</p>
                     <pre class="brush: js;">
 $( 'input' ).kladr('option1');
                     </pre>
-                    
+
                     <p>Изменение опции, свойства</p>
                     <pre class="brush: js;">
 $( 'input' ).kladr('option1', 123);
                     </pre>
                 </div>
-                
+
                 <div>
                     <h3>Свойства объекта $.kladr</h3>                    
                     <ul>
@@ -218,7 +218,7 @@ $( 'input' ).kladr('option1', 123);
                         <li><code>current</code> - текущий, выбранный объект КЛАДР</li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h3>Методы плагина</h3>                    
                     <ul>
@@ -227,7 +227,7 @@ $( 'input' ).kladr('option1', 123);
                         <li><code>valueFormat = function( obj, query) { return label; }</code> – функция для форматирования подставляемых в поле ввода значений. В качестве параметров принимает <code>obj</code> – объект КЛАДР, <code>query</code> – текущее значение поля ввода.</li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h3>События плагина</h3>                    
                     <ul>
@@ -239,10 +239,10 @@ $( 'input' ).kladr('option1', 123);
                         <li><code>check = function( obj ) {}</code> - проверен введённый пользователем объект. Вызывается только если параметр <code>verify = true</code>. В параметре передаётся текущий объект КЛАДР. Доступно как событие <code>kladr_check</code> поля ввода.</li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h3>Примеры</h3>    
-                    
+
                     <p>Автодополнение городами России</p>
                     <pre class="brush: js;">
 $( 'input' ).kladr({
@@ -251,7 +251,7 @@ $( 'input' ).kladr({
     type: $.kladr.type.city
 });
                     </pre>
-                    
+
                     <p>Изменении подписи при выборе района</p>
                     <pre class="brush: js;">
 $( 'input' ).kladr({
@@ -263,7 +263,7 @@ $( 'input' ).kladr({
     }
 });
                     </pre>
-                    
+
                     <p>Проверка названия города, введённого пользователем самостоятельно</p>
                     <pre class="brush: js;">
 $( 'input' ).kladr({
@@ -329,7 +329,7 @@ $( 'input' ).kladr({
                 <div>
                     <h3>Автор</h3>
                     <p>
-                        <noindex><a href="http://saitovik.com/">http://saitovik.com/</a></noindex></p>
+                    <noindex><a href="http://saitovik.com/">http://saitovik.com/</a></noindex></p>
                 </div>
 
                 <h3>
@@ -347,25 +347,25 @@ $( 'input' ).kladr({
             <h2 class="blocktoggle dotnetdoc dotted" data-block="dotnetdoc">.NET provider</h2>
             <div class="dotnetdoc docblock" style="display: none;">
                 <a name="net"></a>
-                
+
                 <h2 class="blocktoggle dotted" data-block="dotnetdoc">
                     .NET provider
-                    </h2>
+                </h2>
                 <span>
                     <noindex><a href="https://github.com/garakh/kladrapi-dotnet/zipball/master">&#8595;ZIP</a></noindex>
                     <noindex><a href="https://github.com/garakh/kladrapi-dotnet/tarball/master">&#8595;TAR</a></noindex>
                 </span>
-                
+
                 <div>
                     <h3>Автор</h3>
                     <p>Антон Губаренко (<a href="https://github.com/lanserxt">github</a>)</p>
                 </div>
-                
+
                 <div>
                     <h3>Описание</h3>
                     <p>Представляет собой DLL, которую можно подключить в References для осуществления поиска aдреса в Кладр.</p>
                 </div>
-                
+
                 <div>
                     <h3>Использование</h3>
                     <ol>
@@ -390,10 +390,10 @@ $( 'input' ).kladr({
                         <li><code>limit</code> – ограничение количества возвращаемых объектов, по умолчанию = 2000</li>
                     </ul>                    
                 </div>
-                
+
                 <div>
                     <h3>Пример</h3>
-                    
+
                     <pre class="brush: js;">
 using KladrApiClient; 
 using System; 
@@ -433,17 +433,17 @@ public partial class MainWindow : Window
                 </div>
                 <hr  class="delimiter"/>
             </div>	
-            
+
 
 
             <br />
             <h2 class="blocktoggle phpdoc dotted" data-block="phpdoc">PHP API</h2>
             <div class="phpdoc docblock" style="display: none;">
                 <a name="php"></a>
-                
+
                 <h2 class="blocktoggle dotted" data-block="phpdoc">
                     PHP API
-                    </h2>
+                </h2>
                 <span>
                     <noindex><a href="https://github.com/garakh/kladrapi-php/zipball/master">&#8595;ZIP</a></noindex>
                     <noindex><a href="https://github.com/garakh/kladrapi-php/tarball/master">&#8595;TAR</a></noindex>
@@ -452,28 +452,28 @@ public partial class MainWindow : Window
                 <h3><noindex><a href="https://github.com/garakh/kladrapi-php">https://github.com/garakh/kladrapi-php</a></noindex></h3>
                 <div>
                     <h3>Описание API</h3>
-                    
+
                     <div>
                         <h4>Kladr\Api</h4>
                         <p>Контроллер доступа к сервису</p>
-                        
+
                         <h5>Функции</h5>
                         <ul>
                             <li><code>QueryToJson(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде объекта Json</li>
                             <li><code>QueryToArray(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде ассоциативного массива</li>
                             <li><code>QueryToObjects(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде массива объектов</li>
                         </ul>
-                        
+
                         <h5>Свойства</h5>
                         <ul>
                             <li><code>Error</code> - текст последней, возникшей при обращении к сервису, ошибки</li>
                         </ul>
                     </div>
-                    
+
                     <div>
                         <h4>Kladr\Query</h4>
                         <p>Объект запроса</p>
-                        
+
                         <h5>Свойства</h5>
                         <ul>
                             <li><code>ParentType</code> - тип родительского объекта для ограничения области поиска (регион, район, город)</li>
@@ -484,11 +484,11 @@ public partial class MainWindow : Window
                             <li><code>Limit</code> - ограничение количества возвращаемых объектов</li>
                         </ul>
                     </div>
-                    
+
                     <div>
                         <h4>Kladr\Object</h4>
                         <p>Объект базы</p>
-                        
+
                         <h5>Свойства</h5>
                         <ul>
                             <li><code>Id</code> - идентификатор объекта</li>
@@ -499,11 +499,11 @@ public partial class MainWindow : Window
                             <li><code>Parents</code> - массив родительских объектов (заполняется если в запросе был установлен флаг WithParent)</li>
                         </ul>
                     </div>
-                    
+
                     <div>
                         <h4>Kladr\ObjectType</h4>
                         <p>Перечисление типов  объектов, используемых в запросах к сервису</p>
-                        
+
                         <h5>Константы</h5>
                         <ul>
                             <li><code>Region</code> - регион</li>
@@ -514,10 +514,10 @@ public partial class MainWindow : Window
                         </ul>
                     </div>
                 </div>
-                
+
                 <div>
                     <h3>Примеры</h3>
-                    
+
                     <p>Получение списка всех населённый пунктов, название которых начинается на "Арх"</p>
                     <pre class="brush: js;">
 // Инициализация api, в качестве параметров указываем токен и ключ для доступа к сервису
@@ -543,18 +543,18 @@ $arResult = $api->QueryToArray($query);
             <h2 class="blocktoggle bitrixdoc dotted" data-block="bitrixdoc">Модуль "КЛАДР в облаке" для 1С-Битрикс</h2>
             <div class="bitrixdoc docblock" style="display: none;">
                 <a name="bitrix"></a>
-                
+
                 <h2 class="blocktoggle dotted" data-block="bitrixdoc">
                     Модуль "КЛАДР в облаке" для 1С-Битрикс
-                    </h2>
+                </h2>
                 <span>
                     <noindex><a href="https://github.com/garakh/kladr-bitrix/zipball/master">&#8595;ZIP</a></noindex>
                     <noindex><a href="https://github.com/garakh/kladr-bitrix/tarball/master">&#8595;TAR</a></noindex>
                 </span>
-                
+
                 <p>Модуль 1С-Битрикс предоставляющий форму для ввода адреса с автодополнением. В качестве источника данных используется сервис «КЛАДР в облаке»</p>
                 <img src="/public/content/kladr-bitrix1.png">
-                
+
                 <div>
                     <h3>Установка</h3>                    
                     <ol>
@@ -567,7 +567,7 @@ $arResult = $api->QueryToArray($query);
                         <li>Пользуйтесь =)</li>
                     </ol>
                 </div>
-                
+
                 <div>
                     <h3>Параметры компонента «Форма для ввода адреса»</h3>
                     <ol>
@@ -614,7 +614,7 @@ $arResult = $api->QueryToArray($query);
                         </li>
                     </ol>
                 </div>
-                
+
                 <div>
                     <h3>Результат</h3>
                     <p>
@@ -658,7 +658,7 @@ $arResult = $api->QueryToArray($query);
                 <div>
                     <h3>Автор</h3>
                     <p>
-                        <noindex><a href="https://github.com/ILyaCyclone">https://github.com/ILyaCyclone</a></noindex></p>
+                    <noindex><a href="https://github.com/ILyaCyclone">https://github.com/ILyaCyclone</a></noindex></p>
                 </div>
 
                 <h3>

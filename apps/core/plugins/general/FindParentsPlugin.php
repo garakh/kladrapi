@@ -36,53 +36,56 @@ namespace Kladr\Core\Plugins\General {
          * @param array $arCodes Массив кодов объекта
          * @return array Массив родителей объекта
          */
-        public function findParents($arCodes)
+        public static function findParents($arCodes)
         {
-            if(!$arCodes) return array();
+            if (!$arCodes)
+                return array();
 
-            $arCodes = array_slice($arCodes, 0, count($arCodes)-1);
+            $arCodes = array_slice($arCodes, 0, count($arCodes) - 1);
 
-            $arReturn =  array();
+            $arReturn = array();
             $object = array();
-            foreach($arCodes as $field => $code){
-                switch($field)
+            foreach ($arCodes as $field => $code)
+            {
+                switch ($field)
                 {
                     case KladrFields::CodeRegion:
                         $object = Regions::findFirst(array(array(
-                            KladrFields::CodeRegion   => $arCodes[KladrFields::CodeRegion],
+                                        KladrFields::CodeRegion => $arCodes[KladrFields::CodeRegion],
                         )));
                         break;
                     case KladrFields::CodeDistrict:
                         $object = Districts::findFirst(array(array(
-                            KladrFields::CodeRegion   => $arCodes[KladrFields::CodeRegion],
-                            KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
+                                        KladrFields::CodeRegion => $arCodes[KladrFields::CodeRegion],
+                                        KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
                         )));
                         break;
                     case KladrFields::CodeLocality:
                         $object = Cities::findFirst(array(array(
-                            KladrFields::CodeRegion   => $arCodes[KladrFields::CodeRegion],
-                            KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
-                            KladrFields::CodeLocality => $arCodes[KladrFields::CodeLocality],
+                                        KladrFields::CodeRegion => $arCodes[KladrFields::CodeRegion],
+                                        KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
+                                        KladrFields::CodeLocality => $arCodes[KladrFields::CodeLocality],
                         )));
                         break;
                     case KladrFields::CodeStreet:
                         $object = Streets::findFirst(array(array(
-                            KladrFields::CodeRegion   => $arCodes[KladrFields::CodeRegion],
-                            KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
-                            KladrFields::CodeLocality => $arCodes[KladrFields::CodeLocality],
-                            KladrFields::CodeStreet   => $arCodes[KladrFields::CodeStreet],
+                                        KladrFields::CodeRegion => $arCodes[KladrFields::CodeRegion],
+                                        KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
+                                        KladrFields::CodeLocality => $arCodes[KladrFields::CodeLocality],
+                                        KladrFields::CodeStreet => $arCodes[KladrFields::CodeStreet],
                         )));
                         break;
                 }
 
-                if($object){
+                if ($object)
+                {
                     $arReturn[] = array(
-                        'id'        => $object->readAttribute(KladrFields::Id),
-                        'name'      => $object->readAttribute(KladrFields::Name),
-                        'zip'       => $object->readAttribute(KladrFields::ZipCode),
-                        'type'      => $object->readAttribute(KladrFields::Type),
+                        'id' => $object->readAttribute(KladrFields::Id),
+                        'name' => $object->readAttribute(KladrFields::Name),
+                        'zip' => $object->readAttribute(KladrFields::ZipCode),
+                        'type' => $object->readAttribute(KladrFields::Type),
                         'typeShort' => $object->readAttribute(KladrFields::TypeShort),
-                        'okato'     => $object->readAttribute(KladrFields::Okato),
+                        'okato' => $object->readAttribute(KladrFields::Okato),
                     );
                 }
             }
@@ -97,13 +100,15 @@ namespace Kladr\Core\Plugins\General {
          * @param \Kladr\Core\Plugins\Base\PluginResult $prevResult
          * @return \Kladr\Core\Plugins\Base\PluginResult
          */
-        public function process(Request $request, PluginResult $prevResult) 
+        public function process(Request $request, PluginResult $prevResult)
         {
-            if($prevResult->error){
+            if ($prevResult->error)
+            {
                 return $prevResult;
             }
-            
-            if(!$request->getQuery('withParent')){
+
+            if (!$request->getQuery('withParent'))
+            {
                 return $prevResult;
             }
 
@@ -111,34 +116,40 @@ namespace Kladr\Core\Plugins\General {
 
             $result = $prevResult;
 
-            if($objects === null)
+            if ($objects === null)
             {
                 $objects = $result->result;
 
-                switch ($request->getQuery('contentType')) {
-                    case 'region':
-                        foreach($objects as $key => $object){
-                            $objects[$key]['parents'] = $this->findParents(Regions::getCodes($object['id']));
+                switch ($request->getQuery('contentType'))
+                {
+                    case Regions::ContentType:
+                        foreach ($objects as $key => $object)
+                        {
+                            $objects[$key]['parents'] = self::findParents(Regions::getCodes($object['id']));
                         }
                         break;
-                    case 'district':
-                        foreach($objects as $key => $object){
-                            $objects[$key]['parents'] = $this->findParents(Districts::getCodes($object['id']));
+                    case Districts::ContentType:
+                        foreach ($objects as $key => $object)
+                        {
+                            $objects[$key]['parents'] = self::findParents(Districts::getCodes($object['id']));
                         }
                         break;
-                    case 'city':
-                        foreach($objects as $key => $object){
-                            $objects[$key]['parents'] = $this->findParents(Cities::getCodes($object['id']));
+                    case Cities::ContentType:
+                        foreach ($objects as $key => $object)
+                        {
+                            $objects[$key]['parents'] = self::findParents(Cities::getCodes($object['id']));
                         }
                         break;
-                    case 'street':
-                        foreach($objects as $key => $object){
-                            $objects[$key]['parents'] = $this->findParents(Streets::getCodes($object['id']));
+                    case Streets::ContentType:
+                        foreach ($objects as $key => $object)
+                        {
+                            $objects[$key]['parents'] = self::findParents(Streets::getCodes($object['id']));
                         }
                         break;
-                    case 'building':
-                        foreach($objects as $key => $object){
-                            $objects[$key]['parents'] = $this->findParents(Buildings::getCodes($object['id']));
+                    case Buildings::ContentType:
+                        foreach ($objects as $key => $object)
+                        {
+                            $objects[$key]['parents'] = self::findParents(Buildings::getCodes($object['id']));
                         }
                         break;
                 }
@@ -146,10 +157,10 @@ namespace Kladr\Core\Plugins\General {
                 $this->cache->set('FindParentsPlugin', $request, $objects);
             }
 
-            $result->result = $objects;        
+            $result->result = $objects;
             return $result;
         }
-        
+
     }
 
 }

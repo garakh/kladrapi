@@ -9,8 +9,9 @@ namespace Kladr\Core\Models {
      * 
      * @author A. Yakovlev. Primepix (http://primepix.ru/)
      */
-    class KladrFields 
+    class KladrFields
     {
+
         const Id = 'Id';
         const Name = 'Name';
         const NormalizedName = 'NormalizedName';
@@ -21,14 +22,13 @@ namespace Kladr\Core\Models {
         const Bad = 'Bad';
         const TypeCode = 'TypeCode';
         const Address = 'Address';
-
         const CodeRegion = 'CodeRegion';
         const CodeDistrict = 'CodeDistrict';
         const CodeLocality = 'CodeCity';
         const CodeStreet = 'CodeStreet';
         const CodeBuilding = 'CodeBuilding';
-
         const Sort = 'Sort';
+
     }
 
 }

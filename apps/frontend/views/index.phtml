@@ -1,35 +1,35 @@
 <? use Phalcon\Tag; ?>
-
+<? //test ?>
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
+    <head>
+        <meta charset="utf-8">
         <meta name="keywords" content="<?= $keywords ?>">
         <meta name="description" content="<?= $description ?>">
-        
+
         <?= Tag::getTitle() ?>
-        
+
         <?= Tag::stylesheetLink('style.css'); ?>
-        
+
         <?= Tag::javascriptInclude('js/jquery-1.9.1.min.js'); ?>
         <?= Tag::javascriptInclude('js/jquery.simplemodal.1.4.4.min.js'); ?>
         <?= Tag::javascriptInclude('js/js.js'); ?>        
-</head>
-<body>
-	<? $this->partial('partials/header'); ?> 
+    </head>
+    <body>
+        <? $this->partial('partials/header'); ?> 
         <div class="main">
-                <?= $this->getContent() ?>
-	</div>    
-	<? $this->partial('partials/footer'); ?>
-    
+            <?= $this->getContent() ?>
+        </div>    
+        <? $this->partial('partials/footer'); ?>
+
         <? $this->partial('partials/login_popap'); ?>
         <? $this->partial('partials/register_popap'); ?>
         <? $this->partial('partials/personal_popap'); ?> 
         <? $this->partial('partials/recovery_popap'); ?>
-    
+
         <? $this->partial('partials/google_analytics'); ?>
         <? $this->partial('partials/reformal'); ?>
-</body>
+    </body>
 </html>
 
 

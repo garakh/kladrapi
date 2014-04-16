@@ -27,6 +27,11 @@ namespace Kladr\Core\Models {
     {
 
         /**
+         * @var string Тип объекта
+         */
+        const ContentType = "city";
+
+        /**
          * Кеш, чтоб снизить запросы к базе
          * @var array
          */
@@ -40,19 +45,20 @@ namespace Kladr\Core\Models {
         /**
          * Возвращает массив кодов текущего объекта
          * 
-         * @param string $id
+         * @param string $id ID
          * @return array
          */
-        public static function getCodes($id) {
-
-            if(isset(self::$Cache[$id]))
+        public static function getCodes($id)
+        {
+            if (isset(self::$Cache[$id]))
                 return self::$Cache[$id];
 
             $object = self::findFirst(array(
-                array(KladrFields::Id => $id)
+                        array(KladrFields::Id => $id)
             ));
 
-            if(!$object) return array();
+            if (!$object)
+                return array();
 
             self::$Cache[$id] = array(
                 KladrFields::CodeRegion => $object->readAttribute(KladrFields::CodeRegion),
@@ -71,57 +77,70 @@ namespace Kladr\Core\Models {
          * @param int $limit Максимальное количество возвращаемых объектов
          * @return array
          */
-        public static function findByQuery($name = null, $codes = array(), $limit = 5000)
+        public static function findByQuery($name = null, $codes = array(), $limit = 5000, $offset = 0)
         {
-            $arQuery = array();       
+            $arQuery = array();
             $isEmptyQuery = true;
 
-            if($name){
+            if ($name)
+            {
                 $isEmptyQuery = false;
-                $regexObj = new \MongoRegex('/^'.$name.'/');
+                $regexObj = new \MongoRegex('/^' . $name . '/');
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
             $searchById = $codes && !is_array($codes);
 
-            if (is_array($codes)){
+            if (is_array($codes))
+            {
                 $isEmptyQuery = false;
                 $codes = array_splice($codes, 0, 3);
-                foreach($codes as $field => $code){
-                    if($code){
+                foreach ($codes as $field => $code)
+                {
+                    if ($code)
+                    {
                         $arQuery['conditions'][$field] = $code;
-                    } else {
+                    }
+                    else
+                    {
                         $arQuery['conditions'][$field] = null;
                     }
                 }
-            }elseif($searchById)
+            }
+            elseif ($searchById)
             {
                 $isEmptyQuery = false;
                 $arQuery['conditions'][KladrFields::Id] = $codes;
             }
 
-            if($isEmptyQuery){
+            if ($isEmptyQuery)
+            {
                 return array();
             }
 
-            if(!$searchById){
+            if (!$searchById)
+            {
                 $arQuery['conditions'][KladrFields::Bad] = false;
             }
 
             $arQuery['sort'] = array(KladrFields::Sort => 1);
+
+            $arQuery['skip'] = $offset;
             $arQuery['limit'] = $limit;
 
             $regions = self::find($arQuery);
 
             $arReturn = array();
-            foreach($regions as $region){
+            foreach ($regions as $region)
+            {
                 $arReturn[] = array(
-                    'id'        => $region->readAttribute(KladrFields::Id),
-                    'name'      => $region->readAttribute(KladrFields::Name),
-                    'zip'       => $region->readAttribute(KladrFields::ZipCode),
-                    'type'      => $region->readAttribute(KladrFields::Type),
+                    'id' => $region->readAttribute(KladrFields::Id),
+                    'name' => $region->readAttribute(KladrFields::Name),
+                    'zip' => $region->readAttribute(KladrFields::ZipCode),
+                    'type' => $region->readAttribute(KladrFields::Type),
                     'typeShort' => $region->readAttribute(KladrFields::TypeShort),
-                    'okato'     => $region->readAttribute(KladrFields::Okato),
+                    'okato' => $region->readAttribute(KladrFields::Okato),
+                    'contentType' => Cities::ContentType,
                 );
             }
 
@@ -129,5 +148,5 @@ namespace Kladr\Core\Models {
         }
 
     }
-    
+
 }

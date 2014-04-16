@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking\Tracking;
 
 /**
@@ -43,7 +44,8 @@ class Page extends AbstractTracking
     public function getDocumentPath()
     {
 
-        if (!$this->documentPath) {
+        if (!$this->documentPath)
+        {
             return '/';
         }
 

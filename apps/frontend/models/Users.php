@@ -13,5 +13,5 @@ namespace Kladr\Frontend\Models {
         }
 
     }
-    
+
 }

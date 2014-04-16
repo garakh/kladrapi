@@ -11,7 +11,7 @@ namespace Kladr\Core\Plugins\Base {
      * 
      * @author A. Yakovlev. Primepix (http://primepix.ru/)
      */
-    interface IPlugin 
+    interface IPlugin
     {
 
         /**
@@ -22,7 +22,6 @@ namespace Kladr\Core\Plugins\Base {
          * @return \Kladr\Core\Plugins\Base\PluginResult
          */
         public function process(Request $request, PluginResult $prevResult);
-
     }
 
 }

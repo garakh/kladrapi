@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking;
 
 /**
@@ -19,6 +20,7 @@ namespace Racecore\GATracking;
  */
 class Autoloader
 {
+
     private $folder;
 
     /**
@@ -26,9 +28,9 @@ class Autoloader
      *
      * @param string $folder
      */
-    public function __construct( $folder = null )
+    public function __construct($folder = null)
     {
-        if ( ! $folder )
+        if (!$folder)
         {
             $folder = dirname(__FILE__) . '/..';
         }
@@ -42,7 +44,7 @@ class Autoloader
      * @param $class
      * @return bool|mixed
      */
-    public function autoload( $class )
+    public function autoload($class)
     {
         $filePath = $this->folder . '/' . str_replace('\\', '/', $class) . '.php';
 
@@ -60,15 +62,16 @@ class Autoloader
      * @param null $folder
      * @return bool
      */
-    public static function register( $folder = null )
+    public static function register($folder = null)
     {
         ini_set('unserialize_callback_func', 'spl_autoload_call');
 
         return spl_autoload_register(
-            array(
-                new self($folder),
-                'autoload'
-            )
+                array(
+                    new self($folder),
+                    'autoload'
+                )
         );
     }
+
 }

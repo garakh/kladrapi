@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking\Tracking;
 
 /**
@@ -19,6 +20,7 @@ namespace Racecore\GATracking\Tracking;
  */
 class Exception extends AbstractTracking
 {
+
     /** @var string */
     private $exceptionDescription;
 
@@ -82,4 +84,5 @@ class Exception extends AbstractTracking
             'exf' => ( $this->getExceptionFatal() ? '1' : '0' )
         );
     }
+
 }

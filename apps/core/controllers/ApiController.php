@@ -1,7 +1,7 @@
 <?php
 
 namespace Kladr\Core\Controllers {
-    
+
     use \Phalcon\Mvc\Controller;
 
     /**
@@ -25,5 +25,5 @@ namespace Kladr\Core\Controllers {
         }
 
     }
-    
+
 }

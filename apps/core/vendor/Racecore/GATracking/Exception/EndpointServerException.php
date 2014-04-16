@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking\Exception;
 
 use Racecore\GATracking\Exception;
@@ -21,4 +22,5 @@ use Racecore\GATracking\Exception;
  */
 class EndpointServerException extends Exception
 {
+    
 }

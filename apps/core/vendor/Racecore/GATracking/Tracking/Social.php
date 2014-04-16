@@ -1,5 +1,7 @@
 <?php
+
 namespace Racecore\GATracking\Tracking;
+
 use Racecore\GATracking\Exception\MissingTrackingParameterException;
 
 /**
@@ -20,6 +22,7 @@ use Racecore\GATracking\Exception\MissingTrackingParameterException;
  */
 class Social extends AbstractTracking
 {
+
     /** @var  String */
     private $socialAction;
 
@@ -103,15 +106,18 @@ class Social extends AbstractTracking
      */
     public function getPaket()
     {
-        if (!$this->getSocialAction()) {
+        if (!$this->getSocialAction())
+        {
             throw new MissingTrackingParameterException('social action musst be set');
         }
 
-        if (!$this->getSocialNetwork()) {
+        if (!$this->getSocialNetwork())
+        {
             throw new MissingTrackingParameterException('social network musst be set');
         }
 
-        if (!$this->getSocialTarget()) {
+        if (!$this->getSocialTarget())
+        {
             throw new MissingTrackingParameterException('social target musst be set');
         }
 
@@ -122,4 +128,5 @@ class Social extends AbstractTracking
             'st' => $this->getSocialTarget()
         );
     }
+
 }
