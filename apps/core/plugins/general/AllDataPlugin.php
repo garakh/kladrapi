@@ -72,7 +72,7 @@ namespace Kladr\Core\Plugins\General {
 
             switch ($request->getQuery('param1'))
             {
-                case self::PARAM_CITIES : $this->processCities($prevResult);
+                case self::PARAM_CITIES : $this->processCities($request->getQuery('typeCode'), $prevResult);
                     break;
                 case self::PARAM_STREETS : $this->processStreets($request->getQuery('param2'), $prevResult);
                     break;
@@ -113,26 +113,25 @@ namespace Kladr\Core\Plugins\General {
                 $mongo = $cities->getConnection();
                 $city = $mongo->cities->findOne(array('Id' => $cityId));
 
-                $tmp = $this->getCachePath($cacheKey).'_'.rand(10000, 10000000);
+                $tmp = $this->getCachePath($cacheKey) . '_' . rand(10000, 10000000);
                 $fp = fopen($tmp, 'w');
                 fputcsv($fp, $this->streetToArray());
 
                 $streets = $mongo->streets->find(
                         array(
-                            'Bad' => false, 
-                            'CodeCity' => $city['CodeCity'], 
-                            'CodeRegion' => (int)$city['CodeRegion']));
-                
+                            'Bad' => false,
+                            'CodeCity' => $city['CodeCity'],
+                            'CodeRegion' => (int) $city['CodeRegion']));
+
                 foreach ($streets as $street)
                 {
                     fputcsv($fp, $this->streetToArray($street));
                 }
 
                 fclose($fp);
-                
+
                 copy($tmp, $this->getCachePath($cacheKey));
                 unlink($tmp);
-                
             }
 
             $result->fileToSend = $this->getCachePath($cacheKey);
@@ -141,22 +140,39 @@ namespace Kladr\Core\Plugins\General {
         /**
          * Собирает города
          * 
+         * @param string $typeCode
          * @param \Kladr\Core\Plugins\Base\PluginResult $result
          */
-        private function processCities(PluginResult $result)
+        private function processCities($typeCode, PluginResult $result)
         {
             set_time_limit(600);
             ini_set('max_execution_time', 600);
 
             $cacheKey = 'all_cities';
+            $typeCodes = FindPlugin::ConvertCodeTypeToArray($typeCode);
+
+            if ($typeCodes != null)
+                foreach ($typeCodes as $code)
+                    $cacheKey .= '_' . $code;
+
 
             if (!$this->checkCache($cacheKey))
             {
                 $cities = new Cities();
                 $mongo = $cities->getConnection();
-                $fp = fopen($this->getCachePath($cacheKey), 'w');
+
+                $tmp = $this->getCachePath($cacheKey) . '_' . rand(10000, 10000000);
+                $fp = fopen($tmp, 'w');
+
                 fputcsv($fp, $this->cityToArray());
-                foreach ($mongo->cities->find(array('Bad' => false)) as $city)
+
+                $cities = $typeCodes == null ?
+                        $mongo->cities->find(array('Bad' => false)) :
+                        $mongo->cities->find(array(
+                            'Bad' => false,
+                            'TypeCode' => array('$in' => $typeCodes)));
+
+                foreach ($cities as $city)
                 {
                     $districtCode = $city['CodeDistrict'];
                     $regionCode = $city['CodeRegion'];
@@ -179,6 +195,9 @@ namespace Kladr\Core\Plugins\General {
                 }
 
                 fclose($fp);
+
+                copy($tmp, $this->getCachePath($cacheKey));
+                unlink($tmp);
             }
 
             $result->fileToSend = $this->getCachePath($cacheKey);

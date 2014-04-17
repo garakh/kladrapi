@@ -54,6 +54,7 @@ namespace Kladr\Core\Plugins\Tools {
             $key .= 'withParent=' . $request->getQuery('withParent');
             $key .= 'limit=' . $request->getQuery('limit');
             $key .= 'offset=' . $request->getQuery('offset');
+            $key .= 'typeCode=' . $request->getQuery('typeCode');
 
             return sha1($key);
         }

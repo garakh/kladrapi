@@ -75,9 +75,11 @@ namespace Kladr\Core\Models {
          * @param string $name Название объекта
          * @param array $codes Коды родительского объекта
          * @param int $limit Максимальное количество возвращаемых объектов
+         * @param int $offset Сдвиг
+         * @param array $typeCodes Массив TypeCode для фильтрации
          * @return array
          */
-        public static function findByQuery($name = null, $codes = array(), $limit = 5000, $offset = 0)
+        public static function findByQuery($name = null, $codes = array(), $limit = 5000, $offset = 0, $typeCodes = null)
         {
             $arQuery = array();
             $isEmptyQuery = true;
@@ -123,6 +125,11 @@ namespace Kladr\Core\Models {
                 $arQuery['conditions'][KladrFields::Bad] = false;
             }
 
+            if($typeCodes != null)
+            {
+                $arQuery['conditions'][KladrFields::TypeCode] = array('$in' => $typeCodes);
+            }
+            
             $arQuery['sort'] = array(KladrFields::Sort => 1);
 
             $arQuery['skip'] = $offset;

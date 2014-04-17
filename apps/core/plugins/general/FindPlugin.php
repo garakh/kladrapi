@@ -44,8 +44,9 @@ namespace Kladr\Core\Plugins\General {
             {
                 return $prevResult;
             }
-
-            $objects = $this->cache->get('FindPlugin', $request);
+            
+            $objects = null;
+            //$objects = $this->cache->get('FindPlugin', $request);
 
             if ($objects === null)
             {
@@ -108,7 +109,7 @@ namespace Kladr\Core\Plugins\General {
                 $offset = $request->getQuery('offset');
                 $offset = intval($offset);
 
-
+                $typeCodes = self::ConvertCodeTypeToArray($request->getQuery('typeCode'));
 
                 switch ($request->getQuery('contentType'))
                 {
@@ -119,7 +120,7 @@ namespace Kladr\Core\Plugins\General {
                         $objects = Districts::findByQuery($query, $arCodes, $limit, $offset);
                         break;
                     case Cities::ContentType:
-                        $objects = Cities::findByQuery($query, $arCodes, $limit, $offset);
+                        $objects = Cities::findByQuery($query, $arCodes, $limit, $offset, $typeCodes);
                         break;
                     case Streets::ContentType:
                         $objects = Streets::findByQuery($query, $arCodes, $limit, $offset);
@@ -138,6 +139,28 @@ namespace Kladr\Core\Plugins\General {
             return $result;
         }
 
+        /**
+         * Преобразует TypeCode в массив для поиска
+         * 
+         * @param int $typeCode
+         * @return array | null Массив из TypeCode или null, если TypeCode учитывать не надо
+         */
+        public static function ConvertCodeTypeToArray($typeCode)
+        {
+            $typeCode = (int)$typeCode;
+            
+            // проверяем валидность. typeCode = 7 так же не нужен, т.к. это 0111, т.е. все варианты
+            if ($typeCode <= 0 || $typeCode > 6)
+                return null;
+                
+            
+            $result = array();
+            foreach (array(1, 2, 4) as $code)
+                if( ($typeCode & $code) > 0)
+                    $result []= $code;
+                
+            return $result;
+        }
     }
 
 }
