@@ -111,18 +111,28 @@ namespace Kladr\Core\Plugins\General {
             {
                 $cities = new Cities();
                 $mongo = $cities->getConnection();
-
                 $city = $mongo->cities->findOne(array('Id' => $cityId));
 
-                $fp = fopen($this->getCachePath($cacheKey), 'w');
+                $tmp = $this->getCachePath($cacheKey).'_'.rand(10000, 10000000);
+                $fp = fopen($tmp, 'w');
                 fputcsv($fp, $this->streetToArray());
 
-                foreach ($mongo->streets->find(array('Bad' => false, 'CodeCity' => (int) $city['CodeCity'])) as $street)
+                $streets = $mongo->streets->find(
+                        array(
+                            'Bad' => false, 
+                            'CodeCity' => $city['CodeCity'], 
+                            'CodeRegion' => (int)$city['CodeRegion']));
+                
+                foreach ($streets as $street)
                 {
                     fputcsv($fp, $this->streetToArray($street));
                 }
 
                 fclose($fp);
+                
+                copy($tmp, $this->getCachePath($cacheKey));
+                unlink($tmp);
+                
             }
 
             $result->fileToSend = $this->getCachePath($cacheKey);
