@@ -41,6 +41,8 @@ namespace Kladr\Core\Plugins\General {
         const COMMAND = 'GetAllData';
         const PARAM_CITIES = 'City';
         const PARAM_STREETS = 'Street';
+        const FORMAT_CSV = 'csv';
+        const FORMAT_JSON = 'json';
 
         /**
          * Выполняет обработку запроса
@@ -74,7 +76,7 @@ namespace Kladr\Core\Plugins\General {
             {
                 case self::PARAM_CITIES : $this->processCities($request->getQuery('typeCode'), $prevResult);
                     break;
-                case self::PARAM_STREETS : $this->processStreets($request->getQuery('param2'), $prevResult);
+                case self::PARAM_STREETS : $this->processStreets($request->getQuery('param2'), $request->getQuery('format'), $request->getQuery('direct'), $prevResult);
                     break;
                 default :
                     $prevResult->error = true;
@@ -92,8 +94,11 @@ namespace Kladr\Core\Plugins\General {
          * @param \Kladr\Core\Plugins\Base\PluginResult $result
          * @return void
          */
-        private function processStreets($cityId, PluginResult $result)
+        private function processStreets($cityId, $format, $direct, PluginResult $result)
         {
+            $format = ($format == self::FORMAT_JSON ? self::FORMAT_JSON : self::FORMAT_CSV);
+            $direct = ($direct == '1');
+
             $cityId = preg_replace('/[^0-9]/msi', '', $cityId);
             if ($cityId == '' || strlen($cityId) > 25)
             {
@@ -106,16 +111,12 @@ namespace Kladr\Core\Plugins\General {
             set_time_limit(600);
             ini_set('max_execution_time', 600);
 
-            $cacheKey = 'all_cities_' . $cityId;
+            $cacheKey = 'all_cities_' . $cityId . ( $format == self::FORMAT_JSON ? '_json' : '' );
             if (!$this->checkCache($cacheKey))
             {
                 $cities = new Cities();
                 $mongo = $cities->getConnection();
                 $city = $mongo->cities->findOne(array('Id' => $cityId));
-
-                $tmp = $this->getCachePath($cacheKey) . '_' . rand(10000, 10000000);
-                $fp = fopen($tmp, 'w');
-                fputcsv($fp, $this->streetToArray());
 
                 $streets = $mongo->streets->find(
                         array(
@@ -123,17 +124,48 @@ namespace Kladr\Core\Plugins\General {
                             'CodeCity' => $city['CodeCity'],
                             'CodeRegion' => (int) $city['CodeRegion']));
 
-                foreach ($streets as $street)
+                $tmp = $this->getCachePath($cacheKey) . '_' . rand(10000, 10000000);
+                $fp = fopen($tmp, 'w');
+                if ($format == self::FORMAT_CSV)
                 {
-                    fputcsv($fp, $this->streetToArray($street));
+                    fputcsv($fp, $this->streetToArray());
+                    foreach ($streets as $street)
+                    {
+                        fputcsv($fp, $this->streetToArray($street));
+                    }
+                }
+                else
+                {
+                    fwrite($fp, '{ "result" : [');
+                    $first = true;
+                    foreach ($streets as $street)
+                    {
+                        if($first)
+                        {
+                            $first = false;
+                        }
+                        else
+                        {
+                            fwrite($fp, ',' . PHP_EOL);
+                        }
+                        fwrite($fp, $this->streetToJson($street));
+                    }
+                    
+                    fwrite($fp, ']}');
                 }
 
                 fclose($fp);
-
                 copy($tmp, $this->getCachePath($cacheKey));
                 unlink($tmp);
             }
 
+            if($direct && $format == self::FORMAT_JSON)
+            {
+                $data = file_get_contents($this->getCachePath($cacheKey));
+                $data = json_decode($data);
+                $result->result = $data->result;
+                return;
+            }
             $result->fileToSend = $this->getCachePath($cacheKey);
         }
 
@@ -251,6 +283,19 @@ namespace Kladr\Core\Plugins\General {
                 'regionType' => $region['Type'],
                 'regionTypeShort' => $region['TypeShort']
             );
+        }
+
+        private function streetToJson($street = null)
+        {
+            return json_encode(
+                    array(
+                        'id' => $street['Id'],
+                        'name' => $street['Name'],
+                        'okato' => $street['Okato'],
+                        'zip' => $street['ZipCode'],
+                        'type' => $street['Type'],
+                        'typeShort' => $street['TypeShort']
+            ));
         }
 
         /**
