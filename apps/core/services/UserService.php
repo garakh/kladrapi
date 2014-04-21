@@ -22,7 +22,14 @@ namespace Kladr\Core\Services {
          */
         public function getUserByKey($key)
         {
-            return Users::findById($key);
+            try
+            {
+                return Users::findById($key);
+            }
+            catch(Exception $exc)
+            {
+                return null;
+            }
         }
 
         /**
