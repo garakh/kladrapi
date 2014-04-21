@@ -38,6 +38,13 @@ namespace Kladr\Core\Plugins\General {
          */
         public $userService;
 
+        /**
+         * Отключить платные ограничения
+         * 
+         * @var bool 
+         */
+        public $disablePaid;
+
         const COMMAND = 'GetAllData';
         const PARAM_CITIES = 'City';
         const PARAM_STREETS = 'Street';
@@ -63,7 +70,7 @@ namespace Kladr\Core\Plugins\General {
 
 
             $user = $prevResult->user;
-            if ($user == null || !$user->isPaid())
+            if (!$this->disablePaid && ($user == null || !$user->isPaid()))
             {
                 $prevResult->error = true;
                 $prevResult->errorCode = 403;
@@ -186,15 +193,15 @@ namespace Kladr\Core\Plugins\General {
             $format = ($format == self::FORMAT_JSON ? self::FORMAT_JSON : self::FORMAT_CSV);
 
             $cacheKey = 'all_cities';
-            
+
             $typeCodes = FindPlugin::ConvertCodeTypeToArray($typeCode);
 
             if ($typeCodes != null)
                 foreach ($typeCodes as $code)
                     $cacheKey .= '_' . $code;
 
-            $cacheKey .= ( $format == self::FORMAT_JSON ? '_json' : '' );      
-            
+            $cacheKey .= ( $format == self::FORMAT_JSON ? '_json' : '' );
+
             if (!$this->checkCache($cacheKey))
             {
                 $cities = new Cities();
@@ -353,25 +360,25 @@ namespace Kladr\Core\Plugins\General {
             if ($district)
             {
                 $data['parents'][] = array(
-                            'id' => $district['Id'],
-                            'name' => $district['Name'],
-                            'okato' => $district['Okato'],
-                            'type' => $district['Type'],
-                            'typeShort' => $district['TypeShort'],
-                            'contentType' => Districts::ContentType
+                    'id' => $district['Id'],
+                    'name' => $district['Name'],
+                    'okato' => $district['Okato'],
+                    'type' => $district['Type'],
+                    'typeShort' => $district['TypeShort'],
+                    'contentType' => Districts::ContentType
                 );
             }
 
 
             $data['parents'][] = array(
-                        'id' => $region['Id'],
-                        'name' => $region['Name'],
-                        'okato' => $region['Okato'],
-                        'type' => $region['Type'],
-                        'typeShort' => $region['TypeShort'],
-                        'contentType' => Regions::ContentType
+                'id' => $region['Id'],
+                'name' => $region['Name'],
+                'okato' => $region['Okato'],
+                'type' => $region['Type'],
+                'typeShort' => $region['TypeShort'],
+                'contentType' => Regions::ContentType
             );
-            
+
             return json_encode($data);
         }
 

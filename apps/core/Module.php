@@ -213,7 +213,11 @@ namespace Kladr\Core {
                     array(
                         'name' => 'cacheDir',
                         'value' => array('type' => 'parameter', 'value' => $config->application->cacheDir)
-                    )
+                    ),
+                    array(
+                        'name' => 'disablePaid',
+                        'value' => array('type' => 'parameter', 'value' => $config->application->disablePaid)
+                    )                    
                 )
             ));
 
