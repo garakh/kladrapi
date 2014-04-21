@@ -74,7 +74,7 @@ namespace Kladr\Core\Plugins\General {
 
             switch ($request->getQuery('param1'))
             {
-                case self::PARAM_CITIES : $this->processCities($request->getQuery('typeCode'), $prevResult);
+                case self::PARAM_CITIES : $this->processCities($request->getQuery('typeCode'), $request->getQuery('format'), $prevResult);
                     break;
                 case self::PARAM_STREETS : $this->processStreets($request->getQuery('param2'), $request->getQuery('format'), $request->getQuery('direct'), $prevResult);
                     break;
@@ -91,13 +91,14 @@ namespace Kladr\Core\Plugins\General {
         /**
          * Собирает улицы
          * @param string $cityId ID улицы
+         * @param string $format CSV или JSON формат
+         * @param bool $direct Вывести данные сразу в поток или как скачиваемый файл
          * @param \Kladr\Core\Plugins\Base\PluginResult $result
          * @return void
          */
         private function processStreets($cityId, $format, $direct, PluginResult $result)
         {
             $format = ($format == self::FORMAT_JSON ? self::FORMAT_JSON : self::FORMAT_CSV);
-            $direct = ($direct == '1');
 
             $cityId = preg_replace('/[^0-9]/msi', '', $cityId);
             if ($cityId == '' || strlen($cityId) > 25)
@@ -140,7 +141,7 @@ namespace Kladr\Core\Plugins\General {
                     $first = true;
                     foreach ($streets as $street)
                     {
-                        if($first)
+                        if ($first)
                         {
                             $first = false;
                         }
@@ -150,7 +151,7 @@ namespace Kladr\Core\Plugins\General {
                         }
                         fwrite($fp, $this->streetToJson($street));
                     }
-                    
+
                     fwrite($fp, ']}');
                 }
 
@@ -159,7 +160,7 @@ namespace Kladr\Core\Plugins\General {
                 unlink($tmp);
             }
 
-            if($direct && $format == self::FORMAT_JSON)
+            if ($direct && $format == self::FORMAT_JSON)
             {
                 $data = file_get_contents($this->getCachePath($cacheKey));
                 $data = json_decode($data);
@@ -173,59 +174,102 @@ namespace Kladr\Core\Plugins\General {
          * Собирает города
          * 
          * @param string $typeCode
+         * @param string $format CSV или JSON формат
          * @param \Kladr\Core\Plugins\Base\PluginResult $result
          */
-        private function processCities($typeCode, PluginResult $result)
+        private function processCities($typeCode, $format, PluginResult $result)
         {
             set_time_limit(600);
             ini_set('max_execution_time', 600);
 
+            $format = ($format == self::FORMAT_JSON ? self::FORMAT_JSON : self::FORMAT_CSV);
+
             $cacheKey = 'all_cities';
+            
             $typeCodes = FindPlugin::ConvertCodeTypeToArray($typeCode);
 
             if ($typeCodes != null)
                 foreach ($typeCodes as $code)
                     $cacheKey .= '_' . $code;
 
-
+            $cacheKey .= ( $format == self::FORMAT_JSON ? '_json' : '' );      
+            
             if (!$this->checkCache($cacheKey))
             {
                 $cities = new Cities();
                 $mongo = $cities->getConnection();
 
                 $tmp = $this->getCachePath($cacheKey) . '_' . rand(10000, 10000000);
-                $fp = fopen($tmp, 'w');
-
-                fputcsv($fp, $this->cityToArray());
-
                 $cities = $typeCodes == null ?
                         $mongo->cities->find(array('Bad' => false)) :
                         $mongo->cities->find(array(
                             'Bad' => false,
                             'TypeCode' => array('$in' => $typeCodes)));
 
-                foreach ($cities as $city)
-                {
-                    $districtCode = $city['CodeDistrict'];
-                    $regionCode = $city['CodeRegion'];
+                $fp = fopen($tmp, 'w');
 
-                    $district = null;
-                    $region = null;
-                    if ($districtCode != null)
+                if ($format == self::FORMAT_CSV)
+                {
+                    fputcsv($fp, $this->cityToArray());
+                    foreach ($cities as $city)
                     {
-                        $district = $mongo->district->findOne(array(
-                            'CodeDistrict' => (int) $districtCode,
+                        $districtCode = $city['CodeDistrict'];
+                        $regionCode = $city['CodeRegion'];
+
+                        $district = null;
+                        $region = null;
+                        if ($districtCode != null)
+                        {
+                            $district = $mongo->district->findOne(array(
+                                'CodeDistrict' => (int) $districtCode,
+                                'CodeRegion' => (int) $regionCode,
+                                'Bad' => false));
+                        }
+
+                        $region = $mongo->regions->findOne(array(
                             'CodeRegion' => (int) $regionCode,
                             'Bad' => false));
+
+                        fputcsv($fp, $this->cityToArray($city, $district, $region));
+                    }
+                }
+                else
+                {
+                    fwrite($fp, '{ "result" : [');
+                    $first = true;
+                    foreach ($cities as $city)
+                    {
+                        if ($first)
+                        {
+                            $first = false;
+                        }
+                        else
+                        {
+                            fwrite($fp, ',' . PHP_EOL);
+                        }
+
+                        $districtCode = $city['CodeDistrict'];
+                        $regionCode = $city['CodeRegion'];
+
+                        $district = null;
+                        $region = null;
+                        if ($districtCode != null)
+                        {
+                            $district = $mongo->district->findOne(array(
+                                'CodeDistrict' => (int) $districtCode,
+                                'CodeRegion' => (int) $regionCode,
+                                'Bad' => false));
+                        }
+
+                        $region = $mongo->regions->findOne(array(
+                            'CodeRegion' => (int) $regionCode,
+                            'Bad' => false));
+
+                        fwrite($fp, $this->cityToJson($city, $district, $region));
                     }
 
-                    $region = $mongo->regions->findOne(array(
-                        'CodeRegion' => (int) $regionCode,
-                        'Bad' => false));
-
-                    fputcsv($fp, $this->cityToArray($city, $district, $region));
+                    fwrite($fp, ']}');
                 }
-
                 fclose($fp);
 
                 copy($tmp, $this->getCachePath($cacheKey));
@@ -285,6 +329,57 @@ namespace Kladr\Core\Plugins\General {
             );
         }
 
+        /**
+         * Сохраняет город в json формате
+         * 
+         * @param type $city
+         * @param type $district
+         * @param type $region
+         * @return type
+         */
+        private function cityToJson($city = null, $district = null, $region = null)
+        {
+            $data = array(
+                'id' => $city['Id'],
+                'name' => $city['Name'],
+                'okato' => $city['Okato'],
+                'type' => $city['Type'],
+                'typeShort' => $city['TypeShort'],
+                'zip' => $city['ZipCode'],
+                'parents' => array()
+            );
+
+            if ($district)
+            {
+                $data['parents'][] = array(
+                            'id' => $district['Id'],
+                            'name' => $district['Name'],
+                            'okato' => $district['Okato'],
+                            'type' => $district['Type'],
+                            'typeShort' => $district['TypeShort'],
+                            'contentType' => Districts::ContentType
+                );
+            }
+
+
+            $data['parents'][] = array(
+                        'id' => $region['Id'],
+                        'name' => $region['Name'],
+                        'okato' => $region['Okato'],
+                        'type' => $region['Type'],
+                        'typeShort' => $region['TypeShort'],
+                        'contentType' => Regions::ContentType
+            );
+            
+            return json_encode($data);
+        }
+
+        /**
+         * Сохраняет улицу в json формате
+         * 
+         * @param type $street
+         * @return type
+         */
         private function streetToJson($street = null)
         {
             return json_encode(
