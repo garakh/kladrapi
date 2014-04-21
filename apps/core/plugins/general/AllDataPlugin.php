@@ -181,6 +181,7 @@ namespace Kladr\Core\Plugins\General {
         {
             set_time_limit(600);
             ini_set('max_execution_time', 600);
+            ini_set('memory_limit', '600M');
 
             $format = ($format == self::FORMAT_JSON ? self::FORMAT_JSON : self::FORMAT_CSV);
 
