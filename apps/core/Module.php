@@ -115,6 +115,18 @@ namespace Kladr\Core {
             $di->set('validate', function(){
                 return new \Kladr\Core\Plugins\General\ValidatePlugin();
             });
+            
+            // Register oneString plugin
+            $di->set('oneString', array(
+                'className' => '\Kladr\Core\Plugins\General\OneStringPlugin',
+                'properties' => array(
+                    array(
+                        'name' => 'cache',
+                        'value' => array('type' => 'service', 'name' => 'cache')
+                    )
+                )
+               
+            ));
 
             // Register find plugin
             $di->set('find', array(
@@ -180,6 +192,7 @@ namespace Kladr\Core {
             $di->setShared('api', function() use ($di) {
                 $api = new Services\ApiService($di->get('apiTracker'));
                 $api->addPlugin($di->get('validate'));
+                $api->addPlugin($di->get('oneString'));
                 $api->addPlugin($di->get('find'));   
                 $api->addPlugin($di->get('specialCases')); 
                 $api->addPlugin($di->get('duplicate')); 

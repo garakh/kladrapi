@@ -5,12 +5,13 @@ namespace Kladr\Core\Plugins\General {
     use \Phalcon\Http\Request,
         \Phalcon\Mvc\User\Plugin,
         \Kladr\Core\Plugins\Base\IPlugin,
-        \Kladr\Core\Plugins\Base\PluginResult;
-	use Kladr\Core\Models\Regions;
-	use Kladr\Core\Models\Districts;
-	use Kladr\Core\Models\Cities;
-	use Kladr\Core\Models\Streets;
-	use Kladr\Core\Models\Buildings;
+        \Kladr\Core\Plugins\Base\PluginResult,
+	\Kladr\Core\Models\Regions,
+	\Kladr\Core\Models\Districts,
+	\Kladr\Core\Models\Cities,
+	\Kladr\Core\Models\Streets,
+        \Kladr\Core\Plugins\Tools,
+	\Kladr\Core\Models\Buildings;
 																				
     /**
      * Kladr\Core\Plugins\General\ValidatePlugin
@@ -33,7 +34,12 @@ namespace Kladr\Core\Plugins\General {
         {
             $arSearchContext = array();
             $errorMessage = '';
-
+          
+            //поиск одной строкой
+            if($request->getQuery('oneString')) {
+                $arSearchContext['oneString'] = $request->getQuery('oneString');                
+            }
+            
             // contentType
             if ($request->getQuery('contentType')) {
                 $arSearchContext['contentType'] = $request->getQuery('contentType');
@@ -47,7 +53,7 @@ namespace Kladr\Core\Plugins\General {
                 ))){
                     $errorMessage = 'contentType incorrect';
                 }
-            } else {
+            } elseif (!$request->getQuery('oneString')) {
                 $errorMessage = 'contentType required parameter';
             }
 

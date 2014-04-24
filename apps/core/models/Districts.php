@@ -114,17 +114,17 @@ namespace Kladr\Core\Models {
             $arQuery['limit'] = $limit;
             
 
-            $regions = self::find($arQuery);
+            $districts = self::find($arQuery);
 
             $arReturn = array();
-            foreach($regions as $region){
+            foreach($districts as $district){
                 $arReturn[] = array(
-                    'id'          => $region->readAttribute(KladrFields::Id),
-                    'name'        => $region->readAttribute(KladrFields::Name),
-                    'zip'         => $region->readAttribute(KladrFields::ZipCode),
-                    'type'        => $region->readAttribute(KladrFields::Type),
-                    'typeShort'   => $region->readAttribute(KladrFields::TypeShort),
-                    'okato'       => $region->readAttribute(KladrFields::Okato),
+                    'id'          => $district->readAttribute(KladrFields::Id),
+                    'name'        => $district->readAttribute(KladrFields::Name),
+                    'zip'         => $district->readAttribute(KladrFields::ZipCode),
+                    'type'        => $district->readAttribute(KladrFields::Type),
+                    'typeShort'   => $district->readAttribute(KladrFields::TypeShort),
+                    'okato'       => $district->readAttribute(KladrFields::Okato),
                     'contentType' => Districts::ContentType,
                 );
             }

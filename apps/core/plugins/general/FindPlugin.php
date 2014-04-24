@@ -127,7 +127,7 @@ namespace Kladr\Core\Plugins\General {
 
             $result = $prevResult;
             $result->result = $objects;
-            //$result->searchContext=$request; //test
+
             return $result;
         }
         

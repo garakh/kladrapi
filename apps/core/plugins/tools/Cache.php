@@ -38,7 +38,8 @@ namespace Kladr\Core\Plugins\Tools {
             $key = $plugin;
 
             $key .= 'contentType='.$request->getQuery('contentType');
-
+            $key .= 'oneString='.$request->getQuery('oneString');
+            
             $key .= 'regionId='.$request->getQuery('regionId');
             $key .= 'districtId='.$request->getQuery('districtId');
             $key .= 'cityId='.$request->getQuery('cityId');
