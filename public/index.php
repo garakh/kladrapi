@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL);
+
 use Phalcon\Mvc\Router,
     Phalcon\Mvc\Application,
     Phalcon\DI\FactoryDefault,

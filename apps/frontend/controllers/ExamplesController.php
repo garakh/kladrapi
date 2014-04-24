@@ -18,9 +18,9 @@ namespace Kladr\Frontend\Controllers {
 
         public function indexAction()
         {
-
+            
         }
 
     }
-    
+
 }

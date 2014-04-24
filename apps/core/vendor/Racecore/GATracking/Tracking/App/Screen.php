@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking\Tracking\App;
 
 use Racecore\GATracking\Tracking\AbstractTracking;
@@ -21,6 +22,7 @@ use Racecore\GATracking\Tracking\AbstractTracking;
  */
 class Screen extends AbstractTracking
 {
+
     /** @var string */
     private $appName;
 
@@ -104,4 +106,5 @@ class Screen extends AbstractTracking
             'cd' => $this->getContentDescription()
         );
     }
+
 }

@@ -37,37 +37,41 @@ namespace Kladr\Core\Plugins\General {
          * @param \Kladr\Core\Plugins\Base\PluginResult $prevResult
          * @return \Kladr\Core\Plugins\Base\PluginResult
          */
-        public function process(Request $request, PluginResult $prevResult) 
+        public function process(Request $request, PluginResult $prevResult)
         {
-            if($prevResult->error){
+            if ($prevResult->error)
+            {
                 return $prevResult;
             }
-            
-            if(!$request->getQuery('withParent')){
+
+            if (!$request->getQuery('withParent'))
+            {
                 return $prevResult;
             }
-            
+
             $arSpecialCases = array(
                 '7700000000000',
                 '7800000000000',
                 '7800000000001',
                 '9900000000000'
             );
-            
+
             $objects = array();
-            $result = $prevResult; 
-            foreach($prevResult->result as $key => $obj){
-                if(in_array($obj['id'], $arSpecialCases)){
+            $result = $prevResult;
+            foreach ($prevResult->result as $key => $obj)
+            {
+                if (in_array($obj['id'], $arSpecialCases))
+                {
                     $obj['parents'] = array();
                 }
                 $objects[] = $obj;
             }
-            
-            $result = $prevResult; 
+
+            $result = $prevResult;
             $result->result = $objects;
             return $result;
         }
-        
+
     }
 
 }

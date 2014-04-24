@@ -11,25 +11,29 @@ namespace Kladr\Frontend\Controllers {
 
         public function indexAction()
         {
-            if($this->session->get('user')){
+            if ($this->session->get('user'))
+            {
                 $this->response->redirect('/');
             }
 
-            if ($this->request->isPost()) {
+            if ($this->request->isPost())
+            {
 
-                if($this->request->getPost('accept') != 'y'){
+                if ($this->request->getPost('accept') != 'y')
+                {
                     $this->flash->warning('Вы должны согласиться с условиями использования сервиса');
                     return;
-                }            
+                }
 
                 $email = $this->request->getPost('email');
                 $user = Users::findFirst(array(
-                    array(
-                        'email' => $email,
-                    )
+                            array(
+                                'email' => $email,
+                            )
                 ));
 
-                if($user){
+                if ($user)
+                {
                     $this->flash->warning('Пользователь с таким email уже зарегистрирован');
                     return;
                 }
@@ -38,21 +42,22 @@ namespace Kladr\Frontend\Controllers {
                 $user->email = $email;
 
                 $password = $this->keyTools->RandString(8, 12);
-                $user->pass = sha1($password);   
+                $user->pass = sha1($password);
 
                 $user->key = sha1($this->keyTools->RandString(10, 20));
 
-                if($user->save()){
+                if ($user->save())
+                {
                     $headers = 'From: noreply@kladr-api.ru' . "\n" .
-                               'Reply-To: noreply@kladr-api.ru' . "\n" .
-                               'Content-Type: text/html; charset="utf-8"';
+                            'Reply-To: noreply@kladr-api.ru' . "\n" .
+                            'Content-Type: text/html; charset="utf-8"';
 
                     $subject = 'Вы зарегистрированы на сайте КЛАДР API';
-                    $subject = '=?utf-8?B?'. base64_encode($subject). '?=';
+                    $subject = '=?utf-8?B?' . base64_encode($subject) . '?=';
 
                     $message = 'Вы зарегистрированы на сайте КЛАДР API' . "<br/><br/>" .
-                               'Ваш пароль: <strong>' . $password . '</strong>' . "<br/>" .
-                               'Для входа на сайт пройдите по <a href="http://kladr-api.ru/login/">ссылке</a>'; 
+                            'Ваш пароль: <strong>' . $password . '</strong>' . "<br/>" .
+                            'Для входа на сайт пройдите по <a href="http://kladr-api.ru/login/">ссылке</a>';
 
                     $message = wordwrap($message, 70);
 
@@ -65,5 +70,5 @@ namespace Kladr\Frontend\Controllers {
         }
 
     }
-    
+
 }

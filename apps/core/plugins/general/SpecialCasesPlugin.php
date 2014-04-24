@@ -38,19 +38,20 @@ namespace Kladr\Core\Plugins\General {
          * @param \Kladr\Core\Plugins\Base\PluginResult $prevResult
          * @return \Kladr\Core\Plugins\Base\PluginResult
          */
-        public function process(Request $request, PluginResult $prevResult) 
-        { 
-            if($prevResult->error){
+        public function process(Request $request, PluginResult $prevResult)
+        {
+            if ($prevResult->error)
+            {
                 return $prevResult;
             }
 
             // Проверяем, что ищем город
             // с принадлежностью региону
 
-            if($request->getQuery('contentType') != 'city')
+            if ($request->getQuery('contentType') != 'city')
                 return $prevResult;
 
-            if(!$request->getQuery('regionId'))
+            if (!$request->getQuery('regionId'))
                 return $prevResult;
 
             // добавляем к результату поиск в другом регионе
@@ -63,55 +64,65 @@ namespace Kladr\Core\Plugins\General {
 
             $objects = $this->cache->get('SpecialCasesPlugin', $request);
 
-            if($objects === null)
+            if ($objects === null)
             {
                 $objects = array();
                 $arCodes = array();
 
                 // regionId
                 $regionId = $request->getQuery('regionId');
-                if ($regionId) {
+                if ($regionId)
+                {
                     $arCodes = Regions::getCodes($regionId);
                 }
 
                 // districtId
                 $districtId = $request->getQuery('districtId');
-                if ($districtId) {
+                if ($districtId)
+                {
                     $arCodes = Districts::getCodes($districtId);
                 }
 
                 // cityId
                 $cityId = $request->getQuery('cityId');
-                if ($cityId) {
+                if ($cityId)
+                {
                     $arCodes = Cities::getCodes($cityId);
                 }
 
                 // streetId
                 $streetId = $request->getQuery('streetId');
-                if ($streetId) {
+                if ($streetId)
+                {
                     $arCodes = Streets::getCodes($streetId);
                 }
 
                 // buildingId
                 $buildingId = $request->getQuery('buildingId');
-                if ($buildingId) {
+                if ($buildingId)
+                {
                     $arCodes = Buildings::getCodes($buildingId);
                 }
-                
-                if(!$arRegionCodeSpecialCases[$arCodes[KladrFields::CodeRegion]]) return $prevResult;
+
+                if (!isset($arCodes[KladrFields::CodeRegion]) &&
+                        !isset($arRegionCodeSpecialCases[$arCodes[KladrFields::CodeRegion]]))
+                    return $prevResult;
                 $arCodes[KladrFields::CodeRegion] = $arRegionCodeSpecialCases[$arCodes[KladrFields::CodeRegion]];
-                
+
                 // query
                 $query = $request->getQuery('query');
                 $query = Tools::Key($query);
-                $query = Tools::Normalize($query);  
+                $query = Tools::Normalize($query);
 
                 // limit
                 $limit = $request->getQuery('limit');
                 $limit = intval($limit);
                 $limit = $limit ? $limit : 5000;
+                if ($limit > 400)
+                    $limit = 400;
 
-                switch ($request->getQuery('contentType')) {
+                switch ($request->getQuery('contentType'))
+                {
                     case Regions::ContentType:
                         $objects = Regions::findByQuery($query, $arCodes, $limit);
                         break;
@@ -133,10 +144,10 @@ namespace Kladr\Core\Plugins\General {
             }
 
             $result = $prevResult;
-            $result->result = array_merge($prevResult->result, $objects); 
+            $result->result = array_merge($prevResult->result, $objects);
             return $result;
         }
-        
+
     }
 
 }

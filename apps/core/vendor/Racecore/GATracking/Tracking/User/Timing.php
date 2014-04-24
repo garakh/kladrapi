@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking\Tracking\User;
 
 use Racecore\GATracking\Tracking\AbstractTracking;
@@ -21,6 +22,7 @@ use Racecore\GATracking\Tracking\AbstractTracking;
  */
 class Timing extends AbstractTracking
 {
+
     /** @var string */
     private $timingCategory;
 
@@ -247,4 +249,5 @@ class Timing extends AbstractTracking
             'srt' => $this->getBrowserServerResponseTime()
         );
     }
+
 }

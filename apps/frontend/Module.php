@@ -4,6 +4,7 @@ namespace Kladr\Frontend {
 
     class Module implements \Phalcon\Mvc\ModuleDefinitionInterface
     {
+
         /**
          * Регистрация автозагрузчика модуля
          */
@@ -13,13 +14,13 @@ namespace Kladr\Frontend {
             $loader = new \Phalcon\Loader();
 
             $loader->registerNamespaces(
-                array(
-                    'Kladr\Frontend\Models'       => $config->application->modelsDir,
-                    'Kladr\Frontend\Views'        => $config->application->viewsDir,
-                    'Kladr\Frontend\Controllers'  => $config->application->controllersDir,           
-                    'Kladr\Frontend\Plugins'      => $config->application->pluginsDir,
-                    'Kladr\Frontend\Library'      => $config->application->libraryDir,
-                )
+                    array(
+                        'Kladr\Frontend\Models' => $config->application->modelsDir,
+                        'Kladr\Frontend\Views' => $config->application->viewsDir,
+                        'Kladr\Frontend\Controllers' => $config->application->controllersDir,
+                        'Kladr\Frontend\Plugins' => $config->application->pluginsDir,
+                        'Kladr\Frontend\Library' => $config->application->libraryDir,
+                    )
             );
 
             $loader->register();
@@ -62,23 +63,23 @@ namespace Kladr\Frontend {
             });
 
             // Register an user component
-            $di->set('elements', function(){
+            $di->set('elements', function() {
                 return new Library\Elements();
             });
 
             // Register key tools
-            $di->set('keyTools', function(){
+            $di->set('keyTools', function() {
                 return new Plugins\KeyTools();
             });
 
             // Register the flash service with custom CSS classes
-            $di->set('flash', function(){
+            $di->set('flash', function() {
                 $flash = new \Phalcon\Flash\Direct();
                 return $flash;
             });
 
             // Setting up the view component
-            $di->set('view', function(){
+            $di->set('view', function() {
                 $view = new \Phalcon\Mvc\View();
                 $view->setViewsDir('../apps/frontend/views/');
                 return $view;

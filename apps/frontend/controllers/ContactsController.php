@@ -22,30 +22,34 @@ Skype: beentech');
 
         public function indexAction()
         {
-
+            
         }
 
         public function feedbackAction()
         {
             $this->view->disable();
 
-            if ($this->request->isPost()) {
+            if ($this->request->isPost())
+            {
                 $name = $this->request->getPost('name');
                 $email = $this->request->getPost('email');
                 $comment = $this->request->getPost('comment');
 
-                if(empty($name)) return;
-                if(empty($email)) return;
-                if(empty($comment)) return;
+                if (empty($name))
+                    return;
+                if (empty($email))
+                    return;
+                if (empty($comment))
+                    return;
 
                 $headers = 'From: noreply@kladr-api.ru' . "\n" .
-                           'Reply-To: ' . $email . "\n" .
-                           'Content-Type: text/html; charset="utf-8"';
+                        'Reply-To: ' . $email . "\n" .
+                        'Content-Type: text/html; charset="utf-8"';
 
                 $subject = 'Новое сообщение в форме обратной связи';
-                $subject = '=?utf-8?B?'. base64_encode($subject). '?=';
+                $subject = '=?utf-8?B?' . base64_encode($subject) . '?=';
 
-                $message = 'Новое сообщение в форме обратной связи от ' . $name . '(' . $email . '):' . "<br/><br/>" . $comment; 
+                $message = 'Новое сообщение в форме обратной связи от ' . $name . '(' . $email . '):' . "<br/><br/>" . $comment;
                 $message = wordwrap($message, 70);
 
                 mail('garakh@primepix.ru', $subject, $message, $headers);
@@ -55,5 +59,5 @@ Skype: beentech');
         }
 
     }
-    
+
 }

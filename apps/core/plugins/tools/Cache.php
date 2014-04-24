@@ -11,8 +11,9 @@ namespace Kladr\Core\Plugins\Tools {
      * 
      * @author A. Yakovlev. Primepix (http://primepix.ru/)
      */
-    class Cache 
+    class Cache
     {
+
         /**
          * Кэш phalcon
          * 
@@ -37,22 +38,23 @@ namespace Kladr\Core\Plugins\Tools {
         {
             $key = $plugin;
 
-            $key .= 'contentType='.$request->getQuery('contentType');
+            $key .= 'contentType=' . $request->getQuery('contentType');
 
-            $key .= 'regionId='.$request->getQuery('regionId');
-            $key .= 'districtId='.$request->getQuery('districtId');
-            $key .= 'cityId='.$request->getQuery('cityId');
-            $key .= 'streetId='.$request->getQuery('streetId');
-            $key .= 'buildingId='.$request->getQuery('buildingId');
+            $key .= 'regionId=' . $request->getQuery('regionId');
+            $key .= 'districtId=' . $request->getQuery('districtId');
+            $key .= 'cityId=' . $request->getQuery('cityId');
+            $key .= 'streetId=' . $request->getQuery('streetId');
+            $key .= 'buildingId=' . $request->getQuery('buildingId');
 
             $query = $request->getQuery('query');
             $query = Tools::Key($query);
-            $query = Tools::Normalize($query);        
-            $key .= 'query='.$query;
+            $query = Tools::Normalize($query);
+            $key .= 'query=' . $query;
 
-            $key .= 'withParent='.$request->getQuery('withParent');
-            $key .= 'limit='.$request->getQuery('limit');
-            $key .= 'offset='.$request->getQuery('offset');
+            $key .= 'withParent=' . $request->getQuery('withParent');
+            $key .= 'limit=' . $request->getQuery('limit');
+            $key .= 'offset=' . $request->getQuery('offset');
+            $key .= 'typeCode=' . $request->getQuery('typeCode');
 
             return sha1($key);
         }
@@ -64,9 +66,10 @@ namespace Kladr\Core\Plugins\Tools {
          * @param \Phalcon\Http\Request $request Запрос
          * @return array|null
          */
-        public function get($plugin, Request $request){
+        public function get($plugin, Request $request)
+        {
 
-            if(!$this->useCache())
+            if (!$this->useCache())
                 return null;
 
             $key = $this->getCacheKey($plugin, $request);
@@ -80,7 +83,8 @@ namespace Kladr\Core\Plugins\Tools {
          * @param \Phalcon\Http\Request $request Запрос
          * @param array $result Значение
          */
-        public function set($plugin, Request $request, $result){
+        public function set($plugin, Request $request, $result)
+        {
             $key = $this->getCacheKey($plugin, $request);
             return $this->cache->save($key, $result);
         }
@@ -88,10 +92,12 @@ namespace Kladr\Core\Plugins\Tools {
         /*
          * Определет, используется ли кэш.
          */
+
         private function useCache()
         {
             return $this->config->mongocache->enabled;
         }
+
     }
 
 }

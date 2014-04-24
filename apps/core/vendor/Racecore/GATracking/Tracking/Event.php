@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking\Tracking;
 
 use Racecore\GATracking\Exception\MissingTrackingParameterException;
@@ -21,6 +22,7 @@ use Racecore\GATracking\Exception\MissingTrackingParameterException;
  */
 class Event extends AbstractTracking
 {
+
     /** @var  String */
     private $eventCategory;
 
@@ -129,11 +131,13 @@ class Event extends AbstractTracking
      */
     public function getPaket()
     {
-        if (!$this->getEventCategory()) {
+        if (!$this->getEventCategory())
+        {
             throw new MissingTrackingParameterException('event category musst be set');
         }
 
-        if (!$this->getEventAction()) {
+        if (!$this->getEventAction())
+        {
             throw new MissingTrackingParameterException('event action musst be set');
         }
 
@@ -145,4 +149,5 @@ class Event extends AbstractTracking
             'ev' => $this->getEventValue()
         );
     }
+
 }
