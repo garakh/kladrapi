@@ -47,18 +47,21 @@ namespace Kladr\Core\Plugins\General {
             $object = array();
             foreach ($arCodes as $field => $code)
             {
+                $contentType = '';
                 switch ($field)
                 {
                     case KladrFields::CodeRegion:
                         $object = Regions::findFirst(array(array(
                                         KladrFields::CodeRegion => $arCodes[KladrFields::CodeRegion],
                         )));
+                        $contentType = Regions::ContentType;
                         break;
                     case KladrFields::CodeDistrict:
                         $object = Districts::findFirst(array(array(
                                         KladrFields::CodeRegion => $arCodes[KladrFields::CodeRegion],
                                         KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
                         )));
+                        $contentType = Districts::ContentType;
                         break;
                     case KladrFields::CodeLocality:
                         $object = Cities::findFirst(array(array(
@@ -66,6 +69,7 @@ namespace Kladr\Core\Plugins\General {
                                         KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
                                         KladrFields::CodeLocality => $arCodes[KladrFields::CodeLocality],
                         )));
+                        $contentType = Cities::ContentType;
                         break;
                     case KladrFields::CodeStreet:
                         $object = Streets::findFirst(array(array(
@@ -74,6 +78,7 @@ namespace Kladr\Core\Plugins\General {
                                         KladrFields::CodeLocality => $arCodes[KladrFields::CodeLocality],
                                         KladrFields::CodeStreet => $arCodes[KladrFields::CodeStreet],
                         )));
+                        $contentType = Streets::ContentType;
                         break;
                 }
 
@@ -86,6 +91,7 @@ namespace Kladr\Core\Plugins\General {
                         'type' => $object->readAttribute(KladrFields::Type),
                         'typeShort' => $object->readAttribute(KladrFields::TypeShort),
                         'okato' => $object->readAttribute(KladrFields::Okato),
+                        'contentType' => $contentType
                     );
                 }
             }
