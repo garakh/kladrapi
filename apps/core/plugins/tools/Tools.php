@@ -27,6 +27,17 @@ namespace Kladr\Core\Plugins\Tools {
         }
 
         /**
+         * Обертка над mb_strlen c анализом кодировки
+         * 
+         * @param string $str Строка
+         * @return int Длина строки
+         */
+        public static function Strlen($str)
+        {
+            return mb_strlen($str, mb_detect_encoding($str));
+        }
+        
+        /**
          * Конвертирует строку на английском в строку на русском в 
          * соответвии с windows раскладкой клавиатуры
          * 
