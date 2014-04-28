@@ -130,7 +130,8 @@ namespace Kladr\Core\Plugins\General {
                         array(
                             'Bad' => false,
                             'CodeCity' => $city['CodeCity'],
-                            'CodeRegion' => (int) $city['CodeRegion']));
+                            'CodeDistrict' => $city['CodeDistrict'],
+                            'CodeRegion' => $city['CodeRegion']));
 
                 $tmp = $this->getCachePath($cacheKey) . '_' . rand(10000, 10000000);
                 $fp = fopen($tmp, 'w');
