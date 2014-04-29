@@ -2,16 +2,16 @@
 
 namespace Kladr\Core\Plugins\General {
 
-    use \Phalcon\Http\Request,
-        \Phalcon\Mvc\User\Plugin,
-        \Kladr\Core\Plugins\Base\IPlugin,
-        \Kladr\Core\Plugins\Base\PluginResult;
+use \Phalcon\Http\Request,
+    \Phalcon\Mvc\User\Plugin,
+    \Kladr\Core\Plugins\Base\IPlugin,
+    \Kladr\Core\Plugins\Base\PluginResult;
 use Kladr\Core\Models\Regions;
 use Kladr\Core\Models\Districts;
 use Kladr\Core\Models\Cities;
 use Kladr\Core\Models\Streets;
 use Kladr\Core\Models\Buildings;
-use \Kladr\Core\Plugins\Tools
+//use \Kladr\Core\Plugins\Tools;
 																				
     /**
      * Kladr\Core\Plugins\General\ValidatePlugin
@@ -60,7 +60,7 @@ use \Kladr\Core\Plugins\Tools
                 {
                     $errorMessage = 'contentType incorrect';
                 }
-            	} elseif (!$request->getQuery('oneString')) {
+            } elseif (!$request->getQuery('oneString')) {
                 	$errorMessage = 'contentType required parameter';
             }
 
@@ -115,24 +115,27 @@ use \Kladr\Core\Plugins\Tools
             }
 
             // query
-            if ($request->getQuery('query'))
+            if ($request->getQuery('query') && !$request->getQuery('oneString'))
             {
                 $arSearchContext['query'] = $request->getQuery('query');
-
-                switch ($arSearchContext['contentType'])
+                
+                if (array_key_exists('contentType', $arSearchContext))
                 {
-                    case 'street':
-                        if (empty($arSearchContext['cityId']))
-                        {
-                            $errorMessage = 'cityId required parameter';
-                        }
-                        break;
-                    case 'building':
-                        if (empty($arSearchContext['streetId']))
-                        {
-                            $errorMessage = 'streetId required parameter';
-                        }
-                        break;
+                    switch ($arSearchContext['contentType'])
+                    {
+                        case 'street':
+                            if (empty($arSearchContext['cityId']))
+                            {
+                                $errorMessage = 'cityId required parameter';
+                            }
+                            break;
+                        case 'building':
+                            if (empty($arSearchContext['streetId']))
+                            {
+                                $errorMessage = 'streetId required parameter';
+                            }
+                            break;
+                    }
                 }
             }
 

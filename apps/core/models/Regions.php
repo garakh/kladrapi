@@ -22,11 +22,6 @@ namespace Kladr\Core\Models {
      */
     class Regions extends Collection
     {
-    	/**
-    	 * @var string Тип объекта
-    	 */
-		const ContentType = "region";
-    	
         /**
          * @var string Тип объекта
          */
