@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking\Tracking;
 
 /**
@@ -26,6 +27,4 @@ abstract class AbstractTracking
      * @return array
      */
     abstract public function getPaket();
-
-
 }

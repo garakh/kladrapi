@@ -32,6 +32,11 @@ namespace Kladr\Core\Models {
     	const ContentType = "building";
 
         /**
+         * @var string Тип объекта
+         */
+        const ContentType = "building";
+
+        /**
          * Кеш, чтоб снизить запросы к базе
          * @var array
          */
@@ -48,16 +53,18 @@ namespace Kladr\Core\Models {
          * @param string $id
          * @return array
          */
-        public static function getCodes($id) {
+        public static function getCodes($id)
+        {
 
-            if(isset(self::$Cache[$id]))
+            if (isset(self::$Cache[$id]))
                 return self::$Cache[$id];
 
             $object = self::findFirst(array(
-                array(KladrFields::Id => $id)
+                        array(KladrFields::Id => $id)
             ));
 
-            if(!$object) return array();
+            if (!$object)
+                return array();
 
             self::$Cache[$id] = array(
                 KladrFields::CodeRegion => $object->readAttribute(KladrFields::CodeRegion),
@@ -81,23 +88,31 @@ namespace Kladr\Core\Models {
         public static function findByQuery($name = null, $codes = array(), $limit = 5000)
         {
             
-            $arQuery = array();       
+            $arQuery = array();
 
-            if ($codes){
+            if ($codes)
+            {
                 $codes = array_splice($codes, 0, 5);
-                foreach($codes as $field => $code){
-                    if($code){
+                foreach ($codes as $field => $code)
+                {
+                    if ($code)
+                    {
                         $arQuery['conditions'][$field] = $code;
-                    } else {
+                    }
+                    else
+                    {
                         $arQuery['conditions'][$field] = null;
                     }
                 }
-            } else {
+            }
+            else
+            {
                 return array();
             }
 
-            if($name){
-                $regexObj = new \MongoRegex('/^'.$name.'/');
+            if ($name)
+            {
+                $regexObj = new \MongoRegex('/^' . $name . '/');
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
@@ -106,7 +121,8 @@ namespace Kladr\Core\Models {
             $buildings = self::find($arQuery);
 
             $arReturn = array();
-            foreach($buildings as $building){
+            foreach($buildings as $building)
+			{
                 $arReturn[] = array(
                     'id'          => $building->readAttribute(KladrFields::Id),
                     'name'        => $building->readAttribute(KladrFields::Name),
@@ -117,40 +133,51 @@ namespace Kladr\Core\Models {
                     'contentType' => Buildings::ContentType,
                 );
             }
-            
+
             $arReturnBuilding = array();
-            if($name){
-                foreach($arReturn as $item){
+            if ($name)
+            {
+                foreach ($arReturn as $item)
+                {
                     $arNames = explode(',', $item['name']);
-                    foreach($arNames as $buildingName){
-                        if(preg_match('/^'.$name.'/iu', $buildingName)){
+                    foreach ($arNames as $buildingName)
+                    {
+                        if (preg_match('/^' . $name . '/iu', $buildingName))
+                        {
                             $item['name'] = $buildingName;
                             $arReturnBuilding[$buildingName] = $item;
                         }
                     }
                 }
-            } else {
-                foreach($arReturn as $item){
+            }
+            else
+            {
+                foreach ($arReturn as $item)
+                {
                     $arNames = explode(',', $item['name']);
-                    foreach($arNames as $buildingName){
+                    foreach ($arNames as $buildingName)
+                    {
                         $item['name'] = $buildingName;
                         $arReturnBuilding[$buildingName] = $item;
                     }
                 }
             }
-            
+
             ksort($arReturnBuilding);
-            
+
             $arResult = array();
-            for($i=1; $i<10; $i++){
-                foreach($arReturnBuilding as $item){
-                    if(mb_strlen($item['name'],mb_detect_encoding($item['name'])) == $i){
+            for ($i = 1; $i < 10; $i++)
+            {
+                foreach ($arReturnBuilding as $item)
+                {
+                    if (mb_strlen($item['name'], mb_detect_encoding($item['name'])) == $i)
+                    {
                         $arResult[] = $item;
                     }
                 }
             }
-            
-            $arResult = array_slice($arResult, 0, $limit);            
+
+            $arResult = array_slice($arResult, 0, $limit);
             return $arResult;
         }
 

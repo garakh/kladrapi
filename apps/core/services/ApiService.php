@@ -16,7 +16,8 @@ namespace Kladr\Core\Services {
      * 
      * @author A. Yakovlev / I. Garakh Primepix (http://primepix.ru/)
      */
-    class ApiService {
+    class ApiService
+    {
 
         private $_arPlugins;
 
@@ -30,7 +31,8 @@ namespace Kladr\Core\Services {
          * Kladr\Core\Services\ApiService construct
          * @param \Racecore\GATracking\GATracking $googleTracker Трекер
          */
-        public function __construct($googleTracker) {
+        public function __construct($googleTracker)
+        {
             $this->_arPlugins = array();
             $this->googleTracker = $googleTracker;
         }
@@ -40,7 +42,8 @@ namespace Kladr\Core\Services {
          * 
          * @param \Kladr\Core\Plugins\Base\IPlugin $plugin
          */
-        public function addPlugin(IPlugin $plugin) {
+        public function addPlugin(IPlugin $plugin)
+        {
             array_push($this->_arPlugins, $plugin);
         }
 
@@ -50,47 +53,62 @@ namespace Kladr\Core\Services {
          * @param \Phalcon\Http\Request $request
          * @return string
          */
-        public function process(Request $request) {
+        public function process(Request $request)
+        {
             $response = new Response();
             $pluginResult = new PluginResult();
 
-            foreach ($this->_arPlugins as $plugin) {
+            foreach ($this->_arPlugins as $plugin)
+            {
                 $pluginResult = $plugin->process($request, $pluginResult);
-                if ($pluginResult->terminate) {
+                if ($pluginResult->terminate)
+                {
                     break;
                 }
             }
 
-            $result = '';
-
-            if ($pluginResult->error) {
+            if ($pluginResult->error)
+            {
                 $response->setStatusCode($pluginResult->errorCode, $pluginResult->errorMessage);
-                $result .= json_encode(array(
-                    'errorCode' => $pluginResult->errorCode,
-                    'errorMessage' => $pluginResult->errorMessage
-                ));
-            } else {
+                $response->setContent($pluginResult->errorMessage);
+                return $response;
+            }
+            else
+            {
                 $response->setStatusCode(200, "OK");
-                $result .= json_encode(array(
-                    'searchContext' => $pluginResult->searchContext,
-                    'result' => $pluginResult->result
-                ));
             }
 
             $callback = $request->getQuery('callback');
+            $result = '';
 
-            if ($callback) {
+            if ($callback)
+            {
                 $response->setHeader('Content-Type', 'application/javascript');
                 $result .= $callback . '(';
-            } else {
+            }
+            else
+            {
                 $response->setHeader('Content-Type', 'application/json');
             }
 
-            if ($callback) {
+            $result .= json_encode(array(
+                'searchContext' => $pluginResult->searchContext,
+                'result' => $pluginResult->result
+            ));
+
+            if ($callback)
+            {
                 $result .= ');';
             }
 
-            $response->setContent($result);
+            if ($pluginResult->fileToSend)
+            {
+                $response->setFileToSend($pluginResult->fileToSend, 'data.txt');
+            }
+            else
+            {
+                $response->setContent($result);
+            }
             return $response;
         }
 
@@ -98,18 +116,22 @@ namespace Kladr\Core\Services {
          * Логирует запрос
          * @param \Phalcon\Http\Request $request
          */
-        public function log(Request $request) {
+        public function log(Request $request)
+        {
             $this->googleTracker->setClientID($request->get('token'));
 
             $page = new \Racecore\GATracking\Tracking\Page();
-            $page->setDocumentPath($_SERVER['HTTP_REFERER'] != '' ? $_SERVER['HTTP_REFERER'] : '/');
-            $page->setDocumentTitle($_SERVER['HTTP_REFERER'] != '' ? $_SERVER['HTTP_REFERER'] : 'Direct');
+            $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+            $page->setDocumentPath($referer != '' ? $referer : '/');
+            $page->setDocumentTitle($referer != '' ? $referer : 'Direct');
 
             $this->googleTracker->addTracking($page);
 
-            try {
+            try
+            {
                 $this->googleTracker->send();
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 //echo 'Error: ' . $e->getMessage() . '<br />' . "\r\n";
                 //echo 'Type: ' . get_class($e);
             }

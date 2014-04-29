@@ -8,6 +8,7 @@ namespace Kladr\Frontend\Controllers {
 
     class LoginController extends Controller
     {
+
         public function initialize()
         {
             Tag::setTitle('Страница входа / регистрации');
@@ -15,7 +16,8 @@ namespace Kladr\Frontend\Controllers {
 
         public function indexAction()
         {
-            if ($this->request->isPost()) {
+            if ($this->request->isPost())
+            {
 
                 $email = $this->request->getPost('email');
                 $password = $this->request->getPost('password');
@@ -23,13 +25,14 @@ namespace Kladr\Frontend\Controllers {
                 $password = sha1($password);
 
                 $user = Users::findFirst(array(
-                    array(
-                        'email' => $email,
-                        'pass' => $password
-                    )
+                            array(
+                                'email' => $email,
+                                'pass' => $password
+                            )
                 ));
 
-                if(!$user){
+                if (!$user)
+                {
                     $this->flash->warning('Ошибка входа: неверно введены email или пароль.');
                     return;
                 }
@@ -38,7 +41,7 @@ namespace Kladr\Frontend\Controllers {
                 $this->response->redirect("integration");
             }
         }
-        
+
     }
-    
+
 }

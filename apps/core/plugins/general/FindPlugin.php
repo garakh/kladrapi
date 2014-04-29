@@ -37,57 +37,64 @@ namespace Kladr\Core\Plugins\General {
          * @param \Kladr\Core\Plugins\Base\PluginResult $prevResult
          * @return \Kladr\Core\Plugins\Base\PluginResult
          */
-        public function process(Request $request, PluginResult $prevResult) 
-        {   
-            
-            if($prevResult->error){
+        public function process(Request $request, PluginResult $prevResult)
+        {
+
+            if ($prevResult->error)
+            {
                 return $prevResult;
             }
+            
+            $objects = null;
+            //$objects = $this->cache->get('FindPlugin', $request);
 
-            $objects = $this->cache->get('FindPlugin', $request);
-
-            if($objects === null)
+            if ($objects === null)
             {
                 $objects = array();
 
                 // query
                 $query = $request->getQuery('query');
                 $query = Tools::Key($query);
-                $query = Tools::Normalize($query);       
+                $query = Tools::Normalize($query);
 
                 $arCodes = null;
 
                 // regionId
                 $regionId = $request->getQuery('regionId');
-                if ($regionId) {
+                if ($regionId)
+                {
                     $arCodes = $request->getQuery('contentType') == 'region' ?
-                        $regionId : Regions::getCodes($regionId);
+                            $regionId : Regions::getCodes($regionId);
                 }
 
                 // districtId
                 $districtId = $request->getQuery('districtId');
-                if ($districtId) {
+                if ($districtId)
+                {
                     $arCodes = $request->getQuery('contentType') == 'district' ?
-                        $districtId : Districts::getCodes($districtId);
+                            $districtId : Districts::getCodes($districtId);
                 }
 
                 // cityId
                 $cityId = $request->getQuery('cityId');
-                if ($cityId) {
+                if ($cityId)
+                {
                     $arCodes = $request->getQuery('contentType') == 'city' ?
-                        $cityId : Cities::getCodes($cityId);
+                            $cityId : Cities::getCodes($cityId);
                 }
 
                 // streetId
                 $streetId = $request->getQuery('streetId');
-                if ($streetId) {
+                if ($streetId)
+                {
                     $arCodes = $request->getQuery('contentType') == 'street' ?
-                        $streetId : Streets::getCodes($streetId);
+                            $streetId : Streets::getCodes($streetId);
                 }
 
                 // buildingId
                 $buildingId = $request->getQuery('buildingId');
-                if ($buildingId) {
+                if ($buildingId)
+                {
                     $arCodes = Buildings::getCodes($buildingId);
                 }
 
@@ -95,16 +102,17 @@ namespace Kladr\Core\Plugins\General {
                 $limit = $request->getQuery('limit');
                 $limit = intval($limit);
                 $limit = $limit ? $limit : 400;
-                if($limit > 400)
+                if ($limit > 400)
                     $limit = 400;
 
                 //offset
                 $offset = $request->getQuery('offset');
                 $offset = intval($offset);
-                
-                
-                
-                switch ($request->getQuery('contentType')) {
+
+                $typeCodes = self::ConvertCodeTypeToArray($request->getQuery('typeCode'));
+
+                switch ($request->getQuery('contentType'))
+                {
                     case Regions::ContentType:
                         $objects = Regions::findByQuery($query, $arCodes, $limit, $offset);
                         break;
@@ -112,7 +120,7 @@ namespace Kladr\Core\Plugins\General {
                         $objects = Districts::findByQuery($query, $arCodes, $limit, $offset);
                         break;
                     case Cities::ContentType:
-                        $objects = Cities::findByQuery($query, $arCodes, $limit, $offset);
+                        $objects = Cities::findByQuery($query, $arCodes, $limit, $offset, $typeCodes);
                         break;
                     case Streets::ContentType:
                         $objects = Streets::findByQuery($query, $arCodes, $limit, $offset);
@@ -130,7 +138,29 @@ namespace Kladr\Core\Plugins\General {
 
             return $result;
         }
-        
+
+        /**
+         * Преобразует TypeCode в массив для поиска
+         * 
+         * @param int $typeCode
+         * @return array | null Массив из TypeCode или null, если TypeCode учитывать не надо
+         */
+        public static function ConvertCodeTypeToArray($typeCode)
+        {
+            $typeCode = (int)$typeCode;
+            
+            // проверяем валидность. typeCode = 7 так же не нужен, т.к. это 0111, т.е. все варианты
+            if ($typeCode <= 0 || $typeCode > 6)
+                return null;
+                
+            
+            $result = array();
+            foreach (array(1, 2, 4) as $code)
+                if( ($typeCode & $code) > 0)
+                    $result []= $code;
+                
+            return $result;
+        }
     }
 
 }

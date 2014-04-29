@@ -20,14 +20,16 @@ namespace Kladr\Frontend\Controllers {
         {
             $id = $this->session->get('user');
 
-            if(!$id){
+            if (!$id)
+            {
                 $this->session->remove('user');
                 $this->response->redirect();
             }
 
             $user = Users::findById($id);
 
-            if(!$user){
+            if (!$user)
+            {
                 $this->session->remove('user');
                 $this->response->redirect();
             }
@@ -35,9 +37,9 @@ namespace Kladr\Frontend\Controllers {
             $this->view->setVar("user", $user);
 
             $requests = Requests::find(array(
-                array("key" => (string)$id),
-                "sort" => array("time" => -1),
-                "limit" => 100
+                        array("key" => (string) $id),
+                        "sort" => array("time" => -1),
+                        "limit" => 100
             ));
 
             $this->view->setVar("requests", $requests);
@@ -47,14 +49,16 @@ namespace Kladr\Frontend\Controllers {
         {
             $id = $this->session->get('user');
 
-            if(!$id){
+            if (!$id)
+            {
                 $this->session->remove('user');
                 $this->response->redirect();
             }
 
             $user = Users::findById($id);
 
-            if(!$user){
+            if (!$user)
+            {
                 $this->session->remove('user');
                 $this->response->redirect();
             }
@@ -62,9 +66,9 @@ namespace Kladr\Frontend\Controllers {
             $this->view->setVar("user", $user);
 
             $requests = Requests::find(array(
-                array("key" => (string)$id),
-                "sort" => array("time" => -1),
-                "limit" => 100
+                        array("key" => (string) $id),
+                        "sort" => array("time" => -1),
+                        "limit" => 100
             ));
 
             $this->view->setVar("requests", $requests);
@@ -75,17 +79,21 @@ namespace Kladr\Frontend\Controllers {
         {
             $this->view->disable();
 
-            if($this->request->isAjax()) {
+            if ($this->request->isAjax())
+            {
                 $id = $this->session->get('user');
-                if(!$id) return;
+                if (!$id)
+                    return;
 
                 $user = Users::findById($id);
-                if(!$user) return;
+                if (!$user)
+                    return;
 
                 $key = sha1($this->keyTools->RandString(10, 20));
                 $user->key = $key;
 
-                if($user->save()){            
+                if ($user->save())
+                {
                     print $key;
                 }
             }
@@ -95,16 +103,20 @@ namespace Kladr\Frontend\Controllers {
         {
             $this->view->disable();
 
-            if($this->request->isPost() && $this->request->isAjax()) {
+            if ($this->request->isPost() && $this->request->isAjax())
+            {
                 $id = $this->session->get('user');
-                if(!$id) return;
+                if (!$id)
+                    return;
 
                 $user = Users::findById($id);
-                if(!$user) return;
+                if (!$user)
+                    return;
 
                 $user->domain = $this->request->getPost('domain');
 
-                if($user->save()){            
+                if ($user->save())
+                {
                     print $user->domain;
                 }
             }
@@ -114,22 +126,26 @@ namespace Kladr\Frontend\Controllers {
         {
             $this->view->disable();
 
-            if($this->request->isPost() && $this->request->isAjax()) {
+            if ($this->request->isPost() && $this->request->isAjax())
+            {
                 $id = $this->session->get('user');
-                if(!$id) return;
+                if (!$id)
+                    return;
 
                 $user = Users::findById($id);
-                if(!$user) return;
+                if (!$user)
+                    return;
 
                 $key = sha1($this->keyTools->RandString(10, 20));
                 $user->domainkey = $key;
 
-                if($user->save()){            
+                if ($user->save())
+                {
                     print $key;
                 }
             }
         }
 
     }
-    
+
 }

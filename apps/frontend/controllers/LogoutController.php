@@ -14,5 +14,5 @@ namespace Kladr\Frontend\Controllers {
         }
 
     }
-    
+
 }

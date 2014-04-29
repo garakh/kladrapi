@@ -9,7 +9,7 @@ namespace Kladr\Core\Plugins\Tools {
      * 
      * @author A. Yakovlev. Primepix (http://primepix.ru/)
      */
-    class Tools 
+    class Tools
     {
 
         /**
@@ -18,7 +18,8 @@ namespace Kladr\Core\Plugins\Tools {
          * @param string $str
          * @return string
          */
-        public static function Normalize($str){
+        public static function Normalize($str)
+        {
             $str = preg_replace('/[^а-яА-Я0-9,]+/u', '', $str); 
             $str = mb_strtolower($str, mb_detect_encoding($str));
 
@@ -42,41 +43,40 @@ namespace Kladr\Core\Plugins\Tools {
 
 
             $strNew = '';
-            for($i = 0; $i < mb_strlen($strMessage, mb_detect_encoding($strMessage)); $i++)
+            for ($i = 0; $i < mb_strlen($strMessage, mb_detect_encoding($strMessage)); $i++)
             {
                 $char = mb_substr($strMessage, $i, 1, mb_detect_encoding($strMessage));
-                
-                if(strpos($s2, $char) !== false)
+
+                if (strpos($s2, $char) !== false)
                 {
                     $strNew .= $char;
                     continue;
                 }
 
-                if(strpos($s22, $char) !== false)
+                if (strpos($s22, $char) !== false)
                 {
                     $strNew .= $char;
                     continue;
                 }
 
-                if(strpos($s1, $char) !== false)
+                if (strpos($s1, $char) !== false)
                 {
                     $p = strpos($s1, $char);
-                    $strNew .= mb_substr($s2, $p, 1,mb_detect_encoding($s2));
+                    $strNew .= mb_substr($s2, $p, 1, mb_detect_encoding($s2));
                     continue;
                 }
 
-                if(strpos($s12, $char) !== false)
+                if (strpos($s12, $char) !== false)
                 {
                     $p = strpos($s12, $char);
                     $strNew .= mb_substr($s22, $p, 1, mb_detect_encoding($s22));
                     continue;
                 }
-
             }
 
             return $strNew;
         }
 
     }
-    
+
 }

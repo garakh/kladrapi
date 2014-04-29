@@ -28,6 +28,11 @@ namespace Kladr\Core\Models {
 		const ContentType = "region";
     	
         /**
+         * @var string Тип объекта
+         */
+        const ContentType = "region";
+
+        /**
          * Кеш, чтоб снизить запросы к базе
          * @var array
          */
@@ -44,16 +49,18 @@ namespace Kladr\Core\Models {
          * @param string $id
          * @return array
          */
-        public static function getCodes($id) {
+        public static function getCodes($id)
+        {
 
-            if(isset(self::$Cache[$id]))
+            if (isset(self::$Cache[$id]))
                 return self::$Cache[$id];
 
             $object = self::findFirst(array(
-                array(KladrFields::Id => $id)
+                        array(KladrFields::Id => $id)
             ));
 
-            if(!$object) return array();
+            if (!$object)
+                return array();
 
             self::$Cache[$id] = array(
                 KladrFields::CodeRegion => $object->readAttribute(KladrFields::CodeRegion)
@@ -72,38 +79,47 @@ namespace Kladr\Core\Models {
          */
         public static function findByQuery($name = null, $codes = array(), $limit = 5000, $offset = 0)
         {
-            $arQuery = array();       
+            $arQuery = array();
             $isEmptyQuery = true;
 
-            if($name){
+            if ($name)
+            {
                 $isEmptyQuery = false;
-                $regexObj = new \MongoRegex('/^'.$name.'/');
+                $regexObj = new \MongoRegex('/^' . $name . '/');
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
             $searchById = $codes && !is_array($codes);
 
-            if (is_array($codes)){
+            if (is_array($codes))
+            {
                 $isEmptyQuery = false;
                 $codes = array_splice($codes, 0, 1);
-                foreach($codes as $field => $code){
-                    if($code){
+                foreach ($codes as $field => $code)
+                {
+                    if ($code)
+                    {
                         $arQuery['conditions'][$field] = $code;
-                    } else {
+                    }
+                    else
+                    {
                         $arQuery['conditions'][$field] = null;
                     }
                 }
-            }elseif($searchById)
+            }
+            elseif ($searchById)
             {
                 $isEmptyQuery = false;
                 $arQuery['conditions'][KladrFields::Id] = $codes;
             }
 
-            if($isEmptyQuery){
+            if ($isEmptyQuery)
+            {
                 return array();
             }
 
-            if(!$searchById){
+            if (!$searchById)
+            {
                 $arQuery['conditions'][KladrFields::Bad] = false;
             }
 
@@ -114,14 +130,15 @@ namespace Kladr\Core\Models {
             $regions = self::find($arQuery);
 
             $arReturn = array();
-            foreach($regions as $region){
+            foreach ($regions as $region)
+            {
                 $arReturn[] = array(
-                    'id'          => $region->readAttribute(KladrFields::Id),
-                    'name'        => $region->readAttribute(KladrFields::Name),
-                    'zip'         => $region->readAttribute(KladrFields::ZipCode),
-                    'type'        => $region->readAttribute(KladrFields::Type),
-                    'typeShort'   => $region->readAttribute(KladrFields::TypeShort),
-                    'okato'       => $region->readAttribute(KladrFields::Okato),
+                    'id' => $region->readAttribute(KladrFields::Id),
+                    'name' => $region->readAttribute(KladrFields::Name),
+                    'zip' => $region->readAttribute(KladrFields::ZipCode),
+                    'type' => $region->readAttribute(KladrFields::Type),
+                    'typeShort' => $region->readAttribute(KladrFields::TypeShort),
+                    'okato' => $region->readAttribute(KladrFields::Okato),
                     'contentType' => Regions::ContentType,
                 );
             }
@@ -130,5 +147,5 @@ namespace Kladr\Core\Models {
         }
 
     }
-    
+
 }

@@ -18,11 +18,11 @@ namespace Kladr\Frontend\Controllers {
 
         public function indexAction()
         {
-            $id = $this->session->get('user');        
+            $id = $this->session->get('user');
             $user = $id ? Users::findById($id) : null;
-            $this->view->setVar("authorized", $user ? true : false);       
+            $this->view->setVar("authorized", $user ? true : false);
         }
 
     }
-    
+
 }

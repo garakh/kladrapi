@@ -1,12 +1,12 @@
 <?php
 
 namespace Kladr\Core {
-	
-	use Phalcon\DI\Service;
-	
-	//GA
+
+    use Phalcon\DI\Service;
+
+//GA
     require_once( dirname(__FILE__) . '/vendor/Racecore/GATracking/Autoloader.php');
-    \Racecore\GATracking\Autoloader::register(dirname(__FILE__).'/vendor/');
+    \Racecore\GATracking\Autoloader::register(dirname(__FILE__) . '/vendor/');
 
     /**
      * Kladr\Core\Module
@@ -15,6 +15,7 @@ namespace Kladr\Core {
      */
     class Module implements \Phalcon\Mvc\ModuleDefinitionInterface
     {
+
         /**
          * Регистрация автозагрузчика модуля
          */
@@ -24,16 +25,16 @@ namespace Kladr\Core {
             $loader = new \Phalcon\Loader();
 
             $loader->registerNamespaces(
-                array(
-                    'Kladr\Core\Models'          => $config->application->modelsDir,
-                    'Kladr\Core\Views'           => $config->application->viewsDir,
-                    'Kladr\Core\Controllers'     => $config->application->controllersDir, 
-                    'Kladr\Core\Services'        => $config->application->servicesDir, 
-                    'Kladr\Core\Plugins'         => $config->application->pluginsDir,
-                    'Kladr\Core\Plugins\Base'    => $config->application->pluginsBaseDir,
-                    'Kladr\Core\Plugins\General' => $config->application->pluginsGeneralDir,
-                    'Kladr\Core\Plugins\Tools'   => $config->application->pluginsToolsDir,
-                )
+                    array(
+                        'Kladr\Core\Models' => $config->application->modelsDir,
+                        'Kladr\Core\Views' => $config->application->viewsDir,
+                        'Kladr\Core\Controllers' => $config->application->controllersDir,
+                        'Kladr\Core\Services' => $config->application->servicesDir,
+                        'Kladr\Core\Plugins' => $config->application->pluginsDir,
+                        'Kladr\Core\Plugins\Base' => $config->application->pluginsBaseDir,
+                        'Kladr\Core\Plugins\General' => $config->application->pluginsGeneralDir,
+                        'Kladr\Core\Plugins\Tools' => $config->application->pluginsToolsDir,
+                    )
             );
 
             $loader->register();
@@ -57,6 +58,26 @@ namespace Kladr\Core {
                 return $mongo->selectDb($config->database->name);
             }, true);
 
+
+            // Mongo with users
+            $di->set('mongoUsers', function() use ($config) {
+                $mongo = new \MongoClient($config->database->usersHost, array(
+                    'connectTimeoutMS' => intval($config->database->timeout),
+                ));
+                return $mongo->selectDb($config->database->usersName);
+            }, true);
+
+            // Mongo with users
+            $di->set('mongoLog', function() use ($config) {
+                $mongo = new \MongoClient($config->database->logHost, array(
+                    'connectTimeoutMS' => intval($config->database->timeout),
+                ));
+                return $mongo->selectDb($config->database->logName);
+            }, true);
+
+            // Service for running users
+            $di->set('userService', '\Kladr\Core\Services\UserService');
+
             // Registering the collectionManager service
             $di->set('collectionManager', function() {
                 $modelsManager = new \Phalcon\Mvc\Collection\Manager();
@@ -69,7 +90,7 @@ namespace Kladr\Core {
                 $dispatcher->setDefaultNamespace('Kladr\Core\Controllers');
                 return $dispatcher;
             });
-            
+
             // Setting memcache
             $di->set('memcache', function() use ($config) {
                 $frontCache = new \Phalcon\Cache\Frontend\Data(array(
@@ -78,21 +99,21 @@ namespace Kladr\Core {
                 $cache = new \Phalcon\Cache\Backend\Memcache($frontCache, array(
                     "host" => $config->memcache->host,
                     "port" => $config->memcache->port,
-                ));                
+                ));
                 return $cache;
             });
-            
+
             // Settings mongocache
             $di->set('mongocache', function() use ($config) {
                 $frontCache = new \Phalcon\Cache\Frontend\Data(array(
                     "lifetime" => 86400
                 ));
                 $cache = new \Phalcon\Cache\Backend\Mongo($frontCache, array(
-                    'server'     => 'mongodb://' . $config->mongocache->host,
-                    'db'         => $config->mongocache->db,
+                    'server' => 'mongodb://' . $config->mongocache->host,
+                    'db' => $config->mongocache->db,
                     'collection' => $config->mongocache->collection,
                     'connectTimeoutMS' => intval($config->mongocache->timeout),
-                ));                
+                ));
                 return $cache;
             });
 
@@ -112,7 +133,7 @@ namespace Kladr\Core {
             ));
 
             // Register validate plugin
-            $di->set('validate', function(){
+            $di->set('validate', function() {
                 return new \Kladr\Core\Plugins\General\ValidatePlugin();
             });
             
@@ -138,7 +159,7 @@ namespace Kladr\Core {
                     )
                 )
             ));
-            
+
             // Register special cases plugin
             $di->set('specialCases', array(
                 'className' => '\Kladr\Core\Plugins\General\SpecialCasesPlugin',
@@ -149,7 +170,7 @@ namespace Kladr\Core {
                     )
                 )
             ));
-            
+
             // Register duplicate plugin
             $di->set('duplicate', array(
                 'className' => '\Kladr\Core\Plugins\General\DuplicatePlugin',
@@ -171,7 +192,7 @@ namespace Kladr\Core {
                     )
                 )
             ));
-            
+
             // Register find parents plugin
             $di->set('parentsSpecialCases', array(
                 'className' => '\Kladr\Core\Plugins\General\ParentsSpecialCasesPlugin',
@@ -183,19 +204,52 @@ namespace Kladr\Core {
                 )
             ));
 
+            // Register find parents plugin
+            $di->set('logPaidUsersPlugin', array(
+                'className' => '\Kladr\Core\Plugins\General\LogPaidUsersPlugin',
+                'properties' => array(
+                    array(
+                        'name' => 'userService',
+                        'value' => array('type' => 'service', 'name' => 'userService')
+                    )
+                )
+            ));
+
+            $di->set('allDataPlugin', array(
+                'className' => '\Kladr\Core\Plugins\General\AllDataPlugin',
+                'properties' => array(
+                    array(
+                        'name' => 'userService',
+                        'value' => array('type' => 'service', 'name' => 'userService')
+                    ),
+                    array(
+                        'name' => 'cacheDir',
+                        'value' => array('type' => 'parameter', 'value' => $config->application->cacheDir)
+                    ),
+                    array(
+                        'name' => 'disablePaid',
+                        'value' => array('type' => 'parameter', 'value' => $config->application->disablePaid)
+                    )                    
+                )
+            ));
+
             // Register GA
-            $di->set('apiTracker', function() use($config){
+            $di->set('apiTracker', function() use($config) {
                 return new \Racecore\GATracking\GATracking($config->ga->code);
             });
 
             // Setting api
             $di->setShared('api', function() use ($di) {
                 $api = new Services\ApiService($di->get('apiTracker'));
+
+                $api->addPlugin($di->get('logPaidUsersPlugin'));
+                $api->addPlugin($di->get('allDataPlugin'));
+
                 $api->addPlugin($di->get('validate'));
-                $api->addPlugin($di->get('oneString'));
-                $api->addPlugin($di->get('find'));   
-                $api->addPlugin($di->get('specialCases')); 
-                $api->addPlugin($di->get('duplicate')); 
+				$api->addPlugin($di->get('oneString'));
+                $api->addPlugin($di->get('find'));
+                $api->addPlugin($di->get('specialCases'));
+                //$api->addPlugin($di->get('duplicate'));
                 $api->addPlugin($di->get('findParents'));
                 $api->addPlugin($di->get('parentsSpecialCases'));
                 return $api;
@@ -208,6 +262,7 @@ namespace Kladr\Core {
                 return $view;
             });
         }
+
     }
- 
+
 } 

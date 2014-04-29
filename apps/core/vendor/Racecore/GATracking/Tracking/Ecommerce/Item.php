@@ -1,4 +1,5 @@
 <?php
+
 namespace Racecore\GATracking\Tracking\Ecommerce;
 
 use Racecore\GATracking\Exception\MissingTrackingParameterException;
@@ -50,7 +51,8 @@ class Item extends AbstractTracking
     public function getTransactionID()
     {
 
-        if (!$this->tid) {
+        if (!$this->tid)
+        {
             return '/';
         }
 
@@ -76,7 +78,8 @@ class Item extends AbstractTracking
     public function getName()
     {
 
-        if (!$this->name) {
+        if (!$this->name)
+        {
             return $this->sku;
         }
 
@@ -204,12 +207,12 @@ class Item extends AbstractTracking
      */
     public function getPaket()
     {
-        if( !$this->getTransactionID() )
+        if (!$this->getTransactionID())
         {
             throw new MissingTrackingParameterException('transaction id is missing');
         }
 
-        if( !$this->getName() )
+        if (!$this->getName())
         {
             throw new MissingTrackingParameterException('item name is missing');
         }
