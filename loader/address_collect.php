@@ -9,7 +9,8 @@ try {
     $conn = new MongoClient($connectString);
     $db = $conn->kladr;    
     
-   
+    ForOneStringCollect($db);
+    
     $conn->close();
 } catch (MongoConnectionException $e) {
     die('Error connecting to MongoDB server');
@@ -350,7 +351,8 @@ function ForOneStringCollect(MongoDB $db) {
         
         unset($region['_id']);
         $db->complex->insert($region);
-    }    
+    }
+    echo 'success';
 }
 /*
  * Собирает полное имя для элемента БД object, используя элементы street, city, district, region. Записывает полное имя
@@ -360,7 +362,7 @@ function ConstructFullName(&$object, $region, $district = null, $city = null, $s
 {
     if ($region)
     {
-        if ($region['TypeShort'] == 'респ')
+        if ($region['TypeShort'] == 'Респ' || $region['TypeShort'] == 'респ')
         {
             $object['FullName'] .= $region['TypeShort'] . '. ';
             $object['FullName'] .= $region['Name'] . ' ';
