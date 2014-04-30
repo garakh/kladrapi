@@ -9,9 +9,8 @@ try {
     $conn = new MongoClient($connectString);
     $db = $conn->kladr;    
     
-//    AddressCollect($db);
-//    
-//    $conn->close();
+   
+    $conn->close();
 } catch (MongoConnectionException $e) {
     die('Error connecting to MongoDB server');
 } catch (MongoException $e) {
@@ -24,18 +23,23 @@ try {
 function ForOneStringCollect(MongoDB $db) {
     $streets = $db->streets;
     $cities = $db->cities;
-    $districts = $db->distrct;
+    $districts = $db->district;
     $regions = $db->regions;
     $buildings = $db->buildings;
     
     /*
      * Массив всех элементов будущей таблицы
      */
-    $allElements = array();
+    //$allElements = array();
+    
+    //удаляем-создаём таблицу
+    $db->complex->drop();
+    $db->createCollection('complex');
     
     // Здания
     $allBuildings = $buildings->find(array(), array(
         'NormalizedName' => 1,
+        'Name' => 1,
         'Id' => 1,
         'ZipCode' => 1,
         'TypeShort' => 1,
@@ -50,56 +54,85 @@ function ForOneStringCollect(MongoDB $db) {
 
     foreach ($allBuildings as $arBuilding)
     {
-        foreach ($arBuilding['NormalizedName'] as $name)
+        //здания с одним id
+        $building = $arBuilding;
+        $building['NormalizedName'] = $arBuilding['NormalizedName'];      
+        $building['Sort'] = 50;
+        $building['BuildingId'] = $arBuilding['Id'];
+        $building['Address'] = array();
+        $building['Address'] = array_merge($building['Address'], $arBuilding['NormalizedName']);
+        //$building['FullName'] .= $arBuilding['NormalizedName']; //без имени дома
+        $building['FullName'] = null;
+        $building['StreetId'] = null;
+        $building['CityId'] = null;
+        $building['DistrictId'] = null;
+        $building['RegionId'] = null; 
+        $building['NormalizedBuildingName'] = $arBuilding['NormalizedName'];
+        $building['NormalizedStreetName'] = null;
+        $building['NormalizedCityName'] = null;
+        $building['NormalizedDistrictName'] = null;
+        $building['NormalizedRegionName'] =  null;
+        $building['ContentType'] = 'building';
+
+        //ищем айдишники её городов и заполняем поле address т.п.
+        $street = $streets->findOne(array(
+            'CodeStreet' => $building['CodeStreet'], 
+            'CodeCity' => $building['CodeCity'], 
+            'CodeDistrict' => $building['CodeDistrict'], 
+            'CodeRegion' => $building['CodeRegion'],
+            'Bad' => false),
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+        
+        if ($street)
         {
-            //создаём по элементу в будущей БД для каждого здания
-            $building = $arBuilding;
-            $building['NormalizedName'] = array($name);
-            $building['Sort'] = 50;
-            $building['BuildingId'] = $arBuilding['Id'];
-            $building['Address'] = array();
-            $building['Address'] = array_merge($building['Address'], (array)$name);
-            $building['FullName'] .= $name; //пока такое поле, потом -- посмотрим
-            $building['StreetId'] = null;
-            $building['CityId'] = null;
-            $building['DistrictId'] = null;
-            $building['RegionId'] = null;         
-            
-            //ищем айдишники её городов и заполняем поле address т.п.
-            $street = $streets->findOne(array('CodeStreet' => $building['CodeStreet']), array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1));
-            if ($street)
-            {
             $building['StreetId'] = $street['Id'];
-            $building['FullName'] .= ' ' . $street['Name'];
             $building['Address'] = array_merge($building['Address'], $street['NormalizedName']);
-            }
-            
-            $city = $cities->findOne(array('CodeCity' => $building['CodeCity']), array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1));
-            if ($city)
-            {
-            $building['CityId'] = $city['Id'];
-            $building['FullName'] .= ' ' . $city['Name'];
-            $building['Address'] = array_merge($building['Address'], $city['NormalizedName']);  
-            }
-            
-            $district = $districts->findOne(array('CodeDistrict' => $building['CodeDistrict']), array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1));
-            if ($district)
-            {
-            $building['DistrictId'] = $district['Id'];
-            $building['FullName'] .= ' ' . $district['Name'];
-            $building['Address'] = array_merge($building['Address'], $district['NormalizedName']);   
-            }
-            
-            $region = $regions->findOne(array('CodeRegion' => $building['CodeRegion']), array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1)) ;       
-            if ($region)
-            {
-            $building['RegionId'] = $region['Id'];
-            $building['FullName'] .= ' ' . $region['Name'];
-            $building['Address'] = array_merge($building['Address'], $region['NormalizedName']); 
-            }
-            
-            $allElements[] = $building;
+            $building['NormalizedStreetName'] = $street['NormalizedName'];
         }
+
+        $city = $cities->findOne(array(
+            'CodeCity' => $building['CodeCity'], 
+            'CodeDistrict' => $building['CodeDistrict'], 
+            'CodeRegion' => $building['CodeRegion'],
+            'Bad' => false),
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+        
+        if ($city)
+        {
+            $building['CityId'] = $city['Id'];
+            $building['Address'] = array_merge($building['Address'], $city['NormalizedName']);  
+            $building['NormalizedCityName'] = $city['NormalizedName'];
+        }
+
+        $district = $districts->findOne(array(
+            'CodeDistrict' => $building['CodeDistrict'],
+            'CodeRegion' => $building['CodeRegion'],
+            'Bad' => false),
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+        
+        if ($district)
+        {
+            $building['DistrictId'] = $district['Id'];
+            $building['Address'] = array_merge($building['Address'], $district['NormalizedName']);   
+            $building['NormalizedDistrictName'] = $district['NormalizedName'];
+        }
+
+        $region = $regions->findOne(array(
+            'CodeRegion' => $building['CodeRegion'],
+            'Bad' => false), 
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));    
+        
+        if ($region)
+        {
+            $building['RegionId'] = $region['Id'];
+            $building['Address'] = array_merge($building['Address'], $region['NormalizedName']); 
+            $building['NormalizedRegionName'] = $region['NormalizedName'];
+        }
+
+        ConstructFullName($building, $region, $district, $city, $street);
+        
+        unset($building['_id']);//избегаем ненужных конфликтов
+        $db->complex->insert($building);        
     }
     
     // Улицы
@@ -125,37 +158,60 @@ function ForOneStringCollect(MongoDB $db) {
         $street['StreetId'] = $arStreet['Id'];
         $street['Address'] = array();
         $street['Address'] = array_merge($street['Address'], $arStreet['NormalizedName']);
-        $street['FullName'] .= $arStreet['Name'];
+        $street['FullName'] .= null;
         $street['CityId'] = null;
         $street['DistrictId'] = null;
-        $street['RegionId'] = null; 
+        $street['RegionId'] = null;
+        $street['NormalizedStreetName'] = $arStreet['NormalizedName'];
+        $street['NormalizedCityName'] = null;
+        $street['NormalizedDistrictName'] = null;
+        $street['NormalizedRegionName'] =  null; 
+        $street['ContentType'] = 'street';
         
         //ищем айдишники, заполняем адрес
-        $city = $cities->findOne(array('CodeCity' => $street['CodeCity']), array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1));
+        $city = $cities->findOne(array(
+            'CodeCity' => $street['CodeCity'], 
+            'CodeDistrict' => $street['CodeDistrict'],
+            'CodeRegion' => $street['CodeRegion'],
+            'Bad' => false),
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+        
         if ($city)
         {
-        $street['CityId'] = $city['Id'];
-        $street['FullName'] .= ' ' . $city['Name'];
-        $street['Address'] = array_merge($street['Address'], $city['NormalizedName']); 
+            $street['CityId'] = $city['Id'];
+            $street['Address'] = array_merge($street['Address'], $city['NormalizedName']); 
+            $street['NormalizedCityName'] = $city['NormalizedName'];
         }     
         
-        $district = $districts->findOne(array('CodeDistrict' => $street['CodeDistrict']), array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1));
+        $district = $districts->findOne(array(
+            'CodeDistrict' => $street['CodeDistrict'], 
+            'CodeRegion' => $street['CodeRegion'],
+            'Bad' => false),
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+        
         if ($district)
         {
-        $street['DistrictId'] = $district['Id'];
-        $street['FullName'] .= ' ' . $district['Name'];
-        $street['Address'] = array_merge($street['Address'], $district['NormalizedName']);
+            $street['DistrictId'] = $district['Id'];
+            $street['Address'] = array_merge($street['Address'], $district['NormalizedName']);
+            $street['NormalizedDistrictName'] = $district['NormalizedName'];
         }
         
-        $region = $regions->findOne(array('CodeRegion' => $street['CodeRegion']), array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1));
+        $region = $regions->findOne(array(
+            'CodeRegion' => $street['CodeRegion'],
+            'Bad' => false),
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+        
         if ($region)
         {
-        $street['RegionId'] = $region['Id'];
-        $street['FullName'] .= ' ' . $region['Name'];
-        $street['Address'] = array_merge($street['Address'], $region['NormalizedName']);    
+            $street['RegionId'] = $region['Id'];
+            $street['Address'] = array_merge($street['Address'], $region['NormalizedName']);  
+            $street['NormalizedRegionName'] = $region['NormalizedName'];
         }
-              
-        $allElements[] = $street;
+        
+        ConstructFullName($street, $region, $district, $city, $street);
+        
+        unset($street['_id']);
+        $db->complex->insert($street);
     }
     
     // Города
@@ -180,28 +236,44 @@ function ForOneStringCollect(MongoDB $db) {
         $city['CityId'] = $arCity['Id'];
         $city['Address'] = array();
         $city['Address'] = array_merge($city['Address'], $arCity['NormalizedName']);
-        $city['FullName'] .= $arCity['Name'];
+        $city['FullName'] .= null;
         $city['DistrictId'] = null;
         $city['RegionId'] = null; 
+        $city['NormalizedCityName'] = $arCity['NormalizedName'];
+        $city['NormalizedDistrictName'] = null;
+        $city['NormalizedRegionName'] =  null; 
+        $city['ContentType'] = 'city';
         
         //айдишники, address
-        $district = $districts->findOne(array('CodeDistrict' => $city['CodeDistrict']), array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1));
+        $district = $districts->findOne(array(
+            'CodeDistrict' => $city['CodeDistrict'],
+            'CodeRegion' => $city['CodeRegion'],
+            'Bad' => false),
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+        
         if ($district)
         {
-        $city['DistrictId'] = $district['Id'];
-        $city['FullName'] .= ' ' . $district['Name'];
-        $city['Address'] = array_merge($city['Address'], $district['NormalizedName']);   
+            $city['DistrictId'] = $district['Id'];
+            $city['Address'] = array_merge($city['Address'], $district['NormalizedName']);   
+            $city['NormalizedDistrictName'] = $district['NormalizedName'];
         }
         
-        $region = $regions->findOne(array('CodeRegion' => $city['CodeRegion']), array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1));
+        $region = $regions->findOne(array(
+            'CodeRegion' => $city['CodeRegion'],
+            'Bad' => false), 
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+        
         if ($region)
         {
-        $city['RegionId'] = $region['Id'];
-        $city['FullName'] .= ' ' . $region['Name'];
-        $city['Address'] = array_merge($city['Address'], $region['NormalizedName']);   
+            $city['RegionId'] = $region['Id'];
+            $city['Address'] = array_merge($city['Address'], $region['NormalizedName']); 
+            $city['NormalizedRegionName'] = $region['NormalizedName'];
         }
         
-        $allElements[] = $city;
+        ConstructFullName($city, $region, $district, $city);
+        
+        unset($city['_id']);
+        $db->complex->insert($city);
     }
     
     // Районы
@@ -225,19 +297,29 @@ function ForOneStringCollect(MongoDB $db) {
         $district['DistrictId'] = $arDistrict['Id'];
         $district['Address'] = array();
         $district['Address'] = array_merge($district['Address'], $arDistrict['NormalizedName']);
-        $district['FullName'] .= $arDistrict['Name'];
-        $city['RegionId'] = null; 
+        $district['FullName'] = null;
+        $district['RegionId'] = null; 
+        $district['NormalizedDistrictName'] = $arDistrict['NormalizedName'];
+        $district['NormalizedRegionName'] = null;
+        $district['ContentType'] = 'district';
         
         //айдишники, address
-        $region = $regions->findOne(array('CodeRegion' => $region['CodeRegion']), array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1));
+        $region = $regions->findOne(array(
+            'CodeRegion' => $district['CodeRegion'],
+            'Bad' => false), 
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+        
         if ($region)
         {
-        $district['RegionId'] = $region['Id'];
-        $district['FullName'] .= ' ' . $region['Name'];
-        $district['Address'] = array_merge($district['Address'], $region['NormalizedName']);   
+            $district['RegionId'] = $region['Id'];
+            $district['Address'] = array_merge($district['Address'], $region['NormalizedName']);
+            $district['NormalizedRegionName'] = $region['NormalizedName'];
         }       
         
-        $allElements[] = $district;
+        ConstructFullName($district, $region, $district);
+        
+        unset($district['_id']);
+        $db->complex->insert($district);
     }
     
     // Области 
@@ -260,20 +342,67 @@ function ForOneStringCollect(MongoDB $db) {
         $region['RegionId'] = $arRegion['Id'];
         $region['Address'] = array();
         $region['Address'] = array_merge($region['Address'], $arRegion['NormalizedName']);
-        $region['FullName'] .= $arRegion['Name'];
+        $region['NormalizedRegionName'] = $arRegion['NormalizedName'];
+        $region['FullName'] = null;
+        $region['ContentType'] = 'region';
         
-        $allElements[] = $region;
+        ConstructFullName($region, $region);
+        
+        unset($region['_id']);
+        $db->complex->insert($region);
+    }    
+}
+/*
+ * Собирает полное имя для элемента БД object, используя элементы street, city, district, region. Записывает полное имя
+ * в поле 'FullName', считывает имена элементов из 'TypeShort' и 'Name'.
+ */
+function ConstructFullName(&$object, $region, $district = null, $city = null, $street = null)
+{
+    if ($region)
+    {
+        if ($region['TypeShort'] == 'респ')
+        {
+            $object['FullName'] .= $region['TypeShort'] . '. ';
+            $object['FullName'] .= $region['Name'] . ' ';
+        }
+        else 
+        {
+            $object['FullName'] .= $region['Name'] . ' ';
+            $object['FullName'] .= $region['TypeShort'] . '. ';
+        }
     }
     
-    //удаляем-создаём таблицу
-    $db->complex->drop();
-    $db->createCollection('complex');
-    //вставляем все элементы в бд   
-    foreach ($allElements as $elem)
-    {
-        unset($elem['_id']);//избегаем ненужных конфликтов
-        $db->complex->insert($elem);        
+    if ($district)
+    { 
+        if ($object['FullName'])
+        {
+            $object['FullName'] = preg_replace('/\ $/', ', ', $object['FullName']);            
+        }
+        $object['FullName'] .= $district['Name'] . ' ';
+        $object['FullName'] .= $district['TypeShort'] . '. ';     
     }
+   
+    if ($city)
+    {
+        if ($object['FullName'])
+        {
+            $object['FullName'] = preg_replace('/\ $/', ', ', $object['FullName']);            
+        }
+        $object['FullName'] .= $city['TypeShort'] . '. ';
+        $object['FullName'] .= $city['Name'] . ' ';
+    }
+    
+    if ($street)
+    {
+        if ($object['FullName'])
+        {
+            $object['FullName'] = preg_replace('/\ $/', ', ', $object['FullName']);            
+        }
+        $object['FullName'] .= $street['TypeShort'] . '. ';
+        $object['FullName'] .= $street['Name'];
+    }
+    
+    $object['FullName'] = trim($object['FullName']);
 }
 
 function AddressCollect(MongoDB $db) {
