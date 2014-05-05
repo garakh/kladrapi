@@ -358,7 +358,7 @@ namespace Kladr\Core\Plugins\General {
                 'parents' => array()
             );
 
-            if ($district)
+            if ($district && $district['Id'] != null)
             {
                 $data['parents'][] = array(
                     'id' => $district['Id'],
@@ -370,16 +370,17 @@ namespace Kladr\Core\Plugins\General {
                 );
             }
 
-
-            $data['parents'][] = array(
-                'id' => $region['Id'],
-                'name' => $region['Name'],
-                'okato' => $region['Okato'],
-                'type' => $region['Type'],
-                'typeShort' => $region['TypeShort'],
-                'contentType' => Regions::ContentType
-            );
-
+            if ($region['Id'] != null)
+            {
+                $data['parents'][] = array(
+                    'id' => $region['Id'],
+                    'name' => $region['Name'],
+                    'okato' => $region['Okato'],
+                    'type' => $region['Type'],
+                    'typeShort' => $region['TypeShort'],
+                    'contentType' => Regions::ContentType
+                );
+            }
             return json_encode($data);
         }
 
