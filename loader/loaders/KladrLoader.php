@@ -145,6 +145,7 @@ class KladrLoader extends Loader{
                         case '7700000000000': // Москва
                         case '7800000000000': // Санкт-Петербург                        
                         case '9900000000000': // Байконур    
+                        case '9200000000000': // Севастополь    
                             //$arData = array_slice($arData, 0, 8);
                             $regions->insert($arData);
 
