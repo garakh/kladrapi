@@ -8,9 +8,10 @@ namespace Kladr\Core\Plugins\General {
         \Kladr\Core\Plugins\Base\PluginResult,
         \Kladr\Core\Plugins\Tools\Tools,
         \Kladr\Core\Models\Streets,
+        \Kladr\Core\Models\Complex,
         \Kladr\Core\Models\KladrFields;
 
-/*
+    /*
      * Kladr\Core\Plugins\General\OneStringPlugin
      * 
      * Плагин для поиска объектов одной строкой
@@ -49,28 +50,39 @@ namespace Kladr\Core\Plugins\General {
             if ($arReturn === null) {
                 $objects = array();
                 $query = $request->getQuery('query');
-                $query = mb_strtolower($query, mb_detect_encoding($query));
-
+                
                 //разбиваем строку запроса на слова
                 $arWords = preg_split('/(\ |\.|\;|\,)+/', $query);
-
-                //заполняем массив ключевыми словами
-                $arRegEx = array();   
-                for ($i=0; $i<count($arWords)-1; $i++){
-                    $arRegEx[] = $arWords[$i];                   
+                
+                //нормализуем
+                foreach ($arWords as $key => $word)
+                {
+                    $arWords[$key] = Tools::Normalize($word);
                 }
-                $arRegEx[] = new \MongoRegex('/^' . $arWords[count($arWords)-1] . '/');
+                
+                //удаляем пустоту
+                $arWords = array_diff($arWords, array(''));
+                
+                //заполняем массив ключевыми словами
+                $arRegEx = array();
+                foreach ($arWords as $word)
+                {
+                    $arRegEx[] = $word;                   
+                }
+                $arRegEx[count($arRegEx)-1] = new \MongoRegex('/^' . end($arWords). '/');
                 
                 //формируем поисковый запрос
                 $arQuery = array(
-                    array('Address' => array('$all' => $arRegEx),KladrFields::Bad => false ),
-                    //array(),
-                    //'Bad' => false,
-                    'limit' => $request->getQuery('limit') ? (int) $request->getQuery('limit') : 5                  
+                    array(
+                        'Address' => array('$all' => $arRegEx), 
+                        //KladrFields::Bad => false
+                        ),
+                    'limit' => $request->getQuery('limit') ? (int) $request->getQuery('limit') : 5,
+                    'sort' => array(KladrFields::Sort => 1)
                 );
-                $objects = Streets::find($arQuery);
-
-                //$arReturn[] = $arQuery; //только для контроля
+                //$objects = Streets::find($arQuery);
+                $objects = Complex::find($arQuery);
+                $arReturn[] = $arQuery; //только для контроля
 
                 foreach ($objects as $object) {
                     $arReturn[] = array(
@@ -83,7 +95,7 @@ namespace Kladr\Core\Plugins\General {
                         'okato' => $object->readAttribute(KladrFields::Okato),
                     );
                 }
-
+                
                 $this->cache->set('OneStringPlugin', $request, $arReturn);
             } 
 

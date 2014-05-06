@@ -352,6 +352,13 @@ function ForOneStringCollect(MongoDB $db) {
         unset($region['_id']);
         $db->complex->insert($region);
     }
+    
+    $complex = $db->complex;
+    $complex->ensureIndex(
+        array('Address' => 1),
+        array('background' => true)
+    );
+    
     echo 'success';
 }
 /*

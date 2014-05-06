@@ -140,7 +140,7 @@ namespace Kladr\Core\Models {
 
             $arReturn = array();           
             foreach($cities as $city)
-			{
+            {
                 $arReturn[] = array(
                     'id'          => $city->readAttribute(KladrFields::Id),
                     'name'        => $city->readAttribute(KladrFields::Name),

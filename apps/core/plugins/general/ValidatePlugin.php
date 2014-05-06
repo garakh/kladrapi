@@ -115,10 +115,11 @@ use Kladr\Core\Models\Buildings;
             }
 
             // query
+            $arSearchContext['query'] = $request->getQuery('query');
+            
+            //contentType
             if ($request->getQuery('query') && !$request->getQuery('oneString'))
-            {
-                $arSearchContext['query'] = $request->getQuery('query');
-                
+            {                           
                 if (array_key_exists('contentType', $arSearchContext))
                 {
                     switch ($arSearchContext['contentType'])
