@@ -353,13 +353,36 @@ function ForOneStringCollect(MongoDB $db) {
         $db->complex->insert($region);
     }
     
+    echo 'таблица сформирована. идёт постройка индексов';
+    
     $complex = $db->complex;
+    
     $complex->ensureIndex(
         array('Address' => 1),
         array('background' => true)
     );
+    $complex->ensureIndex(
+        array('NormalizedRegionName' => 1),
+        array('background' => true)
+    );
+    $complex->ensureIndex(
+        array('NormalizedDistrictName' => 1),
+        array('background' => true)
+    );
+    $complex->ensureIndex(
+        array('NormalizedCityName' => 1),
+        array('background' => true)
+    );
+    $complex->ensureIndex(
+        array('NormalizedStreetName' => 1),
+        array('background' => true)
+    );
+    $complex->ensureIndex(
+        array('NormalizedBuildingName' => 1),
+        array('background' => true)
+    );
     
-    echo 'success';
+    echo 'построение индексов завершено. приятной работы!';
 }
 /*
  * Собирает полное имя для элемента БД object, используя элементы street, city, district, region. Записывает полное имя

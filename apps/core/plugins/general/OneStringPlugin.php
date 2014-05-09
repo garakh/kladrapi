@@ -7,7 +7,6 @@ namespace Kladr\Core\Plugins\General {
         \Phalcon\Http\Request,
         \Kladr\Core\Plugins\Base\PluginResult,
         \Kladr\Core\Plugins\Tools\Tools,
-        \Kladr\Core\Models\Streets,
         \Kladr\Core\Models\Complex,
         \Kladr\Core\Models\KladrFields;
 
@@ -19,7 +18,8 @@ namespace Kladr\Core\Plugins\General {
      * @author Y. Lichutin
      */
 
-    class OneStringPlugin extends Plugin implements IPlugin {
+    class OneStringPlugin extends Plugin implements IPlugin 
+    {
 
         /**
          * Кэш
@@ -28,6 +28,13 @@ namespace Kladr\Core\Plugins\General {
          */
         public $cache;
 
+        /**
+         * Массив, по которому будет производиться поиск
+         * 
+         * @var array 
+         */
+        public $searchArray = array();
+        
         /**
          * Выполняет обработку запроса
          * 
@@ -63,26 +70,15 @@ namespace Kladr\Core\Plugins\General {
                 //удаляем пустоту
                 $arWords = array_diff($arWords, array(''));
                 
-                //заполняем массив ключевыми словами
-                $arRegEx = array();
-                foreach ($arWords as $word)
-                {
-                    $arRegEx[] = $word;                   
-                }
-                $arRegEx[count($arRegEx)-1] = new \MongoRegex('/^' . end($arWords). '/');
+                $this->Analysis($arWords);
                 
                 //формируем поисковый запрос
-                $arQuery = array(
-                    array(
-                        'Address' => array('$all' => $arRegEx), 
-                        //KladrFields::Bad => false
-                        ),
-                    'limit' => $request->getQuery('limit') ? (int) $request->getQuery('limit') : 5,
-                    'sort' => array(KladrFields::Sort => 1)
-                );
-                //$objects = Streets::find($arQuery);
-                $objects = Complex::find($arQuery);
-                $arReturn[] = $arQuery; //только для контроля
+                $this->searchArray['limit'] = $request->getQuery('limit') ? (int) $request->getQuery('limit') : 5;
+                     
+                $this->searchArray['sort'] = array(KladrFields::Sort => 1);
+                
+                $objects = $this->Search($this->searchArray);
+                $arReturn[] = $this->searchArray; //только для контроля               
 
                 foreach ($objects as $object) {
                     $arReturn[] = array(
@@ -93,6 +89,15 @@ namespace Kladr\Core\Plugins\General {
                         'type' => $object->readAttribute(KladrFields::Type),
                         'typeShort' => $object->readAttribute(KladrFields::TypeShort),
                         'okato' => $object->readAttribute(KladrFields::Okato),
+                        
+                        'contentType' => $object->readAttribute(KladrFields::ContentType),
+                        'buildingId' => $object->readAttribute(KladrFields::BuildingId),
+                        'cityId' => $object->readAttribute(KladrFields::CityId),
+                        'streetId' => $object->readAttribute(KladrFields::StreetId),
+                        'districtId' => $object->readAttribute(KladrFields::DistrictId),
+                        'regionId' => $object->readAttribute(KladrFields::RegionId),
+                        
+                        'fullName' => $object->readAttribute(KladrFields::FullName)                       
                     );
                 }
                 
@@ -105,8 +110,193 @@ namespace Kladr\Core\Plugins\General {
 
             return $result;
         }
+        
+        /*
+         * Производит анализ массива поисковых слов, заполняет массив для поиска в БД
+         */
+        public function Analysis(array $words)
+        {
+            //массивы для сравнения с различными типами объектов. в будущем просмотреть все возможные типы через цикл из БД
+            $regionPrefixArr = array('республика', 'респ', 'р');
+            $cityPrefixArr = array('г', 'город', 'гор');
+            $streetPrefixArr = array('улица', 'ул', 'проспект', 'пр', 'просп');
+            $buildPrefixArr = array('д', 'дом');
+            $districtSuffixArr = array('район', 'р', 'р-н');
+            $regionSuffixArr = array('область', 'обл', 'об', 'край', 'кр');
+            
+            //для избегания конфликтов имён и т.п.
+            $regionWasFound = false;
+            $districtWasFound = false;
+            $cityWasFound = false;
+            $streetWasFound = false;
+            $buildWasFound = false;
+            
+            $prevWord = '';
+                      
+            foreach ($words as &$word)
+            {             
+                if (!$regionWasFound)
+                {
+                    if (in_array($word, $regionPrefixArr))
+                    { 
+                        $this->RegionPrefixFound(current($words)); 
+                        $regionWasFound = true;
+                        continue;
+                    }
+                    elseif (in_array($word, $regionSuffixArr))
+                    {
+                        $this->RegionSuffixFound($prevWord);
+                        $regionWasFound = true;
+                        continue;
+                    }
+                }
+                
+                if (!$districtWasFound)
+                {
+                    if (in_array($word, $districtSuffixArr))
+                    {
+                        $this->DistrictSuffixFound($prevWord);
+                        $districtWasFound = true;
+                        continue;                      
+                    }
+                }
+                
+                if (!$cityWasFound)
+                {
+                    if (in_array($word, $cityPrefixArr))
+                    {
+                        $this->CityPrefixFound(current($words));
+                        $cityWasFound = true;
+                        continue;
+                    }
+                }
+                
+                if (!$streetWasFound)
+                {
+                    if (in_array($word, $streetPrefixArr))
+                    {
+                        $this->StreetPrefixFound(current($words));
+                        $streetWasFound = true;
+                        continue;
+                    }
+                }
+                
+                if (!$buildWasFound)
+                {
+                    if (in_array($word, $buildPrefixArr))
+                    {
+                        $this->BuildPrefixFound(current($words));
+                        $buildWasFound = true;
+                        continue;
+                    }
+                }
+                               
+                $this->AnotherWordFound($word);
+                $prevWord = $word;
+                
+            }
+        }
 
+        /*
+         * Обработчик республики в массиве для поиска
+         */
+        public function RegionPrefixFound($word)
+        {
+            $this->searchArray['conditions'][KladrFields::NormalizedRegionName] = $word;   
+        }
+        
+        /*
+         * Обработчик города в массиве для поиска
+         */
+        public function CityPrefixFound($word)
+        {
+             $this->searchArray['conditions'][KladrFields::NormalizedCityName] = $word;
+        }
+        
+        /*
+         * Обработчик улицы в массиве для поиска
+         */
+        public function StreetPrefixFound($word)
+        {
+              $this->searchArray['conditions'][KladrFields::NormalizedStreetName] = $word;
+        }
+        
+        /*
+         * Обработчик дома в массиве для поиска
+         */
+        public function BuildPrefixFound($word)
+        {
+            $this->searchArray['conditions'][KladrFields::NormalizedBuldingName] = $word;
+        }
+        
+        /*
+         * Обработчик района в массиве для поиска
+         */
+        public function DistrictSuffixFound($word)
+        {
+            $this->searchArray['conditions'][KladrFields::NormalizedDistrictName] = $word;      
+        }
+        
+        /*
+         * Обработчик района в массиве для поиска
+         */
+        public function RegionSuffixFound($word)
+        {         
+            //область и край
+            $this->searchArray['conditions'][KladrFields::NormalizedRegionName] = $word;            
+        }
+
+        /*
+         * Обработчик слова, не попавшего под условия в массиве для поиска
+         */
+        public function AnotherWordFound($word)
+        {
+            $this->searchArray['conditions'][KladrFields::Address]['$all'][] = $word;           
+        }
+               
+        /*
+         * Выполняет поиск по базе данных. Возвращает найденные значения
+         */
+        public function Search(array &$searchArray)
+        {
+            if ($this->searchArray['conditions'] != null)
+            {                              
+                switch (end($searchArray['conditions'][KladrFields::Address]['$all']))
+                {
+                    case $searchArray['conditions'][KladrFields::NormalizedRegionName]:                       
+                        $searchArray['conditions'][KladrFields::NormalizedRegionName] = new \MongoRegex('/^' . $searchArray['conditions'][KladrFields::NormalizedRegionName] . '/');
+                        break;
+
+                    case $searchArray['conditions'][KladrFields::NormalizedDistrictName]:
+                        $searchArray['conditions'][KladrFields::NormalizedDistrictName] = new \MongoRegex('/^' . $searchArray['conditions'][KladrFields::NormalizedDistrictName] . '/');
+                        break;
+
+                    case $searchArray['conditions'][KladrFields::NormalizedCityName]:
+                        $searchArray['conditions'][KladrFields::NormalizedCityName] = new \MongoRegex('/^' . $searchArray['conditions'][KladrFields::NormalizedCityName] . '/');
+                        break;
+
+                    case $searchArray['conditions'][KladrFields::NormalizedStreetName]:
+                        $searchArray['conditions'][KladrFields::NormalizedStreetName] = new \MongoRegex('/^' . $searchArray['conditions'][KladrFields::NormalizedStreetName] . '/');
+                        break;
+                   
+                    case $searchArray['conditions'][KladrFields::NormalizedBuldingName]:
+                        $searchArray['conditions'][KladrFields::NormalizedBuldingName] = new \MongoRegex('/^' . $searchArray['conditions'][KladrFields::NormalizedBuldingName] . '/');
+                        break;
+               }
+               reset($searchArray['conditions'][KladrFields::Address]['$all']);
+               $willReg = array_pop($searchArray['conditions'][KladrFields::Address]['$all']);
+               $searchArray['conditions'][KladrFields::Address]['$all'][] = new \MongoRegex('/^' . $willReg . '/');
+               
+               
+               
+               return Complex::find($searchArray);
+           }
+           else return null;
+        }
+        
     }
-
+        
 }
+
+
 
