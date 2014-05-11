@@ -53,6 +53,8 @@ namespace Kladr\Core\Plugins\General {
                     case KladrFields::CodeRegion:
                         $object = Regions::findFirst(array(array(
                                         KladrFields::CodeRegion => $arCodes[KladrFields::CodeRegion],
+                                        KladrFields::Bad => false
+                                        
                         )));
                         $contentType = Regions::ContentType;
                         break;
@@ -60,6 +62,7 @@ namespace Kladr\Core\Plugins\General {
                         $object = Districts::findFirst(array(array(
                                         KladrFields::CodeRegion => $arCodes[KladrFields::CodeRegion],
                                         KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
+                                        KladrFields::Bad => false
                         )));
                         $contentType = Districts::ContentType;
                         break;
@@ -68,6 +71,7 @@ namespace Kladr\Core\Plugins\General {
                                         KladrFields::CodeRegion => $arCodes[KladrFields::CodeRegion],
                                         KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
                                         KladrFields::CodeLocality => $arCodes[KladrFields::CodeLocality],
+                                        KladrFields::Bad => false
                         )));
                         $contentType = Cities::ContentType;
                         break;
@@ -77,6 +81,7 @@ namespace Kladr\Core\Plugins\General {
                                         KladrFields::CodeDistrict => $arCodes[KladrFields::CodeDistrict],
                                         KladrFields::CodeLocality => $arCodes[KladrFields::CodeLocality],
                                         KladrFields::CodeStreet => $arCodes[KladrFields::CodeStreet],
+                                        KladrFields::Bad => false
                         )));
                         $contentType = Streets::ContentType;
                         break;
