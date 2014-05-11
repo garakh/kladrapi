@@ -291,7 +291,7 @@ class KladrLoader extends Loader{
 			array('Id' => '2100000000000'),
 			array('$set' => 
 				array(
-					'CodeRegion' => 100021,
+					'CodeRegion' => 21,
 				)
 			)
 		);		
@@ -301,7 +301,7 @@ class KladrLoader extends Loader{
 			array('Id' => '2100000000000'),
 			array('$set' => 
 				array(
-					'Name' => 'Чувашская Республика',
+					'Name' => 'Чувашская',
 					'TypeShort' => 'Респ',
 					'Type' => 'Республика'
 				)
