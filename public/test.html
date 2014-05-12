@@ -1,0 +1,37 @@
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script>
+
+var lookup = function(query, cb){
+	$.get('/api.php', 
+		{
+			'oneString' : 'true',
+			'query' : query,
+			'limit' : 5
+		}, 
+		cb, 'json');
+}
+
+var render = function(){
+	$('#result').html('');
+	lookup($('#address').val(), function(data){
+		$('#result').html('');
+		for(var i = 1; i < data.result.length; i++){
+			var address = data.result[i].fullName + '<br />';
+			$('#result').append(address);
+		}
+	});
+}
+
+$(function(){
+	
+
+	
+	$('#address').keyup(render);
+});
+</script>
+<body>
+<input id="address" style="width:200px" />
+<div id="result"></div>
+</body>
+</html>
