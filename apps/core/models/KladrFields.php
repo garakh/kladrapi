@@ -34,7 +34,7 @@ namespace Kladr\Core\Models {
         const RegionId = 'RegionId';
         const FullName = 'FullName';
         const ContentType = 'ContentType';
-        const NormalizedBuldingName = 'NormalizedBuldingName';
+        const NormalizedBuildingName = 'NormalizedBuildingName';
         const NormalizedStreetName = 'NormalizedStreetName';
         const NormalizedCityName = 'NormalizedCityName';
         const NormalizedDistrictName = 'NormalizedDistrictName';
