@@ -16,7 +16,7 @@ var render = function(){
 	$('#result').html('');
 	lookup($('#address').val(), function(data){
 		$('#result').html('');
-		for(var i = 1; i < data.result.length; i++){
+		for(var i = 0; i < data.result.length; i++){
 			var address = data.result[i].fullName + '<br />';
 			$('#result').append(address);
 		}
