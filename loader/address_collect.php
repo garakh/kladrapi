@@ -9,7 +9,7 @@ try {
     $conn = new MongoClient($connectString);
     $db = $conn->kladr;    
     
-    ForOneStringCollect($db);
+    forOneStringCollect($db);
     
     $conn->close();
 } catch (MongoConnectionException $e) {
@@ -21,7 +21,7 @@ try {
 /*
  * Проходит по таблицам созданной БД, создавая ещё одну, предназначенную для работы поиска одной строкой.
  */
-function ForOneStringCollect(MongoDB $db) {
+function forOneStringCollect(MongoDB $db) {
     $streets = $db->streets;
     $cities = $db->cities;
     $districts = $db->district;
@@ -130,7 +130,7 @@ function ForOneStringCollect(MongoDB $db) {
             $building['NormalizedRegionName'] = $region['NormalizedName'];
         }
 
-        ConstructFullName($building, $region, $district, $city, $street);
+        constructFullName($building, $region, $district, $city, $street);
         
         unset($building['_id']);//избегаем ненужных конфликтов
         $db->complex->insert($building);        
@@ -209,7 +209,7 @@ function ForOneStringCollect(MongoDB $db) {
             $street['NormalizedRegionName'] = $region['NormalizedName'];
         }
         
-        ConstructFullName($street, $region, $district, $city, $street);
+        constructFullName($street, $region, $district, $city, $street);
         
         unset($street['_id']);
         $db->complex->insert($street);
@@ -245,6 +245,43 @@ function ForOneStringCollect(MongoDB $db) {
         $city['NormalizedRegionName'] =  null; 
         $city['ContentType'] = 'city';
         
+        //сортировка городов
+        switch($city['TypeShort'])
+        {
+            case 'г':
+                break;
+            case 'городок':
+                $city['Sort'] = 31;
+                break;
+            case 'пгт':
+                $city['Sort'] = 32;
+                break;
+            case 'п':
+                $city['Sort'] = 33;
+                break;
+            case 'дп':
+                $city['Sort'] = 34;
+                break;
+            case 'кп':
+                $city['Sort'] = 35;
+                break;
+            case 'рп':
+                $city['Sort'] = 36;
+                break;
+            case 'с':
+                $city['Sort'] = 37;
+                break;
+            case 'д':
+                $city['Sort'] = 38;
+                break;
+            case 'ст':
+                $city['Sort'] = 39;
+                break;
+            default:
+                $city['Sort'] = 39;
+                break;
+        }
+        
         //айдишники, address
         $district = $districts->findOne(array(
             'CodeDistrict' => $city['CodeDistrict'],
@@ -271,7 +308,7 @@ function ForOneStringCollect(MongoDB $db) {
             $city['NormalizedRegionName'] = $region['NormalizedName'];
         }
         
-        ConstructFullName($city, $region, $district, $city);
+        constructFullName($city, $region, $district, $city);
         
         unset($city['_id']);
         $db->complex->insert($city);
@@ -317,7 +354,7 @@ function ForOneStringCollect(MongoDB $db) {
             $district['NormalizedRegionName'] = $region['NormalizedName'];
         }       
         
-        ConstructFullName($district, $region, $district);
+        constructFullName($district, $region, $district);
         
         unset($district['_id']);
         $db->complex->insert($district);
@@ -347,7 +384,7 @@ function ForOneStringCollect(MongoDB $db) {
         $region['FullName'] = null;
         $region['ContentType'] = 'region';
         
-        ConstructFullName($region, $region);
+        constructFullName($region, $region);
         
         unset($region['_id']);
         $db->complex->insert($region);
@@ -388,7 +425,7 @@ function ForOneStringCollect(MongoDB $db) {
  * Собирает полное имя для элемента БД object, используя элементы street, city, district, region. Записывает полное имя
  * в поле 'FullName', считывает имена элементов из 'TypeShort' и 'Name'.
  */
-function ConstructFullName(&$object, $region, $district = null, $city = null, $street = null)
+function constructFullName(&$object, $region, $district = null, $city = null, $street = null)
 {
     if ($region)
     {
@@ -437,7 +474,7 @@ function ConstructFullName(&$object, $region, $district = null, $city = null, $s
     $object['FullName'] = trim($object['FullName']);
 }
 
-function AddressCollect(MongoDB $db) {
+function addressCollect(MongoDB $db) {
     $streets   = $db->streets;
     $cities    = $db->cities;
     $districts = $db->districts;

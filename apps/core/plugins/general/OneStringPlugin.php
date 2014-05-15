@@ -65,13 +65,13 @@ namespace Kladr\Core\Plugins\General {
                 //формируем поисковый запрос
                 $searchArray = array();
                 
-                $this->Analysis($arWords, $searchArray);              
+                $this->analysis($arWords, $searchArray);              
                 
                 //если лимит больше 400 или не проставлен - ставим 400. 
                 $searchArray['limit'] = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 400 ? 400 : (int) $request->getQuery('limit')) : 400;                    
                 $searchArray['sort'] = array(KladrFields::Sort => 1);
                 
-                $objects = $this->Search($searchArray);
+                $objects = $this->search($searchArray);
                 
                 //$arReturn[] = $searchArray; //только для контроля               
 
@@ -118,7 +118,16 @@ namespace Kladr\Core\Plugins\General {
                             foreach ($object->readAttribute(KladrFields::NormalizedBuildingName) as $name)
                             {
                                 //находим все совпадения с номерами домов в массиве поиска по регулярке
-                                $reg = (string)$searchArray['conditions'][KladrFields::NormalizedBuildingName];
+                                $reg = '';
+                                if ($searchArray['conditions'][KladrFields::NormalizedBuildingName])
+                                {
+                                    $reg = (string)$searchArray['conditions'][KladrFields::NormalizedBuildingName];
+                                }
+                                else
+                                {    
+                                    $reg = (string)end($searchArray['conditions'][KladrFields::Address]['$all']);
+                                }
+                                
                                 $match = preg_match($reg, $name) ? $name : null;
            
                                 if ($match) 
@@ -149,6 +158,11 @@ namespace Kladr\Core\Plugins\General {
                     }
                 }
                 
+                if (count($arReturn) > $searchArray['limit'])//правим лимит домов
+                {
+                    $arReturn = array_slice($arReturn, 0, $searchArray['limit']);
+                }
+                
                 $this->cache->set('OneStringPlugin', $request, $arReturn);
             } 
 
@@ -162,7 +176,7 @@ namespace Kladr\Core\Plugins\General {
         /*
          * Производит анализ массива поисковых слов, заполняет массив для поиска в БД
          */
-        public function Analysis(array $words, array &$searchArray)
+        public function analysis(array $words, array &$searchArray)
         {
             //массивы для сравнения с различными типами объектов. в будущем просмотреть все возможные типы через цикл из БД
             $regionPrefixArr = array('республика', 'респ', 'р');
@@ -195,14 +209,14 @@ namespace Kladr\Core\Plugins\General {
                 {
                     if (in_array($word, $regionPrefixArr))
                     { 
-                        $this->RegionPrefixFound(current($words), $searchArray); 
+                        $this->regionPrefixFound(current($words), $searchArray); 
                         $regionWasFound = true;
                         $continue = true;
                         continue;
                     }
                     elseif (in_array($word, $regionSuffixArr))
                     {
-                        $this->RegionSuffixFound($prevWord, $searchArray);
+                        $this->regionSuffixFound($prevWord, $searchArray);
                         $regionWasFound = true;
                         continue;
                     }
@@ -212,7 +226,7 @@ namespace Kladr\Core\Plugins\General {
                 {
                     if (in_array($word, $districtSuffixArr))
                     {
-                        $this->DistrictSuffixFound($prevWord, $searchArray);
+                        $this->districtSuffixFound($prevWord, $searchArray);
                         $districtWasFound = true;
                         continue;                      
                     }
@@ -222,7 +236,7 @@ namespace Kladr\Core\Plugins\General {
                 {
                     if (in_array($word, $cityPrefixArr))
                     {
-                        $this->CityPrefixFound(current($words), $searchArray);
+                        $this->cityPrefixFound(current($words), $searchArray);
                         $continue = true;
                         $cityWasFound = true;
                         continue;
@@ -233,7 +247,7 @@ namespace Kladr\Core\Plugins\General {
                 {
                     if (in_array($word, $streetPrefixArr))
                     {
-                        $this->StreetPrefixFound(current($words), $searchArray);
+                        $this->streetPrefixFound(current($words), $searchArray);
                         $continue = true;
                         $streetWasFound = true;
                         continue;
@@ -244,14 +258,14 @@ namespace Kladr\Core\Plugins\General {
                 {
                     if (in_array($word, $buildPrefixArr))
                     {
-                        $this->BuildPrefixFound(current($words), $searchArray);
+                        $this->buildPrefixFound(current($words), $searchArray);
                         $continue = true;
                         $buildWasFound = true;
                         continue;
                     }
                 }
                                
-                $this->AnotherWordFound($word, $searchArray);
+                $this->anotherWordFound($word, $searchArray);
                 $prevWord = $word;
                 
             }
@@ -260,7 +274,7 @@ namespace Kladr\Core\Plugins\General {
         /*
          * Обработчик республики в массиве для поиска
          */
-        public function RegionPrefixFound($word, array &$searchArray)
+        public function regionPrefixFound($word, array &$searchArray)
         {
             $searchArray['conditions'][KladrFields::NormalizedRegionName] = $word;
             $searchArray['conditions'][KladrFields::Address]['$all'][] = $word;   
@@ -269,7 +283,7 @@ namespace Kladr\Core\Plugins\General {
         /*
          * Обработчик города в массиве для поиска
          */
-        public function CityPrefixFound($word, array &$searchArray)
+        public function cityPrefixFound($word, array &$searchArray)
         {
              $searchArray['conditions'][KladrFields::NormalizedCityName] = $word;
              $searchArray['conditions'][KladrFields::Address]['$all'][] = $word;   
@@ -278,7 +292,7 @@ namespace Kladr\Core\Plugins\General {
         /*
          * Обработчик улицы в массиве для поиска
          */
-        public function StreetPrefixFound($word, array &$searchArray)
+        public function streetPrefixFound($word, array &$searchArray)
         {
               $searchArray['conditions'][KladrFields::NormalizedStreetName] = $word;
               $searchArray['conditions'][KladrFields::Address]['$all'][] = $word;   
@@ -287,7 +301,7 @@ namespace Kladr\Core\Plugins\General {
         /*
          * Обработчик дома в массиве для поиска
          */
-        public function BuildPrefixFound($word, array &$searchArray)
+        public function buildPrefixFound($word, array &$searchArray)
         {
             $searchArray['conditions'][KladrFields::NormalizedBuildingName] = $word;    
             $searchArray['conditions'][KladrFields::Address]['$all'][] = $word;
@@ -296,7 +310,7 @@ namespace Kladr\Core\Plugins\General {
         /*
          * Обработчик района в массиве для поиска
          */
-        public function DistrictSuffixFound($word, array &$searchArray)
+        public function districtSuffixFound($word, array &$searchArray)
         {
             $searchArray['conditions'][KladrFields::NormalizedDistrictName] = $word;      
         }
@@ -304,7 +318,7 @@ namespace Kladr\Core\Plugins\General {
         /*
          * Обработчик района в массиве для поиска
          */
-        public function RegionSuffixFound($word, array &$searchArray)
+        public function regionSuffixFound($word, array &$searchArray)
         {         
             //область и край
             $searchArray['conditions'][KladrFields::NormalizedRegionName] = $word;            
@@ -313,7 +327,7 @@ namespace Kladr\Core\Plugins\General {
         /*
          * Обработчик слова, не попавшего под условия в массиве для поиска
          */
-        public function AnotherWordFound($word, array &$searchArray)
+        public function anotherWordFound($word, array &$searchArray)
         {
             $searchArray['conditions'][KladrFields::Address]['$all'][] = $word;           
         }
@@ -321,7 +335,7 @@ namespace Kladr\Core\Plugins\General {
         /*
          * Выполняет поиск по базе данных. Возвращает найденные значения
          */
-        public function Search(array &$searchArray)
+        public function search(array &$searchArray)
         {
             if ($searchArray['conditions'] != null)
             {                              
