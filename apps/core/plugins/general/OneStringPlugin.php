@@ -129,6 +129,9 @@ namespace Kladr\Core\Plugins\General {
                                 }
                                 
                                 $match = preg_match($reg, $name) ? $name : null;
+                                
+                                //убираем длинные строки из домов
+                                $match = preg_match('/\,/', $match) ? null : $match;
            
                                 if ($match) 
                                 {
