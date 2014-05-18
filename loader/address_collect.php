@@ -226,14 +226,15 @@ function forOneStringCollect(MongoDB $db) {
         'Okato' => 1,
         'CodeRegion' => 1,
         'CodeDistrict' => 1,
-        'CodeCity' => 1
+        'CodeCity' => 1,
+        'Sort' => 1
     ));
     
     foreach ($allCities as $arCity)
     {
         //город
         $city = $arCity;
-        $city['Sort'] = 30;
+        //$city['Sort'] = 30;
         $city['CityId'] = $arCity['Id'];
         $city['Address'] = array();
         $city['Address'] = array_merge($city['Address'], $arCity['NormalizedName']);
@@ -246,42 +247,13 @@ function forOneStringCollect(MongoDB $db) {
         $city['ContentType'] = 'city';
         
         //сортировка городов
-        switch($city['TypeShort'])
+        $sort = $city['Sort'];
+        $sort /= 1000;
+        if ($sort > 9)
         {
-            case 'г':
-                break;
-            case 'городок':
-                $city['Sort'] = 31;
-                break;
-            case 'пгт':
-                $city['Sort'] = 32;
-                break;
-            case 'п':
-                $city['Sort'] = 33;
-                break;
-            case 'дп':
-                $city['Sort'] = 34;
-                break;
-            case 'кп':
-                $city['Sort'] = 35;
-                break;
-            case 'рп':
-                $city['Sort'] = 36;
-                break;
-            case 'с':
-                $city['Sort'] = 37;
-                break;
-            case 'д':
-                $city['Sort'] = 38;
-                break;
-            case 'ст':
-                $city['Sort'] = 39;
-                break;
-            default:
-                $city['Sort'] = 39;
-                break;
+            $sort = 9;
         }
-        
+        $city['Sort'] = 30 + $sort;
         //айдишники, address
         $district = $districts->findOne(array(
             'CodeDistrict' => $city['CodeDistrict'],
