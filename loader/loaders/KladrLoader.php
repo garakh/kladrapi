@@ -175,8 +175,6 @@ class KladrLoader extends Loader{
                     break;
                 default: 
                     switch($arData[Loader::IdField]){
-                        case '3403100100051': // Урюпинск (копия)
-                            break;
                         default:
                             //$arData = array_slice($arData, 0, 10);
                             $arData[Loader::SortField] = $sort;
