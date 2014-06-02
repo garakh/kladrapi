@@ -7,7 +7,8 @@ MongoCursor::$timeout = -1;
 
 try {
     $conn = new MongoClient($connectString);
-    $db = $conn->kladr;    
+    //$db = $conn->kladr;    
+    $db = $conn->kladr;
     
     forOneStringCollect($db);
     
@@ -31,11 +32,10 @@ function forOneStringCollect(MongoDB $db) {
     /*
      * Массив всех элементов будущей таблицы
      */
-    //$allElements = array();
     
     //удаляем-создаём таблицу
     $db->complex->drop();
-    $db->createCollection('complex');
+    $db->createCollection('complex');  
     
     // Здания
     $allBuildings = $buildings->find(array(), array(
@@ -52,9 +52,15 @@ function forOneStringCollect(MongoDB $db) {
         'CodeStreet' => 1,
         'CodeBuilding' => 1
     ));
+    
+    echo 'buildings';
+    $i = 0;
 
     foreach ($allBuildings as $arBuilding)
     {
+        if($i++ % 10000 == 0)
+            echo $i.'; ';
+        
         //здания с одним id
         $building = $arBuilding;
         $building['NormalizedName'] = $arBuilding['NormalizedName'];      
@@ -82,7 +88,7 @@ function forOneStringCollect(MongoDB $db) {
             'CodeDistrict' => $building['CodeDistrict'], 
             'CodeRegion' => $building['CodeRegion'],
             'Bad' => false),
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
         
         if ($street)
         {
@@ -96,7 +102,7 @@ function forOneStringCollect(MongoDB $db) {
             'CodeDistrict' => $building['CodeDistrict'], 
             'CodeRegion' => $building['CodeRegion'],
             'Bad' => false),
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
         
         if ($city)
         {
@@ -109,7 +115,7 @@ function forOneStringCollect(MongoDB $db) {
             'CodeDistrict' => $building['CodeDistrict'],
             'CodeRegion' => $building['CodeRegion'],
             'Bad' => false),
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
         
         if ($district)
         {
@@ -121,7 +127,7 @@ function forOneStringCollect(MongoDB $db) {
         $region = $regions->findOne(array(
             'CodeRegion' => $building['CodeRegion'],
             'Bad' => false), 
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));    
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));    
         
         if ($region)
         {
@@ -130,6 +136,10 @@ function forOneStringCollect(MongoDB $db) {
             $building['NormalizedRegionName'] = $region['NormalizedName'];
         }
 
+        //собираем все тайпы
+        typesCollect($building, $region, $district, $city, $street, $building);
+        
+        //и имя
         constructFullName($building, $region, $district, $city, $street);
         
         unset($building['_id']);//избегаем ненужных конфликтов
@@ -151,15 +161,21 @@ function forOneStringCollect(MongoDB $db) {
         'CodeStreet' => 1
     ));
     
+    echo 'streets';
+    $i = 0;
+    
     foreach ($allStreets as $arStreet)
     {
+        if($i++ % 10000 == 0)
+            echo $i.'; ';
+        
         //сама улица
         $street = $arStreet;
         $street['Sort'] = 40;
         $street['StreetId'] = $arStreet['Id'];
         $street['Address'] = array();
         $street['Address'] = array_merge($street['Address'], $arStreet['NormalizedName']);
-        $street['FullName'] .= null;
+        $street['FullName'] = null;
         $street['CityId'] = null;
         $street['DistrictId'] = null;
         $street['RegionId'] = null;
@@ -175,7 +191,7 @@ function forOneStringCollect(MongoDB $db) {
             'CodeDistrict' => $street['CodeDistrict'],
             'CodeRegion' => $street['CodeRegion'],
             'Bad' => false),
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
         
         if ($city)
         {
@@ -188,7 +204,7 @@ function forOneStringCollect(MongoDB $db) {
             'CodeDistrict' => $street['CodeDistrict'], 
             'CodeRegion' => $street['CodeRegion'],
             'Bad' => false),
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
         
         if ($district)
         {
@@ -200,7 +216,7 @@ function forOneStringCollect(MongoDB $db) {
         $region = $regions->findOne(array(
             'CodeRegion' => $street['CodeRegion'],
             'Bad' => false),
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
         
         if ($region)
         {
@@ -208,6 +224,8 @@ function forOneStringCollect(MongoDB $db) {
             $street['Address'] = array_merge($street['Address'], $region['NormalizedName']);  
             $street['NormalizedRegionName'] = $region['NormalizedName'];
         }
+        
+        typesCollect($street, $region, $district, $city, $street);
         
         constructFullName($street, $region, $district, $city, $street);
         
@@ -230,15 +248,21 @@ function forOneStringCollect(MongoDB $db) {
         'Sort' => 1
     ));
     
+    echo 'cities';
+    $i = 0;
+    
     foreach ($allCities as $arCity)
     {
+        if($i++ % 10000 == 0)
+            echo $i.'; ';
+        
         //город
         $city = $arCity;
         //$city['Sort'] = 30;
         $city['CityId'] = $arCity['Id'];
         $city['Address'] = array();
         $city['Address'] = array_merge($city['Address'], $arCity['NormalizedName']);
-        $city['FullName'] .= null;
+        $city['FullName'] = null;
         $city['DistrictId'] = null;
         $city['RegionId'] = null; 
         $city['NormalizedCityName'] = $arCity['NormalizedName'];
@@ -259,7 +283,7 @@ function forOneStringCollect(MongoDB $db) {
             'CodeDistrict' => $city['CodeDistrict'],
             'CodeRegion' => $city['CodeRegion'],
             'Bad' => false),
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
         
         if ($district)
         {
@@ -271,7 +295,7 @@ function forOneStringCollect(MongoDB $db) {
         $region = $regions->findOne(array(
             'CodeRegion' => $city['CodeRegion'],
             'Bad' => false), 
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
         
         if ($region)
         {
@@ -279,6 +303,8 @@ function forOneStringCollect(MongoDB $db) {
             $city['Address'] = array_merge($city['Address'], $region['NormalizedName']); 
             $city['NormalizedRegionName'] = $region['NormalizedName'];
         }
+        
+        typesCollect($city, $region, $district, $city);
         
         constructFullName($city, $region, $district, $city);
         
@@ -299,8 +325,14 @@ function forOneStringCollect(MongoDB $db) {
         'CodeDistrict' => 1      
     ));
     
+    echo 'districts';
+    $i = 0;
+    
     foreach ($allDistricts as $arDistrict)
     {
+        if($i++ % 10000 == 0)
+            echo $i.'; ';
+        
         //район
         $district = $arDistrict;
         $district['Sort'] = 20;
@@ -317,14 +349,16 @@ function forOneStringCollect(MongoDB $db) {
         $region = $regions->findOne(array(
             'CodeRegion' => $district['CodeRegion'],
             'Bad' => false), 
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1));
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
         
         if ($region)
         {
             $district['RegionId'] = $region['Id'];
             $district['Address'] = array_merge($district['Address'], $region['NormalizedName']);
             $district['NormalizedRegionName'] = $region['NormalizedName'];
-        }       
+        } 
+        
+        typesCollect($district, $region, $district);
         
         constructFullName($district, $region, $district);
         
@@ -344,8 +378,14 @@ function forOneStringCollect(MongoDB $db) {
         'CodeRegion' => 1  
     ));
     
+    echo 'regions';
+    $i = 0;
+    
     foreach ($allRegions as $arRegion)
     {
+        if($i++ % 10000 == 0)
+            echo $i.'; ';
+        
         //область
         $region = $arRegion;
         $region['Sort'] = 10;
@@ -356,48 +396,133 @@ function forOneStringCollect(MongoDB $db) {
         $region['FullName'] = null;
         $region['ContentType'] = 'region';
         
+        typesCollect($region, $region);
+        
         constructFullName($region, $region);
         
         unset($region['_id']);
         $db->complex->insert($region);
     }
     
-    echo 'таблица сформирована. идёт постройка индексов';
+    echo 'table has done. Indexes...';
     
     $complex = $db->complex;
     
+    echo 'address;';
     $complex->ensureIndex(
         array('Address' => 1),
         array('background' => true)
     );
+    
+    echo 'rn;';
     $complex->ensureIndex(
         array('NormalizedRegionName' => 1),
         array('background' => true)
     );
+    
+    echo 'dn;';
     $complex->ensureIndex(
         array('NormalizedDistrictName' => 1),
         array('background' => true)
     );
+    
+    echo 'cn;';
     $complex->ensureIndex(
         array('NormalizedCityName' => 1),
         array('background' => true)
     );
+    
+    echo 'sn;';
     $complex->ensureIndex(
         array('NormalizedStreetName' => 1),
         array('background' => true)
     );
+    
+    echo 'bn;';
     $complex->ensureIndex(
         array('NormalizedBuildingName' => 1),
         array('background' => true)
     );
     
-    echo 'построение индексов завершено. приятной работы!';
+    echo 'sort;';
+    $complex->ensureIndex(
+        array('Sort' => 1),
+        array('background' => true)   
+    );
+    
+    echo 'Id;';
+    $complex->ensureIndex(
+        array('Id' => 1),
+        array('background' => true)
+    );
+    
+    echo 'FullName';
+    $complex->ensureIndex(
+            array('FullName' => 1),
+            array('background' => true)
+        );
+    
+    echo 'indexes has done';
 }
 /*
  * Собирает полное имя для элемента БД object, используя элементы street, city, district, region. Записывает полное имя
- * в поле 'FullName', считывает имена элементов из 'TypeShort' и 'Name'.
+ * в поле 'FullName', считывает имена элементов из 'Type' и 'Name'.
  */
 function constructFullName(&$object, $region, $district = null, $city = null, $street = null)
+{
+    if ($region)
+    {
+        if ($region['TypeShort'] == 'Респ' || $region['TypeShort'] == 'респ')
+        {
+            $object['FullName'] .= $region['Type'] . ' ';
+            $object['FullName'] .= $region['Name'] . ' ';
+        }
+        else 
+        {
+            $object['FullName'] .= $region['Name'] . ' ';
+            $object['FullName'] .= $region['Type'] . ' ';
+        }
+    }
+    
+    if ($district)
+    { 
+        if ($object['FullName'])
+        {
+            $object['FullName'] = preg_replace('/\ $/', ', ', $object['FullName']);            
+        }
+        $object['FullName'] .= $district['Name'] . ' ';
+        $object['FullName'] .= $district['Type'] . ' ';     
+    }
+   
+    if ($city)
+    {
+        if ($object['FullName'])
+        {
+            $object['FullName'] = preg_replace('/\ $/', ', ', $object['FullName']);            
+        }
+        $object['FullName'] .= $city['Type'] . ' ';
+        $object['FullName'] .= $city['Name'] . ' ';
+    }
+    
+    if ($street)
+    {
+        if ($object['FullName'])
+        {
+            $object['FullName'] = preg_replace('/\ $/', ', ', $object['FullName']);            
+        }
+        $object['FullName'] .= $street['Type'] . ' ';
+        $object['FullName'] .= $street['Name'];
+    }
+    
+    $object['FullName'] = trim($object['FullName']);
+}
+
+/*
+ * Собирает полное имя с сокращёнными типа населённых пунктов
+ *  для элемента БД object, используя элементы street, city, district, region. 
+ * Записывает полное имя в поле 'FullName', считывает имена элементов из 'TypeShort' и 'Name'.
+ */
+function constructFullNameWithShorts(&$object, $region, $district = null, $city = null, $street = null)
 {
     if ($region)
     {
@@ -445,6 +570,174 @@ function constructFullName(&$object, $region, $district = null, $city = null, $s
     
     $object['FullName'] = trim($object['FullName']);
 }
+
+/*
+ * Добавляет в массив Address объекта типы и сокращённые типы этого объекта и его родителей
+ */
+function typesCollect(&$object, $region, $district = null, $city = null, $street = null, $building = null)
+{
+    $types = array();
+    
+    if ($region)
+    {
+        $types[] = $region['Type'];
+        
+        $newShort = true;
+        foreach ($types as $type) 
+        {
+            if (preg_match('/^' . $region['TypeShort'] . '/', $type))
+            {
+                $newShort = false;
+                break;
+            }
+        }
+        
+        if ($newShort)
+        {
+           $types[] = $region['TypeShort'];   
+        }
+    }
+    
+    if($district)
+    {
+        $newType = true;
+        $newShort = true;
+        foreach ($types as $type) 
+        {
+            if (preg_match('/^' . $district['TypeShort'] . '/', $type))
+            {
+                $newShort = false;
+                break;
+            }
+            if (preg_match('/^' . $district['Type'] . '/', $type))
+            {
+                $newType = false;
+                break;
+            }
+        }
+        
+        if (preg_match('/^' . $district['TypeShort'] . '/', $district['Type']))
+        {
+            $newShort = false;
+        }
+        
+        if ($newShort)
+        {
+            $types[] = $district['TypeShort'];
+        }
+        
+        if($newType)
+        {
+            $types[] = $district['Type'];
+        }
+    }
+    
+    if($city)
+    {
+        $newType = true;
+        $newShort = true;
+        foreach ($types as $type) 
+        {
+            if (preg_match('/^' . $city['TypeShort'] . '/', $type))
+            {
+                $newShort = false;
+                break;
+            }
+            if (preg_match('/^' . $city['Type'] . '/', $type))
+            {
+                $newType = false;
+                break;
+            }
+        }
+        
+        if ($newShort)
+        {
+            $types[] = $city['TypeShort'];
+        }
+        
+        if($newType)
+        {
+            $types[] = $city['Type'];
+        }
+        
+        if (preg_match('/^' . $city['TypeShort'] . '/', $city['Type']))
+        {
+            $newShort = false;
+        }
+    }
+    
+    if($street)
+    {
+        $newType = true;
+        $newShort = true;
+        foreach ($types as $type) 
+        {
+            if (preg_match('/^' . $street['TypeShort'] . '/', $type))
+            {
+                $newShort = false;
+                break;
+            }
+            if (preg_match('/^' . $street['Type'] . '/', $type))
+            {
+                $newType = false;
+                break;
+            }
+        }
+        
+        if (preg_match('/^' . $street['TypeShort'] . '/', $street['Type']))
+        {
+            $newShort = false;
+        }
+        
+        if ($newShort)
+        {
+            $types[] = $street['TypeShort'];
+        }
+        
+        if($newType)
+        {
+            $types[] = $street['Type'];
+        }
+    }
+    
+    if($building)
+    {
+        $newType = true;
+        $newShort = true;
+        foreach ($types as $type) 
+        {
+            if (preg_match('/^' . $building['TypeShort'] . '/', $type))
+            {
+                $newShort = false;
+                break;
+            }
+            if (preg_match('/^' . $building['Type'] . '/', $type))
+            {
+                $newType = false;
+                break;
+            }
+        }
+        
+        if (preg_match('/^' . $building['TypeShort'] . '/', $building['Type']))
+        {
+            $newShort = false;
+        }
+        
+        if ($newShort)
+        {
+            $types[] = $building['TypeShort'];
+        }
+        
+        if($newType)
+        {
+            $types[] = $building['Type'];
+        }
+    }
+    
+    //мерджим все найденные адреса
+    $object['Address'] = array_merge($object['Address'], $types);
+}
+
 
 function addressCollect(MongoDB $db) {
     $streets   = $db->streets;
@@ -516,4 +809,4 @@ function addressCollect(MongoDB $db) {
     );
 }
 
-print 'Скрипт успешно выполнил свою работу';
+print 'Script is successful';
