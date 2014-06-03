@@ -74,7 +74,7 @@ namespace Kladr\Core\Plugins\General {
                 
                 if ($sphinxRes === false)
                 {
-                   // $result = $prevResult;
+                    $result = $prevResult;
                     $result->terminate = true;
                     $result->error = true;
                     $result->errorMessage = $sphinxClient->GetLastError();
@@ -95,6 +95,7 @@ namespace Kladr\Core\Plugins\General {
                     {
                         if ( $sphinxClient->GetLastWarning() ) 
                         {
+                            $result = $prevResult;
                             $result->terminate = true;
                             $result->error = true;
                             $result->errorMessage = $sphinxClient->GetLastWarning();

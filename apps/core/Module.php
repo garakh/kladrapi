@@ -134,7 +134,7 @@ namespace Kladr\Core {
             
             //setting sphinxapi
             $di->set('sphinxapi', function() use ($config) {
-                    include dirname(__FILE__) . '\Plugins\Tools\sphinxapi.php';
+                    include (dirname(__FILE__) . '/plugins/tools/sphinxapi.php');
                     $sphinxapi = new \SphinxClient();
                     $sphinxapi->SetServer($config->sphinxapi->server, $config->sphinxapi->port);
                     return $sphinxapi;               
@@ -157,7 +157,7 @@ namespace Kladr\Core {
                     array(
                         'name' => 'sphinxClient',
                         'value' => array('type' => 'service', 'name' => 'sphinxapi')
-                    )
+                    )   
                 )               
             ));
 

@@ -70,6 +70,10 @@ function xmlGenerate(MongoDb $db)
     $count = 0;
     foreach ($elements as $element)
     {
+        if ($element['Id'] === null)
+        {
+            continue;
+        }
         $xmlWriter->startElement('sphinx:document');
         $xmlWriter->writeAttribute('id', $element['Id']);
         
