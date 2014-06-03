@@ -86,9 +86,12 @@ namespace Kladr\Core\Plugins\General {
                     {
                         foreach ( $sphinxRes['matches'] as $id => $arr)
                         {
-                            $objects[] = Complex::findFirst(array(
-                                array('Id' => $id)
-                            ));
+                            if(preg_match("/^\d+$/", $id))
+                            {
+                                $objects[] = Complex::findFirst(array(
+                                    array('Id' => $id)
+                                ));
+                            }
                         }
                     }   
                     else
@@ -120,7 +123,7 @@ namespace Kladr\Core\Plugins\General {
                 
                 //$arReturn[] = $searchArray; //только для контроля               
 
-                foreach ($objects as $object) {
+                foreach ($objects as $object) {                    
                     $retObj = array(
                         'id' => $object->readAttribute(KladrFields::Id),
                         'name' => $object->readAttribute(KladrFields::Name),
@@ -132,9 +135,9 @@ namespace Kladr\Core\Plugins\General {
                         'fullName' => $object->readAttribute(KladrFields::FullName),  
 
                         'regionId' => $object->readAttribute(KladrFields::RegionId)                                                
-                    );   
-                    
-                    $multBuilds = array(); //массив для разрешения множественных совпадений зданий в одной записи
+                    );  
+                                      
+                    //$multBuilds = array(); //массив для разрешения множественных совпадений зданий в одной записи
 
                     switch ($retObj['contentType'])
                     {
