@@ -95,11 +95,11 @@ namespace Kladr\Core\Plugins\General {
                     {
                         if (count($sphinxRes['matches']) > $limit)
                         {
-                            $sphinxRes['matches'] = array_slice($sphinxRes['matches'], 0, $limit);
+                            $sphinxRes['matches'] = array_slice($sphinxRes['matches'], 0, $limit, true);
                         }
+                        $arReturn[] = $sphinxRes['matches'];
                         foreach ( $sphinxRes['matches'] as $id => $arr)
                         {   
-                            
                             $objects[] = Complex::findFirst(array(
                                 array('Id' => (string)$id),
                             ));
