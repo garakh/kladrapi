@@ -62,14 +62,14 @@ namespace Kladr\Core\Plugins\General {
                 
                 for ($i=0; $i<count($arWords); $i++)
                 {
-                    if ($i === count($arWords)-1 || strlen(utf8_decode($arWords[$i])) <= 2)
+                    if ($i === count($arWords)-1 || mb_strlen($arWords[$i], mb_detect_encoding($arWords[$i])) <= 2)
                     {
                         $arWords[$i] = $arWords[$i] . '*';
                     }            
                 }
                 
-                $searchString = implode(" ", $arWords);
                 
+                $searchString = implode(" ", $arWords);
                 $sphinxClient = $this->sphinxClient;               
                 
                 $searchArray['limit'] = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 10 ? 10 : (int) $request->getQuery('limit')) : 10;               
@@ -81,7 +81,6 @@ namespace Kladr\Core\Plugins\General {
                 $sphinxClient->SetSortMode(SPH_SORT_ATTR_ASC, 'sort');
                 
                 $sphinxRes = $sphinxClient->Query($searchString);
-                
                 if ($sphinxRes === false)
                 {
                     $result = $prevResult;
@@ -94,9 +93,13 @@ namespace Kladr\Core\Plugins\General {
                 {
                     if (!empty($sphinxRes['matches']))
                     {
-                        $sphinxRes['matches'] = array_slice($sphinxRes['matches'], 0, $limit);
+                        if (count($sphinxRes['matches']) > $limit)
+                        {
+                            $sphinxRes['matches'] = array_slice($sphinxRes['matches'], 0, $limit);
+                        }
                         foreach ( $sphinxRes['matches'] as $id => $arr)
-                        {                              
+                        {   
+                            
                             $objects[] = Complex::findFirst(array(
                                 array('Id' => (string)$id),
                             ));
@@ -131,20 +134,22 @@ namespace Kladr\Core\Plugins\General {
                 
                 //$arReturn[] = $searchArray; //только для контроля               
 
-                foreach ($objects as $object) {                    
-                    $retObj = array(
-                        'id' => $object->readAttribute(KladrFields::Id),
-                        'name' => $object->readAttribute(KladrFields::Name),
-                        'zip' => $object->readAttribute(KladrFields::ZipCode),
-                        'type' => $object->readAttribute(KladrFields::Type),
-                        'typeShort' => $object->readAttribute(KladrFields::TypeShort),
-                        'okato' => $object->readAttribute(KladrFields::Okato),                       
-                        'contentType' => $object->readAttribute(KladrFields::ContentType),
-                        'fullName' => $object->readAttribute(KladrFields::FullName),  
+                foreach ($objects as $object) {
+                    if ($object)
+                    {    
+                        $retObj = array(
+                            'id' => $object->readAttribute(KladrFields::Id),
+                            'name' => $object->readAttribute(KladrFields::Name),
+                            'zip' => $object->readAttribute(KladrFields::ZipCode),
+                            'type' => $object->readAttribute(KladrFields::Type),
+                            'typeShort' => $object->readAttribute(KladrFields::TypeShort),
+                            'okato' => $object->readAttribute(KladrFields::Okato),                       
+                            'contentType' => $object->readAttribute(KladrFields::ContentType),
+                            'fullName' => $object->readAttribute(KladrFields::FullName),  
 
-                        'regionId' => $object->readAttribute(KladrFields::RegionId)                                                
-                    );  
-                                      
+                            'regionId' => $object->readAttribute(KladrFields::RegionId)                                                
+                        );  
+                    }                  
                     //$multBuilds = array(); //массив для разрешения множественных совпадений зданий в одной записи
 
                     switch ($retObj['contentType'])
