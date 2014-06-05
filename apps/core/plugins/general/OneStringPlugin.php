@@ -97,7 +97,6 @@ namespace Kladr\Core\Plugins\General {
                         {
                             $sphinxRes['matches'] = array_slice($sphinxRes['matches'], 0, $limit, true);
                         }
-                        $arReturn[] = $sphinxRes['matches'];
                         foreach ( $sphinxRes['matches'] as $id => $arr)
                         {   
                             $objects[] = Complex::findFirst(array(
