@@ -13,7 +13,7 @@ try {
     $db = $conn->kladr;    
     //$db = $conn->test;
     
-    //тут пошли методы
+
     xmlGenerate($db);
     
     unset($db);

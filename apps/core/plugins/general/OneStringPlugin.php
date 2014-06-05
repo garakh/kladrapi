@@ -60,17 +60,27 @@ namespace Kladr\Core\Plugins\General {
                     $arWords[$key] = Tools::Normalize($word);
                 }
                 
+                for ($i=0; $i<count($arWords); $i++)
+                {
+                    if ($i === count($arWords)-1 || strlen(utf8_decode($arWords[$i])) <= 2)
+                    {
+                        $arWords[$i] = $arWords[$i] . '*';
+                    }            
+                }
+                
                 $searchString = implode(" ", $arWords);
                 
                 $sphinxClient = $this->sphinxClient;               
                 
-                $limit = $searchArray['limit'] = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 10 ? 10 : (int) $request->getQuery('limit')) : 10;               
-                $sphinxClient->SetLimits(0, $limit);
+                $searchArray['limit'] = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 10 ? 10 : (int) $request->getQuery('limit')) : 10;               
+                $limit = $searchArray['limit'];
+                //$sphinxClient->SetLimits(0, $limit);
                 
                 $sphinxClient->SetMatchMode(SPH_MATCH_EXTENDED2);
                 
+                $sphinxClient->SetSortMode(SPH_SORT_ATTR_ASC, 'sort');
+                
                 $sphinxRes = $sphinxClient->Query($searchString);
-                //$result = $res;
                 
                 if ($sphinxRes === false)
                 {
@@ -84,14 +94,12 @@ namespace Kladr\Core\Plugins\General {
                 {
                     if (!empty($sphinxRes['matches']))
                     {
+                        $sphinxRes['matches'] = array_slice($sphinxRes['matches'], 0, $limit);
                         foreach ( $sphinxRes['matches'] as $id => $arr)
-                        {
-                            if(preg_match("/^\d+$/", $id))
-                            {
-                                $objects[] = Complex::findFirst(array(
-                                    array('Id' => $id)
-                                ));
-                            }
+                        {                              
+                            $objects[] = Complex::findFirst(array(
+                                array('Id' => (string)$id),
+                            ));
                         }
                     }   
                     else

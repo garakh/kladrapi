@@ -66,8 +66,8 @@ function forOneStringCollect(MongoDB $db) {
         $building['NormalizedName'] = $arBuilding['NormalizedName'];      
         $building['Sort'] = 50;
         $building['BuildingId'] = $arBuilding['Id'];
-        $building['Address'] = array();
-        $building['Address'] = array_merge($building['Address'], $arBuilding['NormalizedName']);
+//        $building['Address'] = array();
+//        $building['Address'] = array_merge($building['Address'], $arBuilding['NormalizedName']);
         //$building['FullName'] .= $arBuilding['NormalizedName']; //без имени дома
         $building['FullName'] = null;
         $building['StreetId'] = null;
@@ -93,7 +93,7 @@ function forOneStringCollect(MongoDB $db) {
         if ($street)
         {
             $building['StreetId'] = $street['Id'];
-            $building['Address'] = array_merge($building['Address'], $street['NormalizedName']);
+//            $building['Address'] = array_merge($building['Address'], $street['NormalizedName']);
             $building['NormalizedStreetName'] = $street['NormalizedName'];
         }
 
@@ -107,7 +107,7 @@ function forOneStringCollect(MongoDB $db) {
         if ($city)
         {
             $building['CityId'] = $city['Id'];
-            $building['Address'] = array_merge($building['Address'], $city['NormalizedName']);  
+//            $building['Address'] = array_merge($building['Address'], $city['NormalizedName']);  
             $building['NormalizedCityName'] = $city['NormalizedName'];
         }
 
@@ -120,7 +120,7 @@ function forOneStringCollect(MongoDB $db) {
         if ($district)
         {
             $building['DistrictId'] = $district['Id'];
-            $building['Address'] = array_merge($building['Address'], $district['NormalizedName']);   
+//            $building['Address'] = array_merge($building['Address'], $district['NormalizedName']);   
             $building['NormalizedDistrictName'] = $district['NormalizedName'];
         }
 
@@ -132,12 +132,12 @@ function forOneStringCollect(MongoDB $db) {
         if ($region)
         {
             $building['RegionId'] = $region['Id'];
-            $building['Address'] = array_merge($building['Address'], $region['NormalizedName']); 
+//            $building['Address'] = array_merge($building['Address'], $region['NormalizedName']); 
             $building['NormalizedRegionName'] = $region['NormalizedName'];
         }
 
         //собираем все тайпы
-        typesCollect($building, $region, $district, $city, $street, $building);
+        //typesCollect($building, $region, $district, $city, $street, $building);
         
         //и имя
         constructFullName($building, $region, $district, $city, $street);
@@ -173,8 +173,8 @@ function forOneStringCollect(MongoDB $db) {
         $street = $arStreet;
         $street['Sort'] = 40;
         $street['StreetId'] = $arStreet['Id'];
-        $street['Address'] = array();
-        $street['Address'] = array_merge($street['Address'], $arStreet['NormalizedName']);
+//        $street['Address'] = array();
+//        $street['Address'] = array_merge($street['Address'], $arStreet['NormalizedName']);
         $street['FullName'] = null;
         $street['CityId'] = null;
         $street['DistrictId'] = null;
@@ -196,7 +196,7 @@ function forOneStringCollect(MongoDB $db) {
         if ($city)
         {
             $street['CityId'] = $city['Id'];
-            $street['Address'] = array_merge($street['Address'], $city['NormalizedName']); 
+//            $street['Address'] = array_merge($street['Address'], $city['NormalizedName']); 
             $street['NormalizedCityName'] = $city['NormalizedName'];
         }     
         
@@ -209,7 +209,7 @@ function forOneStringCollect(MongoDB $db) {
         if ($district)
         {
             $street['DistrictId'] = $district['Id'];
-            $street['Address'] = array_merge($street['Address'], $district['NormalizedName']);
+//            $street['Address'] = array_merge($street['Address'], $district['NormalizedName']);
             $street['NormalizedDistrictName'] = $district['NormalizedName'];
         }
         
@@ -221,11 +221,11 @@ function forOneStringCollect(MongoDB $db) {
         if ($region)
         {
             $street['RegionId'] = $region['Id'];
-            $street['Address'] = array_merge($street['Address'], $region['NormalizedName']);  
+//            $street['Address'] = array_merge($street['Address'], $region['NormalizedName']);  
             $street['NormalizedRegionName'] = $region['NormalizedName'];
         }
         
-        typesCollect($street, $region, $district, $city, $street);
+        //typesCollect($street, $region, $district, $city, $street);
         
         constructFullName($street, $region, $district, $city, $street);
         
@@ -260,8 +260,8 @@ function forOneStringCollect(MongoDB $db) {
         $city = $arCity;
         //$city['Sort'] = 30;
         $city['CityId'] = $arCity['Id'];
-        $city['Address'] = array();
-        $city['Address'] = array_merge($city['Address'], $arCity['NormalizedName']);
+//        $city['Address'] = array();
+//        $city['Address'] = array_merge($city['Address'], $arCity['NormalizedName']);
         $city['FullName'] = null;
         $city['DistrictId'] = null;
         $city['RegionId'] = null; 
@@ -288,7 +288,7 @@ function forOneStringCollect(MongoDB $db) {
         if ($district)
         {
             $city['DistrictId'] = $district['Id'];
-            $city['Address'] = array_merge($city['Address'], $district['NormalizedName']);   
+//            $city['Address'] = array_merge($city['Address'], $district['NormalizedName']);   
             $city['NormalizedDistrictName'] = $district['NormalizedName'];
         }
         
@@ -300,11 +300,11 @@ function forOneStringCollect(MongoDB $db) {
         if ($region)
         {
             $city['RegionId'] = $region['Id'];
-            $city['Address'] = array_merge($city['Address'], $region['NormalizedName']); 
+//            $city['Address'] = array_merge($city['Address'], $region['NormalizedName']); 
             $city['NormalizedRegionName'] = $region['NormalizedName'];
         }
         
-        typesCollect($city, $region, $district, $city);
+        //typesCollect($city, $region, $district, $city);
         
         constructFullName($city, $region, $district, $city);
         
@@ -337,8 +337,8 @@ function forOneStringCollect(MongoDB $db) {
         $district = $arDistrict;
         $district['Sort'] = 20;
         $district['DistrictId'] = $arDistrict['Id'];
-        $district['Address'] = array();
-        $district['Address'] = array_merge($district['Address'], $arDistrict['NormalizedName']);
+//        $district['Address'] = array();
+//        $district['Address'] = array_merge($district['Address'], $arDistrict['NormalizedName']);
         $district['FullName'] = null;
         $district['RegionId'] = null; 
         $district['NormalizedDistrictName'] = $arDistrict['NormalizedName'];
@@ -354,11 +354,11 @@ function forOneStringCollect(MongoDB $db) {
         if ($region)
         {
             $district['RegionId'] = $region['Id'];
-            $district['Address'] = array_merge($district['Address'], $region['NormalizedName']);
+//            $district['Address'] = array_merge($district['Address'], $region['NormalizedName']);
             $district['NormalizedRegionName'] = $region['NormalizedName'];
         } 
         
-        typesCollect($district, $region, $district);
+        //typesCollect($district, $region, $district);
         
         constructFullName($district, $region, $district);
         
@@ -390,13 +390,13 @@ function forOneStringCollect(MongoDB $db) {
         $region = $arRegion;
         $region['Sort'] = 10;
         $region['RegionId'] = $arRegion['Id'];
-        $region['Address'] = array();
-        $region['Address'] = array_merge($region['Address'], $arRegion['NormalizedName']);
+//        $region['Address'] = array();
+//        $region['Address'] = array_merge($region['Address'], $arRegion['NormalizedName']);
         $region['NormalizedRegionName'] = $arRegion['NormalizedName'];
         $region['FullName'] = null;
         $region['ContentType'] = 'region';
         
-        typesCollect($region, $region);
+        //typesCollect($region, $region);
         
         constructFullName($region, $region);
         
@@ -408,11 +408,11 @@ function forOneStringCollect(MongoDB $db) {
     
     $complex = $db->complex;
     
-    echo 'address;';
-    $complex->ensureIndex(
-        array('Address' => 1),
-        array('background' => true)
-    );
+//    echo 'address;';
+//    $complex->ensureIndex(
+//        array('Address' => 1),
+//        array('background' => true)
+//    );
     
     echo 'rn;';
     $complex->ensureIndex(
