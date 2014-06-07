@@ -68,7 +68,6 @@ namespace Kladr\Core\Plugins\General {
                     }            
                 }
                 
-                
                 $searchString = implode(" ", $arWords);
                 $sphinxClient = $this->sphinxClient;               
                 
@@ -148,61 +147,62 @@ namespace Kladr\Core\Plugins\General {
 
                             'regionId' => $object->readAttribute(KladrFields::RegionId)                                                
                         );  
-                    }                  
-                    //$multBuilds = array(); //массив для разрешения множественных совпадений зданий в одной записи
+                                      
+                        //$multBuilds = array(); //массив для разрешения множественных совпадений зданий в одной записи
 
-                    switch ($retObj['contentType'])
-                    {
-                        case 'district':
-                            $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
-                            break;
-                                
-                        case 'city':
-                            $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
-                            $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
-                            break;
-                            
-                        case 'street':
-                            $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
-                            $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
-                            $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
-                            break;
-                        
-                        case 'building':
-                            $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
-                            $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
-                            $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
-                            $retObj['buildingId'] = $object->readAttribute(KladrFields::BuildingId);
-                            
-                            //поиск совпадений с номерами домов//                            
-//                            foreach ($object->readAttribute(KladrFields::NormalizedBuildingName) as $name)
-//                            {
-//                                //находим все совпадения с номерами домов в массиве поиска по регулярке
-//                                $reg = '';
-//                                if ($searchArray['conditions'][KladrFields::NormalizedBuildingName])
-//                                {
-//                                    $reg = (string)$searchArray['conditions'][KladrFields::NormalizedBuildingName];
-//                                }
-//                                else
-//                                {    
-//                                    $reg = (string)end($searchArray['conditions'][KladrFields::Address]['$all']);
-//                                }
-//                                
-//                                $match = preg_match($reg, $name) ? $name : null;
-//                                
-//                                //убираем длинные строки из домов
-//                                $match = preg_match('/\,/', $match) ? null : $match;
-//           
-//                                if ($match) 
-//                                {
-//                                    $multBuilds[] = $match;
-//                                }
-//                                }                                                      
-                            break;
-                            
-                        default :
-                            break;
-                    }                 
+                        switch ($retObj['contentType'])
+                        {
+                            case 'district':
+                                $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
+                                break;
+
+                            case 'city':
+                                $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
+                                $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
+                                break;
+
+                            case 'street':
+                                $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
+                                $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
+                                $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
+                                break;
+
+                            case 'building':
+                                $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
+                                $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
+                                $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
+                                $retObj['buildingId'] = $object->readAttribute(KladrFields::BuildingId);
+
+                                //поиск совпадений с номерами домов//                            
+    //                            foreach ($object->readAttribute(KladrFields::NormalizedBuildingName) as $name)
+    //                            {
+    //                                //находим все совпадения с номерами домов в массиве поиска по регулярке
+    //                                $reg = '';
+    //                                if ($searchArray['conditions'][KladrFields::NormalizedBuildingName])
+    //                                {
+    //                                    $reg = (string)$searchArray['conditions'][KladrFields::NormalizedBuildingName];
+    //                                }
+    //                                else
+    //                                {    
+    //                                    $reg = (string)end($searchArray['conditions'][KladrFields::Address]['$all']);
+    //                                }
+    //                                
+    //                                $match = preg_match($reg, $name) ? $name : null;
+    //                                
+    //                                //убираем длинные строки из домов
+    //                                $match = preg_match('/\,/', $match) ? null : $match;
+    //           
+    //                                if ($match) 
+    //                                {
+    //                                    $multBuilds[] = $match;
+    //                                }
+    //                                }                                                      
+                                break;
+
+                            default :
+                                break;
+                        }
+                    }
                     
 //                    if ($retObj['contentType'] == 'building')
 //                    {
