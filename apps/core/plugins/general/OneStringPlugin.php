@@ -108,7 +108,12 @@ namespace Kladr\Core\Plugins\General {
                     {   
                         $sphinxIds = array();
                         $sphinxIds = array_keys($sphinxRes['matches']);//посмотреть, не будет ли сервак ругаться здесь на инт-стринг
-
+                        
+                        foreach ($sphinxIds as &$id)
+                        {
+                            $id = (string)$id;
+                        }
+                        
                         $objects = Complex::find(array(
                             array(
                                 'Id' => array( 
