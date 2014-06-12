@@ -414,27 +414,33 @@ function forOneStringCollect(MongoDB $db) {
 //        array('background' => true)
 //    );
     
-    echo 'rn;';
-    $complex->ensureIndex(
-        array('NormalizedRegionName' => 1),
-        array('background' => true)
-    );
+//    echo 'rn;';
+//    $complex->ensureIndex(
+//        array('NormalizedRegionName' => 1),
+//        array('background' => true)
+//    );
     
-    echo 'dn;';
-    $complex->ensureIndex(
-        array('NormalizedDistrictName' => 1),
-        array('background' => true)
-    );
+//    echo 'dn;';
+//    $complex->ensureIndex(
+//        array('NormalizedDistrictName' => 1),
+//        array('background' => true)
+//    );
+//    
+//    echo 'cn;';
+//    $complex->ensureIndex(
+//        array('NormalizedCityName' => 1),
+//        array('background' => true)
+//    );
     
-    echo 'cn;';
-    $complex->ensureIndex(
-        array('NormalizedCityName' => 1),
-        array('background' => true)
-    );
+//    echo 'sn;';
+//    $complex->ensureIndex(
+//        array('NormalizedStreetName' => 1),
+//        array('background' => true)
+//    );
     
-    echo 'sn;';
+    echo 'contentType;';
     $complex->ensureIndex(
-        array('NormalizedStreetName' => 1),
+        array('ContentType' => 1),
         array('background' => true)
     );
     
@@ -453,6 +459,12 @@ function forOneStringCollect(MongoDB $db) {
     echo 'Id;';
     $complex->ensureIndex(
         array('Id' => 1),
+        array('background' => true)
+    );
+    
+    echo 'StreetId;';
+    $complex->ensureIndex(
+        array('StreetId' => 1),
         array('background' => true)
     );
     

@@ -58,7 +58,7 @@ function xmlGenerate(MongoDb $db)
     $xmlWriter->writeAttribute('type', 'int');
     $xmlWriter->endElement();
     
-    $xmlWriter->startElement('sphinx:field');
+    $xmlWriter->startElement('sphinx:field'); //мб поменять на аттр, чтобы оно возвращалось 
     $xmlWriter->writeAttribute('name', 'contenttype');
     $xmlWriter->endElement();
     
@@ -70,7 +70,7 @@ function xmlGenerate(MongoDb $db)
     $count = 0;
     foreach ($elements as $element)
     {
-        if ($element['Id'] === null)
+        if ($element['Id'] === null || $element['ContentType'] == 'building')
         {
             continue;
         }

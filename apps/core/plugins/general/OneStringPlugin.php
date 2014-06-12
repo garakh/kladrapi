@@ -68,12 +68,19 @@ namespace Kladr\Core\Plugins\General {
                     }            
                 }
                 
+                $houseForMongo = null; //строка для поиска номера дома в монго 
+                if (preg_match('/\d+/', end($arWords)))
+                {
+                    $houseForMongo = array_pop($arWords);
+                    $houseForMongo = str_replace('*', '', $houseForMongo);
+                }               
+                
                 $searchString = implode(" ", $arWords);
                 $sphinxClient = $this->sphinxClient;               
                 
-                $searchArray['limit'] = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 10 ? 10 : (int) $request->getQuery('limit')) : 10;               
-                $limit = $searchArray['limit'];
-                //$sphinxClient->SetLimits(0, $limit);
+//                $searchArray['limit'] = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 20 ? 20 : (int) $request->getQuery('limit')) : 20;               
+                $limit = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 20 ? 20 : (int) $request->getQuery('limit')) : 20;
+                $sphinxClient->SetLimits(0, $limit);
                 
                 $sphinxClient->SetMatchMode(SPH_MATCH_EXTENDED2);
                 
@@ -90,47 +97,111 @@ namespace Kladr\Core\Plugins\General {
                 }
                 else
                 {
+                    if (empty($sphinxRes['matches'])) //если ничего не найдено - пытаемся убрать одно слово из запроса.
+                    {
+                        array_pop($arWords);
+                        $searchString = implode(" ", $arWords);
+                        $sphinxRes = $sphinxClient->Query($searchString);
+                    }                 
+                    
                     if (!empty($sphinxRes['matches']))
-                    {
-                        if (count($sphinxRes['matches']) > $limit)
-                        {
-                            $sphinxRes['matches'] = array_slice($sphinxRes['matches'], 0, $limit, true);
-                        }
-                        foreach ( $sphinxRes['matches'] as $id => $arr)
-                        {   
-                            $objects[] = Complex::findFirst(array(
-                                array('Id' => (string)$id),
-                            ));
-                        }
-                    }   
-                    else
-                    {
-                        if ( $sphinxClient->GetLastWarning() ) 
-                        {
-                            $result = $prevResult;
-                            $result->terminate = true;
-                            $result->error = true;
-                            $result->errorMessage = $sphinxClient->GetLastWarning();
-                            return $result;
-                        }
+                    {   
+                        $sphinxIds = array();
+                        $sphinxIds = array_keys($sphinxRes['matches']);//посмотреть, не будет ли сервак ругаться здесь на инт-стринг
+
+                        $objects = Complex::find(array(
+                            array(
+                                'Id' => array( 
+                                    '$in' => $sphinxIds                                    
+                                    ))));
                     }
                 }
                 
-                //удаляем пустоту
-//                $arWords = array_diff($arWords, array(''));               
-                               
-                //формируем поисковый запрос
-//                $searchArray = array();
-                
-//                $this->analysis($arWords, $searchArray);              
-                
-                //если лимит больше 400 или не проставлен - ставим 400. 
-//                $searchArray['limit'] = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 400 ? 400 : (int) $request->getQuery('limit')) : 400;                    
-//                $searchArray['sort'] = array(KladrFields::Sort => 1);
-                
-//                $objects = $this->search($searchArray);
-                
-                //$arReturn[] = $searchArray; //только для контроля               
+                if ($houseForMongo) //ищем заданные дома в монго и заменяем часть элементов в массиве результатов
+                {
+                    $street = null;
+                    foreach ($objects as $object)
+                    {
+                        if ($object->readAttribute(KladrFields::ContentType) == 'street')   
+                        {
+                            $street = $object;
+                            break;
+                        }
+                    }
+                    
+                    if ($street) //если найдена какая-то улица
+                    {
+                        $retBuildings = array();
+                        $mainBuilding = null;
+                        
+                        $buildingsOfStr = Complex::find(array(
+                            array(
+                                KladrFields::StreetId => $street->readAttribute(KladrFields::StreetId),
+                                KladrFields::ContentType => 'building'
+                            )));
+                        
+                        foreach ($buildingsOfStr as $buildingOfStr) //то начинаем искать дома до половины лимита запроса
+                        {                           
+//                            if (count($retBuildings) >= ceil($limit/2))
+//                            {
+//                                break;
+//                            }
+                            foreach ($buildingOfStr->readAttribute(KladrFields::NormalizedBuildingName) as $buildName)
+                            {
+//                                if (count($retBuildings) >= ceil($limit/2))
+//                                {
+//                                    break;
+//                                }
+                                
+                                if ($buildName === $houseForMongo)
+                                {
+                                    $mainBuilding = $buildingOfStr; //находим точное совпадение
+                                    $mainBuilding->NormalizedBuildingName = $buildName;
+                                }
+                                
+                                $reg = '/^' . $houseForMongo . '/';
+                                
+                                $match = preg_match($reg, $buildName) ? $buildName : null;
+
+                                //убираем длинные строки из домов
+                                $match = preg_match('/\,/', $match) ? null : $match;
+                                
+                                if ($match)
+                                {
+                                    $building = clone $buildingOfStr;
+                                    $building->NormalizedBuildingName = $match;                                   
+                                    $retBuildings[] = $building;
+                                }
+                            }
+                        }
+                        
+                        //сливаем массивы домов и остальных совпадений
+                        if ($mainBuilding)
+                        {
+                            foreach ($retBuildings as $key => $retBuilding)
+                            {
+                                if ($mainBuilding->NormalizedBuildingName == $retBuilding->NormalizedBuildingName)
+                                {
+                                    unset($retBuildings[$key]);
+                                }
+                            }
+                            
+                            $retBuildings = array_merge(array($mainBuilding), $retBuildings);
+                        }
+                      
+                        if ($retBuildings > ceil($limit/2))
+                        {
+                            $retBuildings = array_slice($retBuildings, 0, ceil($limit/2));
+                        }
+                        
+                        $objects = array_merge($retBuildings, $objects);
+                        
+                        if ($objects > $limit)
+                        {
+                            $objects = array_slice($objects, 0, $limit, true);
+                        }
+                    }
+                }
 
                 foreach ($objects as $object) {
                     if ($object)
@@ -204,21 +275,17 @@ namespace Kladr\Core\Plugins\General {
                         }
                     }
                     
-//                    if ($retObj['contentType'] == 'building')
-//                    {
-//                        foreach ($multBuilds as $buildName)
-//                        {
-//                            $building = $retObj;
-//                            $name = $object->readAttribute(KladrFields::TypeShort) . '. ' . $buildName;
-//                            $building['fullName'] .= ' ' . $name;
-//                            $building['name'] = $name;
-//                            $arReturn[] = $building;                                   
-//                        }
-//                    }
-//                    else
-//                    {
+                    if ($retObj['contentType'] == 'building')
+                    {
+                        $name = $object->readAttribute(KladrFields::TypeShort) . '. ' . ($object->readAttribute(KladrFields::NormalizedBuildingName));
+                        $retObj['fullName'] .= ', ' . $name;
+                        $retObj['name'] = $name;
+                        $arReturn[] = $retObj;                                   
+                    }
+                    else
+                    {
                         $arReturn[] = $retObj;  
-//                    }
+                    }
                 }
                 
 //                if (count($arReturn) > $searchArray['limit'])//правим лимит домов
@@ -249,13 +316,6 @@ namespace Kladr\Core\Plugins\General {
             $districtSuffixArr = array('район', 'р', 'рн');
             $regionSuffixArr = array('область', 'обл', 'об', 'край', 'кр' , 'ао');//поля "автономный округ" и "автономная область" вычеркнуты
             
-            //для избегания конфликтов имён и т.п.
-//            $regionWasFound = false;
-//            $districtWasFound = false;
-//            $cityWasFound = false;
-//            $streetWasFound = false;
-//            $buildWasFound = false;
-            
             $prevWord = '';
             
             $continue = false;
@@ -273,14 +333,14 @@ namespace Kladr\Core\Plugins\General {
                     if (in_array($word, $regionPrefixArr))
                     { 
                         $this->regionPrefixFound(current($words), $searchArray); 
-                        $regionWasFound = true;
+                        //$regionWasFound = true;
                         $continue = true;
                         continue;
                     }
                     elseif (in_array($word, $regionSuffixArr))
                     {
                         $this->regionSuffixFound($prevWord, $searchArray);
-                        $regionWasFound = true;
+                        //$regionWasFound = true;
                         continue;
                     }
                 }
@@ -290,7 +350,7 @@ namespace Kladr\Core\Plugins\General {
                     if (in_array($word, $districtSuffixArr))
                     {
                         $this->districtSuffixFound($prevWord, $searchArray);
-                        $districtWasFound = true;
+                        //$districtWasFound = true;
                         continue;                      
                     }
                 }
@@ -301,7 +361,7 @@ namespace Kladr\Core\Plugins\General {
                     {
                         $this->cityPrefixFound(current($words), $searchArray);
                         $continue = true;
-                        $cityWasFound = true;
+                        //$cityWasFound = true;
                         continue;
                     }
                 }
@@ -312,7 +372,7 @@ namespace Kladr\Core\Plugins\General {
                     {
                         $this->streetPrefixFound(current($words), $searchArray);
                         $continue = true;
-                        $streetWasFound = true;
+                        //$streetWasFound = true;
                         continue;
                     }
                 }
@@ -323,14 +383,13 @@ namespace Kladr\Core\Plugins\General {
                     {
                         $this->buildPrefixFound(current($words), $searchArray);
                         $continue = true;
-                        $buildWasFound = true;
+                        //$buildWasFound = true;
                         continue;
                     }
                 }
                                
                 $this->anotherWordFound($word, $searchArray);
-                $prevWord = $word;
-                
+                $prevWord = $word;           
             }
         }
 
