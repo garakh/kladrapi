@@ -78,8 +78,7 @@ namespace Kladr\Core\Plugins\General {
                 $searchString = implode(" ", $arWords);
                 $sphinxClient = $this->sphinxClient;               
                 
-//                $searchArray['limit'] = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 20 ? 20 : (int) $request->getQuery('limit')) : 20;               
-                $limit = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 20 ? 20 : (int) $request->getQuery('limit')) : 20;
+                $limit = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 100 ? 100 : (int) $request->getQuery('limit')) : 100;
                 $sphinxClient->SetLimits(0, $limit);
                 
                 $sphinxClient->SetMatchMode(SPH_MATCH_EXTENDED2);
@@ -147,16 +146,8 @@ namespace Kladr\Core\Plugins\General {
                         
                         foreach ($buildingsOfStr as $buildingOfStr) //то начинаем искать дома до половины лимита запроса
                         {                           
-//                            if (count($retBuildings) >= ceil($limit/2))
-//                            {
-//                                break;
-//                            }
                             foreach ($buildingOfStr->readAttribute(KladrFields::NormalizedBuildingName) as $buildName)
                             {
-//                                if (count($retBuildings) >= ceil($limit/2))
-//                                {
-//                                    break;
-//                                }
                                 
                                 if ($buildName === $houseForMongo)
                                 {
@@ -220,11 +211,8 @@ namespace Kladr\Core\Plugins\General {
                             'okato' => $object->readAttribute(KladrFields::Okato),                       
                             'contentType' => $object->readAttribute(KladrFields::ContentType),
                             'fullName' => $object->readAttribute(KladrFields::FullName),  
-
                             'regionId' => $object->readAttribute(KladrFields::RegionId)                                                
-                        );  
-                                      
-                        //$multBuilds = array(); //массив для разрешения множественных совпадений зданий в одной записи
+                        );                                       
 
                         switch ($retObj['contentType'])
                         {
@@ -248,34 +236,9 @@ namespace Kladr\Core\Plugins\General {
                                 $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
                                 $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
                                 $retObj['buildingId'] = $object->readAttribute(KladrFields::BuildingId);
-
-                                //поиск совпадений с номерами домов//                            
-    //                            foreach ($object->readAttribute(KladrFields::NormalizedBuildingName) as $name)
-    //                            {
-    //                                //находим все совпадения с номерами домов в массиве поиска по регулярке
-    //                                $reg = '';
-    //                                if ($searchArray['conditions'][KladrFields::NormalizedBuildingName])
-    //                                {
-    //                                    $reg = (string)$searchArray['conditions'][KladrFields::NormalizedBuildingName];
-    //                                }
-    //                                else
-    //                                {    
-    //                                    $reg = (string)end($searchArray['conditions'][KladrFields::Address]['$all']);
-    //                                }
-    //                                
-    //                                $match = preg_match($reg, $name) ? $name : null;
-    //                                
-    //                                //убираем длинные строки из домов
-    //                                $match = preg_match('/\,/', $match) ? null : $match;
-    //           
-    //                                if ($match) 
-    //                                {
-    //                                    $multBuilds[] = $match;
-    //                                }
-    //                                }                                                      
                                 break;
 
-                            default :
+                            default:
                                 break;
                         }
                     }
@@ -291,14 +254,8 @@ namespace Kladr\Core\Plugins\General {
                     {
                         $arReturn[] = $retObj;  
                     }
-                }
-                
-//                if (count($arReturn) > $searchArray['limit'])//правим лимит домов
-//                {
-//                    $arReturn = array_slice($arReturn, 0, $searchArray['limit']);
-//                }
-                
-//                $this->cache->set('OneStringPlugin', $request, $arReturn);
+                }            
+                $this->cache->set('OneStringPlugin', $request, $arReturn);
             } 
 
             $result = $prevResult;
@@ -497,8 +454,7 @@ namespace Kladr\Core\Plugins\General {
            else return null;
         }
         
-    }
-        
+    }       
 }
 
 
