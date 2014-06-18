@@ -106,7 +106,7 @@ namespace Kladr\Core\Plugins\General {
                     if (!empty($sphinxRes['matches']))
                     {   
                         $sphinxIds = array();
-                        $sphinxIds = array_keys($sphinxRes['matches']);//посмотреть, не будет ли сервак ругаться здесь на инт-стринг
+                        $sphinxIds = array_keys($sphinxRes['matches']);
                         
                         foreach ($sphinxIds as &$id)
                         {
@@ -123,80 +123,103 @@ namespace Kladr\Core\Plugins\General {
                 
                 if ($houseForMongo) //ищем заданные дома в монго и заменяем часть элементов в массиве результатов
                 {
-                    $street = null;
+                    $streets = array();
                     foreach ($objects as $object)
                     {
                         if ($object->readAttribute(KladrFields::ContentType) == 'street')   
                         {
-                            $street = $object;
-                            break;
+                            $streets[] = $object;
                         }
                     }
                     
-                    if ($street) //если найдена какая-то улица
+                    if (count($streets) > 0) //если найдена какая-то улица
                     {
                         $retBuildings = array();
                         $mainBuilding = null;
                         
-                        $buildingsOfStr = Complex::find(array(
-                            array(
-                                KladrFields::StreetId => $street->readAttribute(KladrFields::StreetId),
-                                KladrFields::ContentType => 'building'
-                            )));
-                        
-                        foreach ($buildingsOfStr as $buildingOfStr) //то начинаем искать дома до половины лимита запроса
-                        {                           
-                            foreach ($buildingOfStr->readAttribute(KladrFields::NormalizedBuildingName) as $buildName)
-                            {
-                                
-                                if ($buildName === $houseForMongo)
-                                {
-                                    $mainBuilding = $buildingOfStr; //находим точное совпадение
-                                    $mainBuilding->NormalizedBuildingName = $buildName;
-                                }
-                                
-                                $reg = '/^' . $houseForMongo . '/';
-                                
-                                $match = preg_match($reg, $buildName) ? $buildName : null;
+                        foreach ($streets as $street)
+                        {
+                            $buildingsOfStr = Complex::find(array(
+                                array(
+                                    KladrFields::StreetId => $street->readAttribute(KladrFields::StreetId),
+                                    KladrFields::ContentType => 'building'
+                                )));
 
-                                //убираем длинные строки из домов
-                                $match = preg_match('/\,/', $match) ? null : $match;
-                                
-                                if ($match)
+                            foreach ($buildingsOfStr as $buildingOfStr) //то начинаем искать дома до половины лимита запроса
+                            {                           
+                                foreach ($buildingOfStr->readAttribute(KladrFields::NormalizedBuildingName) as $buildName)
                                 {
-                                    $building = clone $buildingOfStr;
-                                    $building->NormalizedBuildingName = $match;                                   
-                                    $retBuildings[] = $building;
+                                    if ($buildName === $houseForMongo)
+                                    {
+                                        $mainBuilding = $buildingOfStr; //находим точное совпадение
+                                        $mainBuilding->NormalizedBuildingName = $buildName;
+                                    }
+
+                                    $reg = '/^' . $houseForMongo . '/';
+
+                                    $match = preg_match($reg, $buildName) ? $buildName : null;
+
+                                    //убираем длинные строки из домов
+                                    $match = preg_match('/\,/', $match) ? null : $match;
+
+                                    if ($match)
+                                    {
+                                        $building = clone $buildingOfStr;
+                                        $building->NormalizedBuildingName = $match;                                   
+                                        $retBuildings[] = $building;
+                                    }
                                 }
                             }
-                        }
-                        
-                        //сливаем массивы домов и остальных совпадений
-                        if ($mainBuilding)
-                        {
-                            foreach ($retBuildings as $key => $retBuilding)
+
+                            //убираем повторное точное вхождение, ставим его на первое место
+                            if ($mainBuilding)
                             {
-                                if ($mainBuilding->NormalizedBuildingName == $retBuilding->NormalizedBuildingName)
+                                foreach ($retBuildings as $key => $retBuilding)
                                 {
-                                    unset($retBuildings[$key]);
+                                    if ($mainBuilding->NormalizedBuildingName == $retBuilding->NormalizedBuildingName)
+                                    {
+                                        unset($retBuildings[$key]);
+                                    }
                                 }
+
+                                $retBuildings = array_merge(array($mainBuilding), $retBuildings);
                             }
                             
-                            $retBuildings = array_merge(array($mainBuilding), $retBuildings);
+                            if (count($objects) > floor($limit/2))
+                            {
+                                if (count($retBuildings) >= ceil($limit/2))
+                                {
+                                    break;
+                                }
+                            }
+                            elseif (count($retBuildings) >= $limit-count($objects))
+                            {
+                                break;
+                            }
                         }
-                      
-                        if ($retBuildings > ceil($limit/2))
+                        //заполянем лимит по максимуму
+                        if (count($objects) > floor($limit/2))
                         {
-                            $retBuildings = array_slice($retBuildings, 0, ceil($limit/2));
+                            if ($retBuildings > ceil($limit/2))
+                            {
+                                $retBuildings = array_slice($retBuildings, 0, ceil($limit/2));
+                            }
                         }
-                        
+                        else
+                        {
+                            $retBuildings = array_slice($retBuildings, 0, $limit-count($objects));
+                        }
+
+                        //сливаем массивы домов и остальных совпадений
                         $objects = array_merge($retBuildings, $objects);
-                        
+
+                        //финальная обрезка массива
                         if ($objects > $limit)
                         {
                             $objects = array_slice($objects, 0, $limit, true);
                         }
-                    }
+                        
+                    }//
                 }
 
                 foreach ($objects as $object) {

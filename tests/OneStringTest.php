@@ -28,20 +28,20 @@ class OneStringTest extends PHPUnit_Framework_TestCase
     /*
      * Тест поиска области с ключевыми словами
      */
-    public function testRegionSearch2()
-    {
-        $query = new QueryToApi();
-        $query->oneString = true;
-        $query->query = 'еврейск ао';
-        $query->limit = 1;
-        
-        $res = $query->send();
-        $res = $res->result;
-        
-        $this->assertEquals($res[0]->contentType, QueryToApi::RegionType);
-        $this->assertEquals($res[0]->name, 'Еврейская');
-        $this->assertEQuals($res[0]->regionId, 7900000000000);
-    }  
+//    public function testRegionSearch2()
+//    {
+//        $query = new QueryToApi();
+//        $query->oneString = true;
+//        $query->query = 'еврейск ао';
+//        $query->limit = 1;
+//        
+//        $res = $query->send();
+//        $res = $res->result;
+//        
+//        $this->assertEquals($res[0]->contentType, QueryToApi::RegionType);
+//        $this->assertEquals($res[0]->name, 'Еврейская');
+//        $this->assertEQuals($res[0]->regionId, 7900000000000);
+//    }  
     
     /*
      * Тест поиска района
@@ -65,21 +65,21 @@ class OneStringTest extends PHPUnit_Framework_TestCase
     /*
      * Тест поиска района с использованием ключевых слов
      */
-    public function testDistrictSearch2()
-    {
-        $query = new QueryToApi();
-        $query->oneString = true;
-        $query->query = 'респ карелия кем район';
-        $query->limit = 1;
-        
-        $res = $query->send();
-        $res = $res->result;
-        
-        $this->assertEquals($res[0]->contentType, QueryToApi::DistrictType);
-        $this->assertEquals($res[0]->name, 'Кемский');
-        $this->assertEquals($res[0]->regionId, 1000000000000);
-        $this->assertEquals($res[0]->districtId, 1000400000000); 
-    }
+//    public function testDistrictSearch2()
+//    {
+//        $query = new QueryToApi();
+//        $query->oneString = true;
+//        $query->query = 'респ карелия кем район';
+//        $query->limit = 1;
+//        
+//        $res = $query->send();
+//        $res = $res->result;
+//        
+//        $this->assertEquals($res[0]->contentType, QueryToApi::DistrictType);
+//        $this->assertEquals($res[0]->name, 'Кемский');
+//        $this->assertEquals($res[0]->regionId, 1000000000000);
+//        $this->assertEquals($res[0]->districtId, 1000400000000); 
+//    }
     
     /*
      * Тест поиска города
@@ -104,22 +104,22 @@ class OneStringTest extends PHPUnit_Framework_TestCase
     /*
      * Тест поиска города с использованием ключевых слов
      */
-    public function testCitySearch2()
-    {
-        $query = new QueryToApi();
-        $query->oneString = true;
-        $query->query = 'г санкт-петербург';
-        $query->limit = 1;
-        
-        $res = $query->send();
-        $res = $res->result;
-        
-        $this->assertEquals($res[0]->contentType, QueryToApi::CityType);
-        $this->assertEquals($res[0]->name, 'Санкт-Петербург');
-        $this->assertEquals($res[0]->regionId, 7800000000000);
-        $this->assertEquals($res[0]->cityId, 7800000000000);
-    }
-    
+//    public function testCitySearch2()
+//    {
+//        $query = new QueryToApi();
+//        $query->oneString = true;
+//        $query->query = 'г санкт-петербург';
+//        $query->limit = 1;
+//        
+//        $res = $query->send();
+//        $res = $res->result;
+//        
+//        $this->assertEquals($res[0]->contentType, QueryToApi::CityType);
+//        $this->assertEquals($res[0]->name, 'Санкт-Петербург');
+//        $this->assertEquals($res[0]->regionId, 7800000000000);
+//        $this->assertEquals($res[0]->cityId, 7800000000000);
+//    }
+//    
     /*
      * Тест поиска улицы
      */
@@ -144,22 +144,22 @@ class OneStringTest extends PHPUnit_Framework_TestCase
     /*
      * Тест поиска улицы с использованием ключевых слов
      */
-    public function testStreetSearch2()
-    {
-        $query = new QueryToApi();
-        $query->oneString = true;
-        $query->query = 'архангельская обл г архангельск переулок Физкультурный';
-        $query->limit = 1;
-        
-        $res = $query->send();
-        $res = $res->result;
-        
-        $this->assertEquals($res[0]->contentType, QueryToApi::StreetType);
-        $this->assertEquals($res[0]->name, '1-й Физкультурный');
-        $this->assertEquals($res[0]->regionId, 2900000000000);
-        $this->assertEquals($res[0]->cityId, 2900000100000);
-        $this->assertEquals($res[0]->streetId, 29000001000000200);
-    }
+//    public function testStreetSearch2()
+//    {
+//        $query = new QueryToApi();
+//        $query->oneString = true;
+//        $query->query = 'архангельская обл г архангельск переулок Физкультурный';
+//        $query->limit = 1;
+//        
+//        $res = $query->send();
+//        $res = $res->result;
+//        
+//        $this->assertEquals($res[0]->contentType, QueryToApi::StreetType);
+//        $this->assertEquals($res[0]->name, '1-й Физкультурный');
+//        $this->assertEquals($res[0]->regionId, 2900000000000);
+//        $this->assertEquals($res[0]->cityId, 2900000100000);
+//        $this->assertEquals($res[0]->streetId, 29000001000000200);
+//    }
     
     /*
      * Тест поиска здания
@@ -185,23 +185,23 @@ class OneStringTest extends PHPUnit_Framework_TestCase
     /*
      * Тест поиска здания с использованием ключевых слов
      */
-    public function testBuildingSearch2()
-    {
-        $query = new QueryToApi();
-        $query->oneString = true;
-        $query->query = 'г орел ул колхозная дом 6';
-        $query->limit = 1;
-        
-        $res = $query->send();
-        $res = $res->result;
-        
-        $this->assertEquals($res[0]->contentType, QueryToApi::BuildingType);
-        $this->assertEquals($res[0]->name, 'д. 6');
-        $this->assertEquals($res[0]->regionId, 3500000000000);
-        $this->assertEquals($res[0]->cityId, 3502200009800);
-        $this->assertEquals($res[0]->streetId, 35022000098000300); 
-        $this->assertEquals($res[0]->buildingId, 3502200009800030001);        
-    }
+//    public function testBuildingSearch2()
+//    {
+//        $query = new QueryToApi();
+//        $query->oneString = true;
+//        $query->query = 'г орел ул колхозная дом 6';
+//        $query->limit = 1;
+//        
+//        $res = $query->send();
+//        $res = $res->result;
+//        
+//        $this->assertEquals($res[0]->contentType, QueryToApi::BuildingType);
+//        $this->assertEquals($res[0]->name, 'д. 6');
+//        $this->assertEquals($res[0]->regionId, 3500000000000);
+//        $this->assertEquals($res[0]->cityId, 3502200009800);
+//        $this->assertEquals($res[0]->streetId, 35022000098000300); 
+//        $this->assertEquals($res[0]->buildingId, 3502200009800030001);        
+//    }
     
     /*
      * Проверяет правильность работы лимита
@@ -210,7 +210,7 @@ class OneStringTest extends PHPUnit_Framework_TestCase
     {
         $query = new QueryToApi();
         $query->oneString = true;
-        $query->query = 'воронеж московский 1';
+        $query->query = 'воронеж пр-т московский 1';
         $query->limit = 10;
         
         $res = $query->send();
@@ -218,4 +218,22 @@ class OneStringTest extends PHPUnit_Framework_TestCase
         
         $this->assertEquals($query->limit, count($res));
     }
+    
+    /*
+     * Проверяет, что дома будут искаться по всем улицам запроса, если в первой не найдены
+     */
+    public function testStreetsChoice()
+    {
+        $query = new QueryToApi();
+        $query->oneString = true;
+        $query->query = 'воронеж московский 1'; //тут первым находится переулок, в котором домов нет
+        $query->limit = 10;
+        
+        $res = $query->send();
+        $res = $res->result;
+        
+        $this->assertEquals($query->limit, count($res));
+    }
+    
+    //написать тесты на корректность лимита разных типов
 }
