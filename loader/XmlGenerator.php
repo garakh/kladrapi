@@ -35,9 +35,12 @@ function xmlGenerate(MongoDb $db)
     
     $elements = $complex->find(array(), array(
         'FullName' => 1,
-        'ContentType' => 1,
         'Sort' => 1,
-        'Id' => 1
+        'ContentType' => 1,
+        'Id' => 1,
+        'RegionId' => 1,
+        'DistrictId' => 1,
+        'CityId' => 1
     ));
     
     $xmlWriter = new XMLWriter();
@@ -58,8 +61,23 @@ function xmlGenerate(MongoDb $db)
     $xmlWriter->writeAttribute('type', 'int');
     $xmlWriter->endElement();
     
-    $xmlWriter->startElement('sphinx:field'); //мб поменять на аттр, чтобы оно возвращалось 
-    $xmlWriter->writeAttribute('name', 'contenttype');
+//    $xmlWriter->startElement('sphinx:field'); //мб поменять на аттр, чтобы оно возвращалось 
+//    $xmlWriter->writeAttribute('name', 'contenttype');
+//    $xmlWriter->endElement();
+    
+    $xmlWriter->startElement('sphinx:field');
+    $xmlWriter->writeAttribute('name', 'regionid');
+//    $xmlWriter->writeAttribute('type', 'string');
+    $xmlWriter->endElement();
+    
+    $xmlWriter->startElement('sphinx:field');
+    $xmlWriter->writeAttribute('name', 'districtid');
+//    $xmlWriter->writeAttribute('type', 'string');
+    $xmlWriter->endElement();
+    
+    $xmlWriter->startElement('sphinx:field');
+    $xmlWriter->writeAttribute('name', 'cityid');
+//    $xmlWriter->writeAttribute('type', 'string');
     $xmlWriter->endElement();
     
     $xmlWriter->endElement();
@@ -81,8 +99,20 @@ function xmlGenerate(MongoDb $db)
         $xmlWriter->text($element['FullName']);
         $xmlWriter->endElement();
         
-        $xmlWriter->startElement('contenttype');
-        $xmlWriter->text($element['ContentType']);
+//        $xmlWriter->startElement('contenttype');
+//        $xmlWriter->text($element['ContentType']);
+//        $xmlWriter->endElement();
+        
+        $xmlWriter->startElement('regionid');
+        $xmlWriter->text((string)$element['RegionId']);
+        $xmlWriter->endElement();
+        
+        $xmlWriter->startElement('districtid');
+        $xmlWriter->text((string)$element['DistrictId']);
+        $xmlWriter->endElement();
+        
+        $xmlWriter->startElement('cityid');
+        $xmlWriter->text((string)$element['CityId']);
         $xmlWriter->endElement();
         
         $xmlWriter->startElement('sort');

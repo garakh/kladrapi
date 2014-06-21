@@ -10,7 +10,6 @@ namespace Kladr\Core\Plugins\General {
         \Kladr\Core\Models\Complex,
         \Kladr\Core\Models\KladrFields;
         
-
     /*
      * Kladr\Core\Plugins\General\OneStringPlugin
      * 
@@ -85,13 +84,36 @@ namespace Kladr\Core\Plugins\General {
                 
                 $sphinxClient->SetSortMode(SPH_SORT_ATTR_ASC, 'sort');
                 
-                $sphinxRes = $sphinxClient->Query($searchString);
+                $regionForSphinx = (string)$request->getQuery('regionId');
+                $districtForSphinx = (string)$request->getQuery('districtId');
+                $cityForSphinx = (string)$request->getQuery('cityId');
+
+                $sphinxRes = null;
+                
+                if ($cityForSphinx)
+                {
+                    $sphinxRes = $sphinxClient->Query("@fullname $searchString @cityid $cityForSphinx");
+                }
+                elseif ($districtForSphinx)
+                {
+                    $sphinxRes = $sphinxClient->Query("@fullname $searchString @districtid $districtForSphinx");
+                }
+                elseif ($regionForSphinx)
+                {
+                    $sphinxRes = $sphinxClient->Query("@fullname $searchString @regionid $regionForSphinx");
+                }
+                else
+                {
+                    $sphinxRes = $sphinxClient->Query("@fullname $searchString");
+                }
+                
                 if ($sphinxRes === false)
                 {
                     $result = $prevResult;
                     $result->terminate = true;
                     $result->error = true;
                     $result->errorMessage = $sphinxClient->GetLastError();
+
                     return $result;
                 }
                 else
@@ -100,7 +122,7 @@ namespace Kladr\Core\Plugins\General {
                     {
                         array_pop($arWords);
                         $searchString = implode(" ", $arWords);
-                        $sphinxRes = $sphinxClient->Query($searchString);
+                        $sphinxRes = $sphinxClient->Query($searchString);//подумать о повторном запросе при разных заданных областях
                     }                 
                     
                     if (!empty($sphinxRes['matches']))
@@ -234,7 +256,7 @@ namespace Kladr\Core\Plugins\General {
                             'okato' => $object->readAttribute(KladrFields::Okato),                       
                             'contentType' => $object->readAttribute(KladrFields::ContentType),
                             'fullName' => $object->readAttribute(KladrFields::FullName),  
-                            'regionId' => $object->readAttribute(KladrFields::RegionId)                                                
+                            'regionId' => $object->readAttribute(KladrFields::RegionId)
                         );                                       
 
                         switch ($retObj['contentType'])
@@ -278,7 +300,7 @@ namespace Kladr\Core\Plugins\General {
                         $arReturn[] = $retObj;  
                     }
                 }            
-                $this->cache->set('OneStringPlugin', $request, $arReturn);
+//                $this->cache->set('OneStringPlugin', $request, $arReturn);
             } 
 
             $result = $prevResult;

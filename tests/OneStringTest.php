@@ -105,7 +105,6 @@ class OneStringTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($res[0]->streetId, 10000001000013900); 
         $this->assertEquals($res[0]->buildingId, 1000000100001390004);
     }
-
     
     /*
      * Проверяет правильность работы лимита
@@ -193,5 +192,107 @@ class OneStringTest extends PHPUnit_Framework_TestCase
         }
         
         $this->assertEquals($query->limit, $buildCount+$otherCount);
+    }
+    
+    /*
+     * Проверяет правильность поиска объектов внутри указанной области
+     */
+    public function testRegionId()
+    {
+        $query = new QueryToApi();
+        $query->oneString = true;
+        $query->limit = 5;
+        $query->query = 'ч';
+        $query->regionId = '1400000000000';
+        
+        $res = $query->send();
+        $res = $res->result;
+        
+        foreach ($res as $answer)
+        {
+            $this->assertEquals($answer->regionId, $query->regionId);
+        }
+    }
+    
+    /*
+     * Проверяет правильость поиска объектов внутри указанного района
+     */
+    public function testDistrictId()
+    {
+        $query = new QueryToApi();
+        $query->oneString = true;
+        $query->limit = 5;
+        $query->query = 'с';
+        $query->districtId = '1001200000000';
+        
+        $res = $query->send();
+        $res = $res->result;
+        
+        foreach ($res as $answer)
+        {
+            $this->assertEquals($answer->districtId, $query->districtId);
+        }
+    }
+    
+    /*
+     * Проверяет правильность поиска объектов внутри указанного города
+     */
+    public function testCityId()
+    {
+        $query = new QueryToApi();
+        $query->oneString = true;
+        $query->limit = 15;
+        $query->query = '';
+        $query->cityId = '3000000100000';
+        
+        $res = $query->send();
+        $res = $res->result;
+        
+        foreach ($res as $answer)
+        {
+            $this->assertEquals($answer->cityId, $query->cityId);
+        }
+    }
+    
+    /*
+     * Проверяет, как работает поиск при неверном Id
+     */
+    public function testWrongIds()
+    {
+        $query = new QueryToApi();
+        $query->oneString = true;
+        $query->limit = 5;
+        $query->query = 'вологодская область';
+        $query->cityId = '7201100100003243242';
+
+        
+        $res = $query->send();
+        $res = $res->result;
+        
+        $this->assertEquals($res[0]->regionId, '3500000000000');
+        $this->assertEquals($res[0]->name, 'Вологодская');
+        $this->assertEquals($res[0]->contentType, 'region');
+    }
+    
+    /*
+     * Проверяет, как работает поиск при множественных Id
+     */
+    public function testMultipleIds()
+    {
+        $query = new QueryToApi();
+        $query->oneString = true;
+        $query->limit = 15;
+        $query->query = 'л';
+        $query->cityId = '3000000100000';
+        $query->districtId = '1001200000000';
+        $query->regionId = '1400000000000';
+        
+        $res = $query->send();
+        $res = $res->result;
+        
+        foreach ($res as $answer)
+        {
+            $this->assertEquals($answer->cityId, $query->cityId);
+        }
     }
 }
