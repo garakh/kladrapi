@@ -242,7 +242,7 @@ class OneStringTest extends PHPUnit_Framework_TestCase
         $query = new QueryToApi();
         $query->oneString = true;
         $query->limit = 15;
-        $query->query = '';
+        $query->query = 'у';
         $query->cityId = '3000000100000';
         
         $res = $query->send();

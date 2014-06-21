@@ -51,7 +51,7 @@ namespace Kladr\Core\Plugins\General {
                 $query = $request->getQuery('query');
                 
                 //разбиваем строку запроса на слова
-                $arWords = preg_split('/(\ |\.|\;|\,)+/', $query);
+                $arWords = preg_split('/(\ |\.|\;|\,)+/', $query, -1, PREG_SPLIT_NO_EMPTY);
                 
                 //нормализуем
                 foreach ($arWords as $key => $word)
