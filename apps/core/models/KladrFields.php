@@ -11,7 +11,6 @@ namespace Kladr\Core\Models {
      */
     class KladrFields
     {
-
         const Id = 'Id';
         const Name = 'Name';
         const NormalizedName = 'NormalizedName';
@@ -28,7 +27,18 @@ namespace Kladr\Core\Models {
         const CodeStreet = 'CodeStreet';
         const CodeBuilding = 'CodeBuilding';
         const Sort = 'Sort';
-
+        const BuildingId = 'BuildingId';
+        const StreetId = 'StreetId';
+        const CityId = 'CityId';      
+        const DistrictId = 'DistrictId';
+        const RegionId = 'RegionId';
+        const FullName = 'FullName';
+        const ContentType = 'ContentType';
+        const NormalizedBuildingName = 'NormalizedBuildingName';
+        const NormalizedStreetName = 'NormalizedStreetName';
+        const NormalizedCityName = 'NormalizedCityName';
+        const NormalizedDistrictName = 'NormalizedDistrictName';
+        const NormalizedRegionName = 'NormalizedRegionName';
     }
 
 }

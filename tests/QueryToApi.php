@@ -23,7 +23,8 @@ class QueryToApi {
     public $withParent = null;
     public $limit = null;
     public $offset = null;
-
+    public $oneString = null;
+    
     /**
      * Формирует строку запроса
      * @return string
@@ -91,6 +92,12 @@ class QueryToApi {
             $url .= 'offset=' . $this->offset;
         }
 
+        if (isset($this->oneString)) {
+            if ($url)
+                $url .= '&';
+            $url .= 'oneString=' . $this->oneString;
+        }
+        
         return self::GetURL() . '?' . $url;
     }
 

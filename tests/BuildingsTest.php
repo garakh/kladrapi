@@ -136,7 +136,7 @@ class BuildingsTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetWithParent1(){
         $query = new QueryToApi();
-        $query->buildingId = '1301300100000830001';
+        $query->buildingId = '5200000100009480001';
         $query->contentType = QueryToApi::BuildingType;
         $query->withParent = true;
         
@@ -146,48 +146,40 @@ class BuildingsTest extends PHPUnit_Framework_TestCase {
         $this->assertLessThan(count($res), 0);
         
         foreach($res as $building){
-            if($building->name == '100'){
-                $this->assertEquals($building->zip, '431350');
+            if($building->name == '17'){
+                $this->assertEquals($building->zip, '603001');
                 $this->assertEquals($building->type, 'дом');
                 $this->assertEquals($building->typeShort, 'д');
                 
                 $parent = $building->parents[0];
         
-                $this->assertEquals($parent->id, '1300000000000');
-                $this->assertEquals($parent->name, 'Мордовия');
+                $this->assertEquals($parent->id, '5200000000000');
+                $this->assertEquals($parent->name, 'Нижегородская');
                 $this->assertEquals($parent->zip, null);
-                $this->assertEquals($parent->type, 'Республика');
-                $this->assertEquals($parent->typeShort, 'Респ');
+                $this->assertEquals($parent->type, 'Область');
+                $this->assertEquals($parent->typeShort, 'обл');
                 
                 $parent = $building->parents[1];
         
-                $this->assertEquals($parent->id, '1301300000000');
-                $this->assertEquals($parent->name, 'Ковылкинский');
+                $this->assertEquals($parent->id, '5200000100000');
+                $this->assertEquals($parent->name, 'Нижний Новгород');
                 $this->assertEquals($parent->zip, null);
-                $this->assertEquals($parent->type, 'Район');
-                $this->assertEquals($parent->typeShort, 'р-н');
-                
-                $parent = $building->parents[2];
-        
-                $this->assertEquals($parent->id, '1301300100000');
-                $this->assertEquals($parent->name, 'Ковылкино');
-                $this->assertEquals($parent->zip, '431350');
                 $this->assertEquals($parent->type, 'Город');
                 $this->assertEquals($parent->typeShort, 'г');
                 
-                $parent = $building->parents[3];
+                $parent = $building->parents[2];
         
-                $this->assertEquals($parent->id, '13013001000008300');
-                $this->assertEquals($parent->name, 'Саранская');
-                $this->assertEquals($parent->zip, '431350');
+                $this->assertEquals($parent->id, '52000001000094800');
+                $this->assertEquals($parent->name, 'Рождественская');
+                $this->assertEquals($parent->zip, '603001');
                 $this->assertEquals($parent->type, 'Улица');
                 $this->assertEquals($parent->typeShort, 'ул');
-                
+                                
                 return;
             }
         }
         
-        $this->assertTrue(false, '100 должен быть в списке результатов');
+        $this->assertTrue(false, '17 должен быть в списке результатов');
     }
     
     /*

@@ -1,0 +1,56 @@
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script>
+
+var lookup = function(query, regionId, districtId, cityId, cb){
+	$.get('/api.php', 
+		{
+			'oneString' : 'true',
+			'query' : query,
+			'limit' : 5,
+                        'regionId' : regionId,
+                        'districtId' : districtId,
+                        'cityId' : cityId
+		}, 
+		cb, 'json');
+}
+
+var render = function(){
+	$('#result').html('');
+	lookup($('#address').val(), $('#regionId').val(), $('#districtId').val(), $('#cityId').val(), function(data){
+		$('#result').html('');
+		for(var i = 0; i < data.result.length; i++){
+			var address = data.result[i].fullName + '<br />';
+			$('#result').append(address);
+		}
+	});
+}
+
+$(function(){
+	$('#address').keyup(render);
+});
+</script>
+<body>
+    <div id="inputs">
+        <div id="addressGroup">
+            <label for="address" style="width:90px; display: inline-block">address</label>
+            <input id="address" style="width:200px" />
+        </div>
+        <div id="regionIdGroup">
+            <label for="regionId" style="width:90px; display: inline-block">regionId</label>
+            <input id="regionId" style="width:200px; "/>
+        </div>
+        <div id="districtIdGroup">
+            <label for="districtId" style="width:90px; display: inline-block">districtId</label>
+            <input id="districtId" style="width:200px"/>
+        </div>
+        <div id="cityIdGroup">
+            <label for="cityId" style="width:90px; display: inline-block">cityId</label>
+            <input id="cityId" style="width:200px"/>
+        </div>
+    </div>
+    <hr align="left" style="width:290px">
+<div id="result"></div>
+    
+</body>
+</html>

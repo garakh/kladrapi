@@ -131,11 +131,35 @@ namespace Kladr\Core {
                     )
                 )
             ));
+            
+            //setting sphinxapi
+            $di->set('sphinxapi', function() use ($config) {
+                    include (dirname(__FILE__) . '/plugins/tools/sphinxapi.php');
+                    $sphinxapi = new \SphinxClient();
+                    $sphinxapi->SetServer($config->sphinxapi->server, $config->sphinxapi->port);
+                    return $sphinxapi;               
+                }
+            );
 
             // Register validate plugin
             $di->set('validate', function() {
                 return new \Kladr\Core\Plugins\General\ValidatePlugin();
             });
+            
+            // Register oneString plugin
+            $di->set('oneString', array(
+                'className' => '\Kladr\Core\Plugins\General\OneStringPlugin',
+                'properties' => array(
+                    array(
+                        'name' => 'cache',
+                        'value' => array('type' => 'service', 'name' => 'cache')
+                    ),
+                    array(
+                        'name' => 'sphinxClient',
+                        'value' => array('type' => 'service', 'name' => 'sphinxapi')
+                    )   
+                )               
+            ));
 
             // Register find plugin
             $di->set('find', array(
@@ -234,6 +258,7 @@ namespace Kladr\Core {
                 $api->addPlugin($di->get('allDataPlugin'));
 
                 $api->addPlugin($di->get('validate'));
+		$api->addPlugin($di->get('oneString'));
                 $api->addPlugin($di->get('find'));
                 $api->addPlugin($di->get('specialCases'));
                 //$api->addPlugin($di->get('duplicate'));
