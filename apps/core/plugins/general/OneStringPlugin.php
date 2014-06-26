@@ -300,7 +300,7 @@ namespace Kladr\Core\Plugins\General {
                         $arReturn[] = $retObj;  
                     }
                 }            
-//                $this->cache->set('OneStringPlugin', $request, $arReturn);
+                $this->cache->set('OneStringPlugin', $request, $arReturn);
             } 
 
             $result = $prevResult;
