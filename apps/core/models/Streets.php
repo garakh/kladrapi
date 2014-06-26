@@ -124,18 +124,18 @@ namespace Kladr\Core\Models {
             $arQuery['skip'] = $offset;
             $arQuery['limit'] = $limit;
 
-            $regions = self::find($arQuery);
+            $streets = self::find($arQuery);
 
             $arReturn = array();
-            foreach ($regions as $region)
-            {
+            foreach($streets as $street)
+			{
                 $arReturn[] = array(
-                    'id' => $region->readAttribute(KladrFields::Id),
-                    'name' => $region->readAttribute(KladrFields::Name),
-                    'zip' => $region->readAttribute(KladrFields::ZipCode),
-                    'type' => $region->readAttribute(KladrFields::Type),
-                    'typeShort' => $region->readAttribute(KladrFields::TypeShort),
-                    'okato' => $region->readAttribute(KladrFields::Okato),
+                    'id'        => $street->readAttribute(KladrFields::Id),
+                    'name'      => $street->readAttribute(KladrFields::Name),
+                    'zip'       => $street->readAttribute(KladrFields::ZipCode),
+                    'type'      => $street->readAttribute(KladrFields::Type),
+                    'typeShort' => $street->readAttribute(KladrFields::TypeShort),
+                    'okato'     => $street->readAttribute(KladrFields::Okato),
                     'contentType' => Streets::ContentType,
                 );
             }

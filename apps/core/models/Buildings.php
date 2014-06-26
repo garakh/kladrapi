@@ -26,7 +26,6 @@ namespace Kladr\Core\Models {
      */
     class Buildings extends Collection
     {
-
         /**
          * @var string Тип объекта
          */
@@ -84,7 +83,7 @@ namespace Kladr\Core\Models {
          */
         public static function findByQuery($name = null, $codes = array(), $limit = 5000, $zip = null)
         {
-            //насчет оффсета: как вариант делать выборку по всем домам вплоть до лимита,а после отбрасывать первую часть в нижнем array splice
+            
             $arQuery = array();
             $arQuery['conditions'] = array();
             
@@ -122,18 +121,18 @@ namespace Kladr\Core\Models {
             
             $arQuery['limit'] = $limit * 3; //почему *3?
 
-            $regions = self::find($arQuery);
+            $buildings = self::find($arQuery);
 
             $arReturn = array();
-            foreach ($regions as $region)
-            {
+            foreach($buildings as $building)
+			{
                 $arReturn[] = array(
-                    'id' => $region->readAttribute(KladrFields::Id),
-                    'name' => $region->readAttribute(KladrFields::Name),
-                    'zip' => $region->readAttribute(KladrFields::ZipCode),
-                    'type' => $region->readAttribute(KladrFields::Type),
-                    'typeShort' => $region->readAttribute(KladrFields::TypeShort),
-                    'okato' => $region->readAttribute(KladrFields::Okato),
+                    'id'          => $building->readAttribute(KladrFields::Id),
+                    'name'        => $building->readAttribute(KladrFields::Name),
+                    'zip'         => $building->readAttribute(KladrFields::ZipCode),
+                    'type'        => $building->readAttribute(KladrFields::Type),
+                    'typeShort'   => $building->readAttribute(KladrFields::TypeShort),
+                    'okato'       => $building->readAttribute(KladrFields::Okato),
                     'contentType' => Buildings::ContentType,
                 );
             }
