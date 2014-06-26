@@ -83,13 +83,15 @@ namespace Kladr\Core\Models {
          * @param string $name Название объекта
          * @param array $codes Коды родительского объекта
          * @param int $limit Максимальное количество возвращаемых объектов
+         * @param int $zip Почтовый индекс
          * @return array
          */
-        public static function findByQuery($name = null, $codes = array(), $limit = 5000)
+        public static function findByQuery($name = null, $codes = array(), $limit = 5000, $zip = null)
         {
             //насчет оффсета: как вариант делать выборку по всем домам вплоть до лимита,а после отбрасывать первую часть в нижнем array splice
             $arQuery = array();
-
+            $arQuery['conditions'] = array();
+            
             if ($codes)
             {
                 $codes = array_splice($codes, 0, 5);
@@ -107,7 +109,8 @@ namespace Kladr\Core\Models {
             }
             else
             {
-                return array();
+                if($zip == null)
+                    return array();
             }
 
             if ($name)
@@ -116,6 +119,11 @@ namespace Kladr\Core\Models {
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
+            if($zip)
+            {
+                $arQuery['conditions'][KladrFields::ZipCode] = $zip;
+            }
+            
             $arQuery['limit'] = $limit * 3; //почему *3?
 
             $regions = self::find($arQuery);

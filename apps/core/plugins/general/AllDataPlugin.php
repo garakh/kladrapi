@@ -130,7 +130,8 @@ namespace Kladr\Core\Plugins\General {
                         array(
                             'Bad' => false,
                             'CodeCity' => $city['CodeCity'],
-                            'CodeRegion' => (int) $city['CodeRegion']));
+                            'CodeDistrict' => $city['CodeDistrict'],
+                            'CodeRegion' => $city['CodeRegion']));
 
                 $tmp = $this->getCachePath($cacheKey) . '_' . rand(10000, 10000000);
                 $fp = fopen($tmp, 'w');
@@ -357,7 +358,7 @@ namespace Kladr\Core\Plugins\General {
                 'parents' => array()
             );
 
-            if ($district)
+            if ($district && $district['Id'] != null)
             {
                 $data['parents'][] = array(
                     'id' => $district['Id'],
@@ -369,16 +370,17 @@ namespace Kladr\Core\Plugins\General {
                 );
             }
 
-
-            $data['parents'][] = array(
-                'id' => $region['Id'],
-                'name' => $region['Name'],
-                'okato' => $region['Okato'],
-                'type' => $region['Type'],
-                'typeShort' => $region['TypeShort'],
-                'contentType' => Regions::ContentType
-            );
-
+            if ($region['Id'] != null)
+            {
+                $data['parents'][] = array(
+                    'id' => $region['Id'],
+                    'name' => $region['Name'],
+                    'okato' => $region['Okato'],
+                    'type' => $region['Type'],
+                    'typeShort' => $region['TypeShort'],
+                    'contentType' => Regions::ContentType
+                );
+            }
             return json_encode($data);
         }
 

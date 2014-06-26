@@ -44,9 +44,9 @@ namespace Kladr\Core\Plugins\General {
             {
                 return $prevResult;
             }
-            
+
             $objects = null;
-            //$objects = $this->cache->get('FindPlugin', $request);
+            $objects = $this->cache->get('FindPlugin', $request);
 
             if ($objects === null)
             {
@@ -98,6 +98,11 @@ namespace Kladr\Core\Plugins\General {
                     $arCodes = Buildings::getCodes($buildingId);
                 }
 
+                // zip
+                $zip = (int) $request->getQuery('zip');
+                if ($zip <= 0 || $zip > 999999)
+                    $zip = null;
+
                 // limit
                 $limit = $request->getQuery('limit');
                 $limit = intval($limit);
@@ -126,7 +131,7 @@ namespace Kladr\Core\Plugins\General {
                         $objects = Streets::findByQuery($query, $arCodes, $limit, $offset);
                         break;
                     case Buildings::ContentType:
-                        $objects = Buildings::findByQuery($query, $arCodes, $limit);
+                        $objects = Buildings::findByQuery($query, $arCodes, $limit, $zip);
                         break;
                 }
 
@@ -147,20 +152,21 @@ namespace Kladr\Core\Plugins\General {
          */
         public static function ConvertCodeTypeToArray($typeCode)
         {
-            $typeCode = (int)$typeCode;
-            
+            $typeCode = (int) $typeCode;
+
             // проверяем валидность. typeCode = 7 так же не нужен, т.к. это 0111, т.е. все варианты
             if ($typeCode <= 0 || $typeCode > 6)
                 return null;
-                
-            
+
+
             $result = array();
             foreach (array(1, 2, 4) as $code)
-                if( ($typeCode & $code) > 0)
-                    $result []= $code;
-                
+                if (($typeCode & $code) > 0)
+                    $result [] = $code;
+
             return $result;
         }
+
     }
 
 }

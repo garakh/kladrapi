@@ -68,8 +68,8 @@ try {
         LoadFile($db, $arLoaders, $file);
     }
 
-    $db->altnames->drop();
-    $db->socrbase->drop();
+    //$db->altnames->drop();
+    //$db->socrbase->drop();
 
     $conn->close();
 } catch (MongoConnectionException $e) {

@@ -146,6 +146,9 @@ use Kladr\Core\Models\Buildings;
                 {
                     $errorMessage = 'limit incorrect';
                 }
+				elseif($limit > 400){
+                    $errorMessage = 'limit > 400';
+                }
                 else
                 {
                     $arSearchContext['limit'] = intval($arSearchContext['limit']);

@@ -145,6 +145,7 @@ class KladrLoader extends Loader{
                         case '7700000000000': // Москва
                         case '7800000000000': // Санкт-Петербург                        
                         case '9900000000000': // Байконур    
+                        case '9200000000000': // Севастополь    
                             //$arData = array_slice($arData, 0, 8);
                             $regions->insert($arData);
 
@@ -174,8 +175,6 @@ class KladrLoader extends Loader{
                     break;
                 default: 
                     switch($arData[Loader::IdField]){
-                        case '3403100100051': // Урюпинск (копия)
-                            break;
                         default:
                             //$arData = array_slice($arData, 0, 10);
                             $arData[Loader::SortField] = $sort;
@@ -290,7 +289,7 @@ class KladrLoader extends Loader{
 			array('Id' => '2100000000000'),
 			array('$set' => 
 				array(
-					'CodeRegion' => 100021,
+					'CodeRegion' => 21,
 				)
 			)
 		);		
@@ -300,7 +299,7 @@ class KladrLoader extends Loader{
 			array('Id' => '2100000000000'),
 			array('$set' => 
 				array(
-					'Name' => 'Чувашская Республика',
+					'Name' => 'Чувашская',
 					'TypeShort' => 'Респ',
 					'Type' => 'Республика'
 				)
