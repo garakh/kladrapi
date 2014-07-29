@@ -125,11 +125,19 @@ namespace Kladr\Core\Plugins\General {
                 $cities = new Cities();
                 $mongo = $cities->getConnection();
                 $city = $mongo->cities->findOne(array('Id' => $cityId));
+                $codeCity = $city['CodeCity'];
+
+                if($city['CodeCity'] != null && ($city['CodeCity'] % 1000 == 0))
+                {
+                    $cc = $city['CodeCity'];
+                    $codeCity = array('$gte' => $cc, '$lt' => $cc + 1000);
+                }
+
 
                 $streets = $mongo->streets->find(
                         array(
                             'Bad' => false,
-                            'CodeCity' => $city['CodeCity'],
+                            'CodeCity' => $codeCity,
                             'CodeDistrict' => $city['CodeDistrict'],
                             'CodeRegion' => $city['CodeRegion']));
 
