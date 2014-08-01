@@ -316,9 +316,9 @@ class OneStringTest extends PHPUnit_Framework_TestCase
         
         for ($i = 0; $i<5; $i++)
         {
-            if ($res1[$i] && $res2[$i])
+            if (isset($res1[$i]) && isset($res2[$i]))
             {
-                $this->assertEquals($res1[$i]->Id, $res2[$i]->Id);
+                $this->assertEquals($res1[$i]->id, $res2[$i]->id);
             }         
         }
     }
