@@ -59,9 +59,11 @@ namespace Kladr\Core\Plugins\General {
                     $arWords[$key] = Tools::Normalize($word);
                 }
                 
+                $arExceptionWords = array('рн', 'бр');
+                
                 for ($i=0; $i<count($arWords); $i++)
                 {
-                    if ($i === count($arWords)-1 || mb_strlen($arWords[$i], mb_detect_encoding($arWords[$i])) <= 2)
+                    if ($i === count($arWords)-1 || (mb_strlen($arWords[$i], mb_detect_encoding($arWords[$i])) <= 2 && !in_array($arWords[$i], $arExceptionWords)))
                     {
                         $arWords[$i] = $arWords[$i] . '*';
                     }            
