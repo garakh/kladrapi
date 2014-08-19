@@ -295,4 +295,31 @@ class OneStringTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($answer->cityId, $query->cityId);
         }
     }
+    
+    /*
+     * Проверка корректности работы сервиса с сокращением районов
+     */
+    public function testBugWithDistricts()
+    {
+        $query = new QueryToApi();
+        $query->oneString = true;
+        $query->limit = 5;
+        $query->query = 'Московская обл, Щелковский р-н, Соколовская ст';
+        
+        $res1 = $query->send();
+        $res1 = $res1->result;
+        
+        $query->query = 'Московская обл, Щелковский район, Соколовская ст';
+        
+        $res2 = $query->send();
+        $res2 = $res2->result;
+        
+        for ($i = 0; $i<5; $i++)
+        {
+            if (isset($res1[$i]) && isset($res2[$i]))
+            {
+                $this->assertEquals($res1[$i]->id, $res2[$i]->id);
+            }         
+        }
+    }
 }
