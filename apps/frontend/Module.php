@@ -20,6 +20,7 @@ namespace Kladr\Frontend {
                         'Kladr\Frontend\Controllers' => $config->application->controllersDir,
                         'Kladr\Frontend\Plugins' => $config->application->pluginsDir,
                         'Kladr\Frontend\Library' => $config->application->libraryDir,
+                        'Phalcon' => __DIR__ .'/vendor/Phalcon/'
                     )
             );
 
@@ -49,8 +50,26 @@ namespace Kladr\Frontend {
             }, true);
 
             // Start the session the first time when some component request the session service
-            $di->set('session', function() {
-                $session = new \Phalcon\Session\Adapter\Files();
+            $di->set('session', function() use ($config) {
+
+                if(isset($config->session->adapter))
+                    switch($config->session->adapter){
+                        case 'mongo' :
+                            $mongo = new \Mongo($config->session->mongoHost);
+
+                            $session = new \Phalcon\Session\Adapter\Mongo(array(
+                                'collection' => $mongo->kladrapiSession->data
+                            ));
+                            break;
+
+                        case 'file':
+                            $session = new \Phalcon\Session\Adapter\Files();
+                            break;
+                    }
+                else
+                    $session = new \Phalcon\Session\Adapter\Files();
+
+
                 $session->start();
                 return $session;
             });

@@ -34,6 +34,7 @@ namespace Kladr\Core {
                         'Kladr\Core\Plugins\Base' => $config->application->pluginsBaseDir,
                         'Kladr\Core\Plugins\General' => $config->application->pluginsGeneralDir,
                         'Kladr\Core\Plugins\Tools' => $config->application->pluginsToolsDir,
+
                     )
             );
 
