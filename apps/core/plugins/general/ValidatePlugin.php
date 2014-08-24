@@ -149,31 +149,25 @@ use Kladr\Core\Models\Buildings;
             // limit
             if ($request->getQuery('limit'))
             {
-                $arSearchContext['limit'] = $request->getQuery('limit');
-                if (preg_match('/[^0-9]+/u', $arSearchContext['limit']))
+                $arSearchContext['limit'] = (int)$request->getQuery('limit');
+
+                if ($arSearchContext['limit'] == 0)
                 {
-                    $errorMessage = 'limit incorrect';
+                    $errorMessage = 'limit is incorrect. Should be numerable, greater than 0';
                 }
-				elseif($limit > 400){
-                    $errorMessage = 'limit > 400';
-                }
-                else
-                {
-                    $arSearchContext['limit'] = intval($arSearchContext['limit']);
+
+                if($arSearchContext['limit'] > 400){
+                    $errorMessage = 'limit > 400. Should be less than 400';
                 }
             }
 
             //offset
             if ($request->getQuery('offset'))
             {
-                $arSearchContext['offset'] = $request->getQuery('offset');
-                if (preg_match('/[^0-9]+/u', $arSearchContext['limit']))
+                $arSearchContext['offset'] = (int)$request->getQuery('offset');
+                if ($arSearchContext['limit'] == 0)
                 {
-                    $errorMessage = 'offset incorrect';
-                }
-                else
-                {
-                    $arSearchContext['offset'] = intval($arSearchContext['offset']);
+                    $errorMessage = 'offset incorrect. Should be numerable, greater than 0';
                 }
             }
 
