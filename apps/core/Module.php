@@ -254,7 +254,9 @@ namespace Kladr\Core {
             $di->setShared('api', function() use ($di, $config) {
                 $api = new Services\ApiService($di->get('apiTracker'));
 
-                $api->addPlugin($di->get('logPaidUsersPlugin'));
+                if($config->application->enableUserLog)
+                    $api->addPlugin($di->get('logPaidUsersPlugin'));
+
                 $api->addPlugin($di->get('allDataPlugin'));
                 $api->addPlugin($di->get('validate'));
 
