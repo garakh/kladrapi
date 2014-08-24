@@ -6,3 +6,6 @@
     RewriteRule  ^yandex_7f80228c7e860a62\.html public/yandex_7f80228c7e860a62.html  [L]
     RewriteRule  (.*) public/$1 [L]
 </IfModule>
+<Files apache.htaccess>
+ deny from all
+</Files>
