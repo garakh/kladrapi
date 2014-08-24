@@ -23,6 +23,12 @@ namespace Kladr\Frontend\Controllers {
             $this->view->setVar("authorized", $user ? true : false);
         }
 
+        public function show404Action()
+        {
+            $this->response->setStatusCode('404', 'Not found :(');
+            echo "<h1>Not found :(</h1>";
+        }
+
     }
 
 }
