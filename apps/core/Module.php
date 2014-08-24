@@ -251,14 +251,16 @@ namespace Kladr\Core {
             });
 
             // Setting api
-            $di->setShared('api', function() use ($di) {
+            $di->setShared('api', function() use ($di, $config) {
                 $api = new Services\ApiService($di->get('apiTracker'));
 
                 $api->addPlugin($di->get('logPaidUsersPlugin'));
                 $api->addPlugin($di->get('allDataPlugin'));
-
                 $api->addPlugin($di->get('validate'));
-		$api->addPlugin($di->get('oneString'));
+
+                if($config->sphinxapi->enabled)
+                    $api->addPlugin($di->get('oneString'));
+
                 $api->addPlugin($di->get('find'));
                 $api->addPlugin($di->get('specialCases'));
                 //$api->addPlugin($di->get('duplicate'));
