@@ -5,5 +5,7 @@
 /apps/frontend/config/config.ini
 /.buildpath
 /.project
-/.settings/org.eclipse.php.core.prefs
+/.settings/
 /tests/bootstrap.php
+/.htaccess
+/public/.htaccess
