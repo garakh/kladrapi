@@ -1,4 +1,4 @@
-<? use \Phalcon\Tag ?>
+<? use \Phalcon\Tag; ?>
 
 <div class="promoheader">
     <div class="correctwidth">
@@ -12,7 +12,7 @@
                 <li>Высокая скорость работы</li>
 
             </ul>
-            <a <?= $authorized ? '' : 'id="start-use-service"' ?> href="<?= true ? '/integration/' : '/register/' ?>"><p>Начать пользоваться сервисом</p></a>
+            <a href="/prices/"><p>Гарантии работы сервиса</p></a>
         </div>
     </div>
 
@@ -71,10 +71,10 @@
     <? if(!$authorized && false): ?>
     <br /><br />
     <h1>Зарегистрируйтесь сейчас <br /> и получите 500 рублей на свой счет</h1>
-    <div class="propose">			
-        <div class="reg2"> 
+    <div class="propose">
+        <div class="reg2">
             <input type="submit" class="btn" value="Регистрация" id="bt-reg"/>
-        </div>				
+        </div>
     </div>
     <? endif ?>
 </div>

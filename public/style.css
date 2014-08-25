@@ -520,7 +520,7 @@ h1 {
 
 
 .main .content h2{
-	margin-bottom:30px;
+	margin-bottom:10px;
 	padding-bottom:0px;
 }
 
@@ -952,5 +952,22 @@ h1 {
     margin-top: -27px;
 }
 
+.ul-list{
+    margin-left: 20px;
+}
 
+.ul-list li{
+    list-style-type: disc;
+}
 
+a.btn-learn{
+    text-decoration: none;
+    color: #fff;
+    background-color: #1f9ed8;
+    padding: 15px;
+    border-radius: 9px;
+    text-align: center;
+    margin: auto;
+    margin-left: 350px;
+    margin-top: 20px;
+}
