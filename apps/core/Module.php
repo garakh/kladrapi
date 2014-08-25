@@ -246,6 +246,8 @@ namespace Kladr\Core {
                 )
             ));
 
+            $di->set('enabledTokensPlugin', '\Kladr\Core\Plugins\General\EnabledTokensPlugin');
+
             // Register GA
             $di->set('apiTracker', function() use($config) {
                 return new \Racecore\GATracking\GATracking($config->ga->code);
@@ -254,6 +256,9 @@ namespace Kladr\Core {
             // Setting api
             $di->setShared('api', function() use ($di, $config) {
                 $api = new Services\ApiService($di->get('apiTracker'));
+
+                if($config->application->enableTokens)
+                    $api->addPlugin($di->get('enabledTokensPlugin'));
 
                 if($config->application->enableUserLog)
                     $api->addPlugin($di->get('logPaidUsersPlugin'));
