@@ -118,7 +118,10 @@ namespace Kladr\Core\Services {
          */
         public function log(Request $request)
         {
-            $this->googleTracker->setClientID($request->get('token'));
+            $token = trim($request->get('token'));
+
+            if($token != '')
+                $this->googleTracker->setClientID($token);
 
             $page = new \Racecore\GATracking\Tracking\Page();
             $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
