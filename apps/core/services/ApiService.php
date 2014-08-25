@@ -127,6 +127,13 @@ namespace Kladr\Core\Services {
 
             $this->googleTracker->addTracking($page);
 
+            $event = new \Racecore\GATracking\Tracking\Event();
+            $event->setEventCategory('Token_' . $request->get('token'));
+            $event->setEventLabel($referer);
+            $event->setEventAction('Hit');
+
+            $this->googleTracker->addTracking($event);
+
             try
             {
                 $this->googleTracker->send();
