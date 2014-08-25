@@ -511,7 +511,7 @@ class SphinxClient
 			return;
 		}
 				
-		assert ( is_int($port) );
+		//assert ( is_int($port) );
 		$this->_host = $host;
 		$this->_port = $port;
 		$this->_path = '';
