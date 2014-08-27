@@ -124,6 +124,8 @@ namespace Kladr\Frontend {
                 $view->setViewsDir('../apps/frontend/views/');
                 return $view;
             });
+
+
         }
 
     }

@@ -1,41 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+    <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
-<url>
-  <loc>http://kladr-api.ru/</loc>
-  <changefreq>daily</changefreq>
-</url>
-<url>
-  <loc>http://kladr-api.ru/register/</loc>
-  <changefreq>daily</changefreq>
-</url>
-<url>
-  <loc>http://kladr-api.ru/login/</loc>
-  <changefreq>daily</changefreq>
-</url>
-<url>
-  <loc>http://kladr-api.ru/prices/</loc>
-  <changefreq>daily</changefreq>
-</url>
-<url>
-  <loc>http://kladr-api.ru/integration/</loc>
-  <changefreq>daily</changefreq>
-</url>
-<url>
-  <loc>http://kladr-api.ru/examples/</loc>
-  <changefreq>daily</changefreq>
-</url>
-<url>
-  <loc>http://kladr-api.ru/contacts/</loc>
-  <changefreq>daily</changefreq>
-</url>
-<url>
-  <loc>http://kladr-api.ru/recovery/</loc>
-  <changefreq>daily</changefreq>
-</url>
+    <url>
+        <loc>http://kladr-api.ru/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/register/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/login/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/prices/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/integration/</loc>
+    </url>
+
+    <url>
+        <loc>http://kladr-api.ru/integration/amiro/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/integration/bitrix/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/integration/dotnet/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/integration/drupal/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/integration/java/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/integration/jquery/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/integration/nodejs/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/integration/ones/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/integration/php/</loc>
+    </url>
+
+
+    <url>
+        <loc>http://kladr-api.ru/examples/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/forum/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/contacts/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/recovery/</loc>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/content/examples/example1.html</loc>
+        <lastmod>2014-08-25T01:10:07+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/content/examples/example2.html</loc>
+        <lastmod>2014-08-25T01:10:07+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/content/examples/example3.html</loc>
+        <lastmod>2014-08-25T01:10:07+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/content/examples/example4.html</loc>
+        <lastmod>2014-08-25T01:10:07+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://kladr-api.ru/test.html</loc>
+        <lastmod>2014-08-25T01:09:32+00:00</lastmod>
+    </url>
 </urlset>

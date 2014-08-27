@@ -1,0 +1,121 @@
+<?php
+$h =  $embedded ? 'h2' : 'h1';
+$style = $embedded ? 'display: none;' : '';
+?>
+
+<?if($embedded):?>
+<h2 class="blocktoggle apidoc dotted" data-block="apidoc">Документация API сервиса</h2>
+
+<?endif?>
+<div class="correctwidth">
+<div class="apidoc docblock" style="display:none">
+    <a name="json"></a>
+
+    <h2 class="blocktoggle dotted" data-block="apidoc">Документация API сервиса</h2>
+
+    <p>Для работы с сервисом Вам понадобится один из ключей:</p>
+    <ul>
+        <li>Ключ с привязкой к домену</li>
+        <li>Ключ <i>без</i> привязки к домену</li>
+    </ul>
+    <p>Используйте ключ с привязкой к домену на Вашем сайте в формах ввода информации. Ключ без привязки к домену стоит использовать в Ваших серверных приложениях.
+    </p>
+    <p>Во всех примерах на этой странице используется <b>демонстрационный ключ</b>, который периодически меняется. Не используйте его в своих рабочих приложениях.</p>
+    <div>
+        <h3>Параметры запроса</h3>
+        <p>Адрес страницы для запроса: <noindex><a href="http://kladr-api.ru/api.php">http://kladr-api.ru/api.php</a></p></noindex>
+        <h5>Список доступных параметров запроса:</h5>
+        <ol>
+            <li><code>token</code> – Токен для доступа к сервису</li>
+            <li><code>key</code> – Ключ для доступа к сервису</li>
+            <li><code>regionId</code> – Код региона (области)</li>
+            <li><code>districtId</code> – Код района</li>
+            <li><code>cityId</code> – Код города (населённого пункта)</li>
+            <li><code>streetId</code> – Код улицы</li>
+            <li><code>buildingId</code> – Код дома (строения)</li>
+            <li><code>query</code> – Строка для поиска по названию</li>
+            <li><code>contentType</code> – Тип возвращаемых объектов (region, district, city, street, building)</li>
+            <li><code>withParent</code> – Если 1, сервис вернёт объекты вместе с родительскими (для района это регион, для населённого пункта район и регион и т.п.)</li>
+            <li><code>limit</code> – Количество возвращаемых объектов</li>
+            <li><code>callback</code> – JavaScript метод которому будет передан ответ базы</li>
+        </ol>
+    </div>
+
+    <div>
+        <h3>Формат ответа сервиса</h3>
+        <p>Пример ответа сервиса:</p>
+        <p>Запрос: <noindex><a href="http://kladr-api.ru/api.php?query=%D0%90%D1%80%D1%85&contentType=city&withParent=1&limit=2&token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969" target="_blank">http://kladr-api.ru/api.php?query=Арх&contentType=city&withParent=1&limit=2&token=51dfe5d42fb2b43e3300006e &key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969</a></noindex></p>
+        <p>Ответ:</p>
+                    <pre class="brush: js;">
+{
+    "searchContext": {                      // Объект с переданными серверу параметрами
+        "query": "Арх",
+        "contentType": "city",
+        "withParent": 1,
+        "limit": 2
+    },
+    "result": [                             // Массив полученных объектов заданного типа (населённые пункты)
+        {
+            "id": "2900000100000",          // Код объекта
+            "name": "Архангельск",          // Название объекта
+            "zip": null,                    // Почтовый индекс объекта
+            "type": "Город",                // Тип объекта полностью
+            "typeShort": "г",               // Тип объекта коротко
+            "okato": "11401000000",         // Код ОКАТО
+            "parents": [                    // Массив родительских объектов (если был передан параметр withParent)
+                {
+                    "id": "2900000000000",
+                    "name": "Архангельская",
+                    "zip": null,
+                    "type": "Область",
+                    "typeShort": "обл",
+                    "okato": "11000000000",
+                }
+            ]
+        },
+        {
+            "id": "2800200000100",
+            "name": "Архара",
+            "zip": "676740",
+            "type": "Поселок городского типа",
+            "typeShort": "пгт",
+            "okato": "10205551000",
+            "parents": [
+                {
+                    "id": "2800000000000",
+                    "name": "Амурская",
+                    "zip": "675000",
+                    "type": "Область",
+                    "typeShort": "обл",
+                    "okato": "10000000000",
+                },
+                {
+                    "id": "2800200000000",
+                    "name": "Архаринский",
+                    "zip": null,
+                    "type": "Район",
+                    "typeShort": "р-н",
+                    "okato": "10205000000",
+                }
+            ]
+        }
+    ]
+}   
+                    </pre>
+    </div>
+
+    <div>
+        <h3>Особенности поиска объектов</h3>
+        <p>
+            Поиск объектов осуществляется либо по названию либо по коду связанного (родительского либо дочернего элемента).
+            Поиск объектов по названию осуществляется по шаблону /^название/ (т.е. выбираются объекты, название которых полностью
+            совпадает с поисковой строкой либо начинается на неё).
+            <br><br>
+            Для поиска улицы по названию необходимо обязательно указать код населённого пункта, например <noindex><a href="http://kladr-api.ru/api.php?token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969&cityId=7800000000000&query=3&contentType=street&limit=50" target="_blank">cityId=7800000000000&query=3&contentType=street</a></noindex>.
+            <br>
+            Для поиска строения по названию необходимо обязательно указать код улицы, например <noindex><a href="http://kladr-api.ru/api.php?&token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969&streetId=29000001000025800&query=1&contentType=building&limit=50" target="_blank">streetId=29000001000025800&query=1&contentType=building</a></noindex>.
+        </p>
+    </div>
+    <hr class="delimiter"/>
+</div>
+</div>

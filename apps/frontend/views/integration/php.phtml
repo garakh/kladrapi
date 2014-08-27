@@ -1,0 +1,110 @@
+<?php
+$h =  $embedded ? 'h2' : 'h1';
+$style = $embedded ? 'display: none;' : '';
+?>
+<?if($embedded):?>
+<h2 class="blocktoggle phpdoc dotted" data-block="phpdoc">PHP API</h2>
+<?endif?>
+<div class="correctwidth">
+
+<div class="phpdoc docblock" style="<?=$style?>">
+    <a name="php"></a>
+
+    <<?=$h?> class="blocktoggle dotted" data-block="phpdoc">
+        PHP API
+    </<?=$h?>>
+                <span>
+                    <noindex><a href="https://github.com/garakh/kladrapi-php/zipball/master">&#8595;ZIP</a></noindex>
+                    <noindex><a href="https://github.com/garakh/kladrapi-php/tarball/master">&#8595;TAR</a></noindex>
+                </span>
+
+    <h3><noindex><a href="https://github.com/garakh/kladrapi-php">https://github.com/garakh/kladrapi-php</a></noindex></h3>
+    <div>
+        <h3>Описание API</h3>
+
+        <div>
+            <h4>Kladr\Api</h4>
+            <p>Контроллер доступа к сервису</p>
+
+            <h5>Функции</h5>
+            <ul>
+                <li><code>QueryToJson(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде объекта Json</li>
+                <li><code>QueryToArray(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде ассоциативного массива</li>
+                <li><code>QueryToObjects(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде массива объектов</li>
+            </ul>
+
+            <h5>Свойства</h5>
+            <ul>
+                <li><code>Error</code> - текст последней, возникшей при обращении к сервису, ошибки</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Kladr\Query</h4>
+            <p>Объект запроса</p>
+
+            <h5>Свойства</h5>
+            <ul>
+                <li><code>ParentType</code> - тип родительского объекта для ограничения области поиска (регион, район, город)</li>
+                <li><code>ParentId</code> - идентификатор родительского объекта для ограничения области поиска</li>
+                <li><code>ContentType</code> - тип искомого объекта (регион, район, город)</li>
+                <li><code>ContentName</code> - название искомого объекта</li>
+                <li><code>WithParent</code> - получить объекты вместе с родителями (если true у объекта заполняется свойство Parent)</li>
+                <li><code>Limit</code> - ограничение количества возвращаемых объектов</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Kladr\Object</h4>
+            <p>Объект базы</p>
+
+            <h5>Свойства</h5>
+            <ul>
+                <li><code>Id</code> - идентификатор объекта</li>
+                <li><code>Name</code> - название объекта</li>
+                <li><code>Zip</code> - почтовый индекс объекта</li>
+                <li><code>Type</code> - подпись объекта полностью (область, район)</li>
+                <li><code>TypeShort</code> - подпись объекта коротко (обл, р-н)</li>
+                <li><code>Parents</code> - массив родительских объектов (заполняется если в запросе был установлен флаг WithParent)</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Kladr\ObjectType</h4>
+            <p>Перечисление типов  объектов, используемых в запросах к сервису</p>
+
+            <h5>Константы</h5>
+            <ul>
+                <li><code>Region</code> - регион</li>
+                <li><code>District</code> - район</li>
+                <li><code>City</code> - населённый пункт</li>
+                <li><code>Street</code> - улица</li>
+                <li><code>Building</code> - строение</li>
+            </ul>
+        </div>
+    </div>
+
+    <div>
+        <h3>Примеры</h3>
+
+        <p>Получение списка всех населённый пунктов, название которых начинается на "Арх"</p>
+                    <pre class="brush: js;">
+// Инициализация api, в качестве параметров указываем токен и ключ для доступа к сервису
+$api = new Kladr\Api('51dfe5d42fb2b43e3300006e', '86a2c2a06f1b2451a87d05512cc2c3edfdf41969');
+
+// Формирование запроса
+$query = new Kladr\Query();
+$query->ContentName = 'Арх';
+$query->ContentType = Kladr\ObjectType::City;
+$query->WithParent = true;
+$query->Limit = 2;
+
+// Получение данных в виде ассоциативного массива
+$arResult = $api->QueryToArray($query);
+                    </pre>
+    </div>
+    <?if($embedded):?><a href="php/">Php</a><?endif?>
+    <hr  class="delimiter"/>
+</div>
+</div>
+

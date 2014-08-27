@@ -1,0 +1,141 @@
+<?php
+$h =  $embedded ? 'h2' : 'h1';
+$style = $embedded ? 'display: none;' : '';
+?>
+<?if($embedded):?>
+<h2 class="blocktoggle jquerydoc dotted" data-block="jquerydoc">jQuery plugin</h2>
+<?endif?>
+    <div class="correctwidth">
+<div class="jquerydoc docblock" style="<?=$style?>">
+    <a name="jquery"></a>
+
+    <<?=$h?> class="blocktoggle dotted" data-block="jquerydoc">
+        jQuery plugin
+    </<?=$h?>>
+                <span>
+                    <noindex><a href="https://github.com/garakh/kladrapi-jsclient/zipball/master">&#8595;ZIP</a></noindex>
+                    <noindex><a href="https://github.com/garakh/kladrapi-jsclient/tarball/master">&#8595;TAR</a></noindex>
+                </span>
+    <h3><noindex><a href="https://github.com/garakh/kladrapi-jsclient">https://github.com/garakh/kladrapi-jsclient</a></noindex></h3>
+    <div>
+        <h3>Архитектура</h3>
+        <ul>
+            <li><code>$.kladr</code> - (статичный объект) предоставляет методы и свойства для работы с сервисом</li>
+            <li><code>$( "selector" ).kladr</code> - (плагин jQuery) плагин для автодополнения адреса</li>
+        </ul>
+
+        <p>Подключение</p>
+                    <pre class="brush: js;">
+$( 'input' ).kladr({
+    option1: 'value1',
+    option2: 'value2'
+});
+                    </pre>
+
+        <p>Чтение опции, свойства</p>
+                    <pre class="brush: js;">
+$( 'input' ).kladr('option1');
+                    </pre>
+
+        <p>Изменение опции, свойства</p>
+                    <pre class="brush: js;">
+$( 'input' ).kladr('option1', 123);
+                    </pre>
+    </div>
+
+    <div>
+        <h3>Свойства объекта $.kladr</h3>
+        <ul>
+            <li><code>url</code> - url сервиса, по-умолчанию <noindex><a href="https://kladr-api.ru/api.php">https://kladr-api.ru/api.php</a></noindex></li>
+            <li><code>type</code> - перечисление используемых типов объектов. Список значений: <code>region, district, city, street, building</code></li>
+            <li><code>api</code> <code>= function( query, callback ) {}</code> - функция непосредственно выполняющая запрос к сервису. В качестве параметров принимает объект запроса и функцию, которой будет передан ответ сервиса.</li>
+            <li><code>check</code> <code>= function( query, callback ) {}</code> - функция для проверки существования объекта. В качестве параметров принимает объект запроса и функцию, которой будет передан объект (если он существует) либо false</li>
+        </ul>
+    </div>
+
+    <div>
+        <h3>Параметры плагина</h3>
+        <ul>
+            <li><code>token</code> - токен для доступа к сервису, обязательный параметр</li>
+            <li><code>key</code> – ключ для доступа к сервису, обязательный параметр</li>
+            <li><code>type</code> – тип подставляемых объектов, обязательный параметр</li>
+            <li><code>parentType</code> – тип родительского объекта, по-умолчанию <code>null</code></li>
+            <li><code>parentId</code> - идентификатор родительского объекта, по-умолчанию <code>null</code></li>
+            <li><code>limit</code> - количество отображаемых в выпадающем списке объектов, по-умолчанию <code>10</code></li>
+            <li><code>withParents</code> - получить объект вместе с родителями, по-умолчанию <code>false</code></li>
+            <li><code>showSpinner</code> - отображать ajax-крутилку, по-умолчанию <code>true</code></li>
+            <li><code>verify</code> - проверять введённые данные, по-умолчанию <code>false</code></li>
+            <li><code>current</code> - текущий, выбранный объект КЛАДР</li>
+        </ul>
+    </div>
+
+    <div>
+        <h3>Методы плагина</h3>
+        <ul>
+            <li><code>source = function( query ) { return objects; }</code> - функция для получения списка объектов отображаемых при автодополнении. По-умолчанию запрашивает данные у сервиса. Может быть переопределена для получения объектов из другого источника.</li>
+            <li><code>labelFormat = function( obj, query) { return label; }</code> - функция для форматирования значений в списке. В качестве параметров принимает <code>obj</code> – объект КЛАДР, <code>query</code> – текущее значение поля ввода.</li>
+            <li><code>valueFormat = function( obj, query) { return label; }</code> – функция для форматирования подставляемых в поле ввода значений. В качестве параметров принимает <code>obj</code> – объект КЛАДР, <code>query</code> – текущее значение поля ввода.</li>
+        </ul>
+    </div>
+
+    <div>
+        <h3>События плагина</h3>
+        <ul>
+            <li><code>open = function() {}</code> - открыт список объектов. Доступно как событие <code>kladr_open</code> поля ввода.</li>
+            <li><code>close = function() {}</code> - закрыт список объектов. Доступно как событие <code>kladr_close</code> поля ввода.</li>
+            <li><code>send = function() {}</code> - отправлен запрос к сервису. Доступно как событие <code>kladr_send</code> поля ввода.</li>
+            <li><code>received = function() {}</code> - получен ответ от сервиса. Доступно как событие <code>kladr_received</code> поля ввода.</li>
+            <li><code>select = function( obj ) {}</code> - выбран объект в списке. В параметре передаётся текущий, выбранный объект КЛАДР. Доступно как событие <code>kladr_select</code> поля ввода.</li>
+            <li><code>check = function( obj ) {}</code> - проверен введённый пользователем объект. Вызывается только если параметр <code>verify = true</code>. В параметре передаётся текущий объект КЛАДР. Доступно как событие <code>kladr_check</code> поля ввода.</li>
+        </ul>
+    </div>
+
+    <div>
+        <h3>Примеры</h3>
+
+        <p>Автодополнение городами России</p>
+                    <pre class="brush: js;">
+$( 'input' ).kladr({
+    token: 'token',
+    key: 'key',
+    type: $.kladr.type.city
+});
+                    </pre>
+
+        <p>Изменении подписи при выборе района</p>
+                    <pre class="brush: js;">
+$( 'input' ).kladr({
+    token: 'token',
+    key: 'key',
+    type: $.kladr.type.district,
+    select: function( obj ){
+        $( 'label' ).text( obj.type );
+    }
+});
+                    </pre>
+
+        <p>Проверка названия города, введённого пользователем самостоятельно</p>
+                    <pre class="brush: js;">
+$( 'input' ).kladr({
+    token: 'token',
+    key: 'key',
+    type: $.kladr.type.city,
+    check:  function( obj ){
+        if(obj){
+            $( 'input' ).css('color', 'black');
+        } else {
+            $( 'input' ).css('color', 'red');
+        }
+    }
+});
+                    </pre>
+    </div>
+
+<?if($embedded):?><a href="jquery/">jQuery</a><?endif?>
+
+    <hr  class="delimiter"/>
+
+</div>
+</div>
+
+
