@@ -119,12 +119,14 @@ namespace Kladr\Core\Services {
         public function log(Request $request)
         {
             $token = trim($request->get('token'));
+            $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+            $host = parse_url($referer);
+            $host = $host['host'];
 
             if($token != '')
                 $this->googleTracker->setClientID($token);
 
             $page = new \Racecore\GATracking\Tracking\Page();
-            $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
             $page->setDocumentPath($referer != '' ? $referer : '/');
             $page->setDocumentTitle($referer != '' ? $referer : 'Direct');
 
@@ -132,7 +134,7 @@ namespace Kladr\Core\Services {
 
             $event = new \Racecore\GATracking\Tracking\Event();
             $event->setEventCategory('Token_' . $request->get('token'));
-            $event->setEventLabel($referer);
+            $event->setEventLabel($host);
             $event->setEventAction('Hit');
 
             $this->googleTracker->addTracking($event);
