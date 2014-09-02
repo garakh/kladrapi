@@ -309,7 +309,7 @@ namespace Kladr\Core\Plugins\General {
 
                     if ($retObj['contentType'] == 'building')
                     {
-                        $name = $object->readAttribute(KladrFields::TypeShort) . '. ' . ($object->readAttribute(KladrFields::NormalizedBuildingName));
+                        $name = $object->readAttribute(KladrFields::NormalizedBuildingName);
                         $retObj['fullName'] .= ', ' . $name;
                         $retObj['name'] = $name;
                         $arReturn[] = $retObj;
