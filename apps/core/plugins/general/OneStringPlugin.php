@@ -3,20 +3,20 @@
 namespace Kladr\Core\Plugins\General {
 
     use \Kladr\Core\Plugins\Base\IPlugin,
-    \Phalcon\Mvc\User\Plugin,
-    \Phalcon\Http\Request,
-    \Kladr\Core\Plugins\Base\PluginResult,
-    \Kladr\Core\Plugins\Tools\Tools,
-    \Kladr\Core\Models\Complex,
-    \Kladr\Core\Models\KladrFields;
+        \Phalcon\Mvc\User\Plugin,
+        \Phalcon\Http\Request,
+        \Kladr\Core\Plugins\Base\PluginResult,
+        \Kladr\Core\Plugins\Tools\Tools,
+        \Kladr\Core\Models\Complex,
+        \Kladr\Core\Models\KladrFields;
 
     /*
-    * Kladr\Core\Plugins\General\OneStringPlugin
-    *
-    * Плагин для поиска объектов одной строкой
-    *
-    * @author Y. Lichutin
-    */
+     * Kladr\Core\Plugins\General\OneStringPlugin
+     *
+     * Плагин для поиска объектов одной строкой
+     *
+     * @author Y. Lichutin
+     */
     class OneStringPlugin extends Plugin implements IPlugin
     {
 
@@ -34,8 +34,7 @@ namespace Kladr\Core\Plugins\General {
          * @param \Kladr\Core\Plugins\Base\PluginResult $prevResult
          * @return \Kladr\Core\Plugins\Base\PluginResult
          */
-        public function process(Request $request, PluginResult $prevResult)
-        {
+        public function process(Request $request, PluginResult $prevResult) {
 
             if ($prevResult->error) {
                 return $prevResult;
@@ -55,20 +54,24 @@ namespace Kladr\Core\Plugins\General {
                 $arWords = preg_split('/(\ |\.|\;|\,)+/', $query, -1, PREG_SPLIT_NO_EMPTY);
 
                 //нормализуем
-                foreach ($arWords as $key => $word) {
+                foreach ($arWords as $key => $word)
+                {
                     $arWords[$key] = Tools::Normalize($word);
                 }
 
                 $arExceptionWords = array('рн', 'бр');
 
-                for ($i = 0; $i < count($arWords); $i++) {
-                    if ($i === count($arWords) - 1 || (mb_strlen($arWords[$i], mb_detect_encoding($arWords[$i])) <= 2 && !in_array($arWords[$i], $arExceptionWords))) {
+                for ($i=0; $i<count($arWords); $i++)
+                {
+                    if ($i === count($arWords)-1 || (mb_strlen($arWords[$i], mb_detect_encoding($arWords[$i])) <= 2 && !in_array($arWords[$i], $arExceptionWords)))
+                    {
                         $arWords[$i] = $arWords[$i] . '*';
                     }
                 }
 
                 $houseForMongo = null; //строка для поиска номера дома в монго 
-                if (preg_match('/\d+/', end($arWords))) {
+                if (preg_match('/\d+/', end($arWords)))
+                {
                     $houseForMongo = array_pop($arWords);
                     $houseForMongo = str_replace('*', '', $houseForMongo);
                 }
@@ -76,7 +79,7 @@ namespace Kladr\Core\Plugins\General {
                 $searchString = implode(" ", $arWords);
                 $sphinxClient = $this->sphinxClient;
 
-                $limit = $request->getQuery('limit') ? ((int)$request->getQuery('limit') >= 100 ? 100 : (int)$request->getQuery('limit')) : 100;
+                $limit = $request->getQuery('limit') ? ((int) $request->getQuery('limit') >= 100 ? 100 : (int) $request->getQuery('limit')) : 100;
                 $sphinxClient->SetLimits(0, $limit);
 
                 $sphinxClient->SetMatchMode(SPH_MATCH_EXTENDED2);
@@ -89,36 +92,48 @@ namespace Kladr\Core\Plugins\General {
 
                 $sphinxRes = null;
 
-                if ($cityForSphinx) {
+                if ($cityForSphinx)
+                {
                     $sphinxRes = $sphinxClient->Query("@fullname $searchString @cityid $cityForSphinx");
-                } elseif ($districtForSphinx) {
+                }
+                elseif ($districtForSphinx)
+                {
                     $sphinxRes = $sphinxClient->Query("@fullname $searchString @districtid $districtForSphinx");
-                } elseif ($regionForSphinx) {
+                }
+                elseif ($regionForSphinx)
+                {
                     $sphinxRes = $sphinxClient->Query("@fullname $searchString @regionid $regionForSphinx");
-                } else {
+                }
+                else
+                {
                     $sphinxRes = $sphinxClient->Query("@fullname $searchString");
                 }
 
-                if ($sphinxRes === false) {
+                if ($sphinxRes === false)
+                {
                     $result = $prevResult;
                     $result->terminate = true;
                     $result->error = true;
                     $result->errorMessage = $sphinxClient->GetLastError();
 
                     return $result;
-                } else {
+                }
+                else
+                {
                     if (empty($sphinxRes['matches'])) //если ничего не найдено - пытаемся убрать одно слово из запроса.
                     {
                         array_pop($arWords);
                         $searchString = implode(" ", $arWords);
-                        $sphinxRes = $sphinxClient->Query($searchString); //подумать о повторном запросе при разных заданных областях
+                        $sphinxRes = $sphinxClient->Query($searchString);//подумать о повторном запросе при разных заданных областях
                     }
 
-                    if (!empty($sphinxRes['matches'])) {
+                    if (!empty($sphinxRes['matches']))
+                    {
                         $sphinxIds = array();
                         $sphinxIds = array_keys($sphinxRes['matches']);
 
-                        foreach ($sphinxIds as &$id) {
+                        foreach ($sphinxIds as &$id)
+                        {
                             $id = (string)$id;
                         }
 
@@ -126,15 +141,17 @@ namespace Kladr\Core\Plugins\General {
                             array(
                                 'Id' => array(
                                     '$in' => $sphinxIds
-                                ))));
+                                    ))));
                     }
                 }
 
                 if ($houseForMongo) //ищем заданные дома в монго и заменяем часть элементов в массиве результатов
                 {
                     $streets = array();
-                    foreach ($objects as $object) {
-                        if ($object->readAttribute(KladrFields::ContentType) == 'street') {
+                    foreach ($objects as $object)
+                    {
+                        if ($object->readAttribute(KladrFields::ContentType) == 'street')
+                        {
                             $streets[] = $object;
                         }
                     }
@@ -144,7 +161,8 @@ namespace Kladr\Core\Plugins\General {
                         $retBuildings = array();
                         $mainBuilding = null;
 
-                        foreach ($streets as $street) {
+                        foreach ($streets as $street)
+                        {
                             $buildingsOfStr = Complex::find(array(
                                 array(
                                     KladrFields::StreetId => $street->readAttribute(KladrFields::StreetId),
@@ -153,8 +171,10 @@ namespace Kladr\Core\Plugins\General {
 
                             foreach ($buildingsOfStr as $buildingOfStr) //то начинаем искать дома до половины лимита запроса
                             {
-                                foreach ($buildingOfStr->readAttribute(KladrFields::NormalizedBuildingName) as $buildName) {
-                                    if ($buildName === $houseForMongo) {
+                                foreach ($buildingOfStr->readAttribute(KladrFields::NormalizedBuildingName) as $buildName)
+                                {
+                                    if ($buildName === $houseForMongo)
+                                    {
                                         $mainBuilding = $buildingOfStr; //находим точное совпадение
                                         $mainBuilding->NormalizedBuildingName = $buildName;
                                     }
@@ -166,7 +186,8 @@ namespace Kladr\Core\Plugins\General {
                                     //убираем длинные строки из домов
                                     $match = preg_match('/\,/', $match) ? null : $match;
 
-                                    if ($match) {
+                                    if ($match)
+                                    {
                                         $building = clone $buildingOfStr;
                                         $building->NormalizedBuildingName = $match;
                                         $retBuildings[] = $building;
@@ -175,9 +196,12 @@ namespace Kladr\Core\Plugins\General {
                             }
 
                             //убираем повторное точное вхождение, ставим его на первое место
-                            if ($mainBuilding) {
-                                foreach ($retBuildings as $key => $retBuilding) {
-                                    if ($mainBuilding->NormalizedBuildingName == $retBuilding->NormalizedBuildingName) {
+                            if ($mainBuilding)
+                            {
+                                foreach ($retBuildings as $key => $retBuilding)
+                                {
+                                    if ($mainBuilding->NormalizedBuildingName == $retBuilding->NormalizedBuildingName)
+                                    {
                                         unset($retBuildings[$key]);
                                     }
                                 }
@@ -185,36 +209,48 @@ namespace Kladr\Core\Plugins\General {
                                 $retBuildings = array_merge(array($mainBuilding), $retBuildings);
                             }
 
-                            if (count($objects) > floor($limit / 2)) {
-                                if (count($retBuildings) >= ceil($limit / 2)) {
+                            if (count($objects) > floor($limit/2))
+                            {
+                                if (count($retBuildings) >= ceil($limit/2))
+                                {
                                     break;
                                 }
-                            } elseif (count($retBuildings) >= $limit - count($objects)) {
+                            }
+                            elseif (count($retBuildings) >= $limit-count($objects))
+                            {
                                 break;
                             }
                         }
                         //заполянем лимит по максимуму
-                        if (count($objects) > floor($limit / 2)) {
-                            if ($retBuildings > ceil($limit / 2)) {
-                                $retBuildings = array_slice($retBuildings, 0, ceil($limit / 2));
+                        if (count($objects) > floor($limit/2))
+                        {
+                            if ($retBuildings > ceil($limit/2))
+                            {
+                                $retBuildings = array_slice($retBuildings, 0, ceil($limit/2));
                             }
-                        } else {
-                            $retBuildings = array_slice($retBuildings, 0, $limit - count($objects));
+                        }
+                        else
+                        {
+                            $retBuildings = array_slice($retBuildings, 0, $limit-count($objects));
                         }
 
                         //сливаем массивы домов и остальных совпадений
                         $objects = array_merge($retBuildings, $objects);
 
                         //финальная обрезка массива
-                        if ($objects > $limit) {
+                        if ($objects > $limit)
+                        {
                             $objects = array_slice($objects, 0, $limit, true);
                         }
 
                     }
                 }
 
+                $withParent = $request->getQuery('withParent') != '';
+
                 foreach ($objects as $object) {
-                    if ($object) {
+                    if ($object)
+                    {
                         $retObj = array(
                             'id' => $object->readAttribute(KladrFields::Id),
                             'name' => $object->readAttribute(KladrFields::Name),
@@ -227,23 +263,39 @@ namespace Kladr\Core\Plugins\General {
                             'regionId' => $object->readAttribute(KladrFields::RegionId)
                         );
 
-                        switch ($retObj['contentType']) {
+                        switch ($retObj['contentType'])
+                        {
                             case 'district':
+                                if($withParent)
+                                    $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Regions::getCodes($retObj['id']));
+
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 break;
 
                             case 'city':
+                                if($withParent)
+                                    $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Cities::getCodes($retObj['id']));
+
+
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
                                 break;
 
                             case 'street':
+                                if($withParent)
+                                    $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Streets::getCodes($retObj['id']));
+
+
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
                                 $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
                                 break;
 
                             case 'building':
+                                if($withParent)
+                                    $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Buildings::getCodes($retObj['id']));
+
+
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
                                 $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
@@ -255,12 +307,15 @@ namespace Kladr\Core\Plugins\General {
                         }
                     }
 
-                    if ($retObj['contentType'] == 'building') {
+                    if ($retObj['contentType'] == 'building')
+                    {
                         $name = $object->readAttribute(KladrFields::TypeShort) . '. ' . ($object->readAttribute(KladrFields::NormalizedBuildingName));
                         $retObj['fullName'] .= ', ' . $name;
                         $retObj['name'] = $name;
                         $arReturn[] = $retObj;
-                    } else {
+                    }
+                    else
+                    {
                         $arReturn[] = $retObj;
                     }
                 }
@@ -269,58 +324,67 @@ namespace Kladr\Core\Plugins\General {
 
             $result = $prevResult;
             $result->result = $arReturn;
-            $result->disablePlugin('FindPlugin');
-            //$result->terminate = true;
+            $result->terminate = true;
 
             return $result;
         }
 
         /*
-        * Производит анализ массива поисковых слов, заполняет массив для поиска в БД
-        */
+         * Производит анализ массива поисковых слов, заполняет массив для поиска в БД
+         */
         public function analysis(array $words, array &$searchArray)
         {
             //массивы для сравнения с различными типами объектов. в будущем просмотреть все возможные типы через цикл из БД
             $regionPrefixArr = array('республика', 'респ', 'р');
             $cityPrefixArr = array('г', 'город', 'территория', 'тер', 'улус', 'у', 'волость', 'дп', 'кп', 'пгт', 'по', 'рп', 'са', 'стер', 'со', 'смо', 'спос', 'сс', 'сельсовет', 'аал', 'аул', 'высел', 'городок', 'д', 'деревня', 'оп', 'будка', 'казарм', 'казарма', 'платф', 'ст', 'пост', 'заимка', 'микрорайон', 'мкр', 'нп', 'остров', 'пр', 'пст', 'п', 'посёлок', 'поселок', 'починок', 'по', 'промзона', 'рп', 'рзд', 'с', 'село', 'сл', 'слобода', 'ст-ца', 'х', 'высел', 'выселок', 'кв-л', 'квартал', 'местечко', 'м', 'пр', 'полуст', 'полустанок');
-            $streetPrefixArr = array('улица', 'ул', 'проспект', 'пр', 'просп', 'аллея', 'бр', 'бульвар', 'въезд', 'дорога', 'дор', 'рзд', 'разъезд', 'заезд', 'км', 'километр', 'наб', 'набережная', 'городок', 'парк', 'переезд', 'д', 'деревня', 'переулок', 'пер', 'площадка', 'оп', 'будка', 'казарм', 'казарма', 'платф', 'ст', 'пл-ка', 'проезд', 'просек', 'пост', 'проселок', 'проулок', 'сад', 'сквер', 'стр', 'мкр', 'микрорайон', 'строение', 'тракт', 'туп', 'тупик', 'п', 'уч-к', 'ш', 'пр', 'м', 'местечко', 'кв-л', 'квартал', 'рзд', 'жт', 'высел', 'выселок', 'х', 'сл', 'слобода', 'с', 'село');
+            $streetPrefixArr = array('улица', 'ул', 'проспект', 'пр', 'просп', 'аллея', 'бр', 'бульвар', 'въезд', 'дорога', 'дор', 'рзд', 'разъезд', 'заезд', 'км', 'километр', 'наб', 'набережная', 'городок','парк', 'переезд', 'д', 'деревня', 'переулок', 'пер', 'площадка','оп', 'будка', 'казарм', 'казарма', 'платф', 'ст', 'пл-ка', 'проезд', 'просек', 'пост', 'проселок', 'проулок', 'сад', 'сквер', 'стр', 'мкр', 'микрорайон', 'строение', 'тракт', 'туп', 'тупик', 'п', 'уч-к', 'ш', 'пр', 'м', 'местечко', 'кв-л', 'квартал', 'рзд', 'жт', 'высел', 'выселок', 'х', 'сл', 'слобода', 'с', 'село');
             $buildPrefixArr = array('д', 'дом');
             $districtSuffixArr = array('район', 'р', 'рн');
-            $regionSuffixArr = array('область', 'обл', 'об', 'край', 'кр', 'ао'); //поля "автономный округ" и "автономная область" вычеркнуты
+            $regionSuffixArr = array('область', 'обл', 'об', 'край', 'кр' , 'ао');//поля "автономный округ" и "автономная область" вычеркнуты
 
             $prevWord = '';
 
             $continue = false;
 
-            foreach ($words as &$word) {
-                if ($continue) {
+            foreach ($words as &$word)
+            {
+                if ($continue)
+                {
                     $continue = false;
                     continue;
                 }
 
-                if (!$searchArray[KladrFields::NormalizedRegionName]) {
-                    if (in_array($word, $regionPrefixArr)) {
+                if (!$searchArray[KladrFields::NormalizedRegionName])
+                {
+                    if (in_array($word, $regionPrefixArr))
+                    {
                         $this->regionPrefixFound(current($words), $searchArray);
                         //$regionWasFound = true;
                         $continue = true;
                         continue;
-                    } elseif (in_array($word, $regionSuffixArr)) {
+                    }
+                    elseif (in_array($word, $regionSuffixArr))
+                    {
                         $this->regionSuffixFound($prevWord, $searchArray);
                         //$regionWasFound = true;
                         continue;
                     }
                 }
 
-                if (!$searchArray[KladrFields::NormalizedDistrictName]) {
-                    if (in_array($word, $districtSuffixArr)) {
+                if (!$searchArray[KladrFields::NormalizedDistrictName])
+                {
+                    if (in_array($word, $districtSuffixArr))
+                    {
                         $this->districtSuffixFound($prevWord, $searchArray);
                         //$districtWasFound = true;
                         continue;
                     }
                 }
 
-                if (!$searchArray[KladrFields::NormalizedCityName]) {
-                    if (in_array($word, $cityPrefixArr)) {
+                if (!$searchArray[KladrFields::NormalizedCityName])
+                {
+                    if (in_array($word, $cityPrefixArr))
+                    {
                         $this->cityPrefixFound(current($words), $searchArray);
                         $continue = true;
                         //$cityWasFound = true;
@@ -328,8 +392,10 @@ namespace Kladr\Core\Plugins\General {
                     }
                 }
 
-                if (!$searchArray[KladrFields::NormalizedStreetName]) {
-                    if (in_array($word, $streetPrefixArr)) {
+                if (!$searchArray[KladrFields::NormalizedStreetName])
+                {
+                    if (in_array($word, $streetPrefixArr))
+                    {
                         $this->streetPrefixFound(current($words), $searchArray);
                         $continue = true;
                         //$streetWasFound = true;
@@ -337,8 +403,10 @@ namespace Kladr\Core\Plugins\General {
                     }
                 }
 
-                if (!$searchArray[KladrFields::NormalizedBuildingName]) {
-                    if (in_array($word, $buildPrefixArr)) {
+                if (!$searchArray[KladrFields::NormalizedBuildingName])
+                {
+                    if (in_array($word, $buildPrefixArr))
+                    {
                         $this->buildPrefixFound(current($words), $searchArray);
                         $continue = true;
                         //$buildWasFound = true;
@@ -361,26 +429,26 @@ namespace Kladr\Core\Plugins\General {
         }
 
         /*
-        * Обработчик города в массиве для поиска
-        */
+         * Обработчик города в массиве для поиска
+         */
         public function cityPrefixFound($word, array &$searchArray)
         {
-            $searchArray['conditions'][KladrFields::NormalizedCityName] = $word;
-            $searchArray['conditions'][KladrFields::Address]['$all'][] = $word;
+             $searchArray['conditions'][KladrFields::NormalizedCityName] = $word;
+             $searchArray['conditions'][KladrFields::Address]['$all'][] = $word;
         }
 
         /*
-        * Обработчик улицы в массиве для поиска
-        */
+         * Обработчик улицы в массиве для поиска
+         */
         public function streetPrefixFound($word, array &$searchArray)
         {
-            $searchArray['conditions'][KladrFields::NormalizedStreetName] = $word;
-            $searchArray['conditions'][KladrFields::Address]['$all'][] = $word;
+              $searchArray['conditions'][KladrFields::NormalizedStreetName] = $word;
+              $searchArray['conditions'][KladrFields::Address]['$all'][] = $word;
         }
 
         /*
-        * Обработчик дома в массиве для поиска
-        */
+         * Обработчик дома в массиве для поиска
+         */
         public function buildPrefixFound($word, array &$searchArray)
         {
             $searchArray['conditions'][KladrFields::NormalizedBuildingName] = $word;
@@ -388,16 +456,16 @@ namespace Kladr\Core\Plugins\General {
         }
 
         /*
-        * Обработчик района в массиве для поиска
-        */
+         * Обработчик района в массиве для поиска
+         */
         public function districtSuffixFound($word, array &$searchArray)
         {
             $searchArray['conditions'][KladrFields::NormalizedDistrictName] = $word;
         }
 
         /*
-        * Обработчик района в массиве для поиска
-        */
+         * Обработчик района в массиве для поиска
+         */
         public function regionSuffixFound($word, array &$searchArray)
         {
             //область и край
@@ -405,20 +473,22 @@ namespace Kladr\Core\Plugins\General {
         }
 
         /*
-        * Обработчик слова, не попавшего под условия в массиве для поиска
-        */
+         * Обработчик слова, не попавшего под условия в массиве для поиска
+         */
         public function anotherWordFound($word, array &$searchArray)
         {
             $searchArray['conditions'][KladrFields::Address]['$all'][] = $word;
         }
 
         /*
-        * Выполняет поиск по базе данных. Возвращает найденные значения
-        */
+         * Выполняет поиск по базе данных. Возвращает найденные значения
+         */
         public function search(array &$searchArray)
         {
-            if ($searchArray['conditions'] != null) {
-                switch (end($searchArray['conditions'][KladrFields::Address]['$all'])) {
+            if ($searchArray['conditions'] != null)
+            {
+                switch (end($searchArray['conditions'][KladrFields::Address]['$all']))
+                {
                     case $searchArray['conditions'][KladrFields::NormalizedRegionName]:
                         $searchArray['conditions'][KladrFields::NormalizedRegionName] = new \MongoRegex('/^' . $searchArray['conditions'][KladrFields::NormalizedRegionName] . '/');
                         break;
@@ -444,7 +514,8 @@ namespace Kladr\Core\Plugins\General {
                 $searchArray['conditions'][KladrFields::Address]['$all'][] = new \MongoRegex('/^' . $willReg . '/');
 
                 return Complex::find($searchArray);
-            } else return null;
+           }
+           else return null;
         }
 
     }
