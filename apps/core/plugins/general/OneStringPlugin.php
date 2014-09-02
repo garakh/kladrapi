@@ -267,7 +267,7 @@ namespace Kladr\Core\Plugins\General {
                         {
                             case 'district':
                                 if($withParent)
-                                    $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Regions::getCodes($retObj['id']));
+                                    $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Districts::getCodes($retObj['id']));
 
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 break;
