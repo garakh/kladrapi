@@ -40,7 +40,7 @@ namespace Kladr\Core\Plugins\General {
         public function process(Request $request, PluginResult $prevResult)
         {
 
-            if ($prevResult->error)
+            if ($prevResult->error || in_array('FindPlugin', $prevResult->disablePlugin))
             {
                 return $prevResult;
             }

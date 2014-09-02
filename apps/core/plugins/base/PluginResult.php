@@ -15,6 +15,7 @@ namespace Kladr\Core\Plugins\Base {
      * @property array $result Результат
      * @property string $fileToSend Файл, который надо отправить
      * @property \Kladr\Core\Models\Users $user Пользователь
+     * @property array $disablePlugin Отключить плагины
      * 
      * @author Primepix (http://primepix.ru/)
      */
@@ -29,6 +30,7 @@ namespace Kladr\Core\Plugins\Base {
         private $_result;
         private $_user;
         private $_fileToSend;
+        private $_disablePlugins;
 
         public function __construct()
         {
@@ -40,6 +42,7 @@ namespace Kladr\Core\Plugins\Base {
             $this->_result = array();
             $this->_user = null;
             $this->_fileToSend = null;
+            $this->_disablePlugins = array();
         }
 
         public function __get($name)
@@ -54,6 +57,7 @@ namespace Kladr\Core\Plugins\Base {
                 case 'result': return $this->_result;
                 case 'user': return $this->_user;
                 case 'fileToSend': return $this->_fileToSend;
+                case 'disablePlugin': return $this->_disablePlugins;
                 default: return null;
             }
         }
@@ -85,6 +89,9 @@ namespace Kladr\Core\Plugins\Base {
                     break;
                 case 'fileToSend':
                     $this->_fileToSend = $value;
+                    break;
+                case 'disablePlugin':
+                    $this->_disablePlugins = $value;
                     break;
             }
         }
