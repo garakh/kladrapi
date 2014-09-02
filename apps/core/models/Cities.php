@@ -84,6 +84,8 @@ namespace Kladr\Core\Models {
             if (strlen($id) < 13)
                 return null;
 
+            $id = substr($id, 0, 13);
+
             $id[8] = '0';
             $id[9] = '0';
             $id[10] = '0';
