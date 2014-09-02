@@ -260,7 +260,7 @@ namespace Kladr\Core\Plugins\General {
                             'okato' => $object->readAttribute(KladrFields::Okato),
                             'contentType' => $object->readAttribute(KladrFields::ContentType),
                             'fullName' => $object->readAttribute(KladrFields::FullName),
-                            'regionId' => $object->readAttribute(KladrFields::RegionId)
+                            //'regionId' => $object->readAttribute(KladrFields::RegionId)
                         );
 
                         switch ($retObj['contentType'])
@@ -269,16 +269,36 @@ namespace Kladr\Core\Plugins\General {
                                 if($withParent)
                                     $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Districts::getCodes($retObj['id']));
 
-                                $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
+                                //$retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 break;
 
                             case 'city':
+
+                                $ownerId = \Kladr\Core\Models\Cities::getCityOwnerId($retObj['id']);
+
                                 if($withParent)
+                                {
                                     $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Cities::getCodes($retObj['id']));
 
+                                    $owner = \Kladr\Core\Models\Cities::findByQuery(null, $ownerId);
+                                    if($owner && is_array($owner) && count($owner) > 0)
+                                    {
+                                        $owner = $owner[0];
+                                        $owner['contentType'] = 'cityOwner';
+                                        $retObj['parents'][] = $owner;
+                                    }
 
-                                $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
-                                $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
+                                }
+
+
+                                //$retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
+                                //$retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
+
+                                if($ownerId)
+                                {
+                                    $retObj['cityId'] = $ownerId;
+                                }
+
                                 break;
 
                             case 'street':
@@ -286,9 +306,9 @@ namespace Kladr\Core\Plugins\General {
                                     $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Streets::getCodes($retObj['id']));
 
 
-                                $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
-                                $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
-                                $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
+                                //$retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
+                                //$retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
+                                //$retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
                                 break;
 
                             case 'building':
@@ -296,10 +316,10 @@ namespace Kladr\Core\Plugins\General {
                                     $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Buildings::getCodes($retObj['id']));
 
 
-                                $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
-                                $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
-                                $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
-                                $retObj['buildingId'] = $object->readAttribute(KladrFields::BuildingId);
+                                //$retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
+                                //$retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
+                                //$retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
+                                //$retObj['buildingId'] = $object->readAttribute(KladrFields::BuildingId);
                                 break;
 
                             default:
