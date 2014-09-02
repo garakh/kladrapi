@@ -19,6 +19,28 @@ try {
     die('Error: ' . $e->getMessage());
 }
 
+
+function getCityOwnerId($id)
+{
+    /*
+       01 234 567 89A BC
+       16 031 001 001 00
+    */
+
+    if (strlen($id) < 13)
+        return null;
+
+    $id = substr($id, 0, 13);
+
+    $id[8] = '0';
+    $id[9] = '0';
+    $id[10] = '0';
+    $id[11] = '0';
+    $id[12] = '0';
+
+    return $id;
+}
+
 /*
  * Проходит по таблицам созданной БД, создавая ещё одну, предназначенную для работы поиска одной строкой.
  */
@@ -105,8 +127,17 @@ function forOneStringCollect(MongoDB $db)
 
         if ($city) {
             $building['CityId'] = $city['Id'];
-//            $building['Address'] = array_merge($building['Address'], $city['NormalizedName']);  
             $building['NormalizedCityName'] = $city['NormalizedName'];
+        }
+
+        $cityOwner = $cities->findOne(array(
+                'Id' => getCityOwnerId($building['BuildingId']),
+                'Bad' => false),
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
+
+        if ($cityOwner) {
+            $building['CityOwnerId'] = $cityOwner['Id'];
+            $building['NormalizedCityOwnerName'] = $cityOwner['NormalizedName'];
         }
 
         $district = $districts->findOne(array(
@@ -136,7 +167,7 @@ function forOneStringCollect(MongoDB $db)
         //typesCollect($building, $region, $district, $city, $street, $building);
 
         //и имя
-        constructFullName($building, $region, $district, $city, $street);
+        constructFullName($building, $region, $district, $city, $street, $cityOwner);
 
         unset($building['_id']); //избегаем ненужных конфликтов
         $db->complex->insert($building);
@@ -194,6 +225,16 @@ function forOneStringCollect(MongoDB $db)
             $street['NormalizedCityName'] = $city['NormalizedName'];
         }
 
+        $cityOwner = $cities->findOne(array(
+                'Id' => getCityOwnerId($street['StreetId']),
+                'Bad' => false),
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
+
+        if ($cityOwner) {
+            $street['CityOwnerId'] = $cityOwner['Id'];
+            $street['NormalizedCityOwnerName'] = $cityOwner['NormalizedName'];
+        }
+
         $district = $districts->findOne(array(
                 'CodeDistrict' => $street['CodeDistrict'],
                 'CodeRegion' => $street['CodeRegion'],
@@ -219,7 +260,7 @@ function forOneStringCollect(MongoDB $db)
 
         //typesCollect($street, $region, $district, $city, $street);
 
-        constructFullName($street, $region, $district, $city, $street);
+        constructFullName($street, $region, $district, $city, $street, $cityOwner);
 
         unset($street['_id']);
         $db->complex->insert($street);
@@ -292,9 +333,19 @@ function forOneStringCollect(MongoDB $db)
             $city['NormalizedRegionName'] = $region['NormalizedName'];
         }
 
+        $cityOwner = $cities->findOne(array(
+                'Id' => getCityOwnerId($city['CityId']),
+                'Bad' => false),
+            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
+
+        if ($cityOwner) {
+            $city['CityOwnerId'] = $cityOwner['Id'];
+            $city['NormalizedCityOwnerName'] = $cityOwner['NormalizedName'];
+        }
+
         //typesCollect($city, $region, $district, $city);
 
-        constructFullName($city, $region, $district, $city);
+        constructFullName($city, $region, $district, $city, null, $cityOwner);
 
         unset($city['_id']);
         $db->complex->insert($city);
@@ -466,7 +517,7 @@ function forOneStringCollect(MongoDB $db)
 * Собирает полное имя для элемента БД object, используя элементы street, city, district, region. Записывает полное имя
 * в поле 'FullName', считывает имена элементов из 'Type' и 'Name'.
 */
-function constructFullName(&$object, $region, $district = null, $city = null, $street = null)
+function constructFullName(&$object, $region, $district = null, $city = null, $street = null, $cityOwner = null)
 {
     if ($region) {
         if ($region['TypeShort'] == 'Респ' || $region['TypeShort'] == 'респ') {
@@ -484,6 +535,14 @@ function constructFullName(&$object, $region, $district = null, $city = null, $s
         }
         $object['FullName'] .= $district['Name'] . ' ';
         $object['FullName'] .= $district['Type'] . ' ';
+    }
+
+    if ($cityOwner) {
+        if ($object['FullName']) {
+            $object['FullName'] = preg_replace('/\ $/', ', ', $object['FullName']);
+        }
+        $object['FullName'] .= $cityOwner['Type'] . ' ';
+        $object['FullName'] .= $cityOwner['Name'] . ' ';
     }
 
     if ($city) {

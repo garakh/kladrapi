@@ -294,11 +294,6 @@ namespace Kladr\Core\Plugins\General {
                                 //$retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 //$retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
 
-                                if($ownerId)
-                                {
-                                    $retObj['cityId'] = $ownerId;
-                                }
-
                                 break;
 
                             case 'street':
