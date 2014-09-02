@@ -267,14 +267,14 @@ namespace Kladr\Core\Plugins\General {
                         {
                             case 'district':
                                 if($withParent)
-                                    $retObj['parents'] = FindParentsPlugin::findParents(Regions::getCodes($retObj['id']));
+                                    $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Regions::getCodes($retObj['id']));
 
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 break;
 
                             case 'city':
                                 if($withParent)
-                                    $retObj['parents'] = FindParentsPlugin::findParents(Cities::getCodes($retObj['id']));
+                                    $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Cities::getCodes($retObj['id']));
 
 
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
@@ -283,7 +283,7 @@ namespace Kladr\Core\Plugins\General {
 
                             case 'street':
                                 if($withParent)
-                                    $retObj['parents'] = FindParentsPlugin::findParents(Streets::getCodes($retObj['id']));
+                                    $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Streets::getCodes($retObj['id']));
 
 
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
@@ -293,7 +293,7 @@ namespace Kladr\Core\Plugins\General {
 
                             case 'building':
                                 if($withParent)
-                                    $retObj['parents'] = FindParentsPlugin::findParents(Buildings::getCodes($retObj['id']));
+                                    $retObj['parents'] = FindParentsPlugin::findParents(\Kladr\Core\Models\Buildings::getCodes($retObj['id']));
 
 
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
