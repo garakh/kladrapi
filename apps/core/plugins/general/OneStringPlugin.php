@@ -243,8 +243,10 @@ namespace Kladr\Core\Plugins\General {
                             $objects = array_slice($objects, 0, $limit, true);
                         }
                         
-                    }//
+                    }
                 }
+
+                $withParent = $request->getQuery('withParent') != '';
 
                 foreach ($objects as $object) {
                     if ($object)
@@ -264,21 +266,36 @@ namespace Kladr\Core\Plugins\General {
                         switch ($retObj['contentType'])
                         {
                             case 'district':
+                                if($withParent)
+                                    $retObj['parents'] = FindParentsPlugin::findParents(Regions::getCodes($retObj['id']));
+
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 break;
 
                             case 'city':
+                                if($withParent)
+                                    $retObj['parents'] = FindParentsPlugin::findParents(Cities::getCodes($retObj['id']));
+
+
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
                                 break;
 
                             case 'street':
+                                if($withParent)
+                                    $retObj['parents'] = FindParentsPlugin::findParents(Streets::getCodes($retObj['id']));
+
+
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
                                 $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
                                 break;
 
                             case 'building':
+                                if($withParent)
+                                    $retObj['parents'] = FindParentsPlugin::findParents(Buildings::getCodes($retObj['id']));
+
+
                                 $retObj['districtId'] = $object->readAttribute(KladrFields::DistrictId);
                                 $retObj['cityId'] = $object->readAttribute(KladrFields::CityId);
                                 $retObj['streetId'] = $object->readAttribute(KladrFields::StreetId);
