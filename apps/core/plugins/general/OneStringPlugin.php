@@ -269,7 +269,7 @@ namespace Kladr\Core\Plugins\General {
 
             $result = $prevResult;
             $result->result = $arReturn;
-            $result->disablePlugin[] = 'FindPlugin';
+            $result->disablePlugin('FindPlugin');
             //$result->terminate = true;
 
             return $result;
