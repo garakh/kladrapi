@@ -77,18 +77,18 @@ namespace Kladr\Core\Models {
         public static function getCityOwnerId($id)
         {
             /*
-               01 123 456 789 AB
+               01 234 567 89A BC
                16 031 001 001 00
             */
 
             if (strlen($id) < 13)
                 return null;
 
-            $id[7] = '0';
             $id[8] = '0';
             $id[9] = '0';
             $id[10] = '0';
             $id[11] = '0';
+            $id[12] = '0';
 
             return $id;
         }
