@@ -3,7 +3,7 @@
 function __normalize($str){
     $str = preg_replace('/\./u', ' ', $str);
 	$str = preg_replace('/[Ёё]/u', 'е', $str);
-    $str = preg_replace('/[^а-яА-Я0-9,\s]+/u', '', $str);
+    $str = preg_replace('/[^а-яА-Я0-9,\s\/]+/u', '', $str);
     $str = mb_strtolower($str, 'UTF-8');
     
     $arRes = array();
