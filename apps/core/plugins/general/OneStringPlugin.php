@@ -159,7 +159,7 @@ namespace Kladr\Core\Plugins\General {
                                         $mainBuilding->NormalizedBuildingName = $buildName;
                                     }
 
-                                    $reg = '/^' . $houseForMongo . '/';
+                                    $reg = '#^' . $houseForMongo . '#';
 
                                     $match = preg_match($reg, $buildName) ? $buildName : null;
 
