@@ -129,17 +129,21 @@ function forOneStringCollect(MongoDB $db)
             $building['CityId'] = $city['Id'];
             $building['NormalizedCityName'] = $city['NormalizedName'];
         }
-
-        $cityOwner = $cities->findOne(array(
-                'Id' => getCityOwnerId($building['BuildingId']),
+		$cityOwner = null;
+		$ownerId = getCityOwnerId($building['BuildingId']);
+		if($ownerId && $ownerId != $city['Id'])
+		{
+			$cityOwner = $cities->findOne(array(
+                'Id' => $ownerId,
                 'Bad' => false),
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
+			
+			array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
 
-        if ($cityOwner) {
-            $building['CityOwnerId'] = $cityOwner['Id'];
-            $building['NormalizedCityOwnerName'] = $cityOwner['NormalizedName'];
-        }
-
+			if ($cityOwner) {
+				$building['CityOwnerId'] = $cityOwner['Id'];
+				$building['NormalizedCityOwnerName'] = $cityOwner['NormalizedName'];
+			}
+		}
         $district = $districts->findOne(array(
                 'CodeDistrict' => $building['CodeDistrict'],
                 'CodeRegion' => $building['CodeRegion'],
@@ -225,16 +229,22 @@ function forOneStringCollect(MongoDB $db)
             $street['NormalizedCityName'] = $city['NormalizedName'];
         }
 
-        $cityOwner = $cities->findOne(array(
-                'Id' => getCityOwnerId($street['StreetId']),
+		
+		$cityOwner = null;
+		$ownerId = getCityOwnerId($street['StreetId'];
+		if($ownerId && $ownerId != $city['Id'])
+		{
+		
+			$cityOwner = $cities->findOne(array(
+                'Id' => $ownerId,
                 'Bad' => false),
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
+				array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
 
-        if ($cityOwner) {
-            $street['CityOwnerId'] = $cityOwner['Id'];
-            $street['NormalizedCityOwnerName'] = $cityOwner['NormalizedName'];
-        }
-
+			if ($cityOwner) {
+				$street['CityOwnerId'] = $cityOwner['Id'];
+				$street['NormalizedCityOwnerName'] = $cityOwner['NormalizedName'];
+			}
+		}
         $district = $districts->findOne(array(
                 'CodeDistrict' => $street['CodeDistrict'],
                 'CodeRegion' => $street['CodeRegion'],
@@ -333,16 +343,20 @@ function forOneStringCollect(MongoDB $db)
             $city['NormalizedRegionName'] = $region['NormalizedName'];
         }
 
-        $cityOwner = $cities->findOne(array(
-                'Id' => getCityOwnerId($city['CityId']),
-                'Bad' => false),
-            array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
+		$cityOwner = null;
+		$ownerId = getCityOwnerId($city['CityId']);
+		if($ownerId && $ownerId != $city['CityId'])
+		{		
+			$cityOwner = $cities->findOne(array(
+					'Id' => $ownerId,
+					'Bad' => false),
+				array('Name' => 1, 'NormalizedName' => 1, 'Id' => 1, 'TypeShort' => 1, 'Type' => 1));
 
-        if ($cityOwner) {
-            $city['CityOwnerId'] = $cityOwner['Id'];
-            $city['NormalizedCityOwnerName'] = $cityOwner['NormalizedName'];
-        }
-
+			if ($cityOwner) {
+				$city['CityOwnerId'] = $cityOwner['Id'];
+				$city['NormalizedCityOwnerName'] = $cityOwner['NormalizedName'];
+			}
+		}
         //typesCollect($city, $region, $district, $city);
 
         constructFullName($city, $region, $district, $city, null, $cityOwner);
