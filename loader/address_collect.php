@@ -231,7 +231,7 @@ function forOneStringCollect(MongoDB $db)
 
 		
 		$cityOwner = null;
-		$ownerId = getCityOwnerId($street['StreetId'];
+		$ownerId = getCityOwnerId($street['StreetId']);
 		if($ownerId && $ownerId != $city['Id'])
 		{
 		
