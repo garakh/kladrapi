@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <title>Главная</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/responsiveslides.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.rSlide').responsiveSlides({
+                auto: false,
+                speed: 500,
+                timeout:4000,
+                pager: true,
+                pause:true,
+                nav: false,
+                manualControls:".pager"
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="page">
+    <div class="nav">
+        <ul class="cBlock">
+            <li class="active"><a href="#">Как это работает</a></li>
+            <li><a href="#">Интеграция</a></li>
+            <li><a href="#">Отзывы</a></li>
+            <li><a href="#">Тарифы</a></li>
+            <li><a href="#">Документация и Примеры</a></li>
+            <li class="noMarginR"><a href="#"><img src="img/navPerson.png" alt=""/></a></li>
+        </ul>
+    </div>
+    <div class="header">
+        <div class="cBlock rel">
+            <div class="openSource">
+                <p>it's open source!</p>
+            </div>
+            <div class="logo">
+                <a href="#"><img src="img/logo.png" alt="" /></a>
+                <p>КЛАДР в облаке</p>
+                <h3>Мы переработали базы адресов в простой и удобный сервиc.</h3>
+                <h3>Работа с базой адресов стала легкой.</h3>
+            </div>
+            <div class="formWrap">
+                <form>
+                    <label><p>http://</p><input type="text" name="address" placeholder="адрес вашего сайта"/></label>
+                    <a href="#">Подключить сайт</a>
+                </form>
+            </div>
+            <div class="formBg"></div>
+        </div>
+    </div>
+    <div class="info">
+        <p>Работая над своими проектами, мы столкнулись с задачей создания формы, где пользователь мог бы выбрать
+            любой адрес России. Нам хотелось исключить ошибки при вводе, дать пользователю возможность выбирать из
+            списка с подсказками всех населенных пунктов, регионов, улиц и даже домов.</p>
+        <p>Мы переработали базы адресов КЛАДР и простой и удобный сервиc с откытым исходным кодом.
+            Решение просто в интеграции с большинством платформ, весь исходный код проекта </p>
+    </div>
+    <div class="benefits cBlock">
+        <h2>ПРЕИМУЩЕСТВА СЕРВИСА</h2>
+        <div class="benefitsWrap">
+            <div class="westSide">
+                <div class="desc trig1">
+                   <h4>ЛЕГКАЯ ИНТЕГРАЦИЯ</h4>
+                    <p>Доступ к базе через JSON<br> веб-сервис, .Net LINQ Provider, jQuery plugin, поддержка
+                        популярных CMS, и другие виды интеграции.</p>
+                </div>
+            </div>
+            <div class="eastSide">
+                <div class="desc trig2">
+                    <h4>ОБНОВЛЕНИЕ БАЗЫ</h4>
+                    <p>Мы следим за изменениями адресов, поэтому наши данные всегда актуальны</p>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="benefitsWrap">
+            <div class="westSide">
+                <div class="desc trig3">
+                    <h4>СТАБИЛЬНОСТЬ СЕРВЕРОВ</h4>
+                    <p>Сервера с базой располагаются в облаке Amazon, с настроенной системой распределения
+                        нагрузки. </p>
+                </div>
+            </div>
+            <div class="eastSide">
+                <div class="desc trig4">
+                    <h4>СКОРОСТЬ РАБОТЫ</h4>
+                    <p>Мы провели не один час оптимизируя базу данных, запросы и кеширование. В результате
+                        добились отличных результатов по части скорости работы сервиса.</p>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="middleSide">
+                <div class="desc trig5">
+                    <h4>OPEN SOURCE</h4>
+                    <p>Все исходные коды сервиса доступны в открытом виде.
+                        Благодаря этому наш проект не стоит на месте, Вы можете принять участие в разработке проекта</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="faq">
+        <div class="cBlock">
+            <h2>вопросы и ответы</h2>
+            <div class="question">
+                <p><span>Сколько стоит ваш сервис?</span></p>
+                <p>Сервис КЛАДР в облаке бесплатный, но есть ограничение на количество запросов. Есть платная подписка, оформив которую вы снимите это ограничение. Подробнее можно узнать на странице тарифов</p>
+            </div>
+            <div class="question">
+                <p><span>Есть ли у сервиса поддержка?</span></p>
+                <p>Поскольку сервис бесплатный, он предоставляется «как есть». У сервиса есть подробная документация, но в случае если у вас возникли затруднения, вы можете получить у нас платную консультацию.</p>
+            </div>
+            <div class="question">
+                <p><span>Можно ли поучаствовать в разрабоке сервиса?</span></p>
+                <p>Мы всегда рады конструктивному диалогу, предложениям и идеям, поэтому если у Вас появится желание с нами связаться, вот наши <a href="#">контактные данные</a></p>
+            </div>
+            <a class="allFaq" href="#">Все вопросы и ответы</a>
+        </div>
+    </div>
+    <div class="comments cBlock">
+        <h2>отзывы о сервисе</h2>
+        <ul class="rSlide">
+            <li>
+                <div class="commentWrap">
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto1.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                            и кеширование. В результате добились отличных результатов по части скорости работы
+                            сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto2.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                </div>
+                <div class="commentWrap">
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto3.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto4.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="commentWrap">
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto1.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto2.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                </div>
+                <div class="commentWrap">
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto3.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto4.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="commentWrap">
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto1.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto2.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                </div>
+                <div class="commentWrap">
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto3.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                    <div class="comment">
+                        <div class="img">
+                            <img src="img/foto4.png" alt=""/>
+                        </div>
+                        <div class="desc">
+                            <div class="commentText">
+                                <div class="leftQuotes"></div>
+                                <p>Мы провели не один час оптимизируя базу данных, запросы
+                                    и кеширование. В результате добились отличных результатов по части скорости работы
+                                    сервиса.</p>
+                                <div class="rightQuotes"></div>
+                            </div>
+                        </div>
+                        <h5>natalie matthews, LOVE LANDSCAPES INC</h5>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul class="pager">
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+        </ul>
+    </div>
+    <div class="enjoyAlready">
+        <div class="cBlock">
+            <h3>Сервисом КЛАДР в облаке уже пользуются</h3>
+            <div class="enjoyBlock">
+                <a href="#"><img src="img/using1.png" alt=""></a>
+                <a href="#"><img src="img/using2.png" alt=""></a>
+                <a href="#"><img src="img/using3.png" alt=""></a>
+                <a href="#"><img src="img/using4.png" alt=""></a>
+                <a href="#"><img src="img/using5.png" alt=""></a>
+                <a href="#"><img src="img/using6.png" alt=""></a>
+                <a href="#"><img src="img/using7.png" alt=""></a>
+                <a href="#"><img src="img/using8.png" alt=""></a>
+                <a href="#"><img src="img/using9.png" alt=""></a>
+            </div>
+        </div>
+    </div>
+    <div class="serviceRates cBlock">
+        <h2>тарифы сервиса</h2>
+        <div class="ratesBlock">
+            <div class="westSide">
+                <h2>free</h2>
+                <div class="img">
+                    <img src="img/freePrice.png" alt=""/>
+                </div>
+                <div class="desc">
+                    <p>Сервис является абсолютно бесплатным с открытыми исходными кодами для некоммерческого
+                        использования и доступными на гитхабе.</p>
+                </div>
+                <a href="#" class="button">Подключить</a>
+            </div>
+            <div class="middleSide">
+                <div class="rel">
+                    <div class="label"></div>
+                    <h2>special</h2>
+                    <div class="img">
+                        <img src="img/specialPrice.png" alt=""/>
+                    </div>
+                    <div class="desc">
+                        <p>Если Вам необходимо интегрировать сервис в Ваш тиражируемый коммерческий продукт, или
+                            Вы хотите получить 100% гарантию работы сервиса подтвержденную договорными условиями,
+                            то у нас есть специальное предложение.</p>
+                    </div>
+                    <a href="#" class="button">Подключить</a>
+                    <div class="specialShadow"></div>
+                </div>
+            </div>
+            <div class="eastSide">
+                <h2>box</h2>
+                <div class="img">
+                    <img src="img/boxPrice.png" alt=""/>
+                </div>
+                <div class="desc">
+                    <p>Необходимо внедрить сервис КЛАДР в облаке в ваш коммерческий продукт? Тогда вам необходимо
+                        приобрести соответствующий лицензию на его </p>
+                </div>
+                <a href="#" class="button">Подключить</a>
+            </div>
+            <div class="ratesShadow"></div>
+        </div>
+    </div>
+    <div class="blogsNew">
+        <div class="cBlock">
+            <h3>Новое в блоге</h3>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="cBlock">
+            <div class="footerWrap">
+                <div class="westSide">
+                    <p><span>КЛАДР в облаке</span></p>
+                    <p>Сделано в <a href="#">PrimePix</a></p>
+                </div>
+                <div class="middleSide">
+                    <p>Будьте на связи</p>
+                    <div class="socialBox">
+                        <a href="#"><img src="img/twitter.png" alt=""/></a>
+                        <a href="#"><img src="img/trello.png" alt=""/></a>
+                        <a href="#"><img src="img/gitHub.png" alt=""/></a>
+                    </div>
+                    <div class="ask">
+                        <a  href="#">Задать вопрос</a>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="footerNav">
+                    <ul>
+                        <li><a href="#">О сервисе</a></li>
+                        <li><a href="#">Интеграция</a></li>
+                        <li><a href="#">Тарифы</a></li>
+                        <li><a href="#">Документация и примеры</a></li>
+                        <li><a href="#">Контактная информация</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

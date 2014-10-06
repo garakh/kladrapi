@@ -1,0 +1,118 @@
+<div class="content">
+    <div class="cBlock">
+	<div class="contentMain">
+
+	    <h1>Коммерческое использование</h1>
+	    <p>
+		Если Вам необходимо интегрировать сервис в Ваш тиражируемый коммерческий продукт, 
+		или Вы хотите получить 100% гарантию работы сервиса подтвержденную договорными условиями.
+		</a>
+	    </p>
+	    <b>Особенности платной версии:</b>
+	    <ul class="ul-list">
+		<li>Гарантия работы сервиса, отдельные сервера (http://kladr-api.com/api.php).</li>
+		<li>Помощь в настройке по скайпу, ответ технической поддержки в течение рабочего дня.</li>
+		<li>Возможность установить решение на Ваши сервера.</li>
+		<li>Скидки для реселлеров и разработчиков.</li>
+	    </ul>
+	    <br>
+	    <h2>Тарифы</h2>
+	    <table class="plans">
+		<tr>
+		    <th>Кол-во обращений в месяц</th>
+		    <th>Кол-во подобранных<br> адресов в месяц</th>
+		    <th colspan="2">Стоимость годовой подписки</th>
+		</tr>
+		<tr>
+		    <td>до 10 000</td>
+		    <td>до 1000</td>
+		    <td>1000 руб. (только для <a href="/prices#dealer">дилерских условий</a>)</td>
+		    <td class="buy"></td>
+		</tr>
+		<tr class="offer">
+		    <td>до 1 млн</td>
+		    <td>до 100 000</td>
+		    <td>Спец. предложение — 490 рублей на полгода!</td>
+		    <td class="buy"><a href="#bill">Купить</a></td>
+
+		</tr>			
+		<tr>
+		    <td>до 100 000</td>
+		    <td>до 10 000</td>
+		    <td>6000 руб.</td>
+		    <td class="buy"><a href="#bill">Купить</a></td>
+		</tr>
+		<tr>
+		    <td>до 3 млн.</td>
+		    <td>до 300 000</td>
+		    <td>24 000 руб.</td>
+		    <td class="buy"><a href="#bill">Купить</a></td>
+
+		</tr>
+		<tr>
+		    <td>+ доп. 1 млн</td>
+		    <td></td>
+		    <td>+ 6 000 руб.</td>
+		    <td class="buy"><a href="#bill">Купить</a></td>
+
+		</tr>
+	
+
+	    </table>
+	    <p>Под обращением понимаем ввод одной буквы. Выбор адреса одним пользователем может потребовать до 10 обращений</p>
+	    <br><br><br><br>
+	    <h2 id="box">Коробочная версия</h2>
+	    <p>Специальное предложение для тех, кто хочет развернуть подобный сервис на своих
+
+		серверах под свои проекты. </p>
+
+	    <p>Мы предоставляем инсталляционные пакеты и помощь в развертывании сервиса на 
+
+		Ваших серверах.</p>
+
+	    <p>Коробочная версия позволяет использовать сервис в абсолютно независимом режиме, 
+
+		а так же дорабатывать его под свои нужды.</p>
+	    <table class="plans">
+		<tr>
+		    <td>30&nbsp;000&nbsp;руб.</td>
+		    <td>включает в себя год бесплатных обновлений и 2 часа консультаций — помощь в установке решения на Вашем сервере.</td>
+		    <td class="buy"><a href="#bill">Купить</a></td>
+		</tr>		
+		<tr>
+		    <td>10&nbsp;000&nbsp;руб.</td>
+		    <td>последующие обновления (в течение года)</td>
+		    <td class="buy"><a href="#bill">Купить</a></td>
+		</tr>		
+
+	    </table>
+
+	    <br><br><br><br>
+	    <h2 id="bill">Для юридических лиц</h2>
+	    <p>Оставьте нам свои реквизиты и мы подготовим все документы и вышлем счет</p>
+
+	    <script>
+		$(function(){
+		    $('#btn-send').click(function(){
+			var email = $('#email').val().trim();
+			var plan = $('#plan').val();
+			var company = $('#company').val().trim();
+			if(!email || !company)
+			    return false;
+			
+			$.post('/business/feedback', {email : email, plan : plan, company:company}, function(){
+			    $('#feedback-form').hide();
+			    $('#feedback-form-done').fadeIn();
+			});
+		    });
+		});
+	    </script>
+	    <div class="form" id="feedback-form">
+		<input type="email" placeholder="Ваш e-mail" id="email"/>
+		<input type="text" placeholder="Тариф" id="plan"/>
+		<textarea placeholder="Реквизиты" id="company"></textarea>
+		<input type="submit" value="Отправить" class="btn" id="btn-send"/>
+	    </div>
+	    <p id="feedback-form-done" style="display:none">Мы получили, спасибо. Очень скоро мы с вами свяжемся.</p>
+	</div>
+    </div>

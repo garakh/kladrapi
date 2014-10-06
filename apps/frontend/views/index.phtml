@@ -1,5 +1,6 @@
-<? use Phalcon\Tag; ?>
-<? //test ?>
+<?
+
+ use Phalcon\Tag; ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,28 +8,35 @@
         <meta name="keywords" content="<?= $keywords ?>">
         <meta name="description" content="<?= $description ?>">
 
-        <?= Tag::getTitle() ?>
+	<?= Tag::getTitle() ?>
 
-        <?= Tag::stylesheetLink('style.css'); ?>
+	<?= Tag::stylesheetLink('/css/style.css'); ?>
 
-        <?= Tag::javascriptInclude('js/jquery-1.9.1.min.js'); ?>
-        <?= Tag::javascriptInclude('js/jquery.simplemodal.1.4.4.min.js'); ?>
-        <?= Tag::javascriptInclude('js/js.js'); ?>        
+<?= Tag::javascriptInclude('/js/jquery-1.8.3.min.js'); ?>
+<?= Tag::javascriptInclude('/js/responsiveslides.js'); ?>
+	<script>
+	    $(document).ready(function(){
+		$('.rSlide').responsiveSlides({
+		    auto: false,
+		    speed: 500,
+		    timeout:4000,
+		    pager: true,
+		    pause:true,
+		    nav: false,
+		    manualControls:".pager"
+		});
+	    });
+	</script>	
     </head>
     <body>
-        <? $this->partial('partials/header'); ?> 
-        <div class="main">
-            <?= $this->getContent() ?>
-        </div>    
-        <? $this->partial('partials/footer'); ?>
+	<div class="page">
+	    <? $this->partial('partials/header'); ?> 
+	    <?= $this->getContent() ?>
+	    <? $this->partial('partials/footer'); ?>
 
-        <? $this->partial('partials/login_popap'); ?>
-        <? $this->partial('partials/register_popap'); ?>
-        <? $this->partial('partials/personal_popap'); ?> 
-        <? $this->partial('partials/recovery_popap'); ?>
-
-        <? $this->partial('partials/google_analytics'); ?>
-        <? $this->partial('partials/reformal'); ?>
+<? $this->partial('partials/google_analytics'); ?>
+<? $this->partial('partials/reformal'); ?>
+	</div>
     </body>
 </html>
 

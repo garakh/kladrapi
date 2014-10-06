@@ -1,206 +1,119 @@
-<div class="otherheader">
-    <h1>Примеры</h1>
-</div>
-
-<link href="/content/examples/css/lib/jquery.kladr.min.css?v=4" rel="stylesheet">
-<link href="/content/examples/css/examples.css?v=4" rel="stylesheet">
-<link href="/content/examples/css/example1.css?v=4" rel="stylesheet">
-<link href="/content/examples/css/example2.css?v=4" rel="stylesheet">
-<link href="/content/examples/css/example3.css?v=4" rel="stylesheet">
-<link href="/content/examples/css/example4.css?v=4" rel="stylesheet">
-<link href="/content/examples/css/example5.css?v=4" rel="stylesheet">
-
-<script src="/content/examples/js/lib/jquery-1.10.2.min.js?v=4" type="text/javascript"></script>
-<script src="/content/examples/js/lib/jquery.kladr.min.js?v=4" type="text/javascript"></script>
-<script src="/content/examples/js/example1.js?v=4"></script>
-<script src="/content/examples/js/example2.js?v=4"></script>
-<script src="/content/examples/js/example3.js?v=4"></script>
-<script src="/content/examples/js/example4.js?v=4"></script>
-<script src="/content/examples/js/example5.js?v=4"></script>
-
-<script src="http://api-maps.yandex.ru/2.0.18/?load=package.standard&mode=release&lang=ru-RU" type="text/javascript"></script>
-
-<script type="text/javascript">
-    $.kladr.url = '<?= $host ?>';
-</script>
-<div class="correctwidth">
-    <div class="content">
-        <p class="title" style="margin-top: 0px;">Поиск улицы в г. Москва (<a href="/content/examples/example1.html">исходный код</a>)</p>
-        <div id="example1">
-            <div class ="address">
-                <div class="ffield">
-                    <input name="street" type="text">
-                </div>
-            </div>
-        </div>
-
-        <p class="title">Поиск улиц в определённых городах (<a href="/content/examples/example2.html">исходный код</a>)</p>
-        <div id="example2">
-            <div class ="address">
-                <div class="field">
-                    <label>Населённый пункт:</label>
-                    <select name="city">
-                        <option value="7700000000000" selected="selected">Москва</option>
-                        <option value="7800000000000">Санкт-Петербург</option>
-                    </select>
-                </div>
-                <div class="field field-end">
-                    <label>Улица:</label>
-                    <input name="street" type="text">
-                </div>
-            </div>
-        </div>
-
-        <p class="title">Автодополнение городов и улиц (<a href="/content/examples/example3.html">исходный код</a>)</p>
-        <div id="example3">
-            <div class ="address">
-                <div class="field">
-                    <label>Населённый пункт:</label>
-                    <input name="location" type="text" value="">
-                </div>
-                <div class="field field-end">
-                    <label>Улица:</label>
-                    <input name="street" type="text">
-                </div>
-            </div>
-        </div>
-
-        <p class="title">Расширенный пример  (<a href="/content/examples/example4.html">исходный код</a>)</p>
-        <div id="example4">
-            <div class="add-panel">
-                <div class="wrp">
-                    <form class="add-panel__request regular__ctrls">
-                        <div class="ffield">
-                            <label class="ffield__lbl">
-                                Город
-                            </label>
-                            <input name="city" type="text" class="long">
-                        </div>
-                        <div class="ffield">
-                            <label class="ffield__lbl">
-                                Улица
-                            </label>
-                            <input name="street" type="text" class="long">
-                        </div>
-                        <div class="ffield">
-                            <label class="ffield__lbl">
-                                Номер дома
-                            </label>
-                            <input name="building" type="text" class="small">
-
-                            <label class="ffield__lbl2">
-                                Корпус/строение
-                            </label>
-                            <input name="building-add" type="text" class="small">
-                        </div>
-                        <div class="ffield">
-                            <label class="ffield__lbl ltooltip"></label>
-                            <div id="map" class="add-panel__map"></div>
-                        </div>
-                    </form>
-                    <div class="addition">
-                        <div class="block">
-                            <p class="title">Выбранный объект</p>
-                            <ul>
-                                <li id="id" style="display: none;"><span class="name">Код:</span> <span class="value"></span></li>
-                                <li id="zip" style="display: none;"><span class="name">Почтовый индекс:</span> <span class="value"></span></li>
-                                <li id="name" style="display: none;"><span class="name">Название:</span> <span class="value"></span></li>
-                                <li id="type" style="display: none;"><span class="name">Тип:</span> <span class="value"></span></li>
-                                <li id="type_short" style="display: none;"><span class="name">Тип коротко:</span> <span class="value"></span></li>
-                            </ul>
-                        </div>
-                        <div class="block">
-                            <p class="title">Текстовое представление адреса</p>
-                            <p id="address" class="value"></p>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <p class="title">API тестер</p>
-        <div id="example5">
-            <div class ="address">
-
-                <div class="field">
-                    <label>Запрос (query):</label>
-                    <input class="query" type="text" value="">
-                </div>
-
-                <div class="field">
-                    <label>Код региона (regionId):</label>
-                    <input class="regionId" type="text" value="">
-                </div>
-
-                <div class="field">
-                    <label>Код района (districtId):</label>
-                    <input class="districtId" type="text" value="">
-                </div>
-
-                <div class="field">
-                    <label>Код города (cityId):</label>
-                    <input class="cityId" type="text" value="">
-                </div>
-
-                <div class="field">
-                    <label>Код улицы (streetId):</label>
-                    <input class="streetId" type="text" value="">
-                </div>
-
-                <div class="field">
-                    <label>Код строения (buildingId):</label>
-                    <input class="buildingId" type="text" value="">
-                </div>
-
-                <div class="field">
-                    <label>Тип (contentType):</label>
-                    <select class="contentType">
-                        <option value="region">Область (region)</option>
-                        <option value="district">Район (district)</option>
-                        <option value="city">Город (city)</option>
-                        <option value="street">Улица (street)</option>
-                        <option value="building">Строение (building)</option>
-                    </select>
-                </div>
-
-                <div class="field">
-                    <label>Родители (withParent):</label>
-                    <input class="withParent" type="checkbox">
-                </div>
-
-                <div class="field">
-                    <label>Количество для вывода (limit):</label>
-                    <input class="limit" type="text" value="5">
-                </div>
+<div class="content">
+    <div class="cBlock">
+	<div class="contentMain">
+	    <h1>Примеры</h1>
 
 
-                <button class="show">Показать</button>
 
-                <pre class="result">
-                </pre>
-            </div>
-        </div>
+	    <link href="/jsplugin/jquery.kladr.min.css" rel="stylesheet">
+	    <link href="/jsplugin/examples/css/all.css" rel="stylesheet">
 
-        <h2 class="title">Новые возможности</h2>
-        <div>
-            Мы реализовали новые возможности поиска и улучшили имеющиеся. Все они уже находятся на серверах и готовы к использованию. Сейчас мы дописываем документацию и готовим примеры.
-            <br>
-            <b>Что нового:</b>
-            <ul class="ul-list">
-                <li>Поиск любого адреса одной строкой (можно протестировать <a href="/test.html">здесь</a>)</li>
-                <li>Поиск по почтовому индексу</li>
-                <li>Фильтрация по типу населенного пункта (села, деревни, города)</li>
-                <li>Параметр offset</li>
-                <li>Скачать все населенные пункты региона, скачать все улицы населенного пункта (в форматах json, csv)</li>
-            </ul>
-        </div>
+	    <script src="/jsplugin/jquery.kladr.min.js" type="text/javascript"></script>
+	    <script src="/jsplugin/examples/js/all.js" type="text/javascript"></script>
 
-        <script type="text/javascript" src="http://assets.freshdesk.com/widget/freshwidget.js"></script>
-        <style type="text/css" media="screen, projection">
-            @import url(http://assets.freshdesk.com/widget/freshwidget.css);
-        </style>
-        <iframe class="freshwidget-embedded-form" id="freshwidget-embedded-form" src="http://primepix.freshdesk.com/widgets/feedback_widget/new?&widgetType=embedded&formTitle=%D0%9E%D1%81%D1%82%D0%B0%D0%BB%D0%B8%D1%81%D1%8C+%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B%3F&submitThanks=%D0%9F%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D0%BB%D0%B8%2C+%D1%81%D0%BF%D0%B0%D1%81%D0%B8%D0%B1%D0%BE!&screenshot=no&searchArea=no" scrolling="no" height="500px" width="100%" frameborder="0" >
-        </iframe>
+	    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+
+	    <script src="/content/examples/js/example5.js" type="text/javascript"></script>
+	    <script type="text/javascript">
+		$.kladr.url = '<?= $host ?>';
+	    </script>
+	    <style>
+		.address h2{
+		    font-family: Arial;
+		    font-size: 20px;
+		    color: #000;
+		    text-transform:none;
+		    margin-bottom: 20px;
+		}
+
+		#example5 .field label{
+		    display: block;
+		    margin-bottom: 5px;
+		}
+
+		#example5 .contentType{
+		    height: 2em;
+		    width: 370px;
+		    border: 1px solid #d8d8d8;
+		    padding: 0 7px;
+		    color: #666;
+		}
+
+		#example5 .withParent{
+		    width: auto;
+		    height: auto;
+		    margin-top: 10px;
+		    margin-bottom: 10px;
+		}
+	    </style>
+
+	    <?= $examplesHtml ?>
+
+
+	    <div id="example5">
+		<div class ="address">
+		    <h2>API тестер</h2>
+
+		    <div class="field">
+			<label>Запрос (query):</label>
+			<input class="query" type="text" value="">
+		    </div>
+
+		    <div class="field">
+			<label>Код региона (regionId):</label>
+			<input class="regionId" type="text" value="">
+		    </div>
+
+		    <div class="field">
+			<label>Код района (districtId):</label>
+			<input class="districtId" type="text" value="">
+		    </div>
+
+		    <div class="field">
+			<label>Код города (cityId):</label>
+			<input class="cityId" type="text" value="">
+		    </div>
+
+		    <div class="field">
+			<label>Код улицы (streetId):</label>
+			<input class="streetId" type="text" value="">
+		    </div>
+
+		    <div class="field">
+			<label>Код строения (buildingId):</label>
+			<input class="buildingId" type="text" value="">
+		    </div>
+
+		    <div class="field">
+			<label>Тип (contentType):</label>
+			<select class="contentType">
+			    <option value="region">Область (region)</option>
+			    <option value="district">Район (district)</option>
+			    <option value="city">Город (city)</option>
+			    <option value="street">Улица (street)</option>
+			    <option value="building">Строение (building)</option>
+			</select>
+		    </div>
+
+		    <div class="field">
+			<label><input class="withParent" type="checkbox"> Родители (withParent)</label>
+
+		    </div>
+
+		    <div class="field">
+			<label>Количество для вывода (limit):</label>
+			<input class="limit" type="text" value="5">
+		    </div>
+
+
+		    <button class="show">Показать</button>
+
+		    <pre class="result">
+		    </pre>
+		</div>
+	    </div>
+
+
+	</div>
     </div>
 </div>

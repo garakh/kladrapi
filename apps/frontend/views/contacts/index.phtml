@@ -1,25 +1,25 @@
 <? use \Phalcon\Tag; ?>
 
-<div class="otherheader">
+<div class="content">
+    <div class="cBlock">
+	<div class="contentMain">
     <h1>Контактная информация</h1>
-</div>
+
 
 <?= Tag::javascriptInclude('http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU', false); ?>
-<?= Tag::javascriptInclude('js/contacts.js'); ?>
+<?= Tag::javascriptInclude('/js/contacts.js'); ?>
 
-<div class="correctwidth">
-    <div class="content">  
-        <div class="contacts">
-            <h2>Привет,</h2>
+
+            <h3>Привет,</h3>
             <p>Мы — команда <noindex><a href="http://primepix.ru" title="Праймпикс">«Primepix»</a></noindex>. В ряде наших проектов пользователю необходимо заполнять формы с адресами, и специально для этих нужд мы разработали сервис <a href="/">«Кладр Api»</a>. С недавних пор мы решили поделиться данным сервисом с общественностью.</p>
             <p>Мы всегда рады конструктивному диалогу, предложениям и идеям, поэтому если у Вас появится желание с нами связаться, вот наши контактные данные:</p>  		
-            <div class="address-cont"><label class="address">Телефон:</label>+7(952) 259-2014</div>
-            <div class="address-cont"><label class="address">Почта:</label> <a href="mailto:info@kladr-api.ru" class="address">info@kladr-api.ru</a></div>
-            <div class="address-cont"><label class="address">Адрес:</label> г. Архангельск, пр. Ломоносова 81, 6 этаж, офис 614</div>
-            <div class="address-cont"><label class="address">Skype:</label> <a href="skype:beentech?chat"  class="address">beentech</a></div>		
+            <p class="address-cont"><label class="address">Телефон:</label>+7(952) 259-2014</p>
+            <p class="address-cont"><label class="address">Почта:</label> <a href="mailto:info@kladr-api.ru" class="address">info@kladr-api.ru</a></p>
+            <p class="address-cont"><label class="address">Адрес:</label> г. Архангельск, пр. Ломоносова 81, 3 этаж, офис 312</p>
+            <p class="address-cont"><label class="address">Skype:</label> <a href="skype:beentech?chat"  class="address">beentech</a></p>		
             <br />
             <b>или зайти в гости</b>
-            <div id="map" ></div>		
+            <div id="map" style="height:300px; width:100%"></div>		
         </div>
     </div>
 </div>

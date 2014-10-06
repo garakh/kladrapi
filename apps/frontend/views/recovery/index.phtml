@@ -1,22 +1,18 @@
 <? use \Phalcon\Tag ?>
 
-<div class="otherheader">
-    <h1>Восстановление пароля</h1>
-</div>
-
-<div class="correctwidth">
-    <div class="content">
-        <div class="propose register">
+<div class="content">
+    <div class="cBlock" style="min-height: 500px;">
+	<div class="contentMain">
+	    <h1>Сброс пароля</h1>
             <?php echo $this->getContent() ?>
             <? if($recovered): ?>
             <p style="text-align: center;">Новый пароль отправлен вам на email.</p>
             <? else: ?>
-            <div class="reg login">
-                <?php echo Tag::form(array("recovery", "method" => "post")); ?>
-                <p>Сброс пароля</p>
-                <?php echo Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "ваш e-mail", "data-email" => "y")) ?>
+            <div class="form">
+                <form action="/recovery" method="post">      
+                <?php echo Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Ваш e-mail", "data-email" => "y")) ?>
                 <?php echo Tag::submitButton(array('Сбросить пароль', "class" => "btn")) ?>
-                <?php echo Tag::endForm(); ?>
+                </form>
             </div>
             <? endif ?>
         </div>

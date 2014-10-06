@@ -1,24 +1,80 @@
-<? use \Phalcon\Tag ?>
+<?
 
-<div class="otherheader">
-    <h1>Регистрация</h1>
-</div>
-
-<div class="correctwidth">
-    <div class="content">
-        <div class="propose register">
-            <?= $this->getContent() ?>
-            <div class="reg">
-                <?= Tag::form(array("register", "method" => "post")); ?>
-                <p>Регистрация</p>
-                <?= Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "ваш e-mail", "data-email" => "y")) ?>
-                <div class="checkbox">
-                    <?= Tag::checkField(array("accept", "id" => "accept", "value" => "y")) ?>
-                    <label for="accept">Согласен с <a href="/prices/#conditions" target="_blank">условиями использования сервиса</a></label> 
-                </div>
-                <?= Tag::submitButton(array('Регистрация', "class" => "btn")) ?>
-                <?= Tag::endForm(); ?>
+ use \Phalcon\Tag ?>
+<div class="content">
+    <div class="cBlock" style="min-height: 500px;">
+	<div class="contentMain">
+	    <h1>Регистрация</h1>
+	    <p>Для начала работы с сервисом вам необходимо зарегистрироваться. После регистрации вы получите персональный токен.</p>
+	    <?= $this->getContent() ?>
+            <div class="form">
+		<form action="/register" method="post">   
+		    <?= Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Ваш e-mail", "data-email" => "y")) ?>
+		    <div class="checkbox">
+			<?= Tag::checkField(array("accept", "id" => "accept", "value" => "y")) ?>
+			<label for="accept">Согласен с <a href="/prices/#conditions" target="_blank">условиями использования сервиса</a></label> 
+		    </div>
+		    <?= Tag::submitButton(array('Регистрация', "class" => "btn")) ?>
+		</form>
             </div>
+	    <br><br><br><br>
+	    <h1>Коммерческое использование</h1>
+	    <p>
+		Если Вам необходимо интегрировать сервис в Ваш тиражируемый коммерческий продукт, 
+		или Вы хотите получить 100% гарантию работы сервиса подтвержденную договорными условиями.
+		</a>
+	    </p>
+	    <b>Особенности платной версии:</b>
+	    <ul class="ul-list">
+		<li>Гарантия работы сервиса, отдельные сервера (http://kladr-api.com/api.php).</li>
+		<li>Помощь в настройке по скайпу, ответ технической поддержки в течение рабочего дня.</li>
+		<li>Возможность установить решение на Ваши сервера.</li>
+		<li>Скидки для реселлеров и разработчиков.</li>
+	    </ul>
+	    <br>
+	    <h2>Тарифы</h2>
+	    <table class="plans">
+		<tr>
+		    <th>Кол-во обращений в месяц</th>
+		    <th>Кол-во подобранных<br> адресов в месяц</th>
+		    <th colspan="2">Стоимость годовой подписки</th>
+		</tr>
+		<tr>
+		    <td>до 10 000</td>
+		    <td>до 1000</td>
+		    <td>1000 руб. (только для <a href="/prices#dealer">дилерских условий</a>)</td>
+		    <td class="buy"></td>
+		</tr>
+		<tr class="offer">
+		    <td>до 1 млн</td>
+		    <td>до 100 000</td>
+		    <td>Спец. предложение — 490 рублей на полгода!</td>
+		    <td class="buy"><a href="/business#bill">Купить</a></td>
+
+		</tr>			
+		<tr>
+		    <td>до 100 000</td>
+		    <td>до 10 000</td>
+		    <td>6000 руб.</td>
+		    <td class="buy"><a href="/business#bill">Купить</a></td>
+		</tr>
+		<tr>
+		    <td>до 3 млн.</td>
+		    <td>до 300 000</td>
+		    <td>24 000 руб.</td>
+		    <td class="buy"><a href="/business#bill">Купить</a></td>
+
+		</tr>
+		<tr>
+		    <td>+ доп. 1 млн</td>
+		    <td></td>
+		    <td>+ 6 000 руб.</td>
+		    <td class="buy"><a href="/business#bill">Купить</a></td>
+
+		</tr>
+	
+
+	    </table>	    
         </div>
     </div>
 </div>

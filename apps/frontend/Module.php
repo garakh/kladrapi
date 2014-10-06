@@ -39,7 +39,7 @@ namespace Kladr\Frontend {
 
             // Setting up mongo
             $di->set('mongo', function() use ($config) {
-                $mongo = new \Mongo($config->database->host);
+                $mongo = new \MongoClient($config->database->host);
                 return $mongo->selectDb($config->database->name);
             }, true);
 

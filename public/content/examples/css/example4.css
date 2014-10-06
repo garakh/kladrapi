@@ -1,4 +1,4 @@
-#example4 ﻿.add-panel {
+#example4 .add-panel {
     position: relative;
     z-index: 100;
     margin: 20px;
@@ -6,7 +6,7 @@
 
 #example4 .add-panel .wrp {
     width: 680px;
-    margin: 0 auto;
+    margin: 0;
     position: relative;
     border: 1px solid rgb(104, 104, 104);
     background-color: rgb(236, 236, 236);

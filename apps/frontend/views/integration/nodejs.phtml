@@ -4,7 +4,7 @@ $style = $embedded ? 'display: none;' : '';
 ?>
 
 <?if($embedded):?>
-<h2 class="blocktoggle nodejsdoc dotted" data-block="nodejsdoc">Node.js</h2>
+<h4 class="blocktoggle nodejsdoc dotted" data-block="nodejsdoc">Node.js</h4>
 <?endif?>
 <div class="correctwidth">
 <div class="nodejsdoc docblock" style="<?=$style?>">
@@ -12,17 +12,19 @@ $style = $embedded ? 'display: none;' : '';
     <<?=$h?> class="blocktoggle dotted" data-block="nodejsdoc">
         Node.js
     </<?=$h?>>
+    <hr  class="delimiter"/>
 
-    <div>
+
         <h3>Автор</h3>
-        <p><a href="https://github.com/toporchillo">https://github.com/toporchillo</a></p>
-    </div>
+        <p><noindex><a href="https://github.com/toporchillo">Githib</a></noindex></p>
 
-    <h3>
+
+    <p>
         <noindex>
-            <a href="https://github.com/toporchillo/kladrapi-nodejs">https://github.com/toporchillo/kladrapi-nodejs</a>
+           Документация рещения — <a href="https://github.com/toporchillo/kladrapi-nodejs">https://github.com/toporchillo/kladrapi-nodejs</a>
         </noindex>
-    </h3>
+    </p>
+    <br><br>
     <?if($embedded):?><a href="nodejs/">NodeJs</a><?endif?>
 </div>
 </div>

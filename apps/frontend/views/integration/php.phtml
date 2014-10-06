@@ -3,7 +3,7 @@ $h =  $embedded ? 'h2' : 'h1';
 $style = $embedded ? 'display: none;' : '';
 ?>
 <?if($embedded):?>
-<h2 class="blocktoggle phpdoc dotted" data-block="phpdoc">PHP API</h2>
+<h4 class="blocktoggle phpdoc dotted" data-block="phpdoc">PHP API</h4>
 <?endif?>
 <div class="correctwidth">
 
@@ -13,37 +13,31 @@ $style = $embedded ? 'display: none;' : '';
     <<?=$h?> class="blocktoggle dotted" data-block="phpdoc">
         PHP API
     </<?=$h?>>
-                <span>
-                    <noindex><a href="https://github.com/garakh/kladrapi-php/zipball/master">&#8595;ZIP</a></noindex>
-                    <noindex><a href="https://github.com/garakh/kladrapi-php/tarball/master">&#8595;TAR</a></noindex>
-                </span>
+      <hr  class="delimiter"/>
+                <ul>
+		    <li>  <noindex><a href="https://github.com/garakh/kladrapi-php/zipball/master">Скачать ZIP</a></noindex></il>
+                    <li><noindex><a href="https://github.com/garakh/kladrapi-php">Github</a></noindex></il>
+                </ul>
 
-    <h3><noindex><a href="https://github.com/garakh/kladrapi-php">https://github.com/garakh/kladrapi-php</a></noindex></h3>
-    <div>
-        <h3>Описание API</h3>
 
-        <div>
-            <h4>Kladr\Api</h4>
-            <p>Контроллер доступа к сервису</p>
+            <h3>Контроллер доступа к сервису — Kladr\Api</h3>
 
-            <h5>Функции</h5>
+            <b>Функции:</b>
             <ul>
                 <li><code>QueryToJson(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде объекта Json</li>
                 <li><code>QueryToArray(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде ассоциативного массива</li>
                 <li><code>QueryToObjects(Query $query)</code> - выполняет запрос к сервису, возвращая данные в виде массива объектов</li>
             </ul>
-
-            <h5>Свойства</h5>
+	    <br>
+            <b>Свойства:</b>
             <ul>
                 <li><code>Error</code> - текст последней, возникшей при обращении к сервису, ошибки</li>
             </ul>
-        </div>
 
-        <div>
-            <h4>Kladr\Query</h4>
-            <p>Объект запроса</p>
 
-            <h5>Свойства</h5>
+            <h3>Объект запроса — Kladr\Query</h3>
+
+            <b>Свойства:</b>
             <ul>
                 <li><code>ParentType</code> - тип родительского объекта для ограничения области поиска (регион, район, город)</li>
                 <li><code>ParentId</code> - идентификатор родительского объекта для ограничения области поиска</li>
@@ -52,13 +46,10 @@ $style = $embedded ? 'display: none;' : '';
                 <li><code>WithParent</code> - получить объекты вместе с родителями (если true у объекта заполняется свойство Parent)</li>
                 <li><code>Limit</code> - ограничение количества возвращаемых объектов</li>
             </ul>
-        </div>
 
-        <div>
-            <h4>Kladr\Object</h4>
-            <p>Объект базы</p>
+            <h3>Объект базы — Kladr\Object</h3>
 
-            <h5>Свойства</h5>
+            <b>Свойства:</b>
             <ul>
                 <li><code>Id</code> - идентификатор объекта</li>
                 <li><code>Name</code> - название объекта</li>
@@ -67,13 +58,10 @@ $style = $embedded ? 'display: none;' : '';
                 <li><code>TypeShort</code> - подпись объекта коротко (обл, р-н)</li>
                 <li><code>Parents</code> - массив родительских объектов (заполняется если в запросе был установлен флаг WithParent)</li>
             </ul>
-        </div>
 
-        <div>
-            <h4>Kladr\ObjectType</h4>
-            <p>Перечисление типов  объектов, используемых в запросах к сервису</p>
+            <h3>Перечисление типов  объектов, используемых в запросах к сервису — Kladr\ObjectType</h3>
 
-            <h5>Константы</h5>
+            <b>Константы:</b>
             <ul>
                 <li><code>Region</code> - регион</li>
                 <li><code>District</code> - район</li>
@@ -81,10 +69,9 @@ $style = $embedded ? 'display: none;' : '';
                 <li><code>Street</code> - улица</li>
                 <li><code>Building</code> - строение</li>
             </ul>
-        </div>
-    </div>
 
-    <div>
+
+
         <h3>Примеры</h3>
 
         <p>Получение списка всех населённый пунктов, название которых начинается на "Арх"</p>
@@ -102,9 +89,9 @@ $query->Limit = 2;
 // Получение данных в виде ассоциативного массива
 $arResult = $api->QueryToArray($query);
                     </pre>
-    </div>
+
     <?if($embedded):?><a href="php/">Php</a><?endif?>
-    <hr  class="delimiter"/>
+
 </div>
 </div>
 

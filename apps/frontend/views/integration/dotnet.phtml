@@ -3,7 +3,7 @@ $h =  $embedded ? 'h2' : 'h1';
 $style = $embedded ? 'display: none;' : '';
 ?>
 <?if($embedded):?>
-<h2 class="blocktoggle dotnetdoc dotted" data-block="dotnetdoc">.NET provider</h2>
+<h4 class="blocktoggle dotnetdoc dotted" data-block="dotnetdoc">.NET provider</h4>
 <?endif?>
 
 <div class="correctwidth">
@@ -13,31 +13,33 @@ $style = $embedded ? 'display: none;' : '';
     <<?=$h?> class="blocktoggle dotted" data-block="dotnetdoc">
         .NET provider
     </<?=$h?>>
-                <span>
-                    <noindex><a href="https://github.com/garakh/kladrapi-dotnet/zipball/master">&#8595;ZIP</a></noindex>
-                    <noindex><a href="https://github.com/garakh/kladrapi-dotnet/tarball/master">&#8595;TAR</a></noindex>
-                </span>
+<hr  class="delimiter"/>
+                <ul>
+		    <li>    <noindex><a href="https://github.com/garakh/kladrapi-dotnet/zipball/master">Скачать ZIP</a></noindex></li>
+                    <li><a href="https://github.com/lanserxt">Github</a></li>
+                </ul>
 
-    <div>
+
         <h3>Автор</h3>
-        <p>Антон Губаренко (<a href="https://github.com/lanserxt">github</a>)</p>
-    </div>
+        <p>Антон Губаренко </p>
 
-    <div>
+
+
         <h3>Описание</h3>
         <p>Представляет собой DLL, которую можно подключить в References для осуществления поиска aдреса в Кладр.</p>
-    </div>
 
-    <div>
+
+
         <h3>Использование</h3>
-        <ol>
+        <ul>
             <li>Скопировать <code>KladrApiClient.dll</code> и <code>Newtonsoft.Json.Net20.dll</code> в папку с Вашим проектом (или сделать свою сборку с помощью исходниклв в папке Sources)</li>
             <li>Добавить их в <code>References</code></li>
             <li>Указать <code>using KladrApiClient;</code> в классе</li>
             <li>Создать объект класса <code>KladrClient</code></li>
             <li>Осуществить поиск с помощью метода <code>FindAddress</code>, которые принимает параметры запроса в формате <code>Dictionary</code></li>
-        </ol>
-        <h5>Список возможных параметров:</h5>
+        </ul>
+	<br>
+        <b>Список возможных параметров:</b>
         <ul>
             <li><code>token</code> – токен для доступа к сервису</li>
             <li><code>key</code> – ключ для доступа к сервису</li>
@@ -51,9 +53,7 @@ $style = $embedded ? 'display: none;' : '';
             <li><code>withParent</code> – вернуть объекты вместе с родителями, если 1 то в каждый объект будет добавлено поле parents содержащее список объектов-родителей объекта</li>
             <li><code>limit</code> – ограничение количества возвращаемых объектов, по умолчанию = 2000</li>
         </ul>
-    </div>
 
-    <div>
         <h3>Пример</h3>
 
                     <pre class="brush: js;">
@@ -92,7 +92,7 @@ public partial class MainWindow : Window
     }
 }
                     </pre>
-    </div>
+
 
     <?if($embedded):?><a href="dotnet/">.Net</a><?endif?>
     <hr  class="delimiter"/>

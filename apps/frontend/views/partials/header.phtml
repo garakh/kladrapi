@@ -1,20 +1,32 @@
-<div class="header">
-    <div class="inheader">
-        <div class="authline">
-            <div class="correctwidth">
-                <?= $this->elements->getAuth() ?></div>
-            <noindex><a href="https://twitter.com/kladrapi" target="_blank" class="twitter btn-enter">Мы в Твиттере</a></noindex>
-        </div>
-        <div class="controlline">
-            <div class="correctwidth">
-                <div class="logo"><a href="/"></a></div>
-                <div class="menu"><?= $this->elements->getTopMenu() ?></div>
-                <div class="social">
-                    <noindex><a href="https://trello.com/b/NlSSs2UV/-" class="trello" >&#0076;</a></noindex>
-                    <noindex><a href="https://github.com/garakh/kladrapi" class="github">&#0082;</a></noindex>
-                    <noindex><a href="https://twitter.com/kladrapi" target="_blank" class="twitter">&#229;</a></noindex>
-                </div>
-            </div>
+
+<div class="nav">
+    <ul class="cBlock">
+	<li <? if ($page == 'index'): ?>class="active"<? endif ?>><a href="/">Как это работает</a></li>
+	<li <? if ($page == 'prices'): ?>class="active"<? endif ?>><a href="/prices">Условия</a></li>
+	<li <? if ($page == 'business'): ?>class="active"<? endif ?>><a href="/business">Для бизнеса</a></li>
+	<li <? if ($page == 'examples'): ?>class="active"<? endif ?>><a href="/examples">Примеры</a></li>
+	<li <? if ($page == 'integration'): ?>class="active"<? endif ?>><a href="/integration/">Документация</a></li>
+	
+	<? if ($this->elements->isAuthed()): ?>
+	    <li class="noMarginR <? if ($page == 'login'): ?>active<? endif ?>"><a href="/keys">Ключи</a></li>
+	<? else: ?>
+	    <li class="noMarginR <? if ($page == 'login'): ?>active<? endif ?>"><a href="/login">Войти</a></li>
+	<? endif ?>
+    </ul>
+</div>
+<? if (!isset($hideSmallHeader)): ?>
+    <div class="headerInt">
+        <div class="cBlock">
+    	<div class="westSide">
+    	    <div class="img">
+    		<img src="/img/smallLogo.png" alt=""/>
+    	    </div>
+    	    <h3>КЛАДР в облаке</h3>
+    	</div>
+    	<div class="middleSide">
+    	    <p>Простой и удобный сервиc для работы с базой адресов</p>
+    	</div>
         </div>
     </div>
-</div>
+    <?
+endif?>

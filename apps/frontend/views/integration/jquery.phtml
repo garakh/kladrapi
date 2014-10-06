@@ -3,7 +3,7 @@ $h =  $embedded ? 'h2' : 'h1';
 $style = $embedded ? 'display: none;' : '';
 ?>
 <?if($embedded):?>
-<h2 class="blocktoggle jquerydoc dotted" data-block="jquerydoc">jQuery plugin</h2>
+<h4 class="blocktoggle jquerydoc dotted" data-block="jquerydoc">jQuery plugin</h4>
 <?endif?>
     <div class="correctwidth">
 <div class="jquerydoc docblock" style="<?=$style?>">
@@ -12,12 +12,21 @@ $style = $embedded ? 'display: none;' : '';
     <<?=$h?> class="blocktoggle dotted" data-block="jquerydoc">
         jQuery plugin
     </<?=$h?>>
-                <span>
-                    <noindex><a href="https://github.com/garakh/kladrapi-jsclient/zipball/master">&#8595;ZIP</a></noindex>
-                    <noindex><a href="https://github.com/garakh/kladrapi-jsclient/tarball/master">&#8595;TAR</a></noindex>
-                </span>
-    <h3><noindex><a href="https://github.com/garakh/kladrapi-jsclient">https://github.com/garakh/kladrapi-jsclient</a></noindex></h3>
-    <div>
+    <hr  class="delimiter"/>
+                <ul>
+		    <li><noindex><a href="https://github.com/garakh/kladrapi-jsclient/zipball/master">Скачать ZIP</a></noindex></li>
+<li>		    <noindex><a href="https://github.com/garakh/kladrapi-jsclient">Github</a></noindex></li>
+                </ul>
+    
+
+    <h3>Версия 2.х</h3>
+    <p>Текущая версия плагина — 2.х. Ее можно скачать с <a href="https://github.com/garakh/kladrapi-jsclient">github</a><br>
+    Подробная документация находится так же на странице github.</p>
+    
+    <h3>Версия 1.х</h3>
+    <p>Предыдущая версия плагина — 1.4 <a href="https://github.com/garakh/kladrapi-jsclient/archive/1.4.1.zip">Скачать</a>.<br>
+	Документация по версии 1.4. приведена ниже.</p>
+    
         <h3>Архитектура</h3>
         <ul>
             <li><code>$.kladr</code> - (статичный объект) предоставляет методы и свойства для работы с сервисом</li>
@@ -41,9 +50,9 @@ $( 'input' ).kladr('option1');
                     <pre class="brush: js;">
 $( 'input' ).kladr('option1', 123);
                     </pre>
-    </div>
+   
 
-    <div>
+  
         <h3>Свойства объекта $.kladr</h3>
         <ul>
             <li><code>url</code> - url сервиса, по-умолчанию <noindex><a href="https://kladr-api.ru/api.php">https://kladr-api.ru/api.php</a></noindex></li>
@@ -51,9 +60,9 @@ $( 'input' ).kladr('option1', 123);
             <li><code>api</code> <code>= function( query, callback ) {}</code> - функция непосредственно выполняющая запрос к сервису. В качестве параметров принимает объект запроса и функцию, которой будет передан ответ сервиса.</li>
             <li><code>check</code> <code>= function( query, callback ) {}</code> - функция для проверки существования объекта. В качестве параметров принимает объект запроса и функцию, которой будет передан объект (если он существует) либо false</li>
         </ul>
-    </div>
+   
 
-    <div>
+
         <h3>Параметры плагина</h3>
         <ul>
             <li><code>token</code> - токен для доступа к сервису, обязательный параметр</li>
@@ -67,18 +76,14 @@ $( 'input' ).kladr('option1', 123);
             <li><code>verify</code> - проверять введённые данные, по-умолчанию <code>false</code></li>
             <li><code>current</code> - текущий, выбранный объект КЛАДР</li>
         </ul>
-    </div>
 
-    <div>
         <h3>Методы плагина</h3>
         <ul>
             <li><code>source = function( query ) { return objects; }</code> - функция для получения списка объектов отображаемых при автодополнении. По-умолчанию запрашивает данные у сервиса. Может быть переопределена для получения объектов из другого источника.</li>
             <li><code>labelFormat = function( obj, query) { return label; }</code> - функция для форматирования значений в списке. В качестве параметров принимает <code>obj</code> – объект КЛАДР, <code>query</code> – текущее значение поля ввода.</li>
             <li><code>valueFormat = function( obj, query) { return label; }</code> – функция для форматирования подставляемых в поле ввода значений. В качестве параметров принимает <code>obj</code> – объект КЛАДР, <code>query</code> – текущее значение поля ввода.</li>
         </ul>
-    </div>
 
-    <div>
         <h3>События плагина</h3>
         <ul>
             <li><code>open = function() {}</code> - открыт список объектов. Доступно как событие <code>kladr_open</code> поля ввода.</li>
@@ -88,9 +93,7 @@ $( 'input' ).kladr('option1', 123);
             <li><code>select = function( obj ) {}</code> - выбран объект в списке. В параметре передаётся текущий, выбранный объект КЛАДР. Доступно как событие <code>kladr_select</code> поля ввода.</li>
             <li><code>check = function( obj ) {}</code> - проверен введённый пользователем объект. Вызывается только если параметр <code>verify = true</code>. В параметре передаётся текущий объект КЛАДР. Доступно как событие <code>kladr_check</code> поля ввода.</li>
         </ul>
-    </div>
 
-    <div>
         <h3>Примеры</h3>
 
         <p>Автодополнение городами России</p>
@@ -129,11 +132,11 @@ $( 'input' ).kladr({
     }
 });
                     </pre>
-    </div>
+
 
 <?if($embedded):?><a href="jquery/">jQuery</a><?endif?>
 
-    <hr  class="delimiter"/>
+
 
 </div>
 </div>
