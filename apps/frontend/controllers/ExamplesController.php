@@ -10,7 +10,7 @@ namespace Kladr\Frontend\Controllers {
 
 	public function initialize()
 	{
-	    Tag::setTitle('Примеры использования Кладр в облаке и на вашем сайте');
+	    Tag::setTitle('Примеры использования Кладр в облаке и на вашем сайте. Кладр, ФИАС в облаке.');
 	    if ($this->request->getScheme() == 'http')
 		$this->view->setVar('host', $this->config->options->host);
 	    else
