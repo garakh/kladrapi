@@ -21,6 +21,11 @@ namespace Kladr\Frontend\Controllers {
 	{
 	    
 	}
+	
+	public function successAction()
+	{
+	    
+	}	
 
 	public function feedbackAction()
 	{
