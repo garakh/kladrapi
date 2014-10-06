@@ -13,23 +13,49 @@ $style = $embedded ? 'display: none;' : '';
 
 	<h2 class="blocktoggle dotted" data-block="apidoc">Документация API сервиса</h2>
 	<hr  class="delimiter"/>
-	
-	<p>Во всех примерах на этой странице используется <b>демонстрационный ключ</b>, который периодически меняется. Не используйте его в своих рабочих приложениях.</p>
+
+	<p>Во всех примерах на этой странице используется <b>демонстрационный токен</b>, который периодически меняется. Не используйте его в своих рабочих приложениях.</p>
         <h3>Параметры запроса</h3>
         <p>Адрес страницы для запроса: <noindex><a href="http://kladr-api.ru/api.php">http://kladr-api.ru/api.php</a></p></noindex>
+	<p>Адрес страницы для запроса платных токенов: <noindex><a href="http://kladr-api.com/api.php">http://kladr-api.com/api.php</a></p></noindex>
         <b>Список доступных параметров запроса:</b>
         <ul>
-            <li><code>token</code> – Токен для доступа к сервису</li>
-            <li><code>key</code> – Ключ для доступа к сервису</li>
-            <li><code>regionId</code> – Код региона (области)</li>
-            <li><code>districtId</code> – Код района</li>
-            <li><code>cityId</code> – Код города (населённого пункта)</li>
-            <li><code>streetId</code> – Код улицы</li>
-            <li><code>buildingId</code> – Код дома (строения)</li>
-            <li><code>query</code> – Строка для поиска по названию</li>
-            <li><code>contentType</code> – Тип возвращаемых объектов (region, district, city, street, building)</li>
-            <li><code>withParent</code> – Если 1, сервис вернёт объекты вместе с родительскими (для района это регион, для населённого пункта район и регион и т.п.)</li>
-            <li><code>limit</code> – Количество возвращаемых объектов</li>
+            <li><code>token</code> — Токен для доступа к сервису</li>
+            <li><code>key</code> — Ключ для доступа к сервису</li>
+            <li><code>regionId</code> — Код региона (области)</li>
+            <li><code>districtId</code> — Код района</li>
+            <li><code>cityId</code> — Код города (населённого пункта)</li>
+            <li><code>streetId</code> — Код улицы</li>
+            <li><code>buildingId</code> — Код дома (строения)</li>
+            <li><code>query</code> — Строка для поиска по названию</li>
+            <li><code>contentType</code> — Тип возвращаемых объектов (region, district, city, street, building)</li>
+            <li><code>withParent</code> — Если 1, сервис вернёт объекты вместе с родительскими (для района это регион, для населённого пункта район и регион и т.п.)</li>
+            <li><code>limit</code> — Количество возвращаемых объектов</li>
+	    <li><code>offset</code> — Смещение в выдаче (для организации постраничного вывода)</li>
+
+	    <li><code>typeCode</code> — Тип объектов для выдачи:
+		<ul>
+		    <li>1 — города</li>
+		    <li>2 — поселки</li>
+		    <li>4 — деревни</li>
+		    <li>Битовые комбинации, например, 3 ( 1 | 2 ) — города и поселки</li>
+		</ul>
+	    </li>
+
+	    <li><code>zip</code> — Почтовый индекс. Работает только при contentType = building. В этом случае можно не передать parentId. Поиск по почтовому индексу — это поиск по строениям (building), поэтому логично указать withParent = 1 и limit = 1, чтоб выбрать данные о регионе, нас. пункте и т.п. 
+		<br>Например: <a href="http://kladr-api.ru/api.php?contentType=building&limit=1&withParent=1&zip=163000">http://kladr-api.ru/api.php?contentType=building&limit=1&withParent=1&zip=163000</a></li>
+
+	    <li><code>oneString</code> — Поиск адреса одной строкой в свободной форме. С этим параметром используются:
+		<ul>
+		    <li>query — строка поиска</li>
+		    <li>withParent=1 — выводить сведения о родителях</li>
+		    <li>limit — кол-во результатов в выдаче</li>
+		    <li>regionId, districtId, cityId — фильтры для ограничения поиск</li>
+		</ul>	  
+		
+		Например: <a href="http://kladr-api.ru/api.php?query=%D0%BC%D0%BE%D1%81%D0%BA%D0%B2%D0%B0&oneString=1&limit=1&withParent=1">http://kladr-api.ru/api.php?query=%D0%BC%D0%BE%D1%81%D0%BA%D0%B2%D0%B0&oneString=1&limit=1&withParent=1</a>
+	    </li>
+
             <li><code>callback</code> – JavaScript метод которому будет передан ответ базы</li>
         </ul>
 
@@ -62,6 +88,7 @@ $style = $embedded ? 'display: none;' : '';
                     "type": "Область",
                     "typeShort": "обл",
                     "okato": "11000000000",
+		    "contentType": "region"
                 }
             ]
         },
@@ -80,6 +107,7 @@ $style = $embedded ? 'display: none;' : '';
                     "type": "Область",
                     "typeShort": "обл",
                     "okato": "10000000000",
+		    "contentType": "region"
                 },
                 {
                     "id": "2800200000000",
@@ -88,6 +116,7 @@ $style = $embedded ? 'display: none;' : '';
                     "type": "Район",
                     "typeShort": "р-н",
                     "okato": "10205000000",
+		    "contentType": "district"
                 }
             ]
         }

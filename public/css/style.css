@@ -712,6 +712,7 @@ q{
 .content{
     margin-top: 68px;
     border-bottom: 4px solid #EDEDED;
+    padding-bottom: 40px;
 }
 .content p{
     padding-bottom: 0;
