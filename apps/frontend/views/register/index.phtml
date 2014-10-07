@@ -1,6 +1,40 @@
 <?
 
  use \Phalcon\Tag ?>
+
+
+<script>
+    var crc = [];
+<?php
+$prices = array(490, 1000, 6000, 24000, 30000, 10000);
+foreach ($prices as $price)
+{
+    $crc = md5($this->config->options->login . ':' .
+	    $price . '.00:' .
+	    ':' .
+	    $this->config->options->password);
+    echo "crc[$price] = '$crc'; \n";
+}
+?>
+
+    var processPayment = function(price){
+	$('#OutSum').val(price + '.00');
+	$('#SignatureValue').val(crc[price]);
+	
+	$('#pay-form').submit();
+    }
+
+</script>
+
+<form action='https://merchant.roboxchange.com/Index.aspx' method="POST" id="pay-form">
+    <input type="hidden" name="MrchLogin" value="<?= $this->config->options->login ?>">
+    <input type="hidden" name="OutSum" value="" id="OutSum">
+    <input type="hidden" name="InvId" value="">
+    <input type="hidden" name="SignatureValue" value="" id="SignatureValue">
+    <input type="hidden" name="IncCurrLabel" value="rub">
+    <input type="hidden" name="Culture" value='ru'>
+</form>
+
 <div class="content">
     <div class="cBlock" style="min-height: 500px;">
 	<div class="contentMain">
@@ -42,37 +76,37 @@
 		<tr>
 		    <td>до 10 000</td>
 		    <td>до 1000</td>
-		    <td>1000 руб. (только для <a href="/prices#dealer">дилерских условий</a>)</td>
-		    <td class="buy"></td>
+		    <td>1000 руб.</td>
+		    <td class="buy"><a href="javascript: processPayment(1000)">Купить</a></td>
 		</tr>
 		<tr class="offer">
 		    <td>до 1 млн</td>
 		    <td>до 100 000</td>
 		    <td>Спец. предложение — 490 рублей на полгода!</td>
-		    <td class="buy"><a href="/business#bill">Купить</a></td>
+		    <td class="buy"><a href="javascript: processPayment(490)">Купить</a></td>
 
 		</tr>			
 		<tr>
 		    <td>до 100 000</td>
 		    <td>до 10 000</td>
 		    <td>6000 руб.</td>
-		    <td class="buy"><a href="/business#bill">Купить</a></td>
+		    <td class="buy"><a href="javascript: processPayment(6000)">Купить</a></td>
 		</tr>
 		<tr>
 		    <td>до 3 млн.</td>
 		    <td>до 300 000</td>
 		    <td>24 000 руб.</td>
-		    <td class="buy"><a href="/business#bill">Купить</a></td>
+		    <td class="buy"><a href="javascript: processPayment(24000)">Купить</a></td>
 
 		</tr>
 		<tr>
-		    <td>+ доп. 1 млн</td>
+		    <td>больше 3 млн.</td>
 		    <td></td>
-		    <td>+ 6 000 руб.</td>
-		    <td class="buy"><a href="/business#bill">Купить</a></td>
+		    <td>свяжитесь с нами для обсуждения условий</td>
+		    <td class="buy"></td>
 
 		</tr>
-	
+
 
 	    </table>	    
         </div>

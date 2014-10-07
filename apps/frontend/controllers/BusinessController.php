@@ -19,22 +19,21 @@ namespace Kladr\Frontend\Controllers {
 
 	public function indexAction()
 	{
-	    
 	}
-	
+
 	public function successAction()
 	{
 	    
-	}	
+	}
 
 	public function feedbackAction()
 	{
 	    $email = $this->request->get('email');
 	    $plan = $this->request->get('plan');
 	    $company = $this->request->get('company');
-	    
+
 	    $adminEmail = $this->config->options->email;
-	    
+
 	    mail($adminEmail, 'Feedback', sprintf("From: %s, Plan: %s, Info:%s", $email, $plan, $company));
 	    $this->view->disable();
 	}
