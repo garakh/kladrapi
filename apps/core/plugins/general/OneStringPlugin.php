@@ -268,7 +268,7 @@ namespace Kladr\Core\Plugins\General {
 		$ids = array();
 		foreach ($objects as $object)
 		{
-		    $key = $object->readAttribute(KladrFields::Id) . '_' . $object->readAttribute(KladrFields::Name);
+		    $key = $object->readAttribute(KladrFields::Id) . '_' . $object->readAttribute(KladrFields::NormalizedBuildingName);
 		    if (in_array($key, $ids))
 			continue;
 
@@ -336,7 +336,7 @@ namespace Kladr\Core\Plugins\General {
 
 		    if ($retObj['contentType'] == 'building')
 		    {
-			$name = $object->readAttribute(KladrFields::Name);
+			$name = $object->readAttribute(KladrFields::NormalizedBuildingName);
 			$retObj['fullName'] .= ', ' . $name;
 			$retObj['name'] = $name;
 			$arReturn[] = $retObj;
