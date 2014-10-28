@@ -67,14 +67,15 @@ namespace Kladr\Core\Plugins\General {
 		}
 		
 
-		$arExceptionWords = array('рн', 'бр');
+		//$arExceptionWords = array('рн', 'бр');
+		$arExceptionWords = array();
 
 		for ($i = 0; $i < count($arWords); $i++)
 		{
-		    //if ($i === count($arWords) - 1 || (mb_strlen($arWords[$i], mb_detect_encoding($arWords[$i])) <= 2 && !in_array($arWords[$i], $arExceptionWords)))
-		    //{
+		    if ($i === count($arWords) - 1 || (mb_strlen($arWords[$i], mb_detect_encoding($arWords[$i])) <= 3 && !in_array($arWords[$i], $arExceptionWords)))
+		    {
 				$arWords[$i] = $arWords[$i] . '*';
-		    //}
+		    }
 		}
 
 		$houseForMongo = null; //строка для поиска номера дома в монго 
