@@ -61,24 +61,29 @@ namespace Kladr\Core\Plugins\General {
 		//нормализуем
 		foreach ($arWords as $key => $word)
 		{
-		    $arWords[$key] = Tools::Normalize($word);
+		    $arWords[$key] = preg_replace('/"/u', '', $arWords[$key]);//Tools::Normalize($word);
+			if(mb_strlen($arWords[$key], mb_detect_encoding($arWords[$key])) < 4)
+				$arWords[$key] = preg_replace('/-/u', '', $arWords[$key]);
 		}
+		
 
 		$arExceptionWords = array('рн', 'бр');
 
 		for ($i = 0; $i < count($arWords); $i++)
 		{
-		    if ($i === count($arWords) - 1 || (mb_strlen($arWords[$i], mb_detect_encoding($arWords[$i])) <= 2 && !in_array($arWords[$i], $arExceptionWords)))
-		    {
-			$arWords[$i] = $arWords[$i] . '*';
-		    }
+		    //if ($i === count($arWords) - 1 || (mb_strlen($arWords[$i], mb_detect_encoding($arWords[$i])) <= 2 && !in_array($arWords[$i], $arExceptionWords)))
+		    //{
+				$arWords[$i] = $arWords[$i] . '*';
+		    //}
 		}
 
 		$houseForMongo = null; //строка для поиска номера дома в монго 
-		if (preg_match('/\d+/', end($arWords)))
+		$possibleBuildingName = end($arWords);
+		//if (preg_match('/\d+/', $possibleBuildingName) ||
+			//preg_match('/влд/', $possibleBuildingName))
 		{
-		    $houseForMongo = array_pop($arWords);
-		    $houseForMongo = str_replace('*', '', $houseForMongo);
+		    $houseForMongo = Tools::Normalize($possibleBuildingName);//array_pop($arWords);
+		    //$houseForMongo = str_replace('*', '', $houseForMongo);
 		}
 
 
@@ -99,18 +104,20 @@ namespace Kladr\Core\Plugins\General {
 
 		$sphinxRes = null;
 
+		//echo "@fullname \"$searchString\"";
+		
 		if ($cityForSphinx)
 		{
-		    $sphinxRes = $sphinxClient->Query("@fullname $searchString @cityid $cityForSphinx");
+		    $sphinxRes = $sphinxClient->Query("@fullname \"$searchString\" @cityid $cityForSphinx");
 		} elseif ($districtForSphinx)
 		{
-		    $sphinxRes = $sphinxClient->Query("@fullname $searchString @districtid $districtForSphinx");
+		    $sphinxRes = $sphinxClient->Query("@fullname \"$searchString\" @districtid $districtForSphinx");
 		} elseif ($regionForSphinx)
 		{
-		    $sphinxRes = $sphinxClient->Query("@fullname $searchString @regionid $regionForSphinx");
+		    $sphinxRes = $sphinxClient->Query("@fullname \"$searchString\" @regionid $regionForSphinx");
 		} else
 		{
-		    $sphinxRes = $sphinxClient->Query("@fullname $searchString");
+		    $sphinxRes = $sphinxClient->Query("@fullname \"$searchString\"");
 		}
 
 		if ($sphinxRes === false)
