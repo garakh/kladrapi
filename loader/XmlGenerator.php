@@ -129,6 +129,11 @@ function xmlGenerate(MongoDb $db)
         }
         $i++;
     }
+	
+	if($i > 1)
+	{
+		file_put_contents($path, $xmlWriter->flush(true), FILE_APPEND);
+	}
     
     $xmlWriter->endElement();//docset
     
