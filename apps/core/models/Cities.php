@@ -126,12 +126,25 @@ namespace Kladr\Core\Models {
             if (is_array($codes)) {
                 $isEmptyQuery = false;
                 $codes = array_splice($codes, 0, 3);
+				$arRegionCodeSpecialCases = array(
+					50 => 77, // Московская область => Москва
+					47 => 78  // Ленинградская область => Санкт-Петербург
+				);
+				
                 foreach ($codes as $field => $code) {
-                    if ($code) {
-                        $arQuery['conditions'][$field] = $code;
-                    } else {
+                    if (!$code) {
                         $arQuery['conditions'][$field] = null;
+						continue;
                     }
+				
+					if($field == KladrFields::CodeRegion && isset($arRegionCodeSpecialCases[$code])) {
+						$arQuery['conditions'][$field] = array('$in' => array(
+							$code,
+							$arRegionCodeSpecialCases[$code]
+						));
+					} else {
+						$arQuery['conditions'][$field] = $code;
+					}
                 }
             } elseif ($searchById) {
                 $isEmptyQuery = false;

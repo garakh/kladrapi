@@ -87,6 +87,9 @@ namespace Kladr\Core\Plugins\Tools {
          */
         public function set($plugin, Request $request, $result)
         {
+            if (!$this->useCache())
+                return;		
+		
             $key = $this->getCacheKey($plugin, $request);
             return $this->cache->save($key, $result);
         }

@@ -270,7 +270,7 @@ namespace Kladr\Core {
                     $api->addPlugin($di->get('oneString'));
 
                 $api->addPlugin($di->get('find'));
-                $api->addPlugin($di->get('specialCases'));
+                //$api->addPlugin($di->get('specialCases'));
                 //$api->addPlugin($di->get('duplicate'));
                 $api->addPlugin($di->get('findParents'));
                 $api->addPlugin($di->get('parentsSpecialCases'));
