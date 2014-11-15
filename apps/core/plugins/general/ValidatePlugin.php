@@ -127,13 +127,13 @@ use Kladr\Core\Models\Buildings;
                         case 'street':
                             if (empty($arSearchContext['cityId']))
                             {
-                                $errorMessage = 'cityId required parameter';
+                                $errorMessage = 'cityId parameter required';
                             }
                             break;
                         case 'building':
-                            if (empty($arSearchContext['streetId']))
+                            if (empty($arSearchContext['streetId']) && empty($arSearchContext['cityId']))
                             {
-                                $errorMessage = 'streetId required parameter';
+                                $errorMessage = 'streetId or cityId parameters required';
                             }
                             break;
                     }

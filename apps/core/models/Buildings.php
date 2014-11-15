@@ -87,6 +87,13 @@ namespace Kladr\Core\Models {
             $arQuery = array();
             $arQuery['conditions'] = array();
             
+	    // если не передается улица, значит ищем дома без улиц
+	    // у таких домов родитель = null
+	    // для того, чтоб проверка на null попала в условия проверяем:
+	    if(!isset($codes[KladrFields::CodeStreet])) 
+		$codes[KladrFields::CodeStreet] = null;
+	    
+	    
             if ($codes)
             {
                 $codes = array_splice($codes, 0, 5);
