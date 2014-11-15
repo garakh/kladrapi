@@ -84,7 +84,7 @@ namespace Kladr\Core\Models {
             if (strlen($id) < 13)
                 return null;
 
-			$id2 = $id;
+	    $id2 = $id;
 				
             $id2[8] = '0';
             $id2[9] = '0';
@@ -92,12 +92,12 @@ namespace Kladr\Core\Models {
             $id2[11] = '0';
             $id2[12] = '0';				
 				
-			if($id == $id2)
-				return null;
+	    if($id == $id2)
+		return null;
 				
-            $id = substr($id, 0, 13);
+            $id2 = substr($id2, 0, 13);
 
-            return $id;
+            return $id2;
         }
 
         /**

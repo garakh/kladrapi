@@ -297,7 +297,6 @@ namespace Kladr\Core\Plugins\General {
 			);
 
 			$ownerId = \Kladr\Core\Models\Cities::getCityOwnerId($retObj['id']);
-
 			switch ($retObj['contentType'])
 			{
 			    case 'district':
