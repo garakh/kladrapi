@@ -1,7 +1,7 @@
 <script>
     var crc = [];
 <?php
-$prices = array(490, 1000, 6000, 24000, 30000, 10000);
+$prices = array(400, 1000, 3000, 30000, 10000);
 foreach ($prices as $price)
 {
     $crc = md5($this->config->options->login . ':' .
@@ -49,49 +49,122 @@ foreach ($prices as $price)
 	    </ul>
 	    <br>
 	    <h2>Тарифы</h2>
-	    <table class="plans">
-		<tr>
-		    <th>Кол-во обращений в месяц</th>
-		    <th>Кол-во подобранных<br> адресов в месяц</th>
-		    <th colspan="2">Стоимость годовой подписки</th>
-		</tr>
-		<tr>
-		    <td>до 10 000</td>
-		    <td>до 1000</td>
-		    <td>1000 руб.</td>
-		    <td class="buy"><a href="javascript: processPayment(1000)">Купить</a></td>
-		</tr>
-		<tr class="offer">
-		    <td>до 1 млн</td>
-		    <td>до 100 000</td>
-		    <td>Спец. предложение — 490 рублей на полгода!</td>
-		    <td class="buy"><a href="javascript: processPayment(490)">Купить</a></td>
 
-		</tr>			
-		<tr>
-		    <td>до 100 000</td>
-		    <td>до 10 000</td>
-		    <td>6000 руб.</td>
-		    <td class="buy"><a href="javascript: processPayment(6000)">Купить</a></td>
-		</tr>
-		<tr>
-		    <td>до 3 млн.</td>
-		    <td>до 300 000</td>
-		    <td>24 000 руб.</td>
-		    <td class="buy"><a href="javascript: processPayment(24000)">Купить</a></td>
+	    <style>
+		.ratesBlock {
+		    width: 685px;
+		    height: 344px;
+		    border: 3px solid #EFEFEF;
+		    position: relative;
+		    margin: 30px 0 0;
+		    padding: 0 20px;
+		}		
 
-		</tr>
-		<tr>
-		    <td>больше 3 млн.</td>
-		    <td></td>
-		    <td>свяжитесь с нами для обсуждения условий</td>
-		    <td class="buy"></td>
+		.ratesBlock .middleSide {
+		    position: absolute;
+		    left: 0;
+		    right: 0;
+		    margin: auto;
+		    top: 0px;
+		    z-index: 3;
+		    height: 344px;
+		    width: 218px;
+		    border: 3px solid #EFEFEF;
+		    background: white;
+		    padding: 0 20px;
+		    border-top: none;
+		    border-bottom: none;
+		}
 
-		</tr>
+		.ratesBlock .middleSide h2 {
+		    padding-top: 30px;
+		    font-size: 24px;
+		}	
+
+		.ratesBlock .middleSide .button {
+		    width: 185px;
+		    height: 32px;
+		    line-height: 32px;
+		    margin: 15px auto 0;
+		    font-size: 18px; 
+		    box-shadow: 0 1px 0 #B85D02;
+		}	
+
+		.desc p{
+		    font-size:15px;
+		    padding:0px !important;
+		}
+
+		.ratesBlock .eastSide {
+		    float: right;
+		    width: 184px;
+		    position: relative;
+		}
+
+		.ratesBlock .desc {
+		    height: 112px;
+		    margin-top: 20px;
+		}		
+	    </style>
 
 
-	    </table>
-	    <p>Под обращением понимаем ввод одной буквы. Выбор адреса одним пользователем может потребовать до 10 обращений</p>
+
+	    <div class="ratesBlock">
+		<div class="westSide">
+		    <h2>Тестовый</h2>
+		    <h3>400 руб. <br>на 3 месяца</h3>
+		    <div class="desc">
+			<p>Позволяет проверить коммерческие сервера.</p>
+		    </div>
+		    <a href="javascript: processPayment(400)" class="button">Купить</a>
+		</div>
+		<div class="middleSide">
+		    <div class="rel">
+			<h2>Для физ. лиц</h2>
+			<h3>1000 руб. <br>на 1 год</h3>
+			<div class="desc">
+			    <p>Работаем на основе <a href="https://drive.google.com/file/d/0B0sSPtvPGc3HdjlHejg0Z2RKU2s/view?usp=sharing">договора оферты</a>.</p>
+			</div>
+			<a href="javascript: processPayment(1000)"  class="button">Купить</a>
+		    </div>
+		</div>
+		<div class="eastSide">
+		    <h2>Для юр. лиц</h2>
+		    <h3>3000 руб. <br>на 1 год</h3>
+		    <div class="desc">
+			<p>Заключаем договор с юр. лицом, выставляем счета, акты, высылаем оригиналы по почте.</p>
+		    </div>
+		    <a href="#bill" class="button">Купить</a>
+		</div>
+		<div class="ratesShadow"></div>
+	    </div>
+	    
+	    <br><br><br><br>
+	    <h2 id="bill">Для юридических лиц</h2>
+	    <p>Оставьте нам свои реквизиты и мы подготовим все документы и вышлем счет</p>
+
+	    <script>
+		$(function(){
+		    $('#btn-send').click(function(){
+			var email = $('#email').val().trim();
+			var company = $('#company').val().trim();
+			if(!email || !company)
+			    return false;
+			
+			$.post('/business/feedback', {email : email, plan : '', company:company}, function(){
+			    $('#feedback-form').hide();
+			    $('#feedback-form-done').fadeIn();
+			});
+		    });
+		});
+	    </script>
+	    <div class="form" id="feedback-form">
+		<input type="email" placeholder="Ваш e-mail" id="email"/>
+		<textarea placeholder="Реквизиты" id="company"></textarea>
+		<input type="submit" value="Отправить" class="btn" id="btn-send"/>
+	    </div>
+	    <p id="feedback-form-done" style="display:none">Мы получили, спасибо. Очень скоро мы с вами свяжемся.</p>	    
+	    
 	    <br><br><br><br>
 	    <h2 id="box">Коробочная версия</h2>
 	    <p>Специальное предложение для тех, кто хочет развернуть подобный сервис на своих
@@ -119,33 +192,7 @@ foreach ($prices as $price)
 
 	    </table>
 
-	    <br><br><br><br>
-	    <h2 id="bill">Для юридических лиц</h2>
-	    <p>Оставьте нам свои реквизиты и мы подготовим все документы и вышлем счет</p>
 
-	    <script>
-		$(function(){
-		    $('#btn-send').click(function(){
-			var email = $('#email').val().trim();
-			var plan = $('#plan').val();
-			var company = $('#company').val().trim();
-			if(!email || !company)
-			    return false;
-			
-			$.post('/business/feedback', {email : email, plan : plan, company:company}, function(){
-			    $('#feedback-form').hide();
-			    $('#feedback-form-done').fadeIn();
-			});
-		    });
-		});
-	    </script>
-	    <div class="form" id="feedback-form">
-		<input type="email" placeholder="Ваш e-mail" id="email"/>
-		<input type="text" placeholder="Тариф" id="plan"/>
-		<textarea placeholder="Реквизиты" id="company"></textarea>
-		<input type="submit" value="Отправить" class="btn" id="btn-send"/>
-	    </div>
-	    <p id="feedback-form-done" style="display:none">Мы получили, спасибо. Очень скоро мы с вами свяжемся.</p>
 	</div>
     </div>
 </div>    
