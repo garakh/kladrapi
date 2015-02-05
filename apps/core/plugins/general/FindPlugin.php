@@ -79,8 +79,30 @@ namespace Kladr\Core\Plugins\General {
                 $cityId = $request->getQuery('cityId');
                 if ($cityId)
                 {
-                    $arCodes = $request->getQuery('contentType') == 'city' ?
-                            $cityId : Cities::getCodes($cityId);
+                    if($request->getQuery('contentType') == 'city')
+					{
+						$arCodes = $cityId;
+					}
+					else
+					{
+						$arCodes = Cities::getCodes($cityId);
+						
+						//TODO добавить флаг Cities->isChild, чтобы сразу понимать, что это нас. пункт, а не город
+						//возможно мы имеем дело с нас. пунктом, а не городом
+						$possibleCityOwner = Cities::getCityOwnerId($cityId); 
+						if($possibleCityOwner != null)
+						{
+							$arCodes2 = Cities::getCodes($possibleCityOwner);
+							if($arCodes[KladrFields::CodeLocality] != $arCodes2[KladrFields::CodeLocality])
+							{
+								//и точно, это населенный пункт, поэтому добавим в поиск еще и город-родитель
+								$arCodes[KladrFields::CodeLocality] = array('$in' => array(
+									$arCodes[KladrFields::CodeLocality],
+									$arCodes2[KladrFields::CodeLocality]
+								));
+							}
+						}
+					}
                 }
 
                 // streetId
