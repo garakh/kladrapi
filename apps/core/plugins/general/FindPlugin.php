@@ -8,10 +8,12 @@ namespace Kladr\Core\Plugins\General {
         \Kladr\Core\Plugins\Base\PluginResult,
         \Kladr\Core\Plugins\Tools\Tools,
         \Kladr\Core\Models\Regions,
+		\Kladr\Core\Models\KladrFields,
         \Kladr\Core\Models\Districts,
         \Kladr\Core\Models\Cities,
         \Kladr\Core\Models\Streets,
         \Kladr\Core\Models\Buildings;
+
 
     /**
      * Kladr\Core\Plugins\General\FindPlugin
@@ -86,21 +88,15 @@ namespace Kladr\Core\Plugins\General {
 					else
 					{
 						$arCodes = Cities::getCodes($cityId);
-						
-						//TODO добавить флаг Cities->isChild, чтобы сразу понимать, что это нас. пункт, а не город
-						//возможно мы имеем дело с нас. пунктом, а не городом
-						$possibleCityOwner = Cities::getCityOwnerId($cityId); 
-						if($possibleCityOwner != null)
+						$cityCode = $arCodes[KladrFields::CodeLocality];
+						$cityCodeOwner = $cityCode - ($cityCode % 1000);
+						if($cityCode == $cityCodeOwner)
 						{
-							$arCodes2 = Cities::getCodes($possibleCityOwner);
-							if($arCodes[KladrFields::CodeLocality] != $arCodes2[KladrFields::CodeLocality])
-							{
-								//и точно, это населенный пункт, поэтому добавим в поиск еще и город-родитель
-								$arCodes[KladrFields::CodeLocality] = array('$in' => array(
-									$arCodes[KladrFields::CodeLocality],
-									$arCodes2[KladrFields::CodeLocality]
-								));
-							}
+							$cityCodeOwnerNext = $cityCodeOwner + 1000;
+							$arCodes[KladrFields::CodeLocality] = array(
+								'$gte' => $cityCodeOwner,
+								'$lt' => $cityCodeOwnerNext
+							));
 						}
 					}
                 }
