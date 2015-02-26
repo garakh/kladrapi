@@ -96,7 +96,7 @@ namespace Kladr\Core\Plugins\General {
 							$arCodes[KladrFields::CodeLocality] = array(
 								'$gte' => $cityCodeOwner,
 								'$lt' => $cityCodeOwnerNext
-							));
+							);
 						}
 					}
                 }

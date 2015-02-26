@@ -250,6 +250,9 @@ namespace Kladr\Core {
 
             // Register GA
             $di->set('apiTracker', function() use($config) {
+		if($config->ga->code == '')
+		    return false;
+		
                 return new \Racecore\GATracking\GATracking($config->ga->code);
             });
 

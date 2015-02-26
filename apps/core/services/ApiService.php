@@ -118,7 +118,10 @@ namespace Kladr\Core\Services {
          */
         public function log(Request $request)
         {
-            $token = trim($request->get('token'));
+	    if(!$this->googleTracker)
+		return;
+
+	    $token = trim($request->get('token'));
             $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
             $host = parse_url($referer);
             $host = $host['host'];
