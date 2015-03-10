@@ -65,8 +65,8 @@ namespace Kladr\Core\Models {
 	    self::$Cache[$id] = array(
 		KladrFields::CodeRegion => $object->readAttribute(KladrFields::CodeRegion),
 		KladrFields::CodeDistrict => $object->readAttribute(KladrFields::CodeDistrict),
-		KladrFields::CodeLocality => $object->readAttribute(KladrFields::CodeLocality),
-		KladrFields::CodeStreet => (int)$object->readAttribute(KladrFields::CodeStreet),
+		KladrFields::CodeLocality => (int)$object->readAttribute(KladrFields::CodeLocality),
+		KladrFields::CodeStreet => $object->readAttribute(KladrFields::CodeStreet),
 		KladrFields::CodeBuilding => $object->readAttribute(KladrFields::CodeBuilding),
 	    );
 
