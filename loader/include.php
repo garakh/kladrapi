@@ -1,4 +1,4 @@
-<?
+<?php
 
 require $_SERVER["DOCUMENT_ROOT"].'/loader/loaders/Loader.php';
 require $_SERVER["DOCUMENT_ROOT"].'/loader/loaders/AltnamesLoader.php';

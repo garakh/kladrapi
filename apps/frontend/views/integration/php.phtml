@@ -2,9 +2,9 @@
 $h =  $embedded ? 'h2' : 'h1';
 $style = $embedded ? 'display: none;' : '';
 ?>
-<?if($embedded):?>
+<?php if($embedded):?>
 <h4 class="blocktoggle phpdoc dotted" data-block="phpdoc">PHP API</h4>
-<?endif?>
+<?php endif?>
 <div class="correctwidth">
 
 <div class="phpdoc docblock" style="<?=$style?>">
@@ -90,7 +90,7 @@ $query->Limit = 2;
 $arResult = $api->QueryToArray($query);
                     </pre>
 
-    <?if($embedded):?><a href="php/">Php</a><?endif?>
+    <?php if($embedded):?><a href="php/">Php</a><?php endif?>
 
 </div>
 </div>

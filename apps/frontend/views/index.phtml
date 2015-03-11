@@ -1,4 +1,4 @@
-<?
+<?php
 
  use Phalcon\Tag; ?>
 <!DOCTYPE html>
@@ -30,12 +30,12 @@
     </head>
     <body>
 	<div class="page">
-	    <? $this->partial('partials/header'); ?> 
+	    <?php $this->partial('partials/header'); ?>
 	    <?= $this->getContent() ?>
-	    <? $this->partial('partials/footer'); ?>
+	    <?php $this->partial('partials/footer'); ?>
 
-<? $this->partial('partials/google_analytics'); ?>
-<? $this->partial('partials/reformal'); ?>
+<?php $this->partial('partials/google_analytics'); ?>
+<?php $this->partial('partials/reformal'); ?>
 	</div>
     </body>
 </html>

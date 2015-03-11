@@ -1,4 +1,4 @@
-<?
+<?php
 
 function __normalize($str){
     $str = preg_replace('/\./u', ' ', $str);

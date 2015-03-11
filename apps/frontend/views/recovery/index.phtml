@@ -1,20 +1,20 @@
-<? use \Phalcon\Tag ?>
+<?php use \Phalcon\Tag ?>
 
 <div class="content">
     <div class="cBlock" style="min-height: 500px;">
 	<div class="contentMain">
 	    <h1>Сброс пароля</h1>
             <?php echo $this->getContent() ?>
-            <? if($recovered): ?>
+            <?php if($recovered): ?>
             <p style="text-align: center;">Новый пароль отправлен вам на email.</p>
-            <? else: ?>
+            <?php else: ?>
             <div class="form">
                 <form action="/recovery" method="post">      
                 <?php echo Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Ваш e-mail", "data-email" => "y")) ?>
                 <?php echo Tag::submitButton(array('Сбросить пароль', "class" => "btn")) ?>
                 </form>
             </div>
-            <? endif ?>
+            <?php endif ?>
         </div>
     </div>
 </div>

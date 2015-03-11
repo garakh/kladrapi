@@ -2,9 +2,9 @@
 $h =  $embedded ? 'h2' : 'h1';
 $style = $embedded ? 'display: none;' : '';
 ?>
-<?if($embedded):?>
+<?php if($embedded):?>
 <h4 class="blocktoggle dotnetdoc dotted" data-block="dotnetdoc">.NET provider</h4>
-<?endif?>
+<?php endif?>
 
 <div class="correctwidth">
 <div class="dotnetdoc docblock" style="<?=$style?>">
@@ -94,7 +94,7 @@ public partial class MainWindow : Window
                     </pre>
 
 
-    <?if($embedded):?><a href="dotnet/">.Net</a><?endif?>
+    <?php if($embedded):?><a href="dotnet/">.Net</a><?php endif?>
     <hr  class="delimiter"/>
 </div>
 </div>

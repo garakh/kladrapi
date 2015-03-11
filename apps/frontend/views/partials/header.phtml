@@ -1,20 +1,20 @@
 
 <div class="nav">
     <ul class="cBlock">
-	<li <? if ($page == 'index'): ?>class="active"<? endif ?>><a href="/">Как это работает</a></li>
-	<li <? if ($page == 'prices'): ?>class="active"<? endif ?>><a href="/prices">Условия</a></li>
-	<li <? if ($page == 'business'): ?>class="active"<? endif ?>><a href="/business">Для бизнеса</a></li>
-	<li <? if ($page == 'examples'): ?>class="active"<? endif ?>><a href="/examples">Примеры</a></li>
-	<li <? if ($page == 'integration'): ?>class="active"<? endif ?>><a href="/integration/">Документация</a></li>
+	<li <?php if ($page == 'index'): ?>class="active"<?php endif ?>><a href="/">Как это работает</a></li>
+	<li <?php if ($page == 'prices'): ?>class="active"<?php endif ?>><a href="/prices">Условия</a></li>
+	<li <?php if ($page == 'business'): ?>class="active"<?php endif ?>><a href="/business">Для бизнеса</a></li>
+	<li <?php if ($page == 'examples'): ?>class="active"<?php endif ?>><a href="/examples">Примеры</a></li>
+	<li <?php if ($page == 'integration'): ?>class="active"<?php endif ?>><a href="/integration/">Документация</a></li>
 	
-	<? if ($this->elements->isAuthed()): ?>
-	    <li class="noMarginR <? if ($page == 'login'): ?>active<? endif ?>"><a href="/keys">Ключи</a></li>
-	<? else: ?>
-	    <li class="noMarginR <? if ($page == 'login'): ?>active<? endif ?>"><a href="/login">Войти</a></li>
-	<? endif ?>
+	<?php if ($this->elements->isAuthed()): ?>
+	    <li class="noMarginR <?php if ($page == 'login'): ?>active<?php endif ?>"><a href="/keys">Ключи</a></li>
+	<?php else: ?>
+	    <li class="noMarginR <?php if ($page == 'login'): ?>active<?php endif ?>"><a href="/login">Войти</a></li>
+	<?php endif ?>
     </ul>
 </div>
-<? if (!isset($hideSmallHeader)): ?>
+<?php if (!isset($hideSmallHeader)): ?>
     <div class="headerInt">
         <div class="cBlock">
     	<div class="westSide">
@@ -28,5 +28,5 @@
     	</div>
         </div>
     </div>
-    <?
+    <?php
 endif?>

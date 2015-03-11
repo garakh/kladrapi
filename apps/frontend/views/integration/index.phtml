@@ -25,9 +25,9 @@
 
 	    <h4><a href="https://trello.com/b/NlSSs2UV/-">Trello</a></h4>
 	    <h4><a href="https://twitter.com/kladrapi">Наш твиттер</a></h4>
-	    <? if (false) foreach ($parts as $key => $name): ?>
+	    <?php if (false) foreach ($parts as $key => $name): ?>
 		    <h4><?= $name[0] ?></h4>
-		<? endforeach ?>		
+		<?php endforeach ?>
 
 	</div>
 	<div class="contentMain">
@@ -56,9 +56,9 @@
 		написать нам на <a href="mailto:info@kladr-api.ru">info@kladr-api.ru</a>.
 	    </p>
 	    <div class="dropWrap">
-		<? foreach ($parts as $key => $name): ?>
+		<?php foreach ($parts as $key => $name): ?>
 		    <?php $this->partial("integration/" . $key, array('embedded' => true)); ?>
-		<? endforeach ?>		
+		<?php endforeach ?>
 	    </div>
 	</div>
 
