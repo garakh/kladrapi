@@ -1,4 +1,4 @@
-<? use Phalcon\Tag; ?>
+<?php use Phalcon\Tag; ?>
 <div class="otherheader">
     <h1><?= $user->email ?></h1>
 </div>
@@ -13,7 +13,7 @@
 
         <p class="domain-key">Домен: <input id="domain" type="text" value="<?= $user->domain ?>">, ключ:<span id="domain-key"><?= $user->domainkey ?></span><a id="domain-key-reload" href="">обновить</a></p>
 
-        <? if(count($requests)): ?>
+        <?php if(count($requests)): ?>
         <table class="table-bordered table-striped">
             <caption>Последние 100 запросов к сервису</caption>
             <thead>
@@ -24,15 +24,15 @@
                 </tr>
             </thead>
             <tbody>
-                <? foreach($requests as $request): ?>
+                <?php foreach($requests as $request): ?>
                 <tr>
                     <td><?= $request->ip ?></td>
                     <td><?= $request->query ?></td>
                     <td><?= date('H:i:s d.m.Y', $request->time->sec); ?></td>
                 </tr>
-                <? endforeach ?>
+                <?php endforeach ?>
             </tbody>
         </table>
-        <? endif ?>
+        <?php endif ?>
     </div>
 </div>

@@ -3,9 +3,9 @@ $h =  $embedded ? 'h2' : 'h1';
 $style = $embedded ? 'display: none;' : '';
 ?>
 
-<?if($embedded):?>
+<?php if($embedded):?>
 <h4 class="blocktoggle onesdoc dotted" data-block="onesdoc">1C Предприятие 8.2</h4>
-<?endif?>
+<?php endif?>
 
 <div class="correctwidth">
 <div class="onesdoc docblock" style="<?=$style?>">
@@ -24,6 +24,6 @@ $style = $embedded ? 'display: none;' : '';
         </noindex>
     </p>
     <br><br>
-    <?if($embedded):?><a href="ones/">1С</a><?endif?>
+    <?php if($embedded):?><a href="ones/">1С</a><?php endif?>
 </div>
 </div>
