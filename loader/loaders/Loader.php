@@ -151,7 +151,7 @@ class Loader {
             if($code)
                 $arCodeField[$key] = $code;
             else
-                $arCodeField[$key] = null;
+                $arCodeField[$key] = 0;
         }
         return $arCodeField;
     }
