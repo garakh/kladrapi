@@ -98,7 +98,7 @@ namespace Kladr\Core\Models {
                     }
                     else
                     {
-                        $arQuery['conditions'][$field] = null;
+                        $arQuery['conditions'][$field] = 0;
                     }
                 }
             }
