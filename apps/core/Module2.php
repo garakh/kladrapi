@@ -1,7 +1,7 @@
 <?php
 /**
 
-Phalcon v1.x.x support
+Phalcon v2.x.x support
 
 **/
 namespace Kladr\Core {
@@ -23,7 +23,7 @@ namespace Kladr\Core {
         /**
          * Регистрация автозагрузчика модуля
          */
-        public function registerAutoloaders()
+        public function registerAutoloaders(\Phalcon\DiInterface $dependencyInjector = NULL)
         {
             $config = new \Phalcon\Config\Adapter\Ini(__DIR__ . '/config/config.ini');
             $loader = new \Phalcon\Loader();
@@ -48,7 +48,7 @@ namespace Kladr\Core {
         /**
          * Регистрация сервисов модуля
          */
-        public function registerServices($di)
+        public function registerServices(\Phalcon\DiInterface $di)
         {
             $config = new \Phalcon\Config\Adapter\Ini(__DIR__ . '/config/config.ini');
 

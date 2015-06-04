@@ -34,6 +34,10 @@ $di->set('router', function () {
 
 try {
 
+	$phalconVersion = \Phalcon\Version::get();
+	$major = $phalconVersion[0];
+	$major = $major == '2' ? '2' : '';
+	
     //Create an application
     $application = new Application($di);
 
@@ -42,11 +46,11 @@ try {
         array(
             'frontend' => array(
                 'className' => 'Kladr\Frontend\Module',
-                'path'      => '../apps/frontend/Module.php',
+                'path'      => '../apps/frontend/Module' . $major . '.php',
             ),
             'core'  => array(
                 'className' => 'Kladr\Core\Module',
-                'path'      => '../apps/core/Module.php',
+                'path'      => '../apps/core/Module' . $major . '.php',
             )
         )
     );
