@@ -1,7 +1,7 @@
 <script>
     var crc = [];
 <?php
-$prices = array(400, 1000, 3000, 30000, 10000);
+$prices = array(900, 1500, 3000, 30000, 10000);
 foreach ($prices as $price)
 {
     $crc = md5($this->config->options->login . ':' .
@@ -110,22 +110,22 @@ foreach ($prices as $price)
 
 
 	    <div class="ratesBlock">
-		<div class="westSide">
+		<div class="westSide" >
 		    <h2>Тестовый</h2>
-		    <h3>400 руб. <br>на 3 месяца</h3>
+		    <h3>900 руб. <br>на 3 месяца</h3>
 		    <div class="desc">
 			<p>Позволяет проверить коммерческие сервера.</p>
 		    </div>
-		    <a href="javascript: processPayment(400)" class="button">Купить</a>
+		    <a href="javascript: processPayment(900)" class="button">Купить</a>
 		</div>
 		<div class="middleSide">
 		    <div class="rel">
 			<h2>Для физ. лиц</h2>
-			<h3>1000 руб. <br>на 1 год</h3>
+			<h3>1500 руб. <br>на 1 год</h3>
 			<div class="desc">
 			    <p>Работаем на основе <a href="https://drive.google.com/file/d/0B0sSPtvPGc3HdjlHejg0Z2RKU2s/view?usp=sharing">договора оферты</a>.</p>
 			</div>
-			<a href="javascript: processPayment(1000)"  class="button">Купить</a>
+			<a href="javascript: processPayment(1500)"  class="button">Купить</a>
 		    </div>
 		</div>
 		<div class="eastSide">
