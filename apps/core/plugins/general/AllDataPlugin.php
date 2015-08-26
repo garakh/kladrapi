@@ -38,8 +38,7 @@ namespace Kladr\Core\Plugins\General {
          */
         public $userService;
 
-		private $cache = array();
-		
+	
         /**
          * Отключить платные ограничения
          * 
@@ -402,46 +401,6 @@ namespace Kladr\Core\Plugins\General {
          */
         private function streetToJson($street = null)
         {
-			$city = false;
-			
-			if($street)
-			{
-				//23 000 001 000 15 3200
-				//23 000 001 000 02 8200
-				$cityId = substr($street['Id'], 0, 13);;
-			
-				if(isset($this->cache[$cityId]))
-				{
-					$city = $this->cache[$cityId];
-				}
-				else
-				{
-					$cities = new Cities();
-					$mongo = $cities->getConnection();
-					$city = $mongo->cities->findOne(array(
-                            'Id' => $cityId
-						));	
-
-					$this->cache[$cityId] = $city;
-				}
-			}
-			
-			if($city)
-			{
-				$city = array(
-					'Name' => $city['Name'],
-					'Type' => $city['Type'],
-					'TypeShort' => $city['TypeShort']					
-				);
-			}
-			else
-			{
-				$city = array(
-					'Name' => '',
-					'Type' => '',
-					'TypeShort' => ''					
-				);			
-			}		
 		
             return json_encode(
                     array(
@@ -450,10 +409,7 @@ namespace Kladr\Core\Plugins\General {
                         'okato' => $street['Okato'],
                         'zip' => $street['ZipCode'],
                         'type' => $street['Type'],
-                        'typeShort' => $street['TypeShort'],
-						'cityName' => $city['Name'],
-						'cityType' => $city['Type'],
-						'cityTypeShort' => $city['TypeShort']						
+                        'typeShort' => $street['TypeShort']
             ));
         }
 
@@ -464,47 +420,7 @@ namespace Kladr\Core\Plugins\General {
          */
         private function streetToArray($street = null)
         {
-			$city = false;
-			
-			if($street)
-			{
-				//23 000 001 000 15 3200
-				//23 000 001 000 02 8200
-				$cityId = substr($street['Id'], 0, 13);;
-			
-				if(isset($this->cache[$cityId]))
-				{
-					$city = $this->cache[$cityId];
-				}
-				else
-				{
-					$cities = new Cities();
-					$mongo = $cities->getConnection();
-					$city = $mongo->cities->findOne(array(
-                            'Id' => $cityId
-						));	
-
-					$this->cache[$cityId] = $city;
-				}
-			}
-			
-			if($city)
-			{
-				$city = array(
-					'Name' => $city['Name'],
-					'Type' => $city['Type'],
-					'TypeShort' => $city['TypeShort']					
-				);
-			}
-			else
-			{
-				$city = array(
-					'Name' => '',
-					'Type' => '',
-					'TypeShort' => ''					
-				);			
-			}
-		
+	
             if ($street == null)
                 return array(
                     'id' => 'Id',
@@ -513,9 +429,7 @@ namespace Kladr\Core\Plugins\General {
                     'zipCode' => 'ZipCode',
                     'type' => 'Type',
                     'typeShort' => 'TypeShort',
-					'cityName' => 'CityName',
-					'cityType' => 'CityType',
-					'cityTypeShort' => 'CityTypeShort'
+
                 );
 
             return array(
@@ -525,9 +439,7 @@ namespace Kladr\Core\Plugins\General {
                 'zipCode' => $street['ZipCode'],
                 'type' => $street['Type'],
                 'typeShort' => $street['TypeShort'],
-				'cityName' => $city['Name'],
-				'cityType' => $city['Type'],
-				'cityTypeShort' => $city['TypeShort']
+
             );
         }
 
