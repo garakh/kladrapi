@@ -8,7 +8,6 @@
 
 * [Phalcon] [3]
 * [MongoDB] [4]
-* [Memcached] [5]
 
 Общая структура
 ---------
@@ -119,4 +118,4 @@ Copyright (c) 2013 «Праймпикс»
 [2]: http://kladr-api.ru/api.php  "Сервис"
 [3]: http://phalconphp.com/       "Phalcon"
 [4]: http://www.mongodb.org/      "MongoDB"
-[5]: http://memcached.org/        "Memcached"
+
