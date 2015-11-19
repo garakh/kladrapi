@@ -1,7 +1,7 @@
 <script>
     var crc = [];
 <?php
-$prices = array(900, 1500, 3000, 30000, 10000);
+$prices = array(900, 1400, 1500, 2000, 3000, 30000, 10000);
 foreach ($prices as $price)
 {
     $crc = md5($this->config->options->login . ':' .
@@ -109,35 +109,42 @@ foreach ($prices as $price)
 
 
 
-	    <div class="ratesBlock">
-		<div class="westSide" >
-		    <h2>Тестовый</h2>
-		    <h3>900 руб. <br>на 3 месяца</h3>
-		    <div class="desc">
-			<p>Позволяет проверить коммерческие сервера.</p>
-		    </div>
-		    <a href="javascript: processPayment(900)" class="button">Купить</a>
-		</div>
-		<div class="middleSide">
-		    <div class="rel">
-			<h2>Для физ. лиц</h2>
-			<h3>1500 руб. <br>на 1 год</h3>
-			<div class="desc">
-			    <p>Работаем на основе <a href="https://drive.google.com/file/d/0B0sSPtvPGc3HdjlHejg0Z2RKU2s/view?usp=sharing">договора оферты</a>.</p>
-			</div>
-			<a href="javascript: processPayment(1500)"  class="button">Купить</a>
-		    </div>
-		</div>
-		<div class="eastSide">
-		    <h2>Для юр. лиц</h2>
-		    <h3>5000 руб. <br>на 1 год</h3>
-		    <div class="desc">
-			<p>Заключаем договор с юр. лицом, выставляем счета, акты, высылаем оригиналы по почте.</p>
-		    </div>
-		    <a href="#bill" class="button">Купить</a>
-		</div>
-		<div class="ratesShadow"></div>
-	    </div>
+                <div class="ratesBlock">
+                    <div class="westSide" >
+                        <h2>Тестовый</h2>
+                        <h3>1400 руб. <br>на 3 месяца</h3>
+                        
+
+                        <div class="desc">
+                            <a href="http://www.paywithapost.de/pay?id=7fb3dc64-e9d7-42b1-8140-bc0fa73d9a2b&locale=ru">Получить скидку 500&nbsp;руб. за&nbsp;пост в&nbsp;социальных сетях</a>
+                            <br><br>
+                            <p>Позволяет проверить коммерческие сервера.</p>
+                        </div>
+                        <a href="javascript: processPayment(1400)" class="button">Подключить</a>
+                    </div>
+                    <div class="middleSide">
+                        <div class="rel">
+                            <h2>Для физ. лиц</h2>
+                            <h3>2000 руб. <br>на 1 год</h3>
+                            
+                            <div class="desc">
+                                <a href="http://www.paywithapost.de/pay?id=7fb3dc64-e9d7-42b1-8140-bc0fa73d9a2b&locale=ru">Получить скидку 500&nbsp;руб. за&nbsp;пост в&nbsp;социальных сетях</a>
+                                <br><br>
+                                <p>Работаем на основе <a href="https://drive.google.com/file/d/0B0sSPtvPGc3HdjlHejg0Z2RKU2s/view?usp=sharing">договора оферты</a>.</p>
+                            </div>
+                            <a href="javascript: processPayment(2000)"  class="button">Подключить</a>
+                        </div>
+                    </div>
+                    <div class="eastSide">
+                        <h2>Для юр. лиц</h2>
+                        <h3>5000 руб. <br>на 1 год</h3>
+                        <div class="desc">
+                            <p>Заключаем договор с юр. лицом, выставляем счета, акты, высылаем оригиналы по почте.</p>
+                        </div>
+                        <a href="/business/#bill" class="button">Подключить</a>
+                    </div>
+                    <div class="ratesShadow"></div>
+                </div> 
 	    
 	    <br><br><br><br>
 	    <h2 id="bill">Для юридических лиц</h2>
