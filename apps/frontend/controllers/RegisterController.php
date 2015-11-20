@@ -24,7 +24,7 @@ namespace Kladr\Frontend\Controllers {
 	    {
 		$coupon = $this->request->get('coupon');
 		if($coupon)
-			$this->response->redirect('/business/?coupon=' . $coupon);
+			$this->response->redirect('business/?coupon=' . $coupon);
 		else
 			$this->response->redirect('keys');
 	    }
