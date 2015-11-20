@@ -10,6 +10,9 @@ foreach ($prices as $price)
 	    $this->config->options->password);
     echo "crc[$price] = '$crc'; \n";
 }
+
+// TODO: убрать из шаблона в контроллер
+$discount = $this->config->options->coupon == (isset($_REQUEST['coupon']) ? $_REQUEST['coupon'] : '');
 ?>
 
     var processPayment = function(price){
@@ -109,6 +112,39 @@ foreach ($prices as $price)
 
 
 
+            <?php if ($discount): ?>
+
+                <div class="ratesBlock">
+                    <div class="westSide" >
+                        <h2>Тестовый</h2>
+                        <h3>900 руб. <br>на 3 месяца</h3>
+
+                        <div class="desc">
+                            <p>Позволяет проверить коммерческие сервера.</p>
+                        </div>
+                        <a href="javascript: processPayment(900)" class="button">Подключить</a>
+                    </div>
+                    <div class="middleSide">
+                        <div class="rel">
+                            <h2>Для физ. лиц</h2>
+                            <h3>1500 руб. <br>на 1 год</h3>
+                            <div class="desc">
+                                <p>Работаем на основе <a href="https://drive.google.com/file/d/0B0sSPtvPGc3HdjlHejg0Z2RKU2s/view?usp=sharing">договора оферты</a>.</p>
+                            </div>
+                            <a href="javascript: processPayment(1500)"  class="button">Подключить</a>
+                        </div>
+                    </div>
+                    <div class="eastSide">
+                        <h2>Для юр. лиц</h2>
+                        <h3>5000 руб. <br>на 1 год</h3>
+                        <div class="desc">
+                            <p>Заключаем договор с юр. лицом, выставляем счета, акты, высылаем оригиналы по почте.</p>
+                        </div>
+                        <a href="/business/#bill" class="button">Подключить</a>
+                    </div>
+                    <div class="ratesShadow"></div>
+                </div>         
+            <?php else: ?>
                 <div class="ratesBlock">
                     <div class="westSide" >
                         <h2>Тестовый</h2>
@@ -145,6 +181,8 @@ foreach ($prices as $price)
                     </div>
                     <div class="ratesShadow"></div>
                 </div> 
+
+            <?php endif ?>
 	    
 	    <br><br><br><br>
 	    <h2 id="bill">Для юридических лиц</h2>

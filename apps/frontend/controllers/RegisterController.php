@@ -22,7 +22,11 @@ namespace Kladr\Frontend\Controllers {
 	{
 	    if ($this->session->get('user'))
 	    {
-		$this->response->redirect('keys');
+		$coupon = $this->request->get('coupon');
+		if($coupon)
+			$this->response->redirect('/business/?coupon=' . $coupon);
+		else
+			$this->response->redirect('keys');
 	    }
 
 	    if ($this->request->isPost())
