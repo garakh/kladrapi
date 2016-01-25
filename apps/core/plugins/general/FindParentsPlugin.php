@@ -135,33 +135,25 @@ namespace Kladr\Core\Plugins\General {
             if ($objects === null) {
                 $objects = $result->result;
 
-                switch ($request->getQuery('contentType')) {
-                    case Regions::ContentType:
-                        foreach ($objects as $key => $object) {
-                            $objects[$key]['parents'] = self::findParents(Regions::getCodes($object['id']));
-                        }
+				foreach ($objects as $key => $object) {
+					switch ($objects[$key]['contentType']) {
+						case Regions::ContentType:
+							$objects[$key]['parents'] = self::findParents(Regions::getCodes($object['id']));
                         break;
-                    case Districts::ContentType:
-                        foreach ($objects as $key => $object) {
-                            $objects[$key]['parents'] = self::findParents(Districts::getCodes($object['id']));
-                        }
+						case Districts::ContentType:
+							$objects[$key]['parents'] = self::findParents(Districts::getCodes($object['id']));
                         break;
-                    case Cities::ContentType:
-                        foreach ($objects as $key => $object) {
-                            $objects[$key]['parents'] = self::findParents(Cities::getCodes($object['id']));
-                        }
+						case Cities::ContentType:
+							$objects[$key]['parents'] = self::findParents(Cities::getCodes($object['id']));
                         break;
-                    case Streets::ContentType:
-                        foreach ($objects as $key => $object) {
-                            $objects[$key]['parents'] = self::findParents(Streets::getCodes($object['id']));
-                        }
+						case Streets::ContentType:
+							$objects[$key]['parents'] = self::findParents(Streets::getCodes($object['id']));
                         break;
-                    case Buildings::ContentType:
-                        foreach ($objects as $key => $object) {
-                            $objects[$key]['parents'] = self::findParents(Buildings::getCodes($object['id']));
-                        }
+						case Buildings::ContentType:
+							$objects[$key]['parents'] = self::findParents(Buildings::getCodes($object['id']));
                         break;
-                }
+					}
+				}
 
                 $this->cache->set('FindParentsPlugin', $request, $objects);
             }
