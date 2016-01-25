@@ -79,7 +79,7 @@ namespace Kladr\Core\Models {
          * @param int $limit Максимальное количество возвращаемых объектов
          * @return array
          */
-        public static function findByQuery($name = null, $codes = array(), $limit = 5000, $offset = 0)
+        public static function findByQuery($name = null, $codes = array(), $limit = 5000, $offset = 0, $zip = null)
         {
             $arQuery = array();
 
@@ -106,7 +106,8 @@ namespace Kladr\Core\Models {
             }
             else
             {
-                return array();
+				if ($zip == null)
+					return array();
             }
 
             if (!$searchById)
@@ -119,6 +120,11 @@ namespace Kladr\Core\Models {
                 $regexObj = new \MongoRegex('/^' . $name . '/');
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
+			
+			if ($zip)
+			{
+				$arQuery['conditions'][KladrFields::ZipCode] = $zip;
+			}			
 
             $arQuery['sort'] = array(KladrFields::Name => 1);
             $arQuery['skip'] = $offset;

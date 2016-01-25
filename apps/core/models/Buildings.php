@@ -90,38 +90,38 @@ namespace Kladr\Core\Models {
 
 	    if ($codes)
 	    {
-		// если не передается улица, значит ищем дома без улиц
-		// у таких домов родитель = null
-		// для того, чтоб проверка на null попала в условия проверяем:
-		if (!isset($codes[KladrFields::CodeStreet]))
-		    $codes[KladrFields::CodeStreet] = null;
+			// если не передается улица, значит ищем дома без улиц
+			// у таких домов родитель = null
+			// для того, чтоб проверка на null попала в условия проверяем:
+			if (!isset($codes[KladrFields::CodeStreet]))
+				$codes[KladrFields::CodeStreet] = null;
 
-		$codes = array_splice($codes, 0, 5);
-		foreach ($codes as $field => $code)
-		{
-		    if ($code)
-		    {
-			$arQuery['conditions'][$field] = $code;
-		    } else
-		    {
-			$arQuery['conditions'][$field] = 0;
-		    }
-		}
+			$codes = array_splice($codes, 0, 5);
+			foreach ($codes as $field => $code)
+			{
+				if ($code)
+				{
+					$arQuery['conditions'][$field] = $code;
+				} else
+				{
+					$arQuery['conditions'][$field] = 0;
+				}
+			}
 	    } else
 	    {
-		if ($zip == null)
-		    return array();
+			if ($zip == null)
+				return array();
 	    }
 
 	    if ($name)
 	    {
-		$regexObj = new \MongoRegex('/^' . $name . '/');
-		$arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
+			$regexObj = new \MongoRegex('/^' . $name . '/');
+			$arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
 	    }
 
 	    if ($zip)
 	    {
-		$arQuery['conditions'][KladrFields::ZipCode] = $zip;
+			$arQuery['conditions'][KladrFields::ZipCode] = $zip;
 	    }
 
 	    $arQuery['limit'] = $limit * 3; //почему *3?
@@ -131,43 +131,43 @@ namespace Kladr\Core\Models {
 	    $arReturn = array();
 	    foreach ($buildings as $building)
 	    {
-		$arReturn[] = array(
-		    'id' => $building->readAttribute(KladrFields::Id),
-		    'name' => $building->readAttribute(KladrFields::Name),
-		    'zip' => $building->readAttribute(KladrFields::ZipCode),
-		    'type' => $building->readAttribute(KladrFields::Type),
-		    'typeShort' => $building->readAttribute(KladrFields::TypeShort),
-		    'okato' => $building->readAttribute(KladrFields::Okato),
-		    'contentType' => Buildings::ContentType,
-		);
+			$arReturn[] = array(
+				'id' => $building->readAttribute(KladrFields::Id),
+				'name' => $building->readAttribute(KladrFields::Name),
+				'zip' => $building->readAttribute(KladrFields::ZipCode),
+				'type' => $building->readAttribute(KladrFields::Type),
+				'typeShort' => $building->readAttribute(KladrFields::TypeShort),
+				'okato' => $building->readAttribute(KladrFields::Okato),
+				'contentType' => Buildings::ContentType,
+			);
 	    }
 
 	    $arReturnBuilding = array();
 	    if ($name)
 	    {
-		foreach ($arReturn as $item)
-		{
-		    $arNames = explode(',', $item['name']);
-		    foreach ($arNames as $buildingName)
-		    {
-			if (preg_match('/^' . $name . '/iu', $buildingName))
+			foreach ($arReturn as $item)
 			{
-			    $item['name'] = $buildingName;
-			    $arReturnBuilding[$buildingName] = $item;
+				$arNames = explode(',', $item['name']);
+				foreach ($arNames as $buildingName)
+				{
+					if (preg_match('/^' . $name . '/iu', $buildingName))
+					{
+						$item['name'] = $buildingName;
+						$arReturnBuilding[$buildingName] = $item;
+					}
+				}
 			}
-		    }
-		}
 	    } else
 	    {
-		foreach ($arReturn as $item)
-		{
-		    $arNames = explode(',', $item['name']);
-		    foreach ($arNames as $buildingName)
-		    {
-			$item['name'] = $buildingName;
-			$arReturnBuilding[$buildingName] = $item;
-		    }
-		}
+			foreach ($arReturn as $item)
+			{
+				$arNames = explode(',', $item['name']);
+				foreach ($arNames as $buildingName)
+				{
+					$item['name'] = $buildingName;
+					$arReturnBuilding[$buildingName] = $item;
+				}
+			}
 	    }
 
 	    ksort($arReturnBuilding);
@@ -175,16 +175,22 @@ namespace Kladr\Core\Models {
 	    $arResult = array();
 	    for ($i = 1; $i < 10; $i++)
 	    {
-		foreach ($arReturnBuilding as $item)
-		{
-		    if (mb_strlen($item['name'], mb_detect_encoding($item['name'])) == $i)
-		    {
-			$arResult[] = $item;
-		    }
-		}
+			foreach ($arReturnBuilding as $item)
+			{
+				if (mb_strlen($item['name'], mb_detect_encoding($item['name'])) == $i)
+				{
+					$arResult[] = $item;
+				}
+			}
 	    }
 
 	    $arResult = array_slice($arResult, 0, $limit);
+		
+		if ($zip != null && empty($arResult))
+		{
+			return Streets::findByQuery(null, false, 10, 0, $zip);
+		}
+		
 	    return $arResult;
 	}
 

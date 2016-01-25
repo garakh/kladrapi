@@ -119,6 +119,10 @@ class StreetLoader extends Loader {
             array('background' => true)
         );
         $streets->ensureIndex(
+            array(Loader::ZipCodeField => 1),
+            array('background' => true)
+        );		
+        $streets->ensureIndex(
             array(Loader::CodeLocalityField => 1, Loader::CodeRegionField => 1, Loader::CodeDistrictField => 1, Loader::CodeStreetField => 1),
             array('background' => true)
         );
