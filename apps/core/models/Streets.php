@@ -123,7 +123,7 @@ namespace Kladr\Core\Models {
 			
 			if ($zip)
 			{
-				$arQuery['conditions'][KladrFields::ZipCode] = $zip;
+				$arQuery['conditions'][KladrFields::ZipCode] = "$zip";
 			}			
 
             $arQuery['sort'] = array(KladrFields::Name => 1);
