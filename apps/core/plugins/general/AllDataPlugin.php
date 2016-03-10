@@ -134,8 +134,8 @@ namespace Kladr\Core\Plugins\General {
                     $codeCity = array('$gte' => $cc, '$lt' => $cc + 1000);
                 }
                 
-                if($city['CodeCity'] == null)
-                    $city['CodeCity'] = 0;
+                if($codeCity == null)
+                    $codeCity = 0;
 
 
                 $streets = $mongo->streets->find(
