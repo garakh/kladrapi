@@ -1,6 +1,7 @@
 <?php
 
-namespace Kladr\Core\Models {
+namespace Kladr\Core\Models
+{
 
     use \Phalcon\Mvc\Collection;
 
@@ -25,6 +26,7 @@ namespace Kladr\Core\Models {
      */
     class Cities extends Collection
     {
+
         /**
          * @var string Тип объекта
          */
@@ -53,7 +55,7 @@ namespace Kladr\Core\Models {
                 return self::$Cache[$id];
 
             $object = self::findFirst(array(
-                array(KladrFields::Id => $id)
+                        array(KladrFields::Id => $id)
             ));
 
             if (!$object)
@@ -77,24 +79,24 @@ namespace Kladr\Core\Models {
         public static function getCityOwnerId($id)
         {
             /*
-               01 234 567 89A BC
-               16 031 001 001 00
-            */
+              01 234 567 89A BC
+              16 031 001 001 00
+             */
 
             if (strlen($id) < 13)
                 return null;
 
-			$id2 = $id;
-				
+            $id2 = $id;
+
             $id2[8] = '0';
             $id2[9] = '0';
             $id2[10] = '0';
             $id2[11] = '0';
-            $id2[12] = '0';				
-				
-			if($id == $id2)
-				return null;
-				
+            $id2[12] = '0';
+
+            if ($id == $id2)
+                return null;
+
             $id2 = substr($id2, 0, 13);
 
             return $id2;
@@ -108,14 +110,16 @@ namespace Kladr\Core\Models {
          * @param int $limit Максимальное количество возвращаемых объектов
          * @param int $offset Сдвиг
          * @param array $typeCodes Массив TypeCode для фильтрации
+         * @param bool $strict Точный режим поиска
          * @return array
          */
-        public static function findByQuery($name = null, $codes = array(), $limit = 5000, $offset = 0, $typeCodes = null)
+        public static function findByQuery($name = null, $codes = array(), $limit = 5000, $offset = 0, $typeCodes = null, $strict = false)
         {
             $arQuery = array();
             $isEmptyQuery = true;
 
-            if ($name) {
+            if ($name)
+            {
                 $isEmptyQuery = false;
                 $regexObj = new \MongoRegex('/^' . $name . '/');
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
@@ -123,43 +127,62 @@ namespace Kladr\Core\Models {
 
             $searchById = $codes && !is_array($codes);
 
-            if (is_array($codes)) {
+            if (is_array($codes))
+            {
                 $isEmptyQuery = false;
                 $codes = array_splice($codes, 0, 3);
-				$arRegionCodeSpecialCases = array(
-					50 => 77, // Московская область => Москва
-					47 => 78  // Ленинградская область => Санкт-Петербург
-				);
-				
-                foreach ($codes as $field => $code) {
-                    if (!$code) {
-                        $arQuery['conditions'][$field] = null;
-						continue;
+                $arRegionCodeSpecialCases = array(
+                    50 => 77, // Московская область => Москва
+                    47 => 78  // Ленинградская область => Санкт-Петербург
+                );
+
+                foreach ($codes as $field => $code)
+                {
+                    if (!$code)
+                    {
+                        $arQuery['conditions'][$field] = array('$in' => array(
+                                null,
+                                0
+                        ));
+                        continue;
                     }
-				
-					if($field == KladrFields::CodeRegion && isset($arRegionCodeSpecialCases[$code])) {
-						$arQuery['conditions'][$field] = array('$in' => array(
-							$code,
-							$arRegionCodeSpecialCases[$code]
-						));
-					} else {
-						$arQuery['conditions'][$field] = $code;
-					}
+
+                    if ($field == KladrFields::CodeRegion && isset($arRegionCodeSpecialCases[$code]))
+                    {
+                        $arQuery['conditions'][$field] = array('$in' => array(
+                                $code,
+                                $arRegionCodeSpecialCases[$code]
+                        ));
+                    } else
+                    {
+                        $arQuery['conditions'][$field] = $code;
+                    }
                 }
-            } elseif ($searchById) {
+            } elseif ($searchById)
+            {
                 $isEmptyQuery = false;
                 $arQuery['conditions'][KladrFields::Id] = $codes;
             }
 
-            if ($isEmptyQuery) {
+            //строги режим: если не указан район, то ищем города у которых нет района
+            //в противном случае: поле район просто игнорируется
+            if ($strict && !isset($codes[KladrFields::CodeDistrict]))
+            {
+                $arQuery['conditions'][KladrFields::CodeDistrict] = 0;
+            }
+
+            if ($isEmptyQuery)
+            {
                 return array();
             }
 
-            if (!$searchById) {
+            if (!$searchById)
+            {
                 $arQuery['conditions'][KladrFields::Bad] = false;
             }
 
-            if ($typeCodes != null) {
+            if ($typeCodes != null)
+            {
                 $arQuery['conditions'][KladrFields::TypeCode] = array('$in' => $typeCodes);
             }
 
@@ -173,7 +196,8 @@ namespace Kladr\Core\Models {
             $cities = self::find($arQuery);
 
             $arReturn = array();
-            foreach ($cities as $city) {
+            foreach ($cities as $city)
+            {
                 $arReturn[] = array(
                     'id' => $city->readAttribute(KladrFields::Id),
                     'name' => $city->readAttribute(KladrFields::Name),

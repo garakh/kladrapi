@@ -165,7 +165,7 @@ use Kladr\Core\Models\Buildings;
             if ($request->getQuery('offset'))
             {
                 $arSearchContext['offset'] = (int)$request->getQuery('offset');
-                if ($arSearchContext['limit'] == 0)
+                if ($arSearchContext['offset'] == 0)
                 {
                     $errorMessage = 'offset incorrect. Should be numerable, greater than 0';
                 }

@@ -131,6 +131,10 @@ namespace Kladr\Core\Plugins\General {
                 //offset
                 $offset = $request->getQuery('offset');
                 $offset = intval($offset);
+                
+                //strict 
+                $strict = trim($request->getQuery('strict'));
+                $strict = $strict && $strict != '' ? true : false;
 
                 $typeCodes = self::ConvertCodeTypeToArray($request->getQuery('typeCode'));
 
@@ -143,7 +147,7 @@ namespace Kladr\Core\Plugins\General {
                         $objects = Districts::findByQuery($query, $arCodes, $limit, $offset);
                         break;
                     case Cities::ContentType:
-                        $objects = Cities::findByQuery($query, $arCodes, $limit, $offset, $typeCodes);
+                        $objects = Cities::findByQuery($query, $arCodes, $limit, $offset, $typeCodes, $strict);
                         break;
                     case Streets::ContentType:
                         $objects = Streets::findByQuery($query, $arCodes, $limit, $offset);

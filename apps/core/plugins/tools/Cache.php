@@ -47,6 +47,7 @@ namespace Kladr\Core\Plugins\Tools {
             $key .= 'streetId=' . $request->getQuery('streetId');
             $key .= 'buildingId=' . $request->getQuery('buildingId');
             $key .= 'zip=' . $request->getQuery('zip');
+            $key .= 'strict=' . $request->getQuery('strict');
 
             $query = $request->getQuery('query');
             $query = Tools::Key($query);

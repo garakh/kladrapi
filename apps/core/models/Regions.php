@@ -64,6 +64,32 @@ namespace Kladr\Core\Models {
             return self::$Cache[$id];
         }
 
+        public static function getZipById($id)
+        {
+            $id = trim($id);
+            if (!$id)
+                return null;
+
+            $id = substr($id, 0, 2);
+            
+            $arQuery = array();
+            $arQuery['conditions'] = array();
+            $regexObj = new \MongoRegex('/^' . $id . '/');
+            $arQuery['conditions'][KladrFields::Id] = $regexObj;
+            $arQuery['limit'] = 1;
+            $regions = self::find($arQuery);
+            if(empty($regions))
+                return null;
+            
+            $zip = $regions[0]->readAttribute(KladrFields::ZipCode);
+            $zip = (int)$zip;
+            if($zip == 0)
+                return null;
+            
+            return $zip;
+            
+        }        
+        
         /**
          * Поиск объекта по названию
          * 

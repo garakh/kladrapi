@@ -1,6 +1,7 @@
 <?php
 
-namespace Kladr\Core\Models {
+namespace Kladr\Core\Models
+{
 
     use \Phalcon\Mvc\Collection;
 
@@ -64,7 +65,7 @@ namespace Kladr\Core\Models {
             self::$Cache[$id] = array(
                 KladrFields::CodeRegion => $object->readAttribute(KladrFields::CodeRegion),
                 KladrFields::CodeDistrict => $object->readAttribute(KladrFields::CodeDistrict),
-                KladrFields::CodeLocality => (int)$object->readAttribute(KladrFields::CodeLocality),
+                KladrFields::CodeLocality => (int) $object->readAttribute(KladrFields::CodeLocality),
                 KladrFields::CodeStreet => $object->readAttribute(KladrFields::CodeStreet),
             );
 
@@ -93,21 +94,18 @@ namespace Kladr\Core\Models {
                     if ($code)
                     {
                         $arQuery['conditions'][$field] = $code;
-                    }
-                    else
+                    } else
                     {
                         $arQuery['conditions'][$field] = 0;
                     }
                 }
-            }
-            elseif ($searchById)
+            } elseif ($searchById)
             {
                 $arQuery['conditions'][KladrFields::Id] = $codes;
-            }
-            else
+            } else
             {
-				if ($zip == null)
-					return array();
+                if ($zip == null)
+                    return array();
             }
 
             if (!$searchById)
@@ -120,28 +118,40 @@ namespace Kladr\Core\Models {
                 $regexObj = new \MongoRegex('/^' . $name . '/');
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
-			
-			if ($zip)
-			{
-				$arQuery['conditions'][KladrFields::ZipCode] = "$zip";
-			}			
 
-            $arQuery['sort'] = array(KladrFields::Name => 1);
+            if ($zip)
+            {
+                $arQuery['conditions'][KladrFields::ZipCode] = "$zip";
+            }
+
+//            $arQuery['sort'] = array(KladrFields::Id => 1);
             $arQuery['skip'] = $offset;
             $arQuery['limit'] = $limit;
 
             $streets = self::find($arQuery);
 
             $arReturn = array();
-            foreach($streets as $street)
-			{
+            foreach ($streets as $street)
+            {
+                $id = $street->readAttribute(KladrFields::Id);
+                $zip = $street->readAttribute(KladrFields::ZipCode);
+                $zip = (int)$zip;
+                if($zip == 0)
+                {
+                    $zip = Buildings::getZipById($id);
+                    if($zip == null)
+                    {
+                        $zip = Regions::getZipById($id);
+                    }
+                }
+                
                 $arReturn[] = array(
-                    'id'        => $street->readAttribute(KladrFields::Id),
-                    'name'      => $street->readAttribute(KladrFields::Name),
-                    'zip'       => $street->readAttribute(KladrFields::ZipCode),
-                    'type'      => $street->readAttribute(KladrFields::Type),
+                    'id' => $street->readAttribute(KladrFields::Id),
+                    'name' => $street->readAttribute(KladrFields::Name),
+                    'zip' => $zip,
+                    'type' => $street->readAttribute(KladrFields::Type),
                     'typeShort' => $street->readAttribute(KladrFields::TypeShort),
-                    'okato'     => $street->readAttribute(KladrFields::Okato),
+                    'okato' => $street->readAttribute(KladrFields::Okato),
                     'contentType' => Streets::ContentType,
                 );
             }
