@@ -126,6 +126,10 @@ class DomaLoader extends Loader {
             array(Loader::CodeRegionField => 1, Loader::CodeStreetField => 1, Loader::CodeDistrictField => 1, Loader::CodeLocalityField => 1),
             array('background' => true)
         );
+        $buildings->ensureIndex(
+            array(Loader::ZipCodeField => 1, Loader::IdField => 1),
+            array('background' => true)
+        );        
 
         $this->Close();
         return true;

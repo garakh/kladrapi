@@ -4,11 +4,12 @@
  * Базовый класс загрузчика
  * @property-read string $Error Текст возникшей при загрузке ошибки
  */
-class Loader {
+class Loader
+{
+
     // Идентификаторы объектов в таблице ALTNAMES
     const OldIdField = 'OldId';
     const NewIdField = 'NewId';
-
     // Поля объектов
     const IdField = 'Id';
     const NameField = 'Name';
@@ -19,14 +20,12 @@ class Loader {
     const OkatoCodeField = 'Okato';
     const Bad = "Bad";
     const TypeCode = "TypeCode";
-
     // Коды объектов
     const CodeRegionField = 'CodeRegion';
     const CodeDistrictField = 'CodeDistrict';
     const CodeLocalityField = 'CodeCity';
     const CodeStreetField = 'CodeStreet';
     const CodeBuildingField = 'CodeBuilding';
-
     // Поле сортировки
     const SortField = 'Sort';
 
@@ -66,7 +65,8 @@ class Loader {
      */
     protected $error;
 
-    public function __construct($db, $strFilePath) {
+    public function __construct($db, $strFilePath)
+    {
         $this->error = '';
         $this->arCodeMap = null;
         $this->arCodeConformity = array();
@@ -81,7 +81,8 @@ class Loader {
      * Открывает файл
      * @param string $strFilePath Путь к файлу
      */
-    protected function Open($strFilePath) {
+    protected function Open($strFilePath)
+    {
         $this->file = fopen($strFilePath, 'r');
     }
 
@@ -89,7 +90,8 @@ class Loader {
      * Считывает информацию из файла
      * @return type
      */
-    protected function ReadLine() {
+    protected function ReadLine()
+    {
         return fgetcsv($this->file, 0, ';');
     }
 
@@ -97,19 +99,22 @@ class Loader {
      * Расшифровывает код объекта
      * @return код объекта
      */
-    protected function ReadCode($strCode){
+    protected function ReadCode($strCode)
+    {
         $arResult = array();
 
-        $key= 0;
+        $key = 0;
         $count = 1;
         $strlen = strlen($strCode);
-        for($i=0; $i<$strlen; $i++){
+        for ($i = 0; $i < $strlen; $i++)
+        {
             $arResult[$key] .= $strCode[$i];
 
             $count++;
-            if($count > $this->arCodeMap[$key]){
+            if ($count > $this->arCodeMap[$key])
+            {
                 $key++;
-                if($key >= count($this->arCodeMap))
+                if ($key >= count($this->arCodeMap))
                     break;
 
                 $count = 1;
@@ -125,15 +130,18 @@ class Loader {
      * @param array $arCode Массив кодов объекта
      * @return int
      */
-    protected function GetType($arCode){
-        if(empty($this->arCodeMap)) return 0;
+    protected function GetType($arCode)
+    {
+        if (empty($this->arCodeMap))
+            return 0;
 
         $count = 0;
         $type = 0;
-        foreach($arCode as $code){
+        foreach ($arCode as $code)
+        {
             $count++;
             $code = intval($code);
-            if($code > 0)
+            if ($code > 0)
                 $type = $count;
         }
         return $type;
@@ -144,11 +152,13 @@ class Loader {
      * @param array $arCode Массив кодов
      * @return array
      */
-    protected function GetCodeField($arCode){
+    protected function GetCodeField($arCode)
+    {
         $arCodeField = array();
-        foreach ($this->arCodeConformity as $key => $conform){
+        foreach ($this->arCodeConformity as $key => $conform)
+        {
             $code = intval($arCode[$conform]);
-            if($code)
+            if ($code)
                 $arCodeField[$key] = $code;
             else
                 $arCodeField[$key] = 0;
@@ -159,7 +169,8 @@ class Loader {
     /**
      * Закрывает файл
      */
-    protected function Close() {
+    protected function Close()
+    {
         fclose($this->file);
     }
 
@@ -167,15 +178,19 @@ class Loader {
      * Загружает данные из файла
      * @return true если успешно
      */
-    public function Load() {
-        if(!$this->file){
+    public function Load()
+    {
+        if (!$this->file)
+        {
             $this->error = 'Ошибка при чтении файла';
             return false;
         }
     }
 
-    public function __get($name) {
-        switch ($name) {
+    public function __get($name)
+    {
+        switch ($name)
+        {
             case 'Error': return $this->error;
         }
     }
