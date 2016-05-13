@@ -140,8 +140,8 @@ namespace Kladr\Core\Models
 
             if ($name)
             {
-                $name = preg_replace('/_/u', '', $name);
-                $regexObj = new \MongoRegex('/^' . $name . '/');
+                $name2 = preg_replace('/_/u', '', $name);
+                $regexObj = new \MongoRegex('/^' . $name2 . '/');
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
 
