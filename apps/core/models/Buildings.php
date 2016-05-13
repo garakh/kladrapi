@@ -87,16 +87,15 @@ namespace Kladr\Core\Models
             $arQuery['conditions'][KladrFields::ZipCode] = array('$ne' => 0);
             $arQuery['limit'] = 1;
             $buildings = self::find($arQuery);
-            if(empty($buildings))
+            if (empty($buildings))
                 return null;
-            
+
             $zip = $buildings[0]->readAttribute(KladrFields::ZipCode);
-            $zip = (int)$zip;
-            if($zip == 0)
+            $zip = (int) $zip;
+            if ($zip == 0)
                 return null;
-            
+
             return $zip;
-            
         }
 
         /**
@@ -141,6 +140,7 @@ namespace Kladr\Core\Models
 
             if ($name)
             {
+                $name = preg_replace('/_/u', '', $name);
                 $regexObj = new \MongoRegex('/^' . $name . '/');
                 $arQuery['conditions'][KladrFields::NormalizedName] = $regexObj;
             }
