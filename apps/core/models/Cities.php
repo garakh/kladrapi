@@ -198,10 +198,20 @@ namespace Kladr\Core\Models
             $arReturn = array();
             foreach ($cities as $city)
             {
+                $id = $city->readAttribute(KladrFields::Id);
+                $zip = $city->readAttribute(KladrFields::ZipCode);
+                $zip = (int) $zip;
+                if ($zip == 0)
+                {
+                    $zip = Buildings::getZipById($id);
+
+                }
+
+
                 $arReturn[] = array(
                     'id' => $city->readAttribute(KladrFields::Id),
                     'name' => $city->readAttribute(KladrFields::Name),
-                    'zip' => $city->readAttribute(KladrFields::ZipCode),
+                    'zip' => $zip,
                     'type' => $city->readAttribute(KladrFields::Type),
                     'typeShort' => $city->readAttribute(KladrFields::TypeShort),
                     'okato' => $city->readAttribute(KladrFields::Okato),

@@ -1,6 +1,7 @@
 <?php
 
-namespace Kladr\Core\Models {
+namespace Kladr\Core\Models
+{
 
     use \Phalcon\Mvc\Collection;
 
@@ -23,6 +24,7 @@ namespace Kladr\Core\Models {
      */
     class Districts extends Collection
     {
+
         /**
          * @var string Тип объекта
          */
@@ -97,14 +99,12 @@ namespace Kladr\Core\Models {
                     if ($code)
                     {
                         $arQuery['conditions'][$field] = $code;
-                    }
-                    else
+                    } else
                     {
                         $arQuery['conditions'][$field] = 0;
                     }
                 }
-            }
-            elseif ($searchById)
+            } elseif ($searchById)
             {
                 $isEmptyQuery = false;
                 $arQuery['conditions'][KladrFields::Id] = $codes;
@@ -123,20 +123,29 @@ namespace Kladr\Core\Models {
             $arQuery['sort'] = array(KladrFields::Name => 1);
             $arQuery['skip'] = $offset;
             $arQuery['limit'] = $limit;
-            
+
 
             $districts = self::find($arQuery);
 
             $arReturn = array();
-            foreach($districts as $district)
-			{
+            foreach ($districts as $district)
+            {
+                $id = $district->readAttribute(KladrFields::Id);
+                $zip = $district->readAttribute(KladrFields::ZipCode);
+                $zip = (int) $zip;
+                if ($zip == 0)
+                {
+                    $zip = Buildings::getZipById($id);
+                }
+
+
                 $arReturn[] = array(
-                    'id'          => $district->readAttribute(KladrFields::Id),
-                    'name'        => $district->readAttribute(KladrFields::Name),
-                    'zip'         => $district->readAttribute(KladrFields::ZipCode),
-                    'type'        => $district->readAttribute(KladrFields::Type),
-                    'typeShort'   => $district->readAttribute(KladrFields::TypeShort),
-                    'okato'       => $district->readAttribute(KladrFields::Okato),
+                    'id' => $district->readAttribute(KladrFields::Id),
+                    'name' => $district->readAttribute(KladrFields::Name),
+                    'zip' => $zip,
+                    'type' => $district->readAttribute(KladrFields::Type),
+                    'typeShort' => $district->readAttribute(KladrFields::TypeShort),
+                    'okato' => $district->readAttribute(KladrFields::Okato),
                     'contentType' => Districts::ContentType,
                 );
             }

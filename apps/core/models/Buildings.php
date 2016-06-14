@@ -76,26 +76,83 @@ namespace Kladr\Core\Models
 
         public static function getZipById($id)
         {
+
+            /*
+             * 
+              СС РРР ГГГ ППП АА
+              63 000 000 000 00 (13) (5)
+              71 020 000 000 00 (13) (8)
+              34 030 001 000 00 (13) (11)
+
+              СС РРР ГГГ ППП УУУУ АА
+              34 030 001 000 0081 00  (17) (15)
+
+              СС РРР ГГГ ППП УУУУ ДДДД
+              34 030 001 000 0000 0001  (19)
+
+
+              6300000000000
+              7102000000000
+              3403000100000
+              34030001000008100
+              3403000100000000001
+             */
+
+            $id = "$id";
+
             $id = trim($id);
             if (!$id)
                 return null;
 
-            $arQuery = array();
-            $arQuery['conditions'] = array();
-            $regexObj = new \MongoRegex('/^' . $id . '/');
-            $arQuery['conditions'][KladrFields::Id] = $regexObj;
-            $arQuery['conditions'][KladrFields::ZipCode] = array('$ne' => 0);
-            $arQuery['limit'] = 1;
-            $buildings = self::find($arQuery);
-            if (empty($buildings))
-                return null;
+            while (true)
+            {
 
-            $zip = $buildings[0]->readAttribute(KladrFields::ZipCode);
-            $zip = (int) $zip;
-            if ($zip == 0)
-                return null;
+                $len = strlen($id);
+                switch ($len)
+                {
+                    case 19:
+                        $id = substr($id, 0, -4);  //СС РРР ГГГ ППП УУУУ ДДДД → СС РРР ГГГ ППП УУУУ
+                        break;
+                    case 17:
+                        $id = substr($id, 0, -2); // СС РРР ГГГ ППП УУУУ АА → СС РРР ГГГ ППП УУУУ
+                        break;
+                    case 15:
+                        $id = substr($id, 0, -4); // СС РРР ГГГ ППП УУУУ → СС РРР ГГГ ППП
+                        break;
+                    case 13:
+                        $id = substr($id, 0, -2); // СС РРР ГГГ ППП АА → СС РРР ГГГ ППП
+                        break;
+                    case 11:
+                        $id = substr($id, 0, -3); // СС РРР ГГГ ППП → СС РРР ГГГ
+                        break;
+                    case 8:
+                        $id = substr($id, 0, -3); // СС РРР ГГГ → СС РРР
+                        break;
+                    case 5:
+                        $id = substr($id, 0, -3); // СС РРР → СС
+                        break;
 
-            return $zip;
+                    default: return null;
+                }
+
+                $arQuery = array();
+                $arQuery['conditions'] = array();
+                $regexObj = new \MongoRegex('/^' . $id . '/');
+                $arQuery['conditions'][KladrFields::Id] = $regexObj;
+                $arQuery['conditions'][KladrFields::ZipCode] = array('$ne' => 0);
+                $arQuery['sort'] = array(KladrFields::ZipCode => 1);
+                $arQuery['limit'] = 1;
+                $buildings = self::find($arQuery);
+                if (empty($buildings))
+                    continue;
+
+                $zip = $buildings[0]->readAttribute(KladrFields::ZipCode);
+                $zip = (int) $zip;
+                if ($zip == 0)
+                    continue;
+
+                return $zip;
+            }
         }
 
         /**
@@ -157,10 +214,17 @@ namespace Kladr\Core\Models
             $arReturn = array();
             foreach ($buildings as $building)
             {
+                $id = $building->readAttribute(KladrFields::Id);
+                $zip = (int)$building->readAttribute(KladrFields::ZipCode);
+                if($zip == 0)
+                {
+                    $zip = self::getZipById($id);
+                }
+                
                 $arReturn[] = array(
                     'id' => $building->readAttribute(KladrFields::Id),
                     'name' => $building->readAttribute(KladrFields::Name),
-                    'zip' => $building->readAttribute(KladrFields::ZipCode),
+                    'zip' => $zip,
                     'type' => $building->readAttribute(KladrFields::Type),
                     'typeShort' => $building->readAttribute(KladrFields::TypeShort),
                     'okato' => $building->readAttribute(KladrFields::Okato),
