@@ -140,7 +140,6 @@ namespace Kladr\Core\Models
                 $regexObj = new \MongoRegex('/^' . $id . '/');
                 $arQuery['conditions'][KladrFields::Id] = $regexObj;
                 $arQuery['conditions'][KladrFields::ZipCode] = array('$ne' => 0);
-                $arQuery['sort'] = array(KladrFields::ZipCode => 1);
                 $arQuery['limit'] = 1;
                 $buildings = self::find($arQuery);
                 if (empty($buildings))
