@@ -214,16 +214,16 @@ namespace Kladr\Core\Models
             foreach ($buildings as $building)
             {
                 $id = $building->readAttribute(KladrFields::Id);
-                $zip = (int)$building->readAttribute(KladrFields::ZipCode);
-                if($zip == 0)
+                $zip2 = (int)$building->readAttribute(KladrFields::ZipCode);
+                if($zip2 == 0)
                 {
-                    $zip = self::getZipById($id);
+                    $zip2 = self::getZipById($id);
                 }
                 
                 $arReturn[] = array(
                     'id' => $building->readAttribute(KladrFields::Id),
                     'name' => $building->readAttribute(KladrFields::Name),
-                    'zip' => $zip,
+                    'zip' => $zip2,
                     'type' => $building->readAttribute(KladrFields::Type),
                     'typeShort' => $building->readAttribute(KladrFields::TypeShort),
                     'okato' => $building->readAttribute(KladrFields::Okato),
@@ -242,7 +242,7 @@ namespace Kladr\Core\Models
                         if (preg_match('/^' . $name . '/iu', $buildingName))
                         {
                             $item['name'] = $buildingName;
-                            $arReturnBuilding[$buildingName] = $item;
+                            $arReturnBuilding[' ' . $buildingName] = $item;
                         }
                     }
                 }
@@ -254,13 +254,16 @@ namespace Kladr\Core\Models
                     foreach ($arNames as $buildingName)
                     {
                         $item['name'] = $buildingName;
-                        $arReturnBuilding[$buildingName] = $item;
+                        $arReturnBuilding[' ' . $buildingName] = $item;
                     }
                 }
             }
-
+            
             ksort($arReturnBuilding);
 
+           $arReturnBuilding = array_values($arReturnBuilding);
+            
+            /*
             $arResult = array();
             for ($i = 1; $i < 10; $i++)
             {
@@ -272,9 +275,10 @@ namespace Kladr\Core\Models
                     }
                 }
             }
+             */
 
-            $arResult = array_slice($arResult, 0, $limit);
-
+            $arResult = array_slice($arReturnBuilding, 0, $limit);
+            
             if ($zip != null && empty($arResult))
             {
                 return Streets::findByQuery(null, false, 10, 0, $zip);
