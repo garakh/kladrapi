@@ -20,7 +20,8 @@ namespace Kladr\Core\Plugins\Tools {
 	 */
 	public static function Normalize($str)
 	{
-	    $str = preg_replace('/[^а-яА-Я0-9,\/._ёЁ]+/u', '', $str);
+	    $str = preg_replace('/[ёЁ]/u', 'е', $str);
+            $str = preg_replace('/[^а-яА-Я0-9,\/._ёЁ]+/u', '', $str);
 	    $str = mb_strtolower($str, mb_detect_encoding($str));
 
 	    return $str;
