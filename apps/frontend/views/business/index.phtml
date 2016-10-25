@@ -5,9 +5,9 @@ $prices = array(900, 1400, 1500, 2000, 3000, 30000, 10000);
 foreach ($prices as $price)
 {
     $crc = md5($this->config->options->login . ':' .
-	    $price . '.00:' .
-	    ':' .
-	    $this->config->options->password);
+            $price . '.00:' .
+            ':' .
+            $this->config->options->password);
     echo "crc[$price] = '$crc'; \n";
 }
 
@@ -15,11 +15,11 @@ foreach ($prices as $price)
 $discount = $this->config->options->coupon == (isset($_REQUEST['coupon']) ? $_REQUEST['coupon'] : '');
 ?>
 
-    var processPayment = function(price){
-	$('#OutSum').val(price + '.00');
-	$('#SignatureValue').val(crc[price]);
-	
-	$('#pay-form').submit();
+    var processPayment = function (price) {
+        $('#OutSum').val(price + '.00');
+        $('#SignatureValue').val(crc[price]);
+
+        $('#pay-form').submit();
     }
 
 </script>
@@ -35,80 +35,80 @@ $discount = $this->config->options->coupon == (isset($_REQUEST['coupon']) ? $_RE
 
 <div class="content">
     <div class="cBlock">
-	<div class="contentMain">
+        <div class="contentMain">
 
-	    <h1>Коммерческое использование</h1>
-	    <p>
-		Если Вам необходимо интегрировать сервис в Ваш тиражируемый коммерческий продукт, 
-		или Вы хотите получить 100% гарантию работы сервиса подтвержденную договорными условиями.
-		</a>
-	    </p>
-	    <b>Особенности платной версии:</b>
-	    <ul class="ul-list">
-		<li>Гарантия работы сервиса, отдельные сервера (http://kladr-api.com/api.php).</li>
-		<li>Помощь в настройке по скайпу, ответ технической поддержки в течение рабочего дня.</li>
-		<li>Возможность установить решение на Ваши сервера.</li>
-		<li>Скидки для реселлеров и разработчиков.</li>
-	    </ul>
-	    <br>
-	    <h2>Тарифы</h2>
+            <h1>Коммерческое использование</h1>
+            <p>
+                Если Вам необходимо интегрировать сервис в Ваш тиражируемый коммерческий продукт, 
+                или Вы хотите получить 100% гарантию работы сервиса подтвержденную договорными условиями.
+                </a>
+            </p>
+            <b>Особенности платной версии:</b>
+            <ul class="ul-list">
+                <li>Гарантия работы сервиса, отдельные сервера (http://kladr-api.com/api.php).</li>
+                <li>Помощь в настройке по скайпу, ответ технической поддержки в течение рабочего дня.</li>
+                <li>Возможность установить решение на Ваши сервера.</li>
+                <li>Скидки для реселлеров и разработчиков.</li>
+            </ul>
+            <br>
+            <h2>Тарифы</h2>
 
-	    <style>
-		.ratesBlock {
-		    width: 685px;
-		    height: 344px;
-		    border: 3px solid #EFEFEF;
-		    position: relative;
-		    margin: 30px 0 0;
-		    padding: 0 20px;
-		}		
+            <style>
+                .ratesBlock {
+                    width: 685px;
+                    height: 344px;
+                    border: 3px solid #EFEFEF;
+                    position: relative;
+                    margin: 30px 0 0;
+                    padding: 0 20px;
+                }		
 
-		.ratesBlock .middleSide {
-		    position: absolute;
-		    left: 0;
-		    right: 0;
-		    margin: auto;
-		    top: 0px;
-		    z-index: 3;
-		    height: 344px;
-		    width: 218px;
-		    border: 3px solid #EFEFEF;
-		    background: white;
-		    padding: 0 20px;
-		    border-top: none;
-		    border-bottom: none;
-		}
+                .ratesBlock .middleSide {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                    top: 0px;
+                    z-index: 3;
+                    height: 344px;
+                    width: 218px;
+                    border: 3px solid #EFEFEF;
+                    background: white;
+                    padding: 0 20px;
+                    border-top: none;
+                    border-bottom: none;
+                }
 
-		.ratesBlock .middleSide h2 {
-		    padding-top: 30px;
-		    font-size: 24px;
-		}	
+                .ratesBlock .middleSide h2 {
+                    padding-top: 30px;
+                    font-size: 24px;
+                }	
 
-		.ratesBlock .middleSide .button {
-		    width: 185px;
-		    height: 32px;
-		    line-height: 32px;
-		    margin: 15px auto 0;
-		    font-size: 18px; 
-		    box-shadow: 0 1px 0 #B85D02;
-		}	
+                .ratesBlock .middleSide .button {
+                    width: 185px;
+                    height: 32px;
+                    line-height: 32px;
+                    margin: 15px auto 0;
+                    font-size: 18px; 
+                    box-shadow: 0 1px 0 #B85D02;
+                }	
 
-		.desc p{
-		    font-size:15px;
-		    padding:0px !important;
-		}
+                .desc p{
+                    font-size:15px;
+                    padding:0px !important;
+                }
 
-		.ratesBlock .eastSide {
-		    float: right;
-		    width: 184px;
-		    position: relative;
-		}
+                .ratesBlock .eastSide {
+                    float: right;
+                    width: 184px;
+                    position: relative;
+                }
 
-		.ratesBlock .desc {
-		    height: 112px;
-		    margin-top: 20px;
-		}		
-	    </style>
+                .ratesBlock .desc {
+                    height: 112px;
+                    margin-top: 20px;
+                }		
+            </style>
 
 
 
@@ -149,11 +149,9 @@ $discount = $this->config->options->coupon == (isset($_REQUEST['coupon']) ? $_RE
                     <div class="westSide" >
                         <h2>Тестовый</h2>
                         <h3>1400 руб. <br>на 3 месяца</h3>
-                        
+
 
                         <div class="desc">
-                            <a href="http://www.paywithapost.de/pay?id=7fb3dc64-e9d7-42b1-8140-bc0fa73d9a2b&locale=ru">Получить скидку 500&nbsp;руб. за&nbsp;пост в&nbsp;социальных сетях</a>
-                            <br><br>
                             <p>Позволяет проверить коммерческие сервера.</p>
                         </div>
                         <a href="javascript: processPayment(1400)" class="button">Подключить</a>
@@ -162,10 +160,9 @@ $discount = $this->config->options->coupon == (isset($_REQUEST['coupon']) ? $_RE
                         <div class="rel">
                             <h2>Для физ. лиц</h2>
                             <h3>2000 руб. <br>на 1 год</h3>
-                            
+
                             <div class="desc">
-                                <a href="http://www.paywithapost.de/pay?id=7fb3dc64-e9d7-42b1-8140-bc0fa73d9a2b&locale=ru">Получить скидку 500&nbsp;руб. за&nbsp;пост в&nbsp;социальных сетях</a>
-                                <br><br>
+
                                 <p>Работаем на основе <a href="https://drive.google.com/file/d/0B0sSPtvPGc3HdjlHejg0Z2RKU2s/view?usp=sharing">договора оферты</a>.</p>
                             </div>
                             <a href="javascript: processPayment(2000)"  class="button">Подключить</a>
@@ -183,61 +180,64 @@ $discount = $this->config->options->coupon == (isset($_REQUEST['coupon']) ? $_RE
                 </div> 
 
             <?php endif ?>
-	    
-	    <br><br><br><br>
-	    <h2 id="bill">Для юридических лиц</h2>
-	    <p>Оставьте нам свои реквизиты и мы подготовим все документы и вышлем счет</p>
 
-	    <script>
-		$(function(){
-		    $('#btn-send').click(function(){
-			var email = $('#email').val().trim();
-			var company = $('#company').val().trim();
-			if(!email || !company)
-			    return false;
-			
-			$.post('/business/feedback', {email : email, plan : '', company:company}, function(){
-			    $('#feedback-form').hide();
-			    $('#feedback-form-done').fadeIn();
-			});
-		    });
-		});
-	    </script>
-	    <div class="form" id="feedback-form">
-		<input type="email" placeholder="Ваш e-mail" id="email"/>
-		<textarea placeholder="Реквизиты" id="company"></textarea>
-		<input type="submit" value="Отправить" class="btn" id="btn-send"/>
-	    </div>
-	    <p id="feedback-form-done" style="display:none">Мы получили, спасибо. Очень скоро мы с вами свяжемся.</p>	    
-	    
-	    <br><br><br><br>
-	    <h2 id="box">Коробочная версия</h2>
-	    <p>Специальное предложение для тех, кто хочет развернуть подобный сервис на своих
+            <br><br><br><br>
+            <h2 id="bill">Для юридических лиц</h2>
+            <p>Оставьте нам свои реквизиты и мы подготовим все документы и вышлем счет</p>
 
-		серверах под свои проекты. </p>
+            <script>
+                $(function () {
+                    $('#btn-send').click(function () {
+                        var email = $('#email').val().trim();
+                        var company = $('#company').val().trim();
+                        if (!email || !company)
+                            return false;
 
-	    <p>Мы предоставляем инсталляционные пакеты и помощь в развертывании сервиса на 
+                        $.post('/business/feedback', {email: email, plan: '', company: company}, function () {
+                            $('#feedback-form').hide();
+                            $('#feedback-form-done').fadeIn();
+                        });
+                    });
+                });
+            </script>
+            <div class="form" id="feedback-form">
+                <input type="email" placeholder="Ваш e-mail" id="email"/>
+                <textarea placeholder="Реквизиты" id="company"></textarea>
+                <input type="submit" value="Отправить" class="btn" id="btn-send"/>
+            </div>
+            <p id="feedback-form-done" style="display:none">Мы получили, спасибо. Очень скоро мы с вами свяжемся.</p>	    
 
-		Ваших серверах.</p>
+            <br><br><br><br>
+            <h2 id="box">Коробочная версия</h2>
+            <p>Специальное предложение для тех, кто хочет развернуть подобный сервис на своих
 
-	    <p>Коробочная версия позволяет использовать сервис в абсолютно независимом режиме, 
+                серверах под свои проекты. </p>
 
-		а так же дорабатывать его под свои нужды.</p>
-	    <table class="plans">
-		<tr>
-		    <td>30&nbsp;000&nbsp;руб.</td>
-		    <td>включает в себя год бесплатных обновлений и 2 часа консультаций — помощь в установке решения на Вашем сервере.</td>
-		    <td class="buy"><a href="javascript: processPayment(30000)">Купить</a></td>
-		</tr>		
-		<tr>
-		    <td>10&nbsp;000&nbsp;руб.</td>
-		    <td>последующие обновления (в течение года)</td>
-		    <td class="buy"><a href="javascript: processPayment(10000)">Купить</a></td>
-		</tr>		
+            <p>Мы предоставляем инсталляционные пакеты и помощь в развертывании сервиса на 
 
-	    </table>
+                Ваших серверах.</p>
 
+            <p>Коробочная версия позволяет использовать сервис в абсолютно независимом режиме, 
 
-	</div>
+                а так же дорабатывать его под свои нужды.</p>
+            <table class="plans">
+                <tr>
+                    <td>30&nbsp;000&nbsp;руб.</td>
+                    <td>включает в себя год бесплатных обновлений и 2 часа консультаций — помощь в установке решения на Вашем сервере.</td>
+                    <td class="buy"><a href="javascript: processPayment(30000)">Купить</a></td>
+                </tr>		
+                <tr>
+                    <td>10&nbsp;000&nbsp;руб.</td>
+                    <td>последующие обновления (в течение года)</td>
+                    <td class="buy"><a href="javascript: processPayment(10000)">Купить</a></td>
+                </tr>		
+
+            </table>
+            <br><br>
+            <a href="http://passwork.ru" target="_blank">
+                <img src="https://passwork.me/b/passwork_02_ru.png" style="width: 200px; margin: 0px" >
+            </a>  
+
+        </div>
     </div>
 </div>    

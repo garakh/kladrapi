@@ -1,0 +1,48 @@
+<?php
+$h = $embedded ? 'h2' : 'h1';
+$style = $embedded ? 'display: none;' : '';
+?>
+<?php if ($embedded): ?>
+    <h4 class="blocktoggle yiidoc dotted" data-block="yiidoc">Yii Framework</h4>
+<?php endif ?>
+<div class="correctwidth">
+
+    <div class="yiidoc docblock" style="<?= $style ?>">
+        <a name="yii"></a>
+
+        <<?= $h ?> class="blocktoggle dotted" data-block="yiidoc">
+        Yii Framework
+        </<?= $h ?>>
+        <hr  class="delimiter"/>
+        <ul>
+            <li><noindex><a href="https://github.com/andkon13/yii2-klard">Github</a></noindex></il>
+        </ul>
+ <pre class="brush: js;">
+
+install: composer require andkon/yii2kladr
+
+use: 
+$address = new Address(); // your address model
+
+$form = ActiveForm::begin();
+
+echo $form->field($address, 'city_id')
+
+->widget(Kladr::className(), [
+        'type'    => Kladr::TYPE_CITY,
+    'options' => [
+        'placeHolder' => $model->getAttributeLabel('city_id'),
+        'class' => 'form__input'
+    ]
+])
+->label(false);
+                    </pre>        
+
+
+
+
+        <?php if ($embedded): ?><a href="yii/">Yii Framework</a><?php endif ?>
+
+    </div>
+</div>
+

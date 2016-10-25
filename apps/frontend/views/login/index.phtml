@@ -1,20 +1,26 @@
-<?php use \Phalcon\Tag; ?>
+<?php
+
+use \Phalcon\Tag; ?>
 
 <div class="content">
     <div class="cBlock" style="min-height: 500px;">
-	<div class="contentMain">
-	    <h1>Авторизация</h1>
-	    
-            <?php echo $this->getContent() ?>
+        <div class="contentMain">
+            <h1>Авторизация</h1>
+
+                    <?php echo $this->getContent() ?>
             <div class="form">
                 <form action="/login" method="post">
-                <?php echo Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Ваш e-mail", "data-email" => "y")) ?>
-                <?php echo Tag::passwordField(array("password", "id" => "inputPassword", "placeholder" => "Пароль")) ?>
-                <?php echo Tag::submitButton(array('Войти', "class" => "btn")) ?>
-		Не помню пароль — <a href="/recovery/">восстановить пароль</a><br>
-		У меня нет аккаунта — <a href="/register/">зарегистрироваться</a>
+                    <?php echo Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Ваш e-mail", "data-email" => "y")) ?>
+<?php echo Tag::passwordField(array("password", "id" => "inputPassword", "placeholder" => "Пароль")) ?>
+<?php echo Tag::submitButton(array('Войти', "class" => "btn")) ?>
+                    Не помню пароль — <a href="/recovery/">восстановить пароль</a><br>
+                    У меня нет аккаунта — <a href="/register/">зарегистрироваться</a>
                 </form>
             </div>
+            <br><br>
+            <a href="http://passwork.ru" target="_blank">
+            <img src="https://passwork.me/b/passwork_02_ru.png" style="width: 200px; margin: 0px" >
+            </a>
         </div>
     </div>
 </div>

@@ -1,130 +1,137 @@
 <div class="content">
     <div class="cBlock">
-	<div class="contentMain">
-	    <h1>Примеры</h1>
+        <div class="contentMain">
+            <h1>Примеры</h1>
 
 
 
-	    <link href="/jsplugin/jquery.kladr.min.css" rel="stylesheet">
-	    <link href="/jsplugin/examples/css/all.css" rel="stylesheet">
+            <link href="/jsplugin/jquery.kladr.min.css" rel="stylesheet">
+            <link href="/jsplugin/examples/css/all.css" rel="stylesheet">
 
-	    <!-- release -->
+            <!-- release -->
             <script src="/jsplugin/jquery.kladr.min.js" type="text/javascript"></script>
-            
+
             <!-- debug
             <script src="/jsplugin/kladr/js/core.js" type="text/javascript"></script>
             <script src="/jsplugin/kladr/js/kladr.js" type="text/javascript"></script>
             <script src="/jsplugin/kladr/js/kladr_zip.js" type="text/javascript"></script>
             -->
-            
-	    <script src="/jsplugin/examples/js/all.js" type="text/javascript"></script>
 
-	    <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+            <script src="/jsplugin/examples/js/all.js" type="text/javascript"></script>
 
-	    <script src="/content/examples/js/example5.js" type="text/javascript"></script>
-	    <script type="text/javascript">
-		$.kladr.url = '<?= $host ?>';
-	    </script>
-	    <style>
-		.address h2{
-		    font-family: Arial;
-		    font-size: 20px;
-		    color: #000;
-		    text-transform:none;
-		    margin-bottom: 20px;
-		}
+            <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 
-		#example5 .field label{
-		    display: block;
-		    margin-bottom: 5px;
-		}
+            <script src="/content/examples/js/example5.js" type="text/javascript"></script>
+            <script type="text/javascript">
+                $.kladr.url = '<?= $host ?>';
+            </script>
+            <style>
+                .address h2{
+                    font-family: Arial;
+                    font-size: 20px;
+                    color: #000;
+                    text-transform:none;
+                    margin-bottom: 20px;
+                }
 
-		#example5 .contentType{
-		    height: 2em;
-		    width: 370px;
-		    border: 1px solid #d8d8d8;
-		    padding: 0 7px;
-		    color: #666;
-		}
+                #example5 .field label{
+                    display: block;
+                    margin-bottom: 5px;
+                }
 
-		#example5 .withParent{
-		    width: auto;
-		    height: auto;
-		    margin-top: 10px;
-		    margin-bottom: 10px;
-		}
-	    </style>
+                #example5 .contentType{
+                    height: 2em;
+                    width: 370px;
+                    border: 1px solid #d8d8d8;
+                    padding: 0 7px;
+                    color: #666;
+                }
 
-	    <p>Все примеры сделаны с использованием <a href="https://github.com/garakh/kladrapi-jsclient">jQuery плагина</a>. Документация и исходные
-	    коды примеров доступны на <a href="https://github.com/garakh/kladrapi-jsclient">github</a>.</p>
-	    
-	    <?= $examplesHtml ?>
+                #example5 .withParent{
+                    width: auto;
+                    height: auto;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+            </style>
 
+            <p>Все примеры сделаны с использованием <a href="https://github.com/garakh/kladrapi-jsclient">jQuery плагина</a>. Документация и исходные
+                коды примеров доступны на <a href="https://github.com/garakh/kladrapi-jsclient">github</a>.</p>
 
-	    <div id="example5">
-		<div class ="address">
-		    <h2>API тестер</h2>
-
-		    <div class="field">
-			<label>Запрос (query):</label>
-			<input class="query" type="text" value="">
-		    </div>
-
-		    <div class="field">
-			<label>Код региона (regionId):</label>
-			<input class="regionId" type="text" value="">
-		    </div>
-
-		    <div class="field">
-			<label>Код района (districtId):</label>
-			<input class="districtId" type="text" value="">
-		    </div>
-
-		    <div class="field">
-			<label>Код города (cityId):</label>
-			<input class="cityId" type="text" value="">
-		    </div>
-
-		    <div class="field">
-			<label>Код улицы (streetId):</label>
-			<input class="streetId" type="text" value="">
-		    </div>
-
-		    <div class="field">
-			<label>Код строения (buildingId):</label>
-			<input class="buildingId" type="text" value="">
-		    </div>
-
-		    <div class="field">
-			<label>Тип (contentType):</label>
-			<select class="contentType">
-			    <option value="region">Область (region)</option>
-			    <option value="district">Район (district)</option>
-			    <option value="city">Город (city)</option>
-			    <option value="street">Улица (street)</option>
-			    <option value="building">Строение (building)</option>
-			</select>
-		    </div>
-
-		    <div class="field">
-			<label><input class="withParent" type="checkbox"> Родители (withParent)</label>
-
-		    </div>
-
-		    <div class="field">
-			<label>Количество для вывода (limit):</label>
-			<input class="limit" type="text" value="5">
-		    </div>
+            <?= $examplesHtml ?>
 
 
-		    <button class="show">Показать</button>
+            <div id="example5">
+                <div class ="address">
+                    <h2>API тестер</h2>
 
-		    <pre class="result">
-		    </pre>
-		</div>
-	    </div>
+                    <div class="field">
+                        <label>Запрос (query):</label>
+                        <input class="query" type="text" value="">
+                    </div>
+
+                    <div class="field">
+                        <label>Код региона (regionId):</label>
+                        <input class="regionId" type="text" value="">
+                    </div>
+
+                    <div class="field">
+                        <label>Код района (districtId):</label>
+                        <input class="districtId" type="text" value="">
+                    </div>
+
+                    <div class="field">
+                        <label>Код города (cityId):</label>
+                        <input class="cityId" type="text" value="">
+                    </div>
+
+                    <div class="field">
+                        <label>Код улицы (streetId):</label>
+                        <input class="streetId" type="text" value="">
+                    </div>
+
+                    <div class="field">
+                        <label>Код строения (buildingId):</label>
+                        <input class="buildingId" type="text" value="">
+                    </div>
+
+                    <div class="field">
+                        <label>Тип (contentType):</label>
+                        <select class="contentType">
+                            <option value="region">Область (region)</option>
+                            <option value="district">Район (district)</option>
+                            <option value="city">Город (city)</option>
+                            <option value="street">Улица (street)</option>
+                            <option value="building">Строение (building)</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label><input class="withParent" type="checkbox"> Родители (withParent)</label>
+
+                    </div>
+
+                    <div class="field">
+                        <label>Количество для вывода (limit):</label>
+                        <input class="limit" type="text" value="5">
+                    </div>
 
 
-	</div>
+                    <button class="show">Показать</button>
+
+                    <pre class="result">
+                    </pre>
+
+          
+
+                </div>
+                    <br><br>
+                    <a href="http://passwork.ru" target="_blank">
+                        <img src="https://passwork.me/b/passwork_02_ru.png" style="width: 200px; margin: 0px" >
+                    </a>                  
+            </div>
+
+
+        </div>
     </div>
 </div>
