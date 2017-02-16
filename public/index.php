@@ -36,7 +36,7 @@ try {
 
 	$phalconVersion = \Phalcon\Version::get();
 	$major = $phalconVersion[0];
-	$major = $major == '2' ? '2' : '';
+	$major = $major == '2' || $major == '3' ? $major : '';
 	
     //Create an application
     $application = new Application($di);
