@@ -12,7 +12,7 @@ use \Phalcon\Tag ?>
                     <?php else: ?>
                 <div class="form">
                     <form action="/recovery" method="post">      
-    <?php echo Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Ваш e-mail", "data-email" => "y")) ?>
+    <?php echo Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Логин", "data-email" => "y")) ?>
                 <?php echo Tag::submitButton(array('Сбросить пароль', "class" => "btn")) ?>
                     </form>
                 </div>

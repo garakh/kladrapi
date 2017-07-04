@@ -182,7 +182,7 @@ $discount = $this->config->options->coupon == (isset($_REQUEST['coupon']) ? $_RE
             <?= $this->getContent() ?>
             <div class="form">
                 <form action="/register" method="post">   
-                    <?= Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Ваш e-mail", "data-email" => "y")) ?>
+                    <?= Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Логин", "data-email" => "y")) ?>
                     <div class="checkbox">
                         <?= Tag::checkField(array("accept", "id" => "accept", "value" => "y")) ?>
                         <label for="accept">Согласен с <a href="/prices/#conditions" target="_blank">условиями использования сервиса</a></label> 

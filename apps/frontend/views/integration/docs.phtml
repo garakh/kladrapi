@@ -8,20 +8,20 @@ $style = $embedded ? 'display: none;' : '';
 
 <?php endif ?>
 <div class="correctwidth">
-    <div class="apidoc docblock" style="display:none">
+    <div class="apidoc docblock">
 	<a name="json"></a>
 
 	<h2 class="blocktoggle dotted" data-block="apidoc">Документация API сервиса</h2>
 	<hr  class="delimiter"/>
 
-	<p>Во всех примерах на этой странице используется <b>демонстрационный токен</b>, который периодически меняется. Не используйте его в своих рабочих приложениях.</p>
+	<p>Доступ к API является публичным и бесплатным без каких-либо ограничений. Публичные сервера предоставляются как есть, мы не гарантируем их работоспособность и скорость ответа. Публичный API отлично подходит, например, 
+	для тестирования сервиса, личного использования, домашних страниц. Для бизнеса мы предлагаем <a href="/business/">платные сервера</a>, мы гарантируем, что они работают всегда быстро и стабильно. Доступ к платным серверам возможен только при указании специального токены, который мы высылаем после оплаты.</p>
         <h3>Параметры запроса</h3>
         <p>Адрес страницы для запроса: <noindex><a href="http://kladr-api.ru/api.php">http://kladr-api.ru/api.php</a></p></noindex>
 	<p>Адрес страницы для запроса платных токенов: <noindex><a href="http://kladr-api.com/api.php">http://kladr-api.com/api.php</a></p></noindex>
         <b>Список доступных параметров запроса:</b>
         <ul>
-            <li><code>token</code> — Токен для доступа к сервису</li>
-            <li><code>key</code> — Ключ для доступа к сервису</li>
+            <li><code>token</code> — (необязательно) Токен для доступа к сервису. Используется только для доступа к <a href="/business/">платным серверам</a></li>
             <li><code>regionId</code> — Код региона (области)</li>
             <li><code>districtId</code> — Код района</li>
             <li><code>cityId</code> — Код города (населённого пункта)</li>
@@ -62,7 +62,7 @@ $style = $embedded ? 'display: none;' : '';
 	<div>
 	    <h3>Формат ответа сервиса</h3>
 	    <p>Пример ответа сервиса:</p>
-	    <p>Запрос: <noindex><a href="http://kladr-api.ru/api.php?query=%D0%90%D1%80%D1%85&contentType=city&withParent=1&limit=2&token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969" target="_blank">http://kladr-api.ru/api.php?query=Арх&contentType=city&withParent=1&limit=2&token=51dfe5d42fb2b43e3300006e &key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969</a></noindex></p>
+	    <p>Запрос: <noindex><a href="http://kladr-api.ru/api.php?query=%D0%90%D1%80%D1%85&contentType=city&withParent=1&limit=2" target="_blank">http://kladr-api.ru/api.php?query=Арх&contentType=city&withParent=1&limit=2</a></noindex></p>
 	    <p>Ответ:</p>
 	    <pre class="brush: js;">
 {
@@ -132,9 +132,9 @@ $style = $embedded ? 'display: none;' : '';
 		Поиск объектов по названию осуществляется по шаблону /^название/ (т.е. выбираются объекты, название которых полностью
 		совпадает с поисковой строкой либо начинается на неё).
 		<br><br>
-		Для поиска улицы по названию необходимо обязательно указать код населённого пункта, например <noindex><a href="http://kladr-api.ru/api.php?token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969&cityId=7800000000000&query=3&contentType=street&limit=50" target="_blank">cityId=7800000000000&query=3&contentType=street</a></noindex>.
+		Для поиска улицы по названию необходимо обязательно указать код населённого пункта, например <noindex><a href="http://kladr-api.ru/api.php?cityId=7800000000000&query=3&contentType=street&limit=50" target="_blank">cityId=7800000000000&query=3&contentType=street</a></noindex>.
             <br>
-            Для поиска строения по названию необходимо обязательно указать код улицы, например <noindex><a href="http://kladr-api.ru/api.php?&token=51dfe5d42fb2b43e3300006e&key=86a2c2a06f1b2451a87d05512cc2c3edfdf41969&streetId=29000001000025800&query=1&contentType=building&limit=50" target="_blank">streetId=29000001000025800&query=1&contentType=building</a></noindex>.
+            Для поиска строения по названию необходимо обязательно указать код улицы, например <noindex><a href="http://kladr-api.ru/api.php?streetId=29000001000025800&query=1&contentType=building&limit=50" target="_blank">streetId=29000001000025800&query=1&contentType=building</a></noindex>.
 	    </p>
 	</div>
     </div>

@@ -7,11 +7,6 @@
 	<li <?php if ($page == 'examples'): ?>class="active"<?php endif ?>><a href="/examples">Примеры</a></li>
 	<li <?php if ($page == 'integration'): ?>class="active"<?php endif ?>><a href="/integration/">Документация</a></li>
 	
-	<?php if ($this->elements->isAuthed()): ?>
-	    <li class="noMarginR <?php if ($page == 'login'): ?>active<?php endif ?>"><a href="/keys">Ключи</a></li>
-	<?php else: ?>
-	    <li class="noMarginR <?php if ($page == 'login'): ?>active<?php endif ?>"><a href="/login">Войти</a></li>
-	<?php endif ?>
     </ul>
 </div>
 <?php if (!isset($hideSmallHeader)): ?>

@@ -10,7 +10,7 @@ use \Phalcon\Tag; ?>
                     <?php echo $this->getContent() ?>
             <div class="form">
                 <form action="/login" method="post">
-                    <?php echo Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Ваш e-mail", "data-email" => "y")) ?>
+                    <?php echo Tag::textField(array("email", "id" => "inputEmail", "placeholder" => "Логин", "data-email" => "y")) ?>
 <?php echo Tag::passwordField(array("password", "id" => "inputPassword", "placeholder" => "Пароль")) ?>
 <?php echo Tag::submitButton(array('Войти', "class" => "btn")) ?>
                     Не помню пароль — <a href="/recovery/">восстановить пароль</a><br>
